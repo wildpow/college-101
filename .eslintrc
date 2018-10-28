@@ -1,11 +1,18 @@
 {
-  "extends": ["airbnb", "prettier"],
-  "plugins": [
-    "prettier"
-  ],
+  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "plugins": ["prettier"],
   "rules": {
+    "prettier/prettier": [
+      "error",
+      { "trailingComma": "es5" },
+      {
+        "usePrettierrc": false
+      }
+    ],
+    "import/imports-first": ["error", "absolute-first"],
+    "import/newline-after-import": "error",
     "react/prop-types": 1,
-    "trailingComma": "es5",
+    "trailingComma": "all",
     "react/jsx-filename-extension": [
       "error",
       {
@@ -16,4 +23,4 @@
   "settings": {
     "import/core-modules": ["gatsby", "prop-types"]
   }
-} 
+}
