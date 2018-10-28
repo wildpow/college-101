@@ -1,13 +1,13 @@
-import React from 'react'
-import { Link } from 'gatsby'
-import logo from '../images/logo.png';
-import styled from 'styled-components';
+import React from "react";
+import { Link } from "gatsby";
+import styled from "styled-components";
+import logo from "../images/logo.png";
 
 const Navbar = styled.div`
   width: 100vh;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 24px;
-  background: ${props => props.bgColor ? 'green' : 'red'};
+  background: ${props => (props.bgColor ? "green" : "red")};
   & a {
     color: white;
   }
@@ -15,11 +15,11 @@ const Navbar = styled.div`
 
 const NewLink = styled(Link)`
   font-size: 20px;
-`
+`;
 
 const Header = () => (
   <div>
-    <img src={logo}/>
+    <img src={logo} />
     <Navbar>
       <NewLink to="/">Home</NewLink>
       <Link to="/about">Go to about page</Link>
@@ -31,6 +31,6 @@ const Header = () => (
       <Link to="/homework-help">Go to page homework help</Link>
     </Navbar>
   </div>
-)
+);
 
-export default Header
+export default Header;

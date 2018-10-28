@@ -1,12 +1,7 @@
-import React from 'react';
+import React from "react";
 
-const Test = (props) => {
-  return (
-    <>
-    test
-    {props.children}
-    </>
-  )
-}
+const Test = () => {
+  return <div>test</div>;
+};
 
 export default Test;
