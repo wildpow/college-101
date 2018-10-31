@@ -4,7 +4,7 @@ import styled from "styled-components";
 import logo from "../images/logo.png";
 
 const Navbar = styled.div`
-  width: 100vh;
+  /* width: 100vh; */
   font-family: Arial, Helvetica, sans-serif;
   font-size: 24px;
   background: ${props => (props.bgColor ? "green" : "red")};
@@ -19,7 +19,7 @@ const NewLink = styled(Link)`
 
 const Header = () => (
   <div>
-    <img src={logo} />
+    <img src={logo} alt="its a" />
     <Navbar>
       <NewLink to="/">Home</NewLink>
       <Link to="/about">Go to about page</Link>
