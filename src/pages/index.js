@@ -1,18 +1,21 @@
 import React from "react";
-import { Link } from "gatsby";
+// import { Link } from "gatsby";
 import Layout from "../components/layout";
-import Image from "../components/image";
+// import Image from "../components/image";
+import Logo from "../images/logo.png";
 
 const IndexPage = () => (
   <Layout>
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: "300px", marginBottom: "1.45rem" }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-    <Link to="/about/">Go to about page</Link>
+    <header>
+      <img src={Logo} alt="College 101 main logo" />
+    </header>
+    <main>
+      <p>
+        College 101 provides group and private tutoring in Math, English,
+        Science, History and AP for Middle School and High School students. We
+        also offer homework help for grades 4-6.
+      </p>
+    </main>
   </Layout>
 );
 

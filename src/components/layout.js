@@ -1,22 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Normalize } from "styled-normalize";
-
-// import Helmet from 'react-helmet'
-// import { StaticQuery, graphql } from 'gatsby'
-
-import Header from "./header";
+import NavBar from "./navbar";
 
 const Layout = ({ children }) => (
   <>
-    <Normalize />
-    <Header />
+    <NavBar />
+    <Normalize /> {/* CSS reset  */}
     <div>{children}</div>
   </>
 );
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default Layout;
