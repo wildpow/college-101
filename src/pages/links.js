@@ -11,6 +11,7 @@ const LinkStore = [
     href: "https://www.collegeboard.org/",
   },
 ];
+
 const HelpfulLinks = () => (
   <Layout>
     <h1>Helpful Links</h1>

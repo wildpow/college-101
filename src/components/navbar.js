@@ -81,6 +81,15 @@ const Navbar = () => (
     >
       register
     </Link>
+    <Link
+      to="/payment"
+      activeStyle={{
+        backgroundColor: "#4caf50",
+        color: "white",
+      }}
+    >
+      payment
+    </Link>
   </NavWrapper>
 );
 
