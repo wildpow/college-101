@@ -4,7 +4,7 @@ import Layout from "../components/layout";
 const Payment = () => (
   <Layout>
     <div>
-      <h1>Payments</h1>
+      <h1>Payments from stripe</h1>
     </div>
   </Layout>
 );
