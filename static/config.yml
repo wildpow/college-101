@@ -4,3 +4,15 @@ backend:
 publish_mode: editorial_workflow
 media_folder: "static/images/uploads"
 public_folder: "/images/uploads"
+
+collections:
+  - name: "class"
+    label: "Class"
+    folder: "src/pages/shedule"
+    create: true
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "blog" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Start Date", name: "start", widget: "datetime" }
+      - { label: "End Date", name: "end", widget: "datetime" }
+      - { label: "Class Size", name: "size", widget: "string" }
