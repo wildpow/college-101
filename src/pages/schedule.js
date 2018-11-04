@@ -2,7 +2,7 @@ import React from "react";
 import Calendar from "react-calendar";
 import { graphql } from "gatsby";
 import Layout from "../components/layout";
-
+import ClassViewer from "../components/classView";
 class Schedule extends React.Component {
   constructor(props) {
     super(props);
@@ -20,13 +20,14 @@ class Schedule extends React.Component {
 
   render() {
     const { date } = this.state;
-    const { classes } = this.props.data.gcms;
+    const { datesAndClassSizes } = this.props.data.gcms;
     return (
       <Layout>
-        {console.log(classes)}
+        {console.log(date)}
         <div>
           <Calendar onChange={this.changeDate} value={date} />
           {date.toDateString()}
+          <ClassViewer datesAndClassSizes={datesAndClassSizes} date={date} />
         </div>
       </Layout>
     );
@@ -36,16 +37,16 @@ class Schedule extends React.Component {
 export const ScheduleGraph = graphql`
   query ScheduleGraph {
     gcms {
-      classes {
+      datesAndClassSizes {
         id
-        name
-        descriptionOfClass
-        datesAndClassSizes {
+        startDate
+        endDate
+        availableSpace
+        classSize
+        class {
+          name
           id
-          startDate
-          endDate
-          classSize
-          availableSpace
+          descriptionOfClass
         }
       }
     }
