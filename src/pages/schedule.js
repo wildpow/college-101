@@ -1,5 +1,6 @@
 import React from "react";
 import Calendar from "react-calendar";
+import { graphql } from "gatsby";
 import Layout from "../components/layout";
 
 class Schedule extends React.Component {
@@ -19,8 +20,10 @@ class Schedule extends React.Component {
 
   render() {
     const { date } = this.state;
+    const { classes } = this.props.data.gcms;
     return (
       <Layout>
+        {console.log(classes)}
         <div>
           <Calendar onChange={this.changeDate} value={date} />
           {date.toDateString()}
@@ -29,5 +32,24 @@ class Schedule extends React.Component {
     );
   }
 }
+
+export const ScheduleGraph = graphql`
+  query ScheduleGraph {
+    gcms {
+      classes {
+        id
+        name
+        descriptionOfClass
+        datesAndClassSizes {
+          id
+          startDate
+          endDate
+          classSize
+          availableSpace
+        }
+      }
+    }
+  }
+`;
 
 export default Schedule;
