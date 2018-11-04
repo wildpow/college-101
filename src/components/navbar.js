@@ -90,6 +90,15 @@ const Navbar = () => (
     >
       payment
     </Link>
+    <Link
+      to="/schedule"
+      activeStyle={{
+        backgroundColor: "#4caf50",
+        color: "white",
+      }}
+    >
+      schedule
+    </Link>
   </NavWrapper>
 );
 
