@@ -17,6 +17,7 @@
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-helmet": "^5.2.0",
+    "stripe": "^6.13.0",
     "styled-components": "^4.0.2",
     "styled-normalize": "^8.0.3"
   },
@@ -25,6 +26,7 @@
   ],
   "license": "MIT",
   "scripts": {
+    "start:lambda": "netlify-lambda serve src/lambda",
     "lint": "eslint src",
     "build": "gatsby build",
     "develop": "gatsby develop",
