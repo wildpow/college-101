@@ -1,8 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Calendar from "react-calendar";
 import { graphql } from "gatsby";
 import Layout from "../components/layout";
 import ClassViewer from "../components/classView";
+
 class Schedule extends React.Component {
   constructor(props) {
     super(props);
@@ -20,14 +22,16 @@ class Schedule extends React.Component {
 
   render() {
     const { date } = this.state;
-    const { datesAndClassSizes } = this.props.data.gcms;
+    const { data } = this.props;
     return (
       <Layout>
-        {console.log(date)}
         <div>
           <Calendar onChange={this.changeDate} value={date} />
           {date.toDateString()}
-          <ClassViewer datesAndClassSizes={datesAndClassSizes} date={date} />
+          <ClassViewer
+            datesAndClassSizes={data.gcms.datesAndClassSizes}
+            date={date}
+          />
         </div>
       </Layout>
     );
@@ -52,5 +56,10 @@ export const ScheduleGraph = graphql`
     }
   }
 `;
+
+Schedule.propTypes = {
+  // datesAndClassSizes: PropTypes.instanceOf(Object).isRequired,
+  data: PropTypes.instanceOf(Object).isRequired,
+};
 
 export default Schedule;
