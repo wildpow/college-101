@@ -27,7 +27,6 @@ class Schedule extends React.Component {
       <Layout>
         <div>
           <Calendar onChange={this.changeDate} value={date} />
-          {date.toDateString()}
           <ClassViewer
             datesAndClassSizes={data.gcms.datesAndClassSizes}
             date={date}

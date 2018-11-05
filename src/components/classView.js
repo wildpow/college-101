@@ -17,9 +17,29 @@ const ClassViewer = props => {
   });
   return (
     <div>
-      <h1>Current Classes</h1>
+      <h1>
+        Current Classes for
+        <br />
+        {date.toDateString()}
+      </h1>
       <div>
-        <ul>
+        {currentClasses.length === 0 ? (
+          <h2>No classes for the day</h2>
+        ) : (
+          <ul>
+            {currentClasses.map(today => (
+              <li key={today.id}>
+                {today.class.name}
+                {today.startDate}
+                {today.endDate}
+                {today.availableSpace}
+                {today.classSize}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {/* <ul>
           {currentClasses.length === 0 ? (
             <li>No classes for the day</li>
           ) : (
@@ -33,7 +53,7 @@ const ClassViewer = props => {
               </li>
             ))
           )}
-        </ul>
+        </ul> */}
       </div>
     </div>
   );
