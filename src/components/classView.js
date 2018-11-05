@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import SingleClass from "./singleClass";
 
 const ClassViewer = props => {
   const { datesAndClassSizes, date } = props;
@@ -28,32 +29,10 @@ const ClassViewer = props => {
         ) : (
           <ul>
             {currentClasses.map(today => (
-              <li key={today.id}>
-                {today.class.name}
-                {today.startDate}
-                {today.endDate}
-                {today.availableSpace}
-                {today.classSize}
-              </li>
+              <SingleClass today={today} key={today.id} />
             ))}
           </ul>
         )}
-
-        {/* <ul>
-          {currentClasses.length === 0 ? (
-            <li>No classes for the day</li>
-          ) : (
-            currentClasses.map(today => (
-              <li key={today.id}>
-                {today.class.name}
-                {today.startDate}
-                {today.endDate}
-                {today.availableSpace}
-                {today.classSize}
-              </li>
-            ))
-          )}
-        </ul> */}
       </div>
     </div>
   );
