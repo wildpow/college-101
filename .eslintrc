@@ -21,6 +21,6 @@
     ]
   },
   "settings": {
-    "import/core-modules": ["gatsby", "prop-types"]
+    "import/core-modules": ["gatsby", "prop-types", "dotenv"]
   }
 }

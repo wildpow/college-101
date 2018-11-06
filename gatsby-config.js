@@ -1,3 +1,7 @@
+require("dotenv").config();
+
+const { GATSBY_GRAPHCMS } = process.env;
+
 module.exports = {
   siteMetadata: {
     title: "Gatsby Default Starter",
@@ -13,8 +17,7 @@ module.exports = {
         // The field you'll query against, can also be anything you want.
         fieldName: "gcms",
         // Your API endpoint, available from the dashboard and settings window.
-        url:
-          "https://api-uswest.graphcms.com/v1/cjo0z8t7r3ba301gld72qlzv2/master",
+        url: GATSBY_GRAPHCMS,
       },
     },
     {

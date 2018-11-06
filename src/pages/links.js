@@ -18,7 +18,12 @@ const HelpfulLinks = () => (
     <ul>
       {LinkStore.map(link => (
         <li>
-          <a href={link.href} target="_blank" rel="noopener noreferrer">
+          <a
+            href={link.href}
+            key={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {link.linkText}
           </a>
         </li>
