@@ -27,10 +27,7 @@ class Schedule extends React.Component {
       <Layout>
         <div>
           <Calendar onChange={this.changeDate} value={date} />
-          <ClassViewer
-            datesAndClassSizes={data.gcms.datesAndClassSizes}
-            date={date}
-          />
+          <ClassViewer graphData={data.gcms} date={date} />
         </div>
       </Layout>
     );
@@ -40,15 +37,15 @@ class Schedule extends React.Component {
 export const ScheduleGraph = graphql`
   query ScheduleGraph {
     gcms {
-      datesAndClassSizes {
+      dateSizes {
         id
         startDate
         endDate
-        availableSpace
+        enrolled
         classSize
         class {
-          name
           id
+          name
           descriptionOfClass
         }
       }

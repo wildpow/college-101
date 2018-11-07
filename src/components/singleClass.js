@@ -26,14 +26,23 @@ const SingleClass = props => {
         <br />
         End Time:
         {timeFormat(today.endDate)}
-        Class Size:
-        <ClassSize
-          id={today.id}
-          displayVar={today.classSize}
-          available={false}
-        />
-        Available Space:
-        <ClassSize id={today.id} displayVar={today.availableSpace} available />
+        <br />
+        Current Enrollment:
+        <div style={{ display: "flex" }}>
+          <ClassSize
+            id={today.id}
+            displayVar={today.enrolled}
+            extraVar={today.classSize}
+            available
+          />
+          {"/"}
+          <ClassSize
+            id={today.id}
+            displayVar={today.classSize}
+            extraVar={today.enrolled}
+            available={false}
+          />
+        </div>
       </li>
     </>
   );

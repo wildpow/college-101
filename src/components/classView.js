@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import SingleClass from "./singleClass";
 
 const ClassViewer = props => {
-  const { datesAndClassSizes, date } = props;
+  const { graphData, date } = props;
   const currentClasses = [];
-  datesAndClassSizes.map(classDates => {
+  graphData.dateSizes.map(classDates => {
     const testDate = new Date(classDates.startDate);
     if (
       date.getMonth() === testDate.getMonth() &&
@@ -39,7 +39,7 @@ const ClassViewer = props => {
 };
 
 ClassViewer.propTypes = {
-  datesAndClassSizes: PropTypes.instanceOf(Object).isRequired,
+  graphData: PropTypes.instanceOf(Object).isRequired,
   date: PropTypes.instanceOf(Object).isRequired,
 };
 
