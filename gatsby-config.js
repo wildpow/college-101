@@ -8,6 +8,7 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-styled-components`,
+    "gatsby-plugin-stripe-checkout",
     "gatsby-plugin-react-helmet",
     {
       resolve: "gatsby-source-graphql",
