@@ -1,8 +1,13 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
+import styled from "styled-components";
 // import ClassSize from "./classSize";
-import EnrollOptions from "./enrollOptions";
+import Enroll from "./enroll";
+
+const Td = styled.td`
+  text-align: center !important;
+`;
 
 const getClassSize = gql`
   query singleClass($uri: ID) {
@@ -34,72 +39,60 @@ const SingleClass = props => {
   const { startDate, endDate, enrolled, id, classSize } = props.today;
   return (
     <>
-      <tbody>
-        <tr>
-          <td>{props.today.class.name}</td>
-          <td>{timeFormat(startDate)}</td>
-          <td>{timeFormat(endDate)}</td>
+      <tr>
+        <td>{props.today.class.name}</td>
+        <td>{timeFormat(startDate)}</td>
+        <td>{timeFormat(endDate)}</td>
 
-          <Query
-            query={getClassSize}
-            variables={{ uri: id }}
-            pollInterval={500}
-          >
-            {({ loading, error, data }) => {
-              if (loading)
-                return (
-                  <>
-                    <td>
-                      {`${enrolledNullCheck(enrolled)}
-                      /
-                      ${classSize}`}
-                    </td>
-                    <td>
-                      {enrolled === classSize ? (
-                        <>FULL</>
-                      ) : (
-                        <EnrollOptions enrolled={enrolled} id={id} />
-                      )}
-                    </td>
-                  </>
-                );
-              if (error)
-                return (
-                  <>
-                    <td>{`${enrolledNullCheck(enrolled)}/${classSize}`}</td>
-                    <td>
-                      {enrolled === classSize ? (
-                        <>FULL</>
-                      ) : (
-                        <EnrollOptions enrolled={enrolled} id={id} />
-                      )}
-                    </td>
-                  </>
-                );
-              if (data)
-                return (
-                  <>
-                    <td>
-                      {`${enrolledNullCheck(data.dateSize.enrolled)}/
-                    ${data.dateSize.classSize}`}
-                    </td>
-                    <td>
-                      {data.dateSize.enrolled === data.dateSize.classSize ? (
-                        <>FULL</>
-                      ) : (
-                        <EnrollOptions
-                          enrolled={data.dateSize.enrolled}
-                          id={id}
-                        />
-                      )}
-                    </td>
-                  </>
-                );
-              return null;
-            }}
-          </Query>
-        </tr>
-      </tbody>
+        <Query query={getClassSize} variables={{ uri: id }} pollInterval={500}>
+          {({ loading, error, data }) => {
+            if (loading)
+              return (
+                <>
+                  <td>{`${enrolledNullCheck(enrolled)} / ${classSize}`}</td>
+                  <td>
+                    {enrolled === classSize ? (
+                      <>FULL</>
+                    ) : (
+                      <Enroll enrolled={enrolled} id={id} />
+                    )}
+                  </td>
+                </>
+              );
+            if (error)
+              return (
+                <>
+                  <td>{`${enrolledNullCheck(enrolled)} / ${classSize}`}</td>
+                  <td>
+                    {enrolled === classSize ? (
+                      <>FULL</>
+                    ) : (
+                      <Enroll enrolled={enrolled} id={id} />
+                    )}
+                  </td>
+                </>
+              );
+            if (data)
+              return (
+                <>
+                  <Td>
+                    {`${enrolledNullCheck(data.dateSize.enrolled)} / ${
+                      data.dateSize.classSize
+                    }`}
+                  </Td>
+                  <td>
+                    {data.dateSize.enrolled === data.dateSize.classSize ? (
+                      <>FULL</>
+                    ) : (
+                      <Enroll enrolled={data.dateSize.enrolled} id={id} />
+                    )}
+                  </td>
+                </>
+              );
+            return null;
+          }}
+        </Query>
+      </tr>
     </>
   );
 };

@@ -5,6 +5,8 @@ import styled from "styled-components";
 import SingleClass from "./singleClass";
 
 const Table = styled.table`
+  font-family: Arial, Helvetica, sans-serif;
+
   width: 100%;
   border: 1px solid black;
   border-collapse: collapse;
@@ -12,6 +14,16 @@ const Table = styled.table`
   td {
     padding: 15px;
     text-align: left;
+  }
+  th {
+    background-color: black;
+    color: white;
+  }
+  tr:nth-child(even) {
+    background-color: #eee !important;
+  }
+  tr:nth-child(odd) {
+    background-color: #fff !important;
   }
 `;
 const ClassViewer = props => {
@@ -45,9 +57,11 @@ const ClassViewer = props => {
                 <th>Status</th>
               </tr>
             </thead>
-            {currentClasses.map(today => (
-              <SingleClass today={today} key={today.id} />
-            ))}
+            <tbody>
+              {currentClasses.map(today => (
+                <SingleClass today={today} key={today.id} />
+              ))}
+            </tbody>
           </Table>
         )}
       </div>
