@@ -9,14 +9,10 @@ class EnrollOptions extends React.Component {
   }
 
   handleCount() {
-    const { available, displayVar, extraVar, id, mutate } = this.props;
-    let newCount;
-    if (available) {
-      newCount = displayVar + 1;
-    }
-    newCount = extraVar + 1;
+    const { enrolled, id, mutate } = this.props;
+    const newCount = enrolled + 1;
     console.log("newCount", newCount);
-    console.log("old Count", displayVar, extraVar);
+    console.log("old Count", enrolled);
     mutate({
       variables: { uri: id, newCount },
     })
@@ -29,10 +25,6 @@ class EnrollOptions extends React.Component {
   }
 
   render() {
-    const { displayVar, extraVar } = this.props;
-    if (displayVar === extraVar) {
-      return <>CLASS IS FULL</>;
-    }
     return (
       <button type="button" onClick={() => this.handleCount()}>
         enroll

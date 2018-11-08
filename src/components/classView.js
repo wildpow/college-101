@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SingleClass from "./singleClass";
 import styled from "styled-components";
+
+import SingleClass from "./singleClass";
 
 const Table = styled.table`
   width: 100%;
@@ -35,13 +36,15 @@ const ClassViewer = props => {
           <h2>No classes for the day</h2>
         ) : (
           <Table>
-            <tr>
-              <th>Class Name</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Enrollment</th>
-              <th>Status</th>
-            </tr>
+            <thead>
+              <tr>
+                <th>Class Name</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Enrollment</th>
+                <th>Status</th>
+              </tr>
+            </thead>
             {currentClasses.map(today => (
               <SingleClass today={today} key={today.id} />
             ))}
