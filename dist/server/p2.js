@@ -55,7 +55,7 @@
         return Object.prototype.hasOwnProperty.call(e, t);
       }),
       (r.p = ""),
-      r((r.s = 96))
+      r((r.s = 98))
     );
   })([
     function(e, t, r) {
@@ -911,8 +911,8 @@
                 l[y] = p.shift();
               }
               var I = n.getDataFromArgs(p),
-                E = u(Object.assign(I, o)),
-                P = n.getOptionsFromArgs(p);
+                P = u(Object.assign(I, o)),
+                E = n.getOptionsFromArgs(p);
               if (p.length)
                 throw ((m = e.createResourcePathWithSymbols(r.path)),
                 new Error(
@@ -925,14 +925,14 @@
                     "`)",
                 ));
               var b = e.createFullPath(a, l),
-                S = Object.assign(P.headers, r.headers);
+                S = Object.assign(E.headers, r.headers);
               return (
-                r.validator && r.validator(E, { headers: S }),
+                r.validator && r.validator(P, { headers: S }),
                 {
                   requestMethod: s,
                   requestPath: b,
-                  data: E,
-                  auth: P.auth,
+                  data: P,
+                  auth: E.auth,
                   headers: S,
                   host: d,
                 }
@@ -1334,14 +1334,14 @@
             v = d ? g.sort(d) : g;
           }
           for (var I = 0; I < v.length; ++I) {
-            var E = v[I];
-            (a && null === m[E]) ||
+            var P = v[I];
+            (a && null === m[P]) ||
               (y = Array.isArray(m)
-                ? y.concat(e(m[E], i(r, E), i, o, a, c, u, d, p, l, h, f))
+                ? y.concat(e(m[P], i(r, P), i, o, a, c, u, d, p, l, h, f))
                 : y.concat(
                     e(
-                      m[E],
-                      r + (p ? "." + E : "[" + E + "]"),
+                      m[P],
+                      r + (p ? "." + P : "[" + P + "]"),
                       i,
                       o,
                       a,
@@ -1389,14 +1389,14 @@
           throw new TypeError("Unknown format option provided.");
         var g,
           I,
-          E = i.formatters[a.format];
+          P = i.formatters[a.format];
         "function" == typeof a.filter
           ? (r = (I = a.filter)("", r))
           : Array.isArray(a.filter) && (g = I = a.filter);
-        var P,
+        var E,
           b = [];
         if ("object" != typeof r || null === r) return "";
-        P =
+        E =
           a.arrayFormat in o
             ? a.arrayFormat
             : "indices" in a
@@ -1404,12 +1404,12 @@
                 ? "indices"
                 : "repeat"
               : "indices";
-        var S = o[P];
+        var S = o[E];
         g || (g = Object.keys(r)), f && g.sort(f);
         for (var T = 0; T < g.length; ++T) {
           var x = g[T];
           (p && null === r[x]) ||
-            (b = b.concat(c(r[x], x, S, d, p, l ? h : null, I, f, m, v, E, y)));
+            (b = b.concat(c(r[x], x, S, d, p, l ? h : null, I, f, m, v, P, y)));
         }
         var _ = b.join(u),
           O = !0 === a.addQueryPrefix ? "?" : "";
@@ -2928,47 +2928,49 @@
     ,
     ,
     ,
+    ,
+    ,
     function(e, t, r) {
       "use strict";
-      r(16).config();
-      const n = r(18)(process.env.SK);
-      e.exports.handler = (e, t, r) => {
-        console.log("creating charge..."),
-          console.log(process.env.SK, "<=env", e, t),
-          console.log(e.body + "hth", "EEEEEEEEEEEEEEEEE");
-        const i = JSON.parse(e.body);
-        console.log(i, "DDDDDDDDDDDDDD");
-        const o = i.amount,
-          a = i.token.id,
-          s = {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "Content-Type",
-          };
-        return n.charges
-          .create({
-            amount: o,
-            source: a,
-            currency: "usd",
-            description: "Serverless test Stripe charge",
-          })
-          .then(e => {
-            console.log(e, "HelloHHHHHHHHH");
-            const t = {
-              headers: s,
+      r(16).config(), console.log(process.env.SK);
+      const n = r(18)(process.env.SK),
+        i = {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "Content-Type",
+        };
+      t.handler = function(e, t, r) {
+        ("POST" === e.httpMethod && e.body) ||
+          r(null, { statusCode: 200, headers: i, body: "" });
+        const o = JSON.parse(e.body);
+        if ((console.log(o), !o.token || !o.amount || !o.idempotency_key))
+          return (
+            console.error("Required information is missing."),
+            void r(null, {
               statusCode: 200,
-              body: JSON.stringify({ message: "Charge processed!", charge: e }),
-            };
-            r(null, t);
-          })
-          .catch(e => {
-            console.log(e);
-            const t = {
-              headers: s,
-              statusCode: 500,
-              body: JSON.stringify({ error: e.message }),
-            };
-            r(null, t);
-          });
+              headers: i,
+              body: JSON.stringify({ status: "missing-information" }),
+            })
+          );
+        n.charges.create(
+          {
+            currency: "usd",
+            amount: o.amount,
+            source: o.token.id,
+            receipt_email: o.token.email,
+            description: "a sample test charge",
+          },
+          { idempotency_key: o.idempotency_key },
+          (e, t) => {
+            null !== e && console.log(e);
+            let n =
+              null === t || "succeeded" !== t.status ? "failed" : t.status;
+            r(null, {
+              statusCode: 200,
+              headers: i,
+              body: JSON.stringify({ status: n }),
+            });
+          },
+        );
       };
     },
   ]),
