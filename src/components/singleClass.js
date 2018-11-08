@@ -1,6 +1,4 @@
 import React from "react";
-// import { Query } from "react-apollo";
-// import { gql } from "apollo-boost";
 import ClassSize from "./classSize";
 
 const timeFormat = time => {
@@ -18,17 +16,11 @@ const SingleClass = props => {
   const { today } = props;
   return (
     <>
-      <li>
-        {today.class.name}
-        <br />
-        Start Time:
-        {timeFormat(today.startDate)}
-        <br />
-        End Time:
-        {timeFormat(today.endDate)}
-        <br />
-        Current Enrollment:
-        <div style={{ display: "flex" }}>
+      <tr>
+        <td>{today.class.name}</td>
+        <td>{timeFormat(today.startDate)}</td>
+        <td>{timeFormat(today.endDate)}</td>
+        <td>
           <ClassSize
             id={today.id}
             displayVar={today.enrolled}
@@ -42,8 +34,8 @@ const SingleClass = props => {
             extraVar={today.enrolled}
             available={false}
           />
-        </div>
-      </li>
+        </td>
+      </tr>
     </>
   );
 };

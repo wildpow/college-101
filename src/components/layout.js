@@ -7,7 +7,7 @@ const Layout = ({ children }) => (
   <>
     <NavBar />
     <Normalize /> {/* CSS reset  */}
-    <div>{children}</div>
+    {children}
   </>
 );
 

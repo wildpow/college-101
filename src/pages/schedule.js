@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Calendar from "react-calendar";
 import { graphql } from "gatsby";
+import { Wrapper, CalContainer, CalStyled } from "../styles/sheduleStyles";
 import Layout from "../components/layout";
 import ClassViewer from "../components/classView";
 
@@ -25,10 +25,12 @@ class Schedule extends React.Component {
     const { data } = this.props;
     return (
       <Layout>
-        <div>
-          <Calendar onChange={this.changeDate} value={date} />
+        <Wrapper>
+          <CalContainer>
+            <CalStyled onChange={this.changeDate} value={date} />
+          </CalContainer>
           <ClassViewer graphData={data.gcms} date={date} />
-        </div>
+        </Wrapper>
       </Layout>
     );
   }
