@@ -1,3 +1,7 @@
+require("dotenv").config();
+
+const { GATSBY_GRAPHCMS } = process.env;
+
 module.exports = {
   siteMetadata: {
     title: "Gatsby Default Starter",
@@ -6,6 +10,17 @@ module.exports = {
     `gatsby-plugin-styled-components`,
     "gatsby-plugin-stripe-checkout",
     "gatsby-plugin-react-helmet",
+    {
+      resolve: "gatsby-source-graphql",
+      options: {
+        // The top level query type, can be anything you want!
+        typeName: "GCMS",
+        // The field you'll query against, can also be anything you want.
+        fieldName: "gcms",
+        // Your API endpoint, available from the dashboard and settings window.
+        url: GATSBY_GRAPHCMS,
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
