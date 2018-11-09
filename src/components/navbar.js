@@ -64,7 +64,7 @@ const Navbar = () => (
         color: "white",
       }}
     >
-      Home
+      College101Prep
     </Link>
     <NavRight>
       <Link
