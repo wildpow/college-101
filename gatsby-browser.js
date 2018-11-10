@@ -18,3 +18,4 @@ console.log(process.env);
 export const wrapRootElement = ({ element }) => {
   return <ApolloProvider client={client}>{element}</ApolloProvider>;
 };
+// stuff
