@@ -28,7 +28,7 @@ const buttonStyles = {
 
 // Below is where the checkout component is defined.
 // It has several functions and some default state variables.
-const Checkout = class extends React.Component {
+const C2 = class extends React.Component {
   state = {
     disabled: false,
     buttonText: "BUY NOW",
@@ -57,10 +57,9 @@ const Checkout = class extends React.Component {
       name: "Demo Product",
       amount: amount,
       description: "A product well worth your time",
-      allowRememberMe: "false",
       token: token => {
         fetch(
-          "https://distracted-ritchie-5c9292.netlify.com/.netlify/functions/p2",
+          "https://distracted-ritchie-5c9292.netlify.com/.netlify/functions/purchase",
           {
             method: "POST",
             mode: "no-cors",
@@ -102,9 +101,10 @@ const Checkout = class extends React.Component {
         >
           {this.state.buttonText}
         </button>
+        {this.state.paymentMessage}
       </div>
     );
   }
 };
 
-export default Checkout;
+export default C2;

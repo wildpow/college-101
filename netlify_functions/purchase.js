@@ -4,7 +4,7 @@ const stripe = require("stripe")(process.env.SK);
 
 module.exports.handler = (event, context, callback) => {
   console.log("creating charge...");
-  console.log(process.env.SK, "<=env", event, context);
+  console.log(process.env.SK, "<=env", event, co);
   // Pull out the amount and id for the charge from the POST
   console.log(event.body + "hth", "EEEEEEEEEEEEEEEEE");
   const requestData = JSON.parse(event.body);
