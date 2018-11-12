@@ -5,7 +5,7 @@ import styled from "styled-components";
 import NavBar from "./navbar";
 
 const Wrapper = styled.div`
-  padding-top: 50px;
+  padding-top: 80px;
 `;
 const Layout = ({ children }) => (
   <>
