@@ -15,18 +15,21 @@ import styled from "styled-components";
 
 const HeroImage = styled(Img)`
   /* position: initial !important; */
-  position: absolute !important;
-  top: 50px;
+  /* position: absolute !important; */
+  /* top: 60px; */
   left: 0;
   width: 100%;
   z-index: -1;
-  height: 80vh; // or whatever
+  height: 60vh; // or whatever
 
   // Adjust image positioning (if image covers area with defined height) and add font-family for polyfill
   & > img {
     object-fit: cover !important; // or whatever
     object-position: 0% 0% !important; // or whatever
     font-family: "object-fit: cover !important; object-position: 0% 0% !important;"; // needed for IE9+ polyfill
+  }
+  @media (min-width: 600px) {
+    height: 80vh;
   }
 `;
 
@@ -36,7 +39,7 @@ const Image = () => (
       query {
         placeholderImage: file(relativePath: { eq: "hero.jpg" }) {
           childImageSharp {
-            fluid(maxWidth: 1600) {
+            fluid(maxWidth: 1600, quality: 100) {
               ...GatsbyImageSharpFluid
             }
           }

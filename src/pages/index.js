@@ -19,7 +19,7 @@ import Image from "../components/image";
 // `;
 
 const Main = styled.div`
-  height: 80vh;
+  /* height: 80vh; */
   font-family: Verdana, sans-serif;
 `;
 const HeroText = styled.div`
@@ -29,6 +29,53 @@ const HeroText = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  max-width: 600px;
+  padding: 5px 7px 20px 7px;
+  p {
+    font-size: 1.1em;
+    line-height: 1.4em;
+    /* padding: 10px; */
+    @media (min-width: 810px) {
+      font-size: 1.2em;
+      line-height: 1.5em;
+      letter-spacing: 0.1em;
+    }
+  }
+  button {
+    display: inline-block;
+    padding: 0.5em 3em;
+    border: 0.16em solid #ffffff;
+    margin: 0 0.3em 0.3em 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: Verdana, sans-serif;
+
+    font-weight: 400;
+    color: #ffffff;
+    text-align: center;
+    transition: all 0.15s;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
+  }
+  button:hover {
+    color: #dddddd;
+    border-color: #dddddd;
+  }
+  button:active {
+    color: #bbbbbb;
+    border-color: #bbbbbb;
+  }
+  @media all and (max-width: 30em) {
+    button {
+      display: block;
+      margin: 0.4em auto;
+    }
+  }
 `;
 
 const IndexPage = () => (
@@ -117,7 +164,7 @@ const IndexPage = () => (
           College 101 has been nominated as one of Long Island's Best Tutoring
           centers 3 times!
         </p>
-        <img src={Award} />
+        {/* <img src={Award} /> */}
         <StaticQuery
           query={graphql`
             query {

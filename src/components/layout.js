@@ -5,15 +5,37 @@ import styled from "styled-components";
 import NavBar from "./navbar";
 
 const Wrapper = styled.div`
-  padding-top: 80px;
+  padding-top: 55px;
 `;
-const Layout = ({ children }) => (
-  <>
-    <NavBar />
-    <Normalize /> {/* CSS reset  */}
-    <Wrapper>{children}</Wrapper>
-  </>
-);
+class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeButton: false,
+    };
+    this.handleActiveButton = this.handleActiveButton.bind(this);
+  }
+
+  handleActiveButton() {
+    console.log("hello from layout handleActiveButton", this.state);
+    this.setState({
+      activeButton: !this.state.activeButton,
+    });
+  }
+
+  render() {
+    return (
+      <>
+        <Normalize /> {/* CSS reset  */}
+        <NavBar
+          activeButton={this.state.activeButton}
+          handleActiveButton={this.handleActiveButton}
+        />
+        <Wrapper>{this.props.children}</Wrapper>
+      </>
+    );
+  }
+}
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
