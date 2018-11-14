@@ -17,6 +17,106 @@ import Image from "../components/image";
 //   background-size: cover;
 //   position: relative;
 // `;
+const AwardImageWrapper = styled.div`
+  max-width: 150px;
+`;
+const Card = styled.div`
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  flex-basis: 30%;
+`;
+
+const AwardText = styled.div`
+  max-width: 400px;
+  text-align: center;
+  margin: 0 auto;
+`;
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  font-family: Verdana, sans-serif;
+  margin-top: 5px;
+  margin-bottom: 400px; //get rid of this!!!
+  div h2 {
+    font-size: 2.4rem;
+    text-align: center;
+  }
+`;
+const TestPrep = styled.div`
+  text-align: center;
+  ul {
+    list-style: none;
+  }
+  ul li {
+    padding: 2px 15px 10px 15px;
+    font-size: 1.4em;
+  }
+`;
+const SubjectWrapper = styled.div`
+  h3 {
+    text-align: center;
+    text-decoration: underline;
+    margin-bottom: 0;
+  }
+  ul {
+    list-style: none;
+    padding: 2px 10px 2px 10px;
+  }
+  ul li {
+    padding-bottom: 4px;
+    /* text-align: center; */
+  }
+`;
+const ActWrapper = styled.div`
+  display: flex;
+  padding: 0px 10px 0px 10px;
+`;
+
+const Historys = () => (
+  <SubjectWrapper>
+    <h3>History</h3>
+    <ul>
+      <li>World History</li>
+      <li>U.S. History</li>
+      <li>AP</li>
+    </ul>
+  </SubjectWrapper>
+);
+
+const English = () => (
+  <SubjectWrapper>
+    <h3>English</h3>
+    <ul>
+      <li>Essay Writing</li>
+    </ul>
+  </SubjectWrapper>
+);
+const Science = () => (
+  <SubjectWrapper>
+    <h3>Science</h3>
+    <ul>
+      <li>Earth Science</li>
+      <li>Living Environment</li>
+      <li>Chemistry</li>
+      <li>Physics</li>
+      <li>AP</li>
+    </ul>
+  </SubjectWrapper>
+);
+const Maths = () => (
+  <SubjectWrapper>
+    <h3>Math</h3>
+    <ul>
+      <li>Algebra</li>
+      <li>Geometry</li>
+      <li>Algebra 2 Trig</li>
+      <li>Calculus</li>
+      <li>Statistics</li>
+      <li>AP</li>
+      <li>6-8th Grade</li>
+      <li>Honors</li>
+    </ul>
+  </SubjectWrapper>
+);
 
 const Main = styled.div`
   position: relative;
@@ -109,57 +209,21 @@ const IndexPage = () => (
       </HeroText>
       {/* </HeroImage> */}
     </Main>
-    <div>
-      <div>
-        <h2>Academic Tutoring</h2>
-        <div>
-          <h3>Math</h3>
-          <ul>
-            <li>Algebra</li>
-            <li>Geometry</li>
-            <li>Algebra 2 Trig</li>
-            <li>Calculus</li>
-            <li>Statistics</li>
-            <li>AP</li>
-            <li>6-8th Grade</li>
-            <li>Honors</li>
-          </ul>
-        </div>
-      </div>
-      <div>
-        <h3>Science</h3>
-        <div>
-          <ul>
-            <li>Earth Science</li>
-            <li>Living Environment</li>
-            <li>Chemistry</li>
-            <li>Physics</li>
-            <li>AP</li>
-          </ul>
-        </div>
-      </div>
-      <div>
-        <h3>English</h3>
-        <div>
-          <ul>
-            <li>Essay Writing</li>
-          </ul>
-        </div>
-      </div>
-      <div>
-        <h3>History</h3>
-        <div>
-          <ul>
-            <li>World History</li>
-            <li>U.S. History</li>
-            <li>AP</li>
-          </ul>
-        </div>
-      </div>
 
-      <div>
-        <h2>Test Prepatation</h2>
-        <div>
+    <Wrapper>
+      <Card>
+        <h2>Academic Tutoring</h2>
+        <ActWrapper>
+          <Maths />
+          <Science />
+          <Historys />
+          <English />
+        </ActWrapper>
+      </Card>
+
+      <Card>
+        <TestPrep>
+          <h2>Test Prepatation</h2>
           <ul>
             <li>PSAT</li>
             <li>SAT</li>
@@ -168,35 +232,40 @@ const IndexPage = () => (
             <li>Subject Exams</li>
             <li>CHSEE</li>
           </ul>
-        </div>
-      </div>
-      <div>
+        </TestPrep>
+      </Card>
+      <Card>
         <h2>Awards</h2>
-        <p>
-          College 101 is celebrating it's Sweet 16! We have been lucky to work
-          with more than 1500 students during our 16 years in 3 Village!
-        </p>
-        <p>
-          College 101 has been nominated as one of Long Island's Best Tutoring
-          centers 3 times!
-        </p>
-        {/* <img src={Award} /> */}
-        <StaticQuery
-          query={graphql`
-            query {
-              awardImg: file(relativePath: { eq: "awards.jpeg" }) {
-                childImageSharp {
-                  fluid(maxWidth: 450, quality: 90) {
-                    ...GatsbyImageSharpFluid
+        <AwardText>
+          <p>
+            College 101 is celebrating it's Sweet 16! We have been lucky to work
+            with more than 1500 students during our 16 years in 3 Village!
+          </p>
+          <p>
+            College 101 has been nominated as one of Long Island's Best Tutoring
+            centers 3 times!
+          </p>
+        </AwardText>
+        <AwardImageWrapper>
+          {/* <img src={Award} /> */}
+          <StaticQuery
+            query={graphql`
+              query {
+                awardImg: file(relativePath: { eq: "awards.jpeg" }) {
+                  childImageSharp {
+                    fluid(maxWidth: 450, quality: 90) {
+                      ...GatsbyImageSharpFluid
+                    }
                   }
                 }
               }
-            }
-          `}
-          render={data => <Img fluid={data.awardImg.childImageSharp.fluid} />}
-        />
-      </div>
-    </div>
+            `}
+            render={data => <Img fluid={data.awardImg.childImageSharp.fluid} />}
+          />
+        </AwardImageWrapper>
+      </Card>
+    </Wrapper>
+    <div />
   </Layout>
 );
 
