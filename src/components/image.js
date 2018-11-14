@@ -28,7 +28,7 @@ const HeroImage = styled(Img)`
     object-position: 0% 0% !important; // or whatever
     font-family: "object-fit: cover !important; object-position: 0% 0% !important;"; // needed for IE9+ polyfill
   }
-  @media (min-width: 600px) {
+  @media (min-width: 567px) {
     height: 80vh;
   }
 `;
