@@ -26,10 +26,11 @@ const Main = styled.div`
 `;
 
 const Button = styled.button`
-  display: inline-block;
+  /* display: inline-block; */
   padding: 0.5em 3em;
   border: 0.16em solid #ffffff;
-  margin: 0 0.3em 0.3em 0;
+  display: block;
+  margin: 0.4em auto;
   /* box-sizing: border-box; */
   text-decoration: none;
   text-transform: uppercase;
@@ -53,6 +54,8 @@ const Button = styled.button`
   }
   @media all and (max-width: 30em) {
     display: block;
+    text-align: center;
+    right: 0;
     margin: 0.4em auto;
   }
 `;
@@ -72,12 +75,17 @@ const HeroText = styled.div`
     bottom: initial;
     transform: translate(-50%, -50%);
     border-radius: 4px;
+    max-width: 600px;
     /* text-align: center; */
     p {
       font-size: 1.2em;
       line-height: 1.5em;
       letter-spacing: 0.1em;
     }
+  }
+  @media (min-width: 1024px) {
+    padding: 15px 15px 15px 15px;
+    font-size: 1.4em;
   }
   p {
     padding: 0;
