@@ -15,22 +15,13 @@ const Collapsible = styled.button`
 
 const Content = styled.div`
   padding: 0 18px;
-  max-height: ${props => (props.open === "1" ? `${props.newHieght}px` : 0)};
+  max-height: ${props =>
+    props.open === props.id ? `${props.newHieght}px` : 0};
   overflow: hidden;
   transition: max-height 0.2s ease-out;
   background-color: #f1f1f1;
 `;
 
-const Content2 = styled(Content)`
-  max-height: ${props => (props.open === "4" ? `${props.newHieght}px` : 0)};
-`;
-
-const Content3 = styled(Content)`
-  max-height: ${props => (props.open === "6" ? `${props.newHieght}px` : 0)};
-`;
-const Content4 = styled(Content)`
-  max-height: ${props => (props.open === "8" ? `${props.newHieght}px` : 0)};
-`;
 class MyComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -72,7 +63,11 @@ class MyComponent extends React.Component {
           <Collapsible onClick={this.stuff} id="1">
             PSAT
           </Collapsible>
-          <Content open={this.state.open} newHieght={this.state.newHieght}>
+          <Content
+            open={this.state.open}
+            newHieght={this.state.newHieght}
+            id="1"
+          >
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -83,36 +78,48 @@ class MyComponent extends React.Component {
           <Collapsible onClick={this.stuff} id="4">
             ACT
           </Collapsible>
-          <Content2 open={this.state.open} newHieght={this.state.newHieght}>
+          <Content
+            open={this.state.open}
+            newHieght={this.state.newHieght}
+            id="4"
+          >
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </p>
-          </Content2>
+          </Content>
           <Collapsible onClick={this.stuff} id="6">
             GRE
           </Collapsible>
-          <Content3 open={this.state.open} newHieght={this.state.newHieght}>
+          <Content
+            open={this.state.open}
+            newHieght={this.state.newHieght}
+            id="6"
+          >
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </p>
-          </Content3>
+          </Content>
           <Collapsible onClick={this.stuff} id="8">
             Subject Exams
           </Collapsible>
-          <Content4 open={this.state.open} newHieght={this.state.newHieght}>
+          <Content
+            open={this.state.open}
+            newHieght={this.state.newHieght}
+            id="8"
+          >
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </p>
-          </Content4>
+          </Content>
         </div>
       </>
     );
