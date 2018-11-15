@@ -69,12 +69,24 @@ class MyComponent extends React.Component {
             id="1"
           >
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              PSAT stands for the Preliminary Scholastic Aptitude Test, an exam
+              given to high school sophomores and juniors.
+            </p>
+          </Content>
+          <Collapsible onClick={this.stuff} id="1">
+            SAT
+          </Collapsible>
+          <Content
+            open={this.state.open}
+            newHieght={this.state.newHieght}
+            id="1"
+          >
+            <p>
+              PSAT stands for the Preliminary Scholastic Aptitude Test, an exam
+              given to high school sophomores and juniors.
             </p>
           </Content>
 
-          <p>SAT</p>
           <Collapsible onClick={this.stuff} id="4">
             ACT
           </Collapsible>
