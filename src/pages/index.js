@@ -234,7 +234,6 @@ const IndexPage = () => (
       </Card>
 
       <Card>
-        <TestPrep />
         <TestPrep>
           <h2>Test Prepatation</h2>
           <ul>
