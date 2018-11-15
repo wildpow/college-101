@@ -6,6 +6,7 @@ import { StaticQuery, graphql } from "gatsby";
 // import { Link } from "gatsby";
 import Layout from "../components/layout";
 import Image from "../components/image";
+import MyComponent from "../../unusedComponents/collapsible";
 // import Hero from "../images/hero.jpg";
 
 // const HeroImage = styled.div`
@@ -234,6 +235,7 @@ const IndexPage = () => (
       </Card>
 
       <Card>
+        <MyComponent />
         <TestPrep>
           <h2>Test Prepatation</h2>
           <ul>
