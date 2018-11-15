@@ -37,8 +37,14 @@ const Wrapper = styled.div`
   margin-top: 5px;
   margin-bottom: 400px; //get rid of this!!!
   div h2 {
-    font-size: 2.4rem;
     text-align: center;
+    font-size: 1.6rem;
+    @media (min-width: 1200px) {
+      font-size: 2rem;
+    }
+    @media (min-width: 1350px) {
+      font-size: 2.4rem;
+    }
   }
 `;
 const TestPrep = styled.div`
@@ -63,11 +69,13 @@ const SubjectWrapper = styled.div`
   }
   ul li {
     padding-bottom: 4px;
-    /* text-align: center; */
+    text-align: center;
   }
 `;
 const ActWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   padding: 0px 10px 0px 10px;
 `;
 
@@ -214,14 +222,19 @@ const IndexPage = () => (
       <Card>
         <h2>Academic Tutoring</h2>
         <ActWrapper>
-          <Maths />
-          <Science />
-          <Historys />
-          <English />
+          <div>
+            <Maths />
+            <English />
+          </div>
+          <div>
+            <Science />
+            <Historys />
+          </div>
         </ActWrapper>
       </Card>
 
       <Card>
+        <TestPrep />
         <TestPrep>
           <h2>Test Prepatation</h2>
           <ul>
