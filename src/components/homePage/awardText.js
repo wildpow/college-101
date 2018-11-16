@@ -2,12 +2,16 @@ import React from "react";
 import styled from "styled-components";
 
 const AwardWrapper = styled.div`
-  max-width: 300px;
+  max-width: 380px;
   line-height: 1.5rem;
   /* text-align: center; */
   margin: 0 auto;
   p {
     margin-bottom: 0;
+    font-size: 1.2em;
+  }
+  @media (min-width: 768px) {
+    max-width: 470px;
   }
 `;
 

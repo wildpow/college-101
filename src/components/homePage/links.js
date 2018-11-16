@@ -24,7 +24,7 @@ const Container = styled.div`
 `;
 const LinkStore = [
   {
-    linkText: "info/register for the SAT",
+    linkText: "info/register for SAT",
     href: "https://collegereadiness.collegeboard.org/sat",
   },
   {

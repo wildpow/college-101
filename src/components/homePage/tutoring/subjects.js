@@ -14,6 +14,7 @@ const SubjectWrapper = styled.div`
   ul li {
     padding-bottom: 4px;
     text-align: center;
+    font-size: 1.2em;
   }
 `;
 
