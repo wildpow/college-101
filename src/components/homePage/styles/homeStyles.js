@@ -1,6 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+// Not sure I want to key this animation just tring it out
+const Animation = `animation-duration: .5s; animation-fill-mode: both;`;
+const FadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
 
 export const Main = styled.div`
+  animation-name: ${FadeIn};
+  ${Animation}
   position: relative;
   margin: 0 auto;
   font-family: Verdana, sans-serif;

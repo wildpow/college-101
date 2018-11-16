@@ -2,7 +2,7 @@
   "name": "gatsby-starter-default",
   "description": "Gatsby default starter",
   "version": "1.0.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Aaron Wilder <element1028@gmail.com@gmail.com>",
   "dependencies": {
     "apollo-boost": "^0.1.20",
     "axios": "^0.18.0",
