@@ -9,10 +9,14 @@ const Wrapper = styled.div`
 `;
 const Map = styled.div`
   width: 250px;
+  display: none;
   height: 250px;
   color: black;
   margin-right: 20px;
   background-color: white;
+  @media (min-width: 768px) {
+    display: block;
+  }
 `;
 const AddressMap = () => (
   <Wrapper>
