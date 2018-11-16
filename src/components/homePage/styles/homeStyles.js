@@ -44,6 +44,7 @@ export const Wrapper = styled.div`
   }
   @media (min-width: 1500px) {
     flex-wrap: nowrap;
+    margin-top: 15px;
     div:nth-child(1) {
       order: 1;
       flex-basis: 32%;

@@ -54,7 +54,6 @@ const MobileButton = props => {
   const { activeButton, handleActiveButton } = props;
   return (
     <Dude onClick={handleActiveButton} activeButton={activeButton}>
-      {console.log("props from mobileButton", props)}
       <span />
       <span />
       <span />

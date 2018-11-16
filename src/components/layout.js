@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Normalize } from "styled-normalize";
 import styled from "styled-components";
 import NavBar from "./navbar";
-
+import MobileNav from "./mobileMenu/mobileNav";
 const Wrapper = styled.div`
   padding-top: 55px;
 `;
@@ -28,6 +28,10 @@ class Layout extends React.Component {
       <>
         <Normalize /> {/* CSS reset  */}
         <NavBar
+          activeButton={this.state.activeButton}
+          handleActiveButton={this.handleActiveButton}
+        />
+        <MobileNav
           activeButton={this.state.activeButton}
           handleActiveButton={this.handleActiveButton}
         />
