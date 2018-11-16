@@ -60,6 +60,9 @@ const LinkStore2 = [
 ];
 const Wrapper = styled.div`
   display: ${props => (props.hide1024 ? "none" : "block")};
+  @media (min-width: 1500px) {
+    display: ${props => (props.hide1024 ? "block" : "none")};
+  }
 `;
 const HelpfulLinks = props => (
   <Wrapper hide1024={props.hide1024}>

@@ -42,6 +42,24 @@ export const Wrapper = styled.div`
       flex-basis: 48%;
     }
   }
+  @media (min-width: 1500px) {
+    flex-wrap: nowrap;
+    div:nth-child(1) {
+      order: 1;
+      flex-basis: 32%;
+    }
+    div:nth-child(2) {
+      order: 2;
+      flex-basis: 32%;
+    }
+    div:nth-child(4) {
+      order: 3;
+      flex-basis: 32%;
+    }
+    /* div:nth-child(4) {
+      flex-basis: 0%;
+    } */
+  }
   div h2 {
     background-color: green;
     color: white;
@@ -65,4 +83,7 @@ export const Card = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   flex-basis: 30%;
   margin-bottom: 10px;
+  @media (min-width: 1500px) {
+    display: ${props => (props.show1024 ? "none" : "block")};
+  }
 `;
