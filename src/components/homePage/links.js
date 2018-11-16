@@ -58,7 +58,6 @@ const HelpfulLinks = () => (
   <>
     <h2>Helpful Links</h2>
     <Container>
-      {/* <h1>Helpful Links</h1> */}
       <ul>
         {LinkStore.map(link => (
           <li>
