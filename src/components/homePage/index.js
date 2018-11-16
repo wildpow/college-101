@@ -17,10 +17,16 @@ const Home = () => (
       <Card>
         <Tutoring />
       </Card>
+
       <Card>
         <TestPrep />
+        <HelpfulLinks hide1024 />
+      </Card>
+
+      <Card show1024>
         <HelpfulLinks />
       </Card>
+
       <Card>
         <AwardText />
         <AwardImage />

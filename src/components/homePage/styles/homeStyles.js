@@ -25,6 +25,22 @@ export const Wrapper = styled.div`
   @media (min-width: 1024px) {
     flex-direction: row;
     flex-wrap: wrap;
+    div:nth-child(1) {
+      order: 1;
+      flex-basis: 48%;
+    }
+    div:nth-child(2) {
+      order: 3;
+      flex-basis: 48%;
+    }
+    div:nth-child(3) {
+      order: 4;
+      flex-basis: 48%;
+    }
+    div:nth-child(4) {
+      order: 2;
+      flex-basis: 48%;
+    }
   }
   div h2 {
     background-color: green;

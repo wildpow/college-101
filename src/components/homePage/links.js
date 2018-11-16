@@ -58,9 +58,11 @@ const LinkStore2 = [
     href: "http://www.ets.org/",
   },
 ];
-
-const HelpfulLinks = () => (
-  <>
+const Wrapper = styled.div`
+  display: ${props => (props.hide1024 ? "none" : "block")};
+`;
+const HelpfulLinks = props => (
+  <Wrapper hide1024={props.hide1024}>
     <h2>Helpful Links</h2>
     <Container>
       <ul>
@@ -92,7 +94,7 @@ const HelpfulLinks = () => (
         ))}
       </ul>
     </Container>
-  </>
+  </Wrapper>
 );
 
 export default HelpfulLinks;

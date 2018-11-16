@@ -7,6 +7,9 @@ const ActFlex = styled.div`
   flex-wrap: wrap;
   justify-content: space-evenly;
   padding: 0px 10px 0px 10px;
+  @media (min-width: 1024px) {
+    flex-wrap: nowrap;
+  }
 `;
 
 const Tutoring = () => (
