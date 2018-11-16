@@ -9,13 +9,6 @@ import {
   RightSideNav,
 } from "../styles/navbarStyles";
 
-// const NavRight = styled.div`
-//   text-align: right;
-//   display: none;
-//   @media (min-width: 1235px) {
-//     display: block;
-//   }
-// `;
 const Navbar = props => (
   <FixedWrapper>
     <NavWrapper>
@@ -32,6 +25,15 @@ const Navbar = props => (
       </LeftSideNav>
       <RightSideNav>
         <Link
+          to="/schedule"
+          activeStyle={{
+            backgroundColor: "#4caf50",
+            color: "white",
+          }}
+        >
+          schedule
+        </Link>
+        <Link
           to="/about"
           activeStyle={{
             backgroundColor: "#4caf50",
@@ -40,7 +42,7 @@ const Navbar = props => (
         >
           About
         </Link>
-        <Link
+        {/* <Link
           to="/links"
           activeStyle={{
             backgroundColor: "#4caf50",
@@ -48,8 +50,8 @@ const Navbar = props => (
           }}
         >
           Helpful Links
-        </Link>
-        <Link
+        </Link> */}
+        {/* <Link
           to="/pricing"
           activeStyle={{
             backgroundColor: "#4caf50",
@@ -57,8 +59,8 @@ const Navbar = props => (
           }}
         >
           Tuition Pricing
-        </Link>
-        <Link
+        </Link> */}
+        {/* <Link
           to="/sat-act"
           activeStyle={{
             backgroundColor: "#4caf50",
@@ -66,8 +68,8 @@ const Navbar = props => (
           }}
         >
           SAT/ACT
-        </Link>
-        <Link
+        </Link> */}
+        {/* <Link
           to="/register"
           activeStyle={{
             backgroundColor: "#4caf50",
@@ -75,7 +77,7 @@ const Navbar = props => (
           }}
         >
           register
-        </Link>
+        </Link> */}
         <Link
           to="/payment"
           activeStyle={{
@@ -84,15 +86,6 @@ const Navbar = props => (
           }}
         >
           payment
-        </Link>
-        <Link
-          to="/schedule"
-          activeStyle={{
-            backgroundColor: "#4caf50",
-            color: "white",
-          }}
-        >
-          schedule
         </Link>
       </RightSideNav>
 
