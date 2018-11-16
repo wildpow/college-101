@@ -14,7 +14,12 @@ const Container = styled.div`
     padding-bottom: 10px;
   }
   ul li a {
-    text-decoration: none;
+    /* text-decoration: none; */
+    color: black;
+    transition: all 0.3s ease-in-out;
+  }
+  ul li a:hover {
+    color: green;
   }
 `;
 const LinkStore = [
