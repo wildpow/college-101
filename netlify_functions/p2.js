@@ -4,6 +4,7 @@ require("dotenv").config();
 console.log(process.env.SK);
 const stripe = require("stripe")(process.env.SK);
 
+const statusCode = 200;
 const headers = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
