@@ -10,6 +10,30 @@ const LinkStore = [
     linkText: "College Board",
     href: "https://www.collegeboard.org/",
   },
+  {
+    linkText: "For more info and to register for ACT",
+    href: "http://www.act.org/",
+  },
+  {
+    linkText: "Common App",
+    href: "https://www.commonapp.org/",
+  },
+  {
+    linkText: "College Planning",
+    href: "https://www.lockwoodcollegeprep.com/",
+  },
+  {
+    linkText: "NCAA",
+    href: "http://www.ncaa.org/",
+  },
+  {
+    linkText: "GRE",
+    href: "http://www.ets.org/gre/",
+  },
+  {
+    linkText: "ETS",
+    href: "http://www.ets.org/",
+  },
 ];
 
 const HelpfulLinks = () => (

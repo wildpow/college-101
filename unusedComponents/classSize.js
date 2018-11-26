@@ -74,3 +74,14 @@ const ClassSize = props => {
 };
 
 export default ClassSize;
+
+// import Hero from "../images/hero.jpg";
+// const HeroImage = styled.div`
+//   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+//     url(${Hero});
+//   height: 100%;
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   position: relative;
+// `;

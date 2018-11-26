@@ -40,10 +40,13 @@ const Checkout = class extends React.Component {
   }
 
   componentDidMount() {
+    const { GATSBY_PK } = process.env;
+    console.log(process.env);
     this.stripeHandler = window.StripeCheckout.configure({
-      // You’ll need to add your own Stripe public key to the `checkout.js` file.
+      // You’ll need to add your own Stripe public key to Netlify env keys.
+      // Also your local .env file
       // key: 'pk_test_STRIPE_PUBLISHABLE_KEY',
-      key: "pk_test_hUOnxDfUSzB8m7FR2vVT6FuU",
+      key: GATSBY_PK,
       closed: () => {
         this.resetButton();
       },
@@ -60,7 +63,7 @@ const Checkout = class extends React.Component {
       allowRememberMe: "false",
       token: token => {
         fetch(
-          "https://distracted-ritchie-5c9292.netlify.com/.netlify/functions/p2",
+          "https://college101prep.netlify.com/.netlify/functions/purchase",
           {
             method: "POST",
             mode: "no-cors",

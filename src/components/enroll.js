@@ -2,7 +2,7 @@ import React from "react";
 import { graphql } from "react-apollo";
 import { gql } from "apollo-boost";
 
-class EnrollOptions extends React.Component {
+class Enroll extends React.Component {
   constructor(props) {
     super(props);
     this.handleCount = this.handleCount.bind(this);
@@ -41,4 +41,4 @@ const submitChanges = gql`
   }
 `;
 
-export default graphql(submitChanges)(EnrollOptions);
+export default graphql(submitChanges)(Enroll);

@@ -1,105 +1,100 @@
 import React from "react";
 import { Link } from "gatsby";
-import styled from "styled-components";
+// import styled from "styled-components";
+import MobileButton from "./mobileMenu/mobileButton";
+import {
+  FixedWrapper,
+  NavWrapper,
+  LeftSideNav,
+  RightSideNav,
+} from "../styles/navbarStyles";
 
-const NavWrapper = styled.div`
-  overflow: hidden;
-  background-color: #333;
-  font-family: Arial, Helvetica, sans-serif;
-  & a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-  }
-  & a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  & a:active {
-    background-color: #4caf50;
-    color: white;
-  }
-`;
+const Navbar = props => (
+  <FixedWrapper>
+    <NavWrapper>
+      <LeftSideNav>
+        <Link
+          to="/"
+          activeStyle={{
+            backgroundColor: "#4caf50",
+            color: "white",
+          }}
+        >
+          College101Prep
+        </Link>
+      </LeftSideNav>
+      <RightSideNav>
+        <Link
+          to="/schedule"
+          activeStyle={{
+            backgroundColor: "#4caf50",
+            color: "white",
+          }}
+        >
+          schedule
+        </Link>
+        <Link
+          to="/about"
+          activeStyle={{
+            backgroundColor: "#4caf50",
+            color: "white",
+          }}
+        >
+          About
+        </Link>
+        {/* <Link
+          to="/links"
+          activeStyle={{
+            backgroundColor: "#4caf50",
+            color: "white",
+          }}
+        >
+          Helpful Links
+        </Link> */}
+        {/* <Link
+          to="/pricing"
+          activeStyle={{
+            backgroundColor: "#4caf50",
+            color: "white",
+          }}
+        >
+          Tuition Pricing
+        </Link> */}
+        {/* <Link
+          to="/sat-act"
+          activeStyle={{
+            backgroundColor: "#4caf50",
+            color: "white",
+          }}
+        >
+          SAT/ACT
+        </Link> */}
+        {/* <Link
+          to="/register"
+          activeStyle={{
+            backgroundColor: "#4caf50",
+            color: "white",
+          }}
+        >
+          register
+        </Link> */}
+        <Link
+          to="/payment"
+          activeStyle={{
+            backgroundColor: "#4caf50",
+            color: "white",
+          }}
+        >
+          payment
+        </Link>
+      </RightSideNav>
 
-const Navbar = () => (
-  <NavWrapper>
-    <Link
-      to="/"
-      activeStyle={{
-        backgroundColor: "#4caf50",
-        color: "white",
-      }}
-    >
-      Home
-    </Link>
-    <Link
-      to="/about"
-      activeStyle={{
-        backgroundColor: "#4caf50",
-        color: "white",
-      }}
-    >
-      About
-    </Link>
-    <Link
-      to="/links"
-      activeStyle={{
-        backgroundColor: "#4caf50",
-        color: "white",
-      }}
-    >
-      Helpful Links
-    </Link>
-    <Link
-      to="/pricing"
-      activeStyle={{
-        backgroundColor: "#4caf50",
-        color: "white",
-      }}
-    >
-      Tuition Pricing
-    </Link>
-    <Link
-      to="/sat-act"
-      activeStyle={{
-        backgroundColor: "#4caf50",
-        color: "white",
-      }}
-    >
-      SAT/ACT
-    </Link>
-    <Link
-      to="/register"
-      activeStyle={{
-        backgroundColor: "#4caf50",
-        color: "white",
-      }}
-    >
-      register
-    </Link>
-    <Link
-      to="/payment"
-      activeStyle={{
-        backgroundColor: "#4caf50",
-        color: "white",
-      }}
-    >
-      payment
-    </Link>
-    <Link
-      to="/schedule"
-      activeStyle={{
-        backgroundColor: "#4caf50",
-        color: "white",
-      }}
-    >
-      schedule
-    </Link>
-  </NavWrapper>
+      <MobileButton
+        activeButton={props.activeButton}
+        handleActiveButton={props.handleActiveButton}
+      />
+    </NavWrapper>
+  </FixedWrapper>
 );
 
 export default Navbar;
