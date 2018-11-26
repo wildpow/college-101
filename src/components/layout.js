@@ -18,25 +18,27 @@ class Layout extends React.Component {
   }
 
   handleActiveButton() {
-    console.log("hello from layout handleActiveButton", this.state);
+    const { activeButton } = this.state;
     this.setState({
-      activeButton: !this.state.activeButton,
+      activeButton: !activeButton,
     });
   }
 
   render() {
+    const { activeButton } = this.state;
+    const { children } = this.props;
     return (
       <>
         <Normalize /> {/* CSS reset  */}
         <NavBar
-          activeButton={this.state.activeButton}
+          activeButton={activeButton}
           handleActiveButton={this.handleActiveButton}
         />
         <MobileNav
-          activeButton={this.state.activeButton}
+          activeButton={activeButton}
           handleActiveButton={this.handleActiveButton}
         />
-        <Wrapper>{this.props.children}</Wrapper>
+        <Wrapper>{children}</Wrapper>
       </>
     );
   }

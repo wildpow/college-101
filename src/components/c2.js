@@ -28,7 +28,7 @@ const buttonStyles = {
 
 // Below is where the checkout component is defined.
 // It has several functions and some default state variables.
-class Checkout extends React.Component {
+class C2 extends React.Component {
   state = {
     disabled: false,
     buttonText: "BUY NOW",
@@ -38,8 +38,7 @@ class Checkout extends React.Component {
   componentDidMount() {
     const { GATSBY_PK } = process.env;
     this.stripeHandler = window.StripeCheckout.configure({
-      // You’ll need to add your own Stripe public key to Netlify env keys.
-      // Also your local .env file
+      // You’ll need to add your own Stripe public key to the `checkout.js` file.
       // key: 'pk_test_STRIPE_PUBLISHABLE_KEY',
       key: GATSBY_PK,
       closed: () => {
@@ -59,7 +58,6 @@ class Checkout extends React.Component {
       name: "Demo Product",
       amount: amount,
       description: "A product well worth your time",
-      allowRememberMe: "false",
       token: token => {
         fetch(
           "https://college101prep.netlify.com/.netlify/functions/purchase",
@@ -90,7 +88,7 @@ class Checkout extends React.Component {
   }
 
   render() {
-    const { buttonText, disabled } = this.state;
+    const { disabled, paymentMessage, buttonText } = this.state;
     return (
       <div style={cardStyles}>
         <h4>Spend your Money!</h4>
@@ -106,9 +104,10 @@ class Checkout extends React.Component {
         >
           {buttonText}
         </button>
+        {paymentMessage}
       </div>
     );
   }
 }
 
-export default Checkout;
+export default C2;
