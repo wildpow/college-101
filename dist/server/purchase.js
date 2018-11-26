@@ -158,10 +158,10 @@
                           401 === n.statusCode
                             ? new s.StripeAuthenticationError(i.error)
                             : 403 === n.statusCode
-                              ? new s.StripePermissionError(i.error)
-                              : 429 === n.statusCode
-                                ? new s.StripeRateLimitError(i.error)
-                                : s.StripeError.generate(i.error)),
+                            ? new s.StripePermissionError(i.error)
+                            : 429 === n.statusCode
+                            ? new s.StripeRateLimitError(i.error)
+                            : s.StripeError.generate(i.error)),
                         t.call(r, u, null)
                       );
                   } catch (e) {
@@ -705,23 +705,21 @@
             (o >= 97 && o <= 122)
               ? (r += t.charAt(n))
               : o < 128
-                ? (r += i[o])
-                : o < 2048
-                  ? (r += i[192 | (o >> 6)] + i[128 | (63 & o)])
-                  : o < 55296 || o >= 57344
-                    ? (r +=
-                        i[224 | (o >> 12)] +
-                        i[128 | ((o >> 6) & 63)] +
-                        i[128 | (63 & o)])
-                    : ((n += 1),
-                      (o =
-                        65536 +
-                        (((1023 & o) << 10) | (1023 & t.charCodeAt(n)))),
-                      (r +=
-                        i[240 | (o >> 18)] +
-                        i[128 | ((o >> 12) & 63)] +
-                        i[128 | ((o >> 6) & 63)] +
-                        i[128 | (63 & o)]));
+              ? (r += i[o])
+              : o < 2048
+              ? (r += i[192 | (o >> 6)] + i[128 | (63 & o)])
+              : o < 55296 || o >= 57344
+              ? (r +=
+                  i[224 | (o >> 12)] +
+                  i[128 | ((o >> 6) & 63)] +
+                  i[128 | (63 & o)])
+              : ((n += 1),
+                (o = 65536 + (((1023 & o) << 10) | (1023 & t.charCodeAt(n)))),
+                (r +=
+                  i[240 | (o >> 18)] +
+                  i[128 | ((o >> 12) & 63)] +
+                  i[128 | ((o >> 6) & 63)] +
+                  i[128 | (63 & o)]));
           }
           return r;
         },
@@ -1400,10 +1398,10 @@
           a.arrayFormat in o
             ? a.arrayFormat
             : "indices" in a
-              ? a.indices
-                ? "indices"
-                : "repeat"
-              : "indices";
+            ? a.indices
+              ? "indices"
+              : "repeat"
+            : "indices";
         var S = o[P];
         g || (g = Object.keys(r)), f && g.sort(f);
         for (var T = 0; T < g.length; ++T) {
@@ -2283,12 +2281,12 @@
             return e.invoiceOptions && "string" == typeof e.invoiceOptions
               ? t + "&subscription=" + e.invoiceOptions
               : e.invoiceOptions && "object" == typeof e.invoiceOptions
-                ? (void 0 !== e.invoiceOptions.subscription_items &&
-                    (e.invoiceOptions.subscription_items = o.arrayToObject(
-                      e.invoiceOptions.subscription_items,
-                    )),
-                  t + "&" + o.stringifyRequestData(e.invoiceOptions))
-                : t;
+              ? (void 0 !== e.invoiceOptions.subscription_items &&
+                  (e.invoiceOptions.subscription_items = o.arrayToObject(
+                    e.invoiceOptions.subscription_items,
+                  )),
+                t + "&" + o.stringifyRequestData(e.invoiceOptions))
+              : t;
           },
           urlParams: ["customerId", "optional!invoiceOptions"],
           encode: o.encodeParamWithIntegerIndexes.bind(
@@ -2937,7 +2935,7 @@
       const n = r(18)(process.env.SK);
       e.exports.handler = (e, t, r) => {
         console.log("creating charge..."),
-          console.log(process.env.SK, "<=env", e, t),
+          console.log(process.env.SK, "<=env", e, co),
           console.log(e.body + "hth", "EEEEEEEEEEEEEEEEE");
         const i = JSON.parse(e.body);
         console.log(i, "DDDDDDDDDDDDDD");

@@ -7,7 +7,8 @@ const stripe = require("stripe")(process.env.SK);
 const statusCode = 200;
 const headers = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers":
+    "Origin, X-Requested-With, Content-Type, Accept",
 };
 
 exports.handler = function(event, context, callback) {

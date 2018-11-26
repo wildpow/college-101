@@ -1,16 +1,16 @@
 import React from "react";
 import Layout from "../components/layout";
 import Link from "gatsby-link";
-import Checkout from "../components/checkout.js";
+import c2 from "../components/c2.js";
 
-const Register = () => (
+const HomeWorkHelp = () => (
   <Layout>
     <div>
       <h1>
-        <Checkout />
+        <C2 />
       </h1>
     </div>
   </Layout>
 );
 
-export default Register;
+export default HomeWorkHelp;

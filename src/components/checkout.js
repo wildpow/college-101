@@ -2,7 +2,7 @@ import React from "react";
 
 // hardcoded amount (in US cents) to charge users
 // you could set this variable dynamically to charge different amounts
-const amount = 2500;
+const amount = 11100;
 const cardStyles = {
   display: "flex",
   flexDirection: "column",
@@ -60,6 +60,7 @@ const Checkout = class extends React.Component {
       name: "Demo Product",
       amount: amount,
       description: "A product well worth your time",
+      allowRememberMe: "false",
       token: token => {
         fetch(
           "https://college101prep.netlify.com/.netlify/functions/purchase",
@@ -104,7 +105,6 @@ const Checkout = class extends React.Component {
         >
           {this.state.buttonText}
         </button>
-        {this.state.paymentMessage}
       </div>
     );
   }
