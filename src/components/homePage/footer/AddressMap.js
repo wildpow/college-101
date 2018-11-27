@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import GoogleMapContainer from "./map";
 
 const Wrapper = styled.div`
   display: flex;
@@ -8,29 +9,47 @@ const Wrapper = styled.div`
   justify-content: space-evenly;
 `;
 const Map = styled.div`
-  width: 250px;
   display: none;
-  height: 250px;
-  color: black;
   margin-right: 20px;
-  background-color: white;
   @media (min-width: 768px) {
     display: block;
   }
 `;
+const Address = styled.address`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  a {
+    text-align: center;
+  }
+`;
 const AddressMap = () => (
   <Wrapper>
-    <Map>MAP</Map>
-    <div>
+    <Map>
+      <GoogleMapContainer />
+    </Map>
+
+    <Address>
       <h3>Address</h3>
       College 101
       <br />
-      290 Main Street East Setauket NY 11733
+      <a
+        href="https://goo.gl/maps/z3oRiJWRWsw"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        290 Main Street East Setauket NY 11733
+      </a>
       <br />
-      Phone: (631) 364-9080
+      Phone:
+      <a href="tel:1-631-364-9080">(631) 364-9080</a>
       <br />
-      E-mail: College101ResourceCenter@Gmail.com
-    </div>
+      E-mail:
+      <a href="mailto:college101resourcecenter@gmail.com">
+        College101ResourceCenter@Gmail.com
+      </a>
+    </Address>
   </Wrapper>
 );
 
