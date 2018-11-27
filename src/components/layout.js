@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Normalize } from "styled-normalize";
 import styled from "styled-components";
-import NavBar from "./navbar";
+import NavBar from "./navbar/navbar";
 import MobileNav from "./mobileMenu/mobileNav";
 
 const Wrapper = styled.div`

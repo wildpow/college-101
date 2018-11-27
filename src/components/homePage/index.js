@@ -1,10 +1,10 @@
 import React from "react";
 import { Main, Wrapper, Card } from "./styles/homeStyles";
-import HelpfulLinks from "./links";
-import AwardImage from "./awardImage";
+import HelpfulLinks from "./linksTestPrep/links";
+import AwardImage from "./award/awardImage";
 import Footer from "./footer";
-import TestPrep from "./testPrep";
-import AwardText from "./awardText";
+import TestPrep from "./linksTestPrep/testPrep";
+import AwardText from "./award/awardText";
 import Hero from "./hero";
 import Tutoring from "./tutoring";
 

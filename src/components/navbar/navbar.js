@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "gatsby";
 // import styled from "styled-components";
-import MobileButton from "./mobileMenu/mobileButton";
+import MobileButton from "../mobileMenu/mobileButton";
 import {
   FixedWrapper,
   NavWrapper,
   LeftSideNav,
   RightSideNav,
-} from "../styles/navbarStyles";
+} from "./navbarStyles";
 
 const Navbar = props => (
   <FixedWrapper>
