@@ -86,10 +86,18 @@ class Checkout extends React.Component {
         )
           .then(res => {
             console.log(res);
-            this.setState({
-              isHidden: true,
-              paymentMessage: "Payment Successful!",
-            });
+            if (res.status != 404) {
+              this.setState({
+                isHidden: true,
+                paymentMessage: "Payment Successful!",
+              });
+            } else {
+              this.setState({
+                isHidden: true,
+                paymentMessage: "Trouble proccessing",
+              });
+            }
+
             //setTimeout(this.resetButton, 5000)
             setTimeout(() => {
               this.setState({
