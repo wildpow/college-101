@@ -70,7 +70,7 @@ class Checkout extends React.Component {
       billingAddress: true,
       token: token => {
         fetch(
-          "https://bigtony--college101prep.netlify.com/.netlify/functions/purchase",
+          "https://bigtony--college101prep.netlify.com/.netlify/functions/purchase2",
           {
             method: "POST",
             //mode: "no-cors",
