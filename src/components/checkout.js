@@ -33,6 +33,7 @@ class Checkout extends React.Component {
     disabled: false,
     buttonText: "BUY NOW",
     paymentMessage: "",
+    isHidden: false,
   };
 
   componentDidMount() {
@@ -43,14 +44,19 @@ class Checkout extends React.Component {
       // key: 'pk_test_STRIPE_PUBLISHABLE_KEY',
       key: GATSBY_PK,
       closed: () => {
-        this.resetButton();
+        // this.resetButton();
       },
     });
   }
 
-  resetButton() {
-    this.setState({ disabled: false, buttonText: "BUY NOW" });
-  }
+  resetButton = () => {
+    this.setState({
+      disabled: false,
+      buttonText: "BUY NOW",
+      isHidden: false,
+      paymentMessage: "",
+    });
+  };
 
   openStripeCheckout(event) {
     event.preventDefault();
@@ -61,7 +67,7 @@ class Checkout extends React.Component {
       name: "Demo Product",
       amount: amount,
       description: "A product well worth your time",
-      allowRememberMe: "false",
+      billingAddress: true,
       token: token => {
         fetch(
           "https://bigtony--college101prep.netlify.com/.netlify/functions/purchase",
@@ -79,9 +85,20 @@ class Checkout extends React.Component {
           },
         )
           .then(res => {
-            console.log("Transaction processed successfully", res);
-            this.resetButton();
-            this.setState({ paymentMessage: "Payment Successful!" });
+            this.setState({
+              isHidden: true,
+              paymentMessage: "Payment Successful!",
+            });
+            //setTimeout(this.resetButton, 5000)
+            setTimeout(() => {
+              this.setState({
+                disabled: false,
+                buttonText: "BUY NOW",
+                isHidden: false,
+                paymentMessage: "",
+              });
+            }, 3000);
+
             return res;
           })
           .catch(error => {
@@ -93,7 +110,7 @@ class Checkout extends React.Component {
   }
 
   render() {
-    const { buttonText, disabled } = this.state;
+    const { buttonText, disabled, isHidden, paymentMessage } = this.state;
     return (
       <div style={cardStyles}>
         <h4>Spend your Money!</h4>
@@ -101,14 +118,17 @@ class Checkout extends React.Component {
           Use any email, 4242 4242 4242 4242 as the credit card number, any 3
           digit number, and any future date of expiration.
         </p>
-        <button
-          style={buttonStyles}
-          onClick={event => this.openStripeCheckout(event)}
-          disabled={disabled}
-          type="button"
-        >
-          {buttonText}
-        </button>
+        {!isHidden && (
+          <button
+            style={buttonStyles}
+            onClick={event => this.openStripeCheckout(event)}
+            disabled={disabled}
+            type="button"
+          >
+            {buttonText}
+          </button>
+        )}
+        {paymentMessage}
       </div>
     );
   }
