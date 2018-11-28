@@ -1,54 +1,65 @@
 require("dotenv").config();
 
-const stripe = require("stripe")(process.env.SK);
+const stripe = require("stripe")(process.env.GATSBY_SK);
 
-module.exports.handler = (event, context, callback) => {
-  console.log("creating charge...");
-  console.log(process.env.SK, "<=env", event, co);
-  // Pull out the amount and id for the charge from the POST
-  console.log(event.body + "hth", "EEEEEEEEEEEEEEEEE");
-  const requestData = JSON.parse(event.body);
-  console.log(requestData, "DDDDDDDDDDDDDD");
-  const amount = requestData.amount;
-  const token = requestData.token.id;
+const statusCode = 200;
+const headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
 
-  // Headers to prevent CORS issues
-  const headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type",
-  };
-
-  return stripe.charges
-    .create({
-      // Create Stripe charge with token
-      amount,
-      source: token,
-      currency: "usd",
-      description: "Serverless test Stripe charge",
-    })
-    .then(charge => {
-      // Success response
-      console.log(charge, "HelloHHHHHHHHH");
-      const response = {
-        headers,
-        statusCode: 200,
-        body: JSON.stringify({
-          message: `Charge processed!`,
-          charge,
-        }),
-      };
-      callback(null, response);
-    })
-    .catch(err => {
-      // Error response
-      console.log(err);
-      const response = {
-        headers,
-        statusCode: 500,
-        body: JSON.stringify({
-          error: err.message,
-        }),
-      };
-      callback(null, response);
+exports.handler = function(event, context, callback) {
+  //-- We only care to do anything if this is our POST request.
+  if (event.httpMethod !== "POST" || !event.body) {
+    callback(null, {
+      statusCode,
+      headers,
+      body: "",
     });
+  }
+
+  //-- Parse the body contents into an object.
+  const data = JSON.parse(event.body);
+
+  //-- Make sure we have all required data. Otherwise, escape.
+  if (!data.token || !data.amount || !data.idempotency_key) {
+    console.error("Required information is missing.");
+
+    callback(null, {
+      statusCode,
+      headers,
+      body: JSON.stringify({ status: "missing-information" }),
+    });
+
+    return;
+  }
+
+  stripe.charges.create(
+    {
+      currency: "usd",
+      amount: data.amount,
+      source: data.token.id,
+      receipt_email: data.token.email,
+      description: `charge for a widget`,
+    },
+    {
+      idempotency_key: data.idempotency_key,
+    },
+    (err, charge) => {
+      if (err !== null) {
+        console.log(err);
+      }
+
+      let status =
+        charge === null || charge.status !== "succeeded"
+          ? "failed"
+          : charge.status;
+
+      callback(null, {
+        statusCode,
+        headers,
+        body: JSON.stringify({ status }),
+      });
+    },
+  );
 };
