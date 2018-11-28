@@ -64,7 +64,7 @@ class Checkout extends React.Component {
       allowRememberMe: "false",
       token: token => {
         fetch(
-          "https://college101prep.netlify.com/.netlify/functions/purchase",
+          "https://bigtony--college101prep.netlify.com/.netlify/functions/purchase",
           {
             method: "POST",
             mode: "no-cors",
