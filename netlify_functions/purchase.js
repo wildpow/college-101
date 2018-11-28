@@ -23,7 +23,7 @@ exports.handler = function(event, context, callback) {
 
   //-- Make sure we have all required data. Otherwise, escape.
   if (!data.token || !data.amount || !data.idempotency_key) {
-    console.error("Required information is missing.");
+    console.error("Test Required information is missing.");
     console.error("token!!!", data.token);
     console.error("amount!!!", data.amount);
     console.error("!!!!!!NEW SHIT!!!!!");
