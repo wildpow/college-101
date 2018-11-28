@@ -85,6 +85,7 @@ class Checkout extends React.Component {
           },
         )
           .then(res => {
+            console.log(res);
             this.setState({
               isHidden: true,
               paymentMessage: "Payment Successful!",
