@@ -4,6 +4,8 @@ import styled from "styled-components";
 const AwardWrapper = styled.div`
   max-width: 380px;
   line-height: 1.5rem;
+  padding-right: 10px;
+  padding-left: 10px;
   /* text-align: center; */
   margin: 0 auto;
   p {

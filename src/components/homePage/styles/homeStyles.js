@@ -70,7 +70,7 @@ export const Wrapper = styled.div`
     margin-bottom: 0;
     padding: 14px;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     @media (min-width: 1300px) {
       font-size: 1.5rem;
     }
