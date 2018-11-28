@@ -1,19 +1,18 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "gatsby";
 
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: white;
+  background-color: gray;
   position: fixed;
   /* top: 0;
   left: 0; */
   bottom: 0;
   right: 0;
   z-index: 9;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+
   transition: transform 0.3s cubic-bezier(0.48, 0.47, 0.94, 0.94);
   overflow: hidden !important;
   &.hide {
@@ -24,10 +23,18 @@ const Wrapper = styled.div`
   &.show {
     /* transform: translate3d(100vw, 0, 0) translateX(-100%); */
     /* transform: translate(50%); */
-    transform: translate3d(50%, 0, 0) scale3d(1, 1, 1);
+    transform: translate3d(0%, 0, 0) scale3d(1, 1, 1);
   }
 `;
-
+const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 48px;
+  margin-top: 60px;
+  ul {
+    list-style: none;
+  }
+`;
 const MobileNav = props => {
   let visibility = "hide";
   if (props.activeButton) {
@@ -35,7 +42,16 @@ const MobileNav = props => {
   }
   return (
     <Wrapper className={visibility}>
-      <h1>hello</h1>
+      <Content>
+        <ul>
+          <li>
+            <Link to="/schedule">Schedule</Link>
+          </li>
+          <li>
+            <Link to="/payment">Payment</Link>
+          </li>
+        </ul>
+      </Content>
     </Wrapper>
   );
 };

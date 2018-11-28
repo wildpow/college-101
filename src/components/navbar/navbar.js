@@ -13,7 +13,11 @@ const Navbar = props => (
   <FixedWrapper>
     <NavWrapper>
       <LeftSideNav>
+        {/* {props.activeButton ? 
+        
+      } */}
         <Link
+          onClick={props.handleHomeButton}
           to="/"
           activeStyle={{
             backgroundColor: "#4caf50",
