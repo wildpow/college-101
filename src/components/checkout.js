@@ -54,6 +54,8 @@ class Checkout extends React.Component {
 
   openStripeCheckout(event) {
     event.preventDefault();
+    const idempotency_key = uuid();
+    console.log("newV");
     this.setState({ disabled: true, buttonText: "WAITING..." });
     this.stripeHandler.open({
       name: "Demo Product",
@@ -69,7 +71,7 @@ class Checkout extends React.Component {
             body: JSON.stringify({
               token,
               amount,
-              idempotency_key: uuid(),
+              idempotency_key: idempotency_key,
             }),
             headers: new Headers({
               "Content-Type": "application/json",

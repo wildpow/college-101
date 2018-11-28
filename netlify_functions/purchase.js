@@ -26,6 +26,7 @@ exports.handler = function(event, context, callback) {
     console.error("Required information is missing.");
     console.error("token!!!", data.token);
     console.error("amount!!!", data.amount);
+    console.error("!!!!!!NEW SHIT!!!!!");
     console.error("idempotency_key", data.idempotency_key);
 
     callback(null, {
