@@ -2963,6 +2963,7 @@
         if (!o.token || !o.amount || !o.idempotency_key)
           return (
             console.error("Required information is missing."),
+            console.error(o.token, o.amount, o.idempotency_key),
             void r(null, {
               statusCode: 200,
               headers: i,
