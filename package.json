@@ -27,7 +27,8 @@
     "react-helmet": "^5.2.0",
     "stripe": "^6.15.1",
     "styled-components": "^4.1.1",
-    "styled-normalize": "^8.0.4"
+    "styled-normalize": "^8.0.4",
+    "uuid": "^3.3.2"
   },
   "keywords": [
     "gatsby"
@@ -36,7 +37,7 @@
   "scripts": {
     "start:lambda": "netlify-lambda serve netlify_functions -c webpack.server.js",
     "lint": "eslint src",
-    "build": "gatsby build",
+    "build": "netlify-lambda build netlify_functions && gatsby build",
     "develop": "gatsby develop",
     "format": "./node_modules/.bin/eslint --fix src",
     "test": "echo \"Error: no test specified\" && exit 1"

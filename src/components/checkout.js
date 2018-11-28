@@ -1,5 +1,5 @@
 import React from "react";
-
+import uuid from "uuid/v4";
 // hardcoded amount (in US cents) to charge users
 // you could set this variable dynamically to charge different amounts
 const amount = 11100;
@@ -54,6 +54,8 @@ class Checkout extends React.Component {
 
   openStripeCheckout(event) {
     event.preventDefault();
+    const idempotency_key = uuid();
+    console.log("newV");
     this.setState({ disabled: true, buttonText: "WAITING..." });
     this.stripeHandler.open({
       name: "Demo Product",
@@ -69,6 +71,7 @@ class Checkout extends React.Component {
             body: JSON.stringify({
               token,
               amount,
+              idempotency_key: idempotency_key,
             }),
             headers: new Headers({
               "Content-Type": "application/json",
