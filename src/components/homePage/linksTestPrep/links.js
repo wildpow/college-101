@@ -5,6 +5,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   justify-content: space-evenly;
+  text-align: center;
   ul {
     font-size: 1.2rem;
     list-style: none;
