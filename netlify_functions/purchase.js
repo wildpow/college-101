@@ -20,7 +20,7 @@ exports.handler = function(event, context, callback) {
 
   //-- Parse the body contents into an object.
   const data = JSON.parse(event.body);
-
+  console.log(data);
   //-- Make sure we have all required data. Otherwise, escape.
   if (!data.token || !data.amount || !data.idempotency_key) {
     console.error("Test Required information is missing.");
@@ -44,7 +44,7 @@ exports.handler = function(event, context, callback) {
       amount: data.amount,
       source: data.token.id,
       receipt_email: data.token.email,
-      description: `charge for a widget`,
+      description: `Baseball bat`,
     },
     {
       idempotency_key: data.idempotency_key,
