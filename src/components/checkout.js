@@ -73,7 +73,7 @@ class Checkout extends React.Component {
           "https://bigtony--college101prep.netlify.com/.netlify/functions/purchase",
           {
             method: "POST",
-            //mode: "no-cors",
+            mode: "cors",
             body: JSON.stringify({
               token,
               amount,
