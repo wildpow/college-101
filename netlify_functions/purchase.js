@@ -33,7 +33,6 @@ exports.handler = function(event, context, callback) {
       statusCode,
       headers,
       body: JSON.stringify({ status: "missing-information" }),
-      data,
     });
 
     return;
@@ -61,7 +60,6 @@ exports.handler = function(event, context, callback) {
           : charge.status;
 
       callback(null, {
-        data,
         statusCode,
         headers,
         body: JSON.stringify({ data, status, headers, statusCode }),
