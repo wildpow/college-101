@@ -3,6 +3,7 @@ import uuid from "uuid/v4";
 // hardcoded amount (in US cents) to charge users
 // you could set this variable dynamically to charge different amounts
 const amount = 11100;
+const description = "Baseball bat";
 const cardStyles = {
   display: "flex",
   flexDirection: "column",
@@ -65,8 +66,8 @@ class Checkout extends React.Component {
     this.setState({ disabled: true, buttonText: "WAITING..." });
     this.stripeHandler.open({
       name: "Demo Product",
-      amount: amount,
-      description: "A product well worth your time",
+      amount,
+      description,
       billingAddress: true,
       token: token => {
         fetch(
@@ -77,6 +78,7 @@ class Checkout extends React.Component {
             body: JSON.stringify({
               token,
               amount,
+              description,
               idempotency_key: idempotency_key,
             }),
             headers: new Headers({
