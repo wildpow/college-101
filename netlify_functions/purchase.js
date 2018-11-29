@@ -44,7 +44,7 @@ exports.handler = function(event, context, callback) {
       amount: data.amount,
       source: data.token.id,
       receipt_email: data.token.email,
-      description: `Baseball bat`,
+      description: data.token.description,
     },
     {
       idempotency_key: data.idempotency_key,
