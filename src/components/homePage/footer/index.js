@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Pricing from "./pricing";
+import Pricing from "./pricing2";
 import AddressMap from "./AddressMap";
 
 const FooterFlex = styled.footer`

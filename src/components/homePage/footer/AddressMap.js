@@ -39,7 +39,9 @@ const AddressMap = () => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        290 Main Street East Setauket NY 11733
+        290 Main Street East
+        <br />
+        Setauket NY 11733
       </a>
       <br />
       Phone:
@@ -47,7 +49,9 @@ const AddressMap = () => (
       <br />
       E-mail:
       <a href="mailto:college101resourcecenter@gmail.com">
-        College101ResourceCenter@Gmail.com
+        College101ResourceCenter
+        <br />
+        @Gmail.com
       </a>
     </Address>
   </Wrapper>

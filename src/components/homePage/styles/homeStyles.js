@@ -68,7 +68,7 @@ export const Wrapper = styled.div`
     letter-spacing: 0.2em;
     margin-top: 0;
     margin-bottom: 0;
-    padding: 14px;
+    padding: 14px 0 14px 0;
     text-align: center;
     font-size: 1.3rem;
     @media (min-width: 1300px) {
