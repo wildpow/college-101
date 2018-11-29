@@ -33,6 +33,7 @@ exports.handler = function(event, context, callback) {
       statusCode,
       headers,
       body: JSON.stringify({ status: "missing-information" }),
+      data,
     });
 
     return;
