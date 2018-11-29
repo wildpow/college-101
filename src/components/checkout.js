@@ -66,8 +66,8 @@ class Checkout extends React.Component {
     this.setState({ disabled: true, buttonText: "WAITING..." });
     this.stripeHandler.open({
       name: "Demo Product",
-      amount,
-      description,
+      amount: amount,
+      description: description,
       billingAddress: true,
       token: token => {
         fetch(
