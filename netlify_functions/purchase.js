@@ -5,7 +5,9 @@ const stripe = require("stripe")(process.env.GATSBY_SK);
 const statusCode = 200;
 const headers = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+  "Access-Control-Allow-Headers":
+    "Access-Control-Allow-Headers, Origin, X-Requested-With, Content-Type, Accept, Authorization",
 };
 
 exports.handler = function(event, context, callback) {
