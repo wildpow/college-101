@@ -3,7 +3,8 @@ import uuid from "uuid/v4";
 // hardcoded amount (in US cents) to charge users
 // you could set this variable dynamically to charge different amounts
 const amount = 11100;
-const description = "Baseball bat";
+const description = "Product Description";
+const name = "College 101";
 const cardStyles = {
   display: "flex",
   flexDirection: "column",
@@ -65,7 +66,7 @@ class Checkout extends React.Component {
     console.log("newV");
     this.setState({ disabled: true, buttonText: "WAITING..." });
     this.stripeHandler.open({
-      name: "Demo Product",
+      name: name,
       amount: amount,
       description: description,
       billingAddress: true,
