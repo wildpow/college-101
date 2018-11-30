@@ -64,7 +64,7 @@ const Content = styled.div`
     padding-right: 7px;
   }
   @media (min-width: 1024px) {
-    border-bottom: 2px solid white;
+    /* border-bottom: 2px solid white; */
     p {
       display: none;
     }
