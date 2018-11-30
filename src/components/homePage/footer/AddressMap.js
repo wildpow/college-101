@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   justify-content: space-evenly;
   @media (min-width: 1220px) {
     margin-top: 0px;
+    flex-basis: 48%;
   }
 `;
 const Map = styled.div`
@@ -30,6 +31,7 @@ const Address = styled.div`
   margin-bottom: 20px;
   @media (min-width: 1220px) {
     margin-bottom: 0px;
+    /* flex-basis: 50%; */
   }
   a {
     text-align: center;
@@ -46,6 +48,7 @@ const Address = styled.div`
     font-size: 1.7rem;
     border-bottom: 2px solid white;
     width: 100%;
+
     @media (min-width: 1300px) {
       font-size: 1.6rem;
     }

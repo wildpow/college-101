@@ -1,0 +1,18 @@
+.mapStyles {
+  position: relative;
+  width: 50vw;
+  height: 300px;
+}
+
+@media (min-width: 1220px) {
+  .mapStyles {
+    width: 350px;
+    height: 370px;
+  }
+}
+
+@media (min-width: 1350px) {
+  .mapStyles {
+    width: 460px;
+  }
+}

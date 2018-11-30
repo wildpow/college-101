@@ -69,6 +69,9 @@ const Content = styled.div`
       display: none;
     }
   }
+  @media (min-width: 1220px) {
+    flex-basis: 48%;
+  }
 `;
 
 const List = styled.div`
