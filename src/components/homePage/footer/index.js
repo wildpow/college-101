@@ -5,7 +5,7 @@ import AddressMap from "./AddressMap";
 
 const FooterFlex = styled.footer`
   color: white;
-  background-color: green;
+  /* background-color: green; */
   display: flex;
   justify-content: space-evenly;
   font-family: Verdana, sans-serif;

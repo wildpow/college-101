@@ -1,44 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-// const FlexCol = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   h3 {
-//     text-align: center;
-//   }
-//   p {
-//     text-align: center;
-//   }
-// `;
-// const FlexRow = styled.div`
-//   display: flex;
-//   justify-content: space-evenly;
-//   div h4 {
-//     text-align: center;
-//   }
-//   ul li {
-//     padding-bottom: 5px;
-//   }
-// `;
-// const SmallGroup = styled.div`
-//   h4 {
-//     margin: 0;
-//     padding: 0;
-//   }
-//   p {
-//     text-align: center;
-//     font-size: 0.7em;
-//     padding: 0;
-//     margin: 0;
-//   }
-// `;
-
-// const PrivateTutoring = styled.div`
-//   h4 {
-//     margin-top: 0;
-//   }
-// `;
 const SmHiddenItem = styled.li`
   @media (min-width: 667px) {
     display: none;
@@ -78,7 +40,10 @@ const SmGroup = styled.div`
 `;
 const Content = styled.div`
   display: flex;
+  background-color: green;
   flex-direction: column;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
   h3 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     letter-spacing: 0.2em;
@@ -127,8 +92,10 @@ const NewList = styled(List)`
 const PrivateTut = styled.div`
   display: flex;
   flex-direction: column;
-  padding-bottom: 10px;
-  border-bottom: 2px solid white;
+  /* padding-bottom: 10px; */
+  /* border-bottom: 10px solid white; */
+  /* margin-bottom: 10px; */
+
   h4 {
     font-size: 1.2em;
     border-top: 2px solid white;
