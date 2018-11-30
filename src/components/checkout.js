@@ -63,7 +63,7 @@ class Checkout extends React.Component {
   openStripeCheckout(event) {
     event.preventDefault();
     const idempotency_key = uuid();
-    console.log("newV");
+
     this.setState({ disabled: true, buttonText: "WAITING..." });
     this.stripeHandler.open({
       name: name,
@@ -88,7 +88,7 @@ class Checkout extends React.Component {
           },
         )
           .then(res => {
-            console.log("res= ", res, " res.json()", res.json(), token);
+            console.log("res= ", res, " res.json()", body);
             if (res.status != 404) {
               this.setState({
                 isHidden: true,
