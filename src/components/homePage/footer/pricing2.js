@@ -6,7 +6,7 @@ const SmHiddenItem = styled.li`
     display: none;
   }
   @media (min-width: 1024px) {
-    display: block;
+    display: list-item;
   }
 `;
 const SmHiddenlist = styled.ul`
@@ -55,6 +55,12 @@ const Content = styled.div`
     width: 100%;
     text-align: center;
     font-size: 1.3em;
+    @media (min-width: 1300px) {
+      font-size: 1.5rem;
+    }
+    @media (min-width: 1500px) {
+      font-size: 1.8rem;
+    }
   }
   p {
     text-align: center;
@@ -71,6 +77,9 @@ const Content = styled.div`
   }
   @media (min-width: 1220px) {
     flex-basis: 48%;
+  }
+  @media (min-width: 1400px) {
+    flex-basis: 48.7%;
   }
 `;
 
@@ -90,6 +99,9 @@ const NewList = styled(List)`
     flex-direction: row !important;
     justify-content: space-evenly;
     align-self: auto !important;
+    ul {
+      align-self: flex-start;
+    }
   }
 `;
 const PrivateTut = styled.div`
@@ -122,6 +134,7 @@ const PrivateTut = styled.div`
 `;
 const LgHiddenP = styled.p`
   display: none;
+  padding-top: 10px;
   @media (min-width: 1024px) {
     display: initial !important;
     text-align: center;
@@ -129,6 +142,9 @@ const LgHiddenP = styled.p`
     margin-top: 0;
     padding-left: 7px;
     padding-right: 7px;
+  }
+  @media (min-width: 1400px) {
+    padding-top: 20px;
   }
 `;
 

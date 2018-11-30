@@ -6,13 +6,41 @@
 
 @media (min-width: 1220px) {
   .mapStyles {
-    width: 350px;
-    height: 370px;
+    width: 320px;
+    height: 300px;
   }
 }
 
-@media (min-width: 1350px) {
+@media (min-width: 1300px) {
   .mapStyles {
-    width: 460px;
+    width: 350px;
   }
 }
+@media (min-width: 1400px) {
+  .mapStyles {
+    width: 380px;
+  }
+}
+@media (min-width: 1500px) {
+  .mapStyles {
+    width: 400px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .mapStyles {
+    width: 450px;
+  }
+}
+@media (min-width: 1700px) {
+  .mapStyles {
+    width: 500px;
+  }
+}
+@media (min-width: 1800px) {
+  .mapStyles {
+    width: 550px;
+  }
+}
+/* width: 350px;
+height: 370px; */
