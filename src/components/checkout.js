@@ -88,13 +88,7 @@ class Checkout extends React.Component {
           },
         )
           .then(res => {
-            console.log(
-              "res= ",
-              res,
-              " res.json()",
-              res.json(),
-              res.body.json(),
-            );
+            console.log("res= ", res, " res.json()", res.json(), token);
             if (res.status != 404) {
               this.setState({
                 isHidden: true,
