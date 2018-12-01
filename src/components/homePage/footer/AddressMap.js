@@ -6,7 +6,8 @@ const Wrapper = styled.div`
   margin-top: 15px;
   /* padding-bottom: 15px; */
   display: flex;
-  background-color: green;
+  color: floralwhite;
+  background-color: #2e8b57;
   /* padding-top: 20px; */
   justify-content: center;
   justify-content: space-evenly;
@@ -74,8 +75,8 @@ const Address = styled.div`
   }
 `;
 const MainTitle = styled.h3`
-  background-color: green;
-  color: white;
+  background-color: #2e8b57;
+  color: floralwhite;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   letter-spacing: 0.2em;
   margin-top: 0;
@@ -112,18 +113,6 @@ const AddressMap = () => (
       <Address>
         <MainTitle hiddenSm>Contact</MainTitle>
         <div>
-          <h5>College 101</h5>
-          <a
-            href="https://goo.gl/maps/z3oRiJWRWsw"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            290 Main Street East
-            <br />
-            Setauket NY 11733
-          </a>
-        </div>
-        <div>
           <h5>Phone:</h5>
           <a href="tel:1-631-364-9080">(631) 364-9080</a>
         </div>
@@ -133,6 +122,18 @@ const AddressMap = () => (
             College101ResourceCenter
             <br />
             @Gmail.com
+          </a>
+        </div>
+        <div>
+          <h5>Address</h5>
+          <a
+            href="https://goo.gl/maps/z3oRiJWRWsw"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            290 Main Street East
+            <br />
+            Setauket NY 11733
           </a>
         </div>
       </Address>

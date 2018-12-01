@@ -20,7 +20,7 @@ const Container = styled.div`
     transition: all 0.3s ease-in-out;
   }
   ul li a:hover {
-    color: green;
+    color: #3bb16f;
   }
 `;
 const LinkStore = [

@@ -6,7 +6,7 @@ import NavBar from "./navbar/navbar";
 import MobileNav from "./mobileMenu/mobileNav";
 
 const Wrapper = styled.div`
-  padding-top: 55px;
+  padding-top: 50px;
 `;
 class Layout extends React.Component {
   constructor(props) {

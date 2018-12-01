@@ -13,16 +13,15 @@ const Navbar = props => (
   <FixedWrapper>
     <NavWrapper>
       <LeftSideNav>
-        {/* {props.activeButton ? 
-        
-      } */}
         <Link
           onClick={props.handleHomeButton}
           to="/"
-          activeStyle={{
-            backgroundColor: "#4caf50",
-            color: "white",
-          }}
+          activeStyle={
+            {
+              // backgroundColor: "#4caf50",
+              // color: "white",
+            }
+          }
         >
           College101Prep
         </Link>
@@ -92,11 +91,12 @@ const Navbar = props => (
           payment
         </Link>
       </RightSideNav>
-
+      {/* <div style={{ marginTop: "16px" }}> */}
       <MobileButton
         activeButton={props.activeButton}
         handleActiveButton={props.handleActiveButton}
       />
+      {/* </div> */}
     </NavWrapper>
   </FixedWrapper>
 );

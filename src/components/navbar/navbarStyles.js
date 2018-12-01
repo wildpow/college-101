@@ -107,10 +107,11 @@ export const FixedWrapper = styled.header`
   margin: auto;
   width: 100%;
   z-index: 1000;
-  padding: 18px 16px;
+  /* padding: 18px 16px; */
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  background-color: #fff;
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: floralwhite;
+  font-family: Verdana, sans-serif;
+  font-variant: small-caps;
   letter-spacing: 4px;
   overflow: hidden;
 `;
@@ -119,17 +120,23 @@ export const NavWrapper = styled.div`
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
+  background-color: seagreen;
   & div a {
     /* color: #f2f2f2; */
     text-align: center;
-    padding: 12px 16px;
+    padding: 15px 16px;
     text-decoration: none;
     font-size: 17px;
     border: none;
+    font-size: 1.5rem;
+    transition: all 0.3s;
+    /* border: 1px solid black; */
   }
   & div a:hover {
-    background-color: #ddd;
-    color: black;
+    background-color: #3bb16f;
+    cursor: pointer;
+    /* border: 2px solid #2e8b57; */
+    color: floralwhite;
   }
   & div a:active {
     background-color: #4caf50;
@@ -138,15 +145,41 @@ export const NavWrapper = styled.div`
 `;
 
 export const LeftSideNav = styled.div`
-  /* padding: 20px; */
+  display: flex;
+  a {
+    padding: 0;
+    color: floralwhite;
+    background-color: #2e8b57;
+  }
 `;
 
 export const RightSideNav = styled.div`
+  /* color: floralwhite;
+  background-color: #2e8b57; */
   margin-right: 20px;
   display: none;
-  text-align: right;
-  @media (min-width: 1235px) {
-    display: block;
+  /* text-align: right; */
+  a:nth-child(1) {
+    color: floralwhite;
+    background-color: #2e8b57;
+    margin-right: 5px;
+  }
+  a:nth-child(2) {
+    color: floralwhite;
+    background-color: #2e8b57;
+    margin-right: 5px;
+  }
+  a:nth-child(3) {
+    color: floralwhite;
+    background-color: #2e8b57;
+    /* margin-right: 5px; */
+  }
+  @media (min-width: 768px) {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    justify-content: flex-end;
+    /* justify-content: space-between; */
   }
 `;
 

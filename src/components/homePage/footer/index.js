@@ -4,7 +4,7 @@ import Pricing from "./pricing2";
 import AddressMap from "./AddressMap";
 
 const FooterFlex = styled.footer`
-  color: white;
+  color: #fffaf0;
   /* background-color: green; */
   display: flex;
   justify-content: space-evenly;

@@ -5,7 +5,9 @@ import { Link } from "gatsby";
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: gray;
+  background-color: #2e8b57;
+  font-family: Verdana, sans-serif;
+
   position: fixed;
   /* top: 0;
   left: 0; */
@@ -29,10 +31,40 @@ const Wrapper = styled.div`
 const Content = styled.div`
   display: flex;
   justify-content: center;
-  font-size: 48px;
+  font-size: 2em;
   margin-top: 60px;
+  width: 100vw;
   ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+    line-height: 1.4em;
     list-style: none;
+  }
+  ul li {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    width: 100%;
+    transition: all 0.3s;
+  }
+  ul li a {
+    /* width: 100vw; */
+    color: floralwhite;
+    transition: all 0.3s;
+    margin: auto;
+
+    text-decoration: none;
+  }
+  ul li:hover {
+    background-color: #3bb16f;
+    cursor: pointer;
+  }
+  ul li a:active {
+    color: black;
   }
 `;
 const MobileNav = props => {
