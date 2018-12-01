@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { graphql } from "gatsby";
 import { Wrapper, CalContainer, CalStyled } from "../styles/sheduleStyles";
 import Layout from "../components/layout";
-import ClassViewer from "../components/classView";
+import ClassViewer from "../components/schedule/classView";
 
 class Schedule extends React.Component {
   constructor(props) {

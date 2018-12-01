@@ -5,6 +5,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   justify-content: space-evenly;
+  text-align: center;
   ul {
     font-size: 1.2rem;
     list-style: none;
@@ -19,7 +20,7 @@ const Container = styled.div`
     transition: all 0.3s ease-in-out;
   }
   ul li a:hover {
-    color: green;
+    color: #3bb16f;
   }
 `;
 const LinkStore = [

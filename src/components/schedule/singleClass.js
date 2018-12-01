@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 import styled from "styled-components";
 // import ClassSize from "./classSize";
-import Enroll from "./enroll";
+import Enroll from "../enroll";
 
 const Td = styled.td`
   text-align: center !important;

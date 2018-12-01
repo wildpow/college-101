@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Normalize } from "styled-normalize";
 import styled from "styled-components";
-import NavBar from "./navbar";
+import NavBar from "./navbar/navbar";
 import MobileNav from "./mobileMenu/mobileNav";
 
 const Wrapper = styled.div`
-  padding-top: 55px;
+  padding-top: 50px;
 `;
 class Layout extends React.Component {
   constructor(props) {
@@ -15,6 +15,7 @@ class Layout extends React.Component {
       activeButton: false,
     };
     this.handleActiveButton = this.handleActiveButton.bind(this);
+    this.handleHomeButton = this.handleHomeButton.bind(this);
   }
 
   handleActiveButton() {
@@ -22,6 +23,15 @@ class Layout extends React.Component {
     this.setState({
       activeButton: !activeButton,
     });
+  }
+
+  handleHomeButton() {
+    const { activeButton } = this.state;
+    if (activeButton) {
+      this.setState({
+        activeButton: !activeButton,
+      });
+    }
   }
 
   render() {
@@ -33,6 +43,7 @@ class Layout extends React.Component {
         <NavBar
           activeButton={activeButton}
           handleActiveButton={this.handleActiveButton}
+          handleHomeButton={this.handleHomeButton}
         />
         <MobileNav
           activeButton={activeButton}

@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Pricing from "./pricing";
+import Pricing from "./pricing2";
 import AddressMap from "./AddressMap";
 
 const FooterFlex = styled.footer`
-  color: white;
-  background-color: green;
+  color: #fffaf0;
+  /* background-color: green; */
   display: flex;
   justify-content: space-evenly;
   font-family: Verdana, sans-serif;

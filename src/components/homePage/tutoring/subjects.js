@@ -3,12 +3,21 @@ import styled from "styled-components";
 
 const SubjectWrapper = styled.div`
   h3 {
+    margin-top: ${props => (props.top ? "1em" : "1px")};
     text-align: center;
     text-decoration: underline;
     margin-bottom: 0;
+    letter-spacing: 0.1em;
+    font-size: 1.25em;
+  }
+  @media (min-width: 321px) {
+    h3 {
+      margin-top: ${props => (props.top ? "1em" : "1em")};
+    }
   }
   ul {
     list-style: none;
+    margin-top: 7px;
     padding: 2px 10px 2px 10px;
   }
   ul li {
@@ -52,7 +61,7 @@ export const Science = () => (
 );
 
 export const Maths = () => (
-  <SubjectWrapper>
+  <SubjectWrapper top>
     <h3>Math</h3>
     <ul>
       <li>Algebra</li>

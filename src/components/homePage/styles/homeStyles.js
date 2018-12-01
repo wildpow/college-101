@@ -13,6 +13,7 @@ export const Main = styled.div`
   position: relative;
   margin: 0 auto;
   font-family: Verdana, sans-serif;
+  color: floralwhite;
 `;
 
 export const Wrapper = styled.div`
@@ -22,7 +23,7 @@ export const Wrapper = styled.div`
   font-family: Verdana, sans-serif;
   margin-top: 5px;
   margin-bottom: 10px;
-  @media (min-width: 1024px) {
+  @media (min-width: 900px) {
     flex-direction: row;
     flex-wrap: wrap;
     div:nth-child(1) {
@@ -62,15 +63,15 @@ export const Wrapper = styled.div`
     } */
   }
   div h2 {
-    background-color: green;
-    color: white;
+    background-color: #2e8b57;
+    color: floralwhite;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     letter-spacing: 0.2em;
     margin-top: 0;
     margin-bottom: 0;
-    padding: 14px;
+    padding: 14px 0 14px 0;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     @media (min-width: 1300px) {
       font-size: 1.5rem;
     }
@@ -83,6 +84,7 @@ export const Wrapper = styled.div`
 export const Card = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   flex-basis: 30%;
+  background-color: white;
   margin-bottom: 10px;
   @media (min-width: 1500px) {
     display: ${props => (props.show1024 ? "none" : "block")};

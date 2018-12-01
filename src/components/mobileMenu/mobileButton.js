@@ -4,8 +4,12 @@ import styled from "styled-components";
 const Dude = styled.button`
   width: 60px;
   height: 45px;
+  /* padding-bottom: 30px; */
   position: relative;
-  margin: -10px 30px -10px 0px;
+  /* margin: -10px 30px -10px 0px; */
+  right: 10px;
+  top: 5px;
+  bottom: 0px;
   transform: rotate(0deg);
   transition: 0.5s ease-in-out;
   outline: none;
@@ -18,7 +22,7 @@ const Dude = styled.button`
     position: absolute;
     height: 9px;
     width: 100%;
-    background: black;
+    background: #fffaf0;
     border-radius: 9px;
     opacity: 1;
     left: 0;
@@ -45,7 +49,7 @@ const Dude = styled.button`
     left: ${props => (props.activeButton ? "8px" : "0px")};
     transform-origin: left center;
   }
-  @media (min-width: 1235px) {
+  @media (min-width: 768px) {
     display: none;
   }
 `;

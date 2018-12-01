@@ -1,24 +1,27 @@
 import React from "react";
 import { Link } from "gatsby";
 // import styled from "styled-components";
-import MobileButton from "./mobileMenu/mobileButton";
+import MobileButton from "../mobileMenu/mobileButton";
 import {
   FixedWrapper,
   NavWrapper,
   LeftSideNav,
   RightSideNav,
-} from "../styles/navbarStyles";
+} from "./navbarStyles";
 
 const Navbar = props => (
   <FixedWrapper>
     <NavWrapper>
       <LeftSideNav>
         <Link
+          onClick={props.handleHomeButton}
           to="/"
-          activeStyle={{
-            backgroundColor: "#4caf50",
-            color: "white",
-          }}
+          activeStyle={
+            {
+              // backgroundColor: "#4caf50",
+              // color: "white",
+            }
+          }
         >
           College101Prep
         </Link>
@@ -88,11 +91,12 @@ const Navbar = props => (
           payment
         </Link>
       </RightSideNav>
-
+      {/* <div style={{ marginTop: "16px" }}> */}
       <MobileButton
         activeButton={props.activeButton}
         handleActiveButton={props.handleActiveButton}
       />
+      {/* </div> */}
     </NavWrapper>
   </FixedWrapper>
 );
