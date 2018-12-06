@@ -8,6 +8,10 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-styled-components`,
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/admin/*`] },
+    },
     "gatsby-plugin-stripe-checkout",
     "gatsby-plugin-react-helmet",
     {

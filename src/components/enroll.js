@@ -34,8 +34,8 @@ class Enroll extends React.Component {
 }
 
 const submitChanges = gql`
-  mutation updateDatesAndClassSize($newCount: Int, $uri: ID) {
-    updateDateSize(where: { id: $uri }, data: { enrolled: $newCount }) {
+  mutation updateSession($newCount: Int, $uri: ID) {
+    updateSession(where: { id: $uri }, data: { enrolled: $newCount }) {
       enrolled
     }
   }

@@ -28,15 +28,15 @@ const Table = styled.table`
 `;
 const ClassViewer = props => {
   const { graphData, date } = props;
-  const currentClasses = [];
-  graphData.dateSizes.map(classDates => {
-    const testDate = new Date(classDates.startDate);
+  const currentSessions = [];
+  graphData.sessions.map(session => {
+    const testDate = new Date(session.startTime);
     if (
       date.getMonth() === testDate.getMonth() &&
       date.getDate() === testDate.getDate() &&
       date.getFullYear() === testDate.getFullYear()
     ) {
-      return currentClasses.push(classDates);
+      return currentSessions.push(session);
     }
     return null;
   });
@@ -44,7 +44,7 @@ const ClassViewer = props => {
     <div>
       <h1>{`Current Classes for ${date.toDateString()}`}</h1>
       <div>
-        {currentClasses.length === 0 ? (
+        {currentSessions.length === 0 ? (
           <h2>No classes for the day</h2>
         ) : (
           <Table>
@@ -58,7 +58,7 @@ const ClassViewer = props => {
               </tr>
             </thead>
             <tbody>
-              {currentClasses.map(today => (
+              {currentSessions.map(today => (
                 <SingleClass today={today} key={today.id} />
               ))}
             </tbody>

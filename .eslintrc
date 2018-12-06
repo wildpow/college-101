@@ -3,13 +3,8 @@
     "browser": true,
     "node": true
   },
-  "extends": [
-    "airbnb",
-    "plugin:prettier/recommended"
-  ],
-  "plugins": [
-    "prettier"
-  ],
+  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "plugins": ["prettier"],
   "parser": "babel-eslint",
   "rules": {
     "prettier/prettier": [
@@ -21,28 +16,18 @@
         "usePrettierrc": false
       }
     ],
-    "import/imports-first": [
-      "error",
-      "absolute-first"
-    ],
+    "import/imports-first": ["error", "absolute-first"],
     "import/newline-after-import": "error",
     "react/prop-types": 1,
     "trailingComma": "all",
     "react/jsx-filename-extension": [
       "error",
       {
-        "extensions": [
-          ".js",
-          ".jsx"
-        ]
+        "extensions": [".js", ".jsx"]
       }
     ]
   },
   "settings": {
-    "import/core-modules": [
-      "gatsby",
-      "prop-types",
-      "dotenv"
-    ]
+    "import/core-modules": ["gatsby", "prop-types", "dotenv", "@reach/router"]
   }
 }
