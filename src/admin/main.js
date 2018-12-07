@@ -1,5 +1,7 @@
 import React from "react";
 import { getUser } from "./services/auth";
+import ViewTeacher from "./components/viewTeacher";
+import CreateTeacher from "./components/createTeacher";
 
 const Main = () => {
   const user = getUser();
@@ -17,6 +19,8 @@ const Main = () => {
           {user.id}
         </li>
       </ul>
+
+      <ViewTeacher />
     </>
   );
 };
