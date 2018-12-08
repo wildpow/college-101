@@ -5,9 +5,9 @@ import { isLoggedIn } from "../services/auth";
 class PrivateRoute extends React.Component {
   componentDidMount = () => {
     const { location } = this.props;
-    if (!isLoggedIn() && location.pathname !== `/app/login`) {
+    if (!isLoggedIn() && location.pathname !== `/admin/login`) {
       // If the user is not logged in, redirect to the login page.
-      navigate(`/app/login`);
+      navigate(`/admin/login`);
       return null;
     }
   };

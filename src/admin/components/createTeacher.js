@@ -38,7 +38,7 @@ class CreateTeacher extends React.Component {
 
   userNameExists = () => {
     const userNameArray = this.props.teachers.map(el => el.userName);
-    const a = userNameArray.includes(this.state.userName);
+    const a = userNameArray.includes(this.state.userName.toLowerCase());
     return a;
   };
 
@@ -60,9 +60,9 @@ class CreateTeacher extends React.Component {
                 if (!this.userNameExists()) {
                   createTeacher({
                     variables: {
-                      firstName,
-                      lastName,
-                      userName,
+                      firstName: firstName.toLowerCase(),
+                      lastName: lastName.toLowerCase(),
+                      userName: userName.toLowerCase(),
                     },
                   });
                   this.setState({ userName: "", firstName: "", lastName: "" });

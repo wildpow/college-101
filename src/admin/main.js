@@ -1,13 +1,13 @@
 import React from "react";
 import { getUser } from "./services/auth";
 import ViewTeacher from "./components/viewTeacher";
-import CreateTeacher from "./components/createTeacher";
+// import CreateTeacher from "./components/createTeacher";
 
 const Main = () => {
   const user = getUser();
   return (
     <>
-      {console.log(user)}
+      {/* {console.log(user.app_metadata.roles[0] === "admin")} */}
       <h1>Your Main App</h1>
       <ul>
         <li>
