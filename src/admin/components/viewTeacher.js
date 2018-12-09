@@ -1,8 +1,9 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import CreateTeacher from "./createTeacher";
 import styled from "styled-components";
+
+import CreateTeacher from "./createTeacher";
 
 const CapsLi = styled.li`
   text-transform: capitalize;
@@ -13,6 +14,7 @@ const getTeachers = gql`
       firstName
       lastName
       userName
+      id
     }
   }
 `;
@@ -27,14 +29,12 @@ const ViewTeacher = () => (
           <>
             <h2>Current Teachers</h2>
             <ul>
-              {data.teachers.map(teacher => {
-                return (
-                  <CapsLi>
-                    {`${teacher.firstName} ${teacher.lastName} 
+              {data.teachers.map(teacher => (
+                <CapsLi key={teacher.id}>
+                  {`${teacher.firstName} ${teacher.lastName} 
                     ${teacher.userName}`}
-                  </CapsLi>
-                );
-              })}
+                </CapsLi>
+              ))}
             </ul>
             <CreateTeacher teachers={data.teachers} />
           </>

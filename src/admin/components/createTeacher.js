@@ -66,7 +66,7 @@ class CreateTeacher extends React.Component {
                     },
                   });
                   this.setState({ userName: "", firstName: "", lastName: "" });
-                  return console.log("suggesses");
+                  return console.log("success");
                 }
                 return console.log("UserName already exists");
               }}

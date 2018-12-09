@@ -4,6 +4,7 @@ import { gql } from "apollo-boost";
 import styled from "styled-components";
 // import ClassSize from "./classSize";
 import Enroll from "../enroll";
+import { timeFormat, enrolledNullCheck } from "../../utils/globalFunctions";
 
 const Td = styled.td`
   text-align: center !important;
@@ -18,22 +19,6 @@ const getFreshSession = gql`
     }
   }
 `;
-
-const timeFormat = time => {
-  const timeObject = new Date(time);
-  const options = {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-  const timeString = timeObject.toLocaleString("en-US", options);
-  return timeString;
-};
-
-const enrolledNullCheck = enrolled => {
-  if (enrolled === null) return 0;
-  return enrolled;
-};
 
 const SingleClass = props => {
   const { startTime, endTime, enrolled, id, maxSizeOfClass } = props.today;

@@ -1,7 +1,10 @@
 import React from "react";
+import "react-datepicker/dist/react-datepicker.css";
 import { getUser } from "./services/auth";
 import ViewTeacher from "./components/viewTeacher";
 // import CreateTeacher from "./components/createTeacher";
+import ViewSessions2 from "./components/viewSessions2";
+import Session from "./components/session";
 
 const Main = () => {
   const user = getUser();
@@ -21,6 +24,8 @@ const Main = () => {
       </ul>
 
       <ViewTeacher />
+      <ViewSessions2 />
+      <Session />
     </>
   );
 };
