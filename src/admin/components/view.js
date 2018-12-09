@@ -64,9 +64,7 @@ const View = props => {
             <tbody>
               {currentSessions.map(today => (
                 <tr key={today.id}>
-                  <td>
-                    <td>{today.course ? today.course.name : "No Course"}</td>
-                  </td>
+                  <td>{today.course ? today.course.name : "No Course"}</td>
                   <td>{timeFormat(today.startTime)}</td>
                   <td>{timeFormat(today.endTime)}</td>
                   <Td>
