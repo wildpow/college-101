@@ -7,12 +7,14 @@ import Main from "./pages/main";
 import PrivateRoute from "./components/PrivateRoute";
 import Login from "./pages/login";
 import Teacher from "./pages/teacher";
+import Student from "./pages/students";
 
 const Admin = () => (
   <Layout>
     <Router>
       <PrivateRoute path="/admin/attendance" component={Attendance} />
       <PrivateRoute path="/admin/teacher" component={Teacher} />
+      <PrivateRoute path="/admin/student" component={Student} />
       <PublicRoute path="/admin">
         <PrivateRoute path="/" component={Main} />
         <Login path="/login" />

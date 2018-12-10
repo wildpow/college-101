@@ -54,6 +54,15 @@ const Navbar = props => {
                 main
               </Link>
               <Link
+                to="/admin/student"
+                activeStyle={{
+                  backgroundColor: "#4caf50",
+                  color: "white",
+                }}
+              >
+                student
+              </Link>
+              <Link
                 to="/admin/teacher"
                 activeStyle={{
                   backgroundColor: "#4caf50",

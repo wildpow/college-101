@@ -18,13 +18,15 @@ class FilteredCal extends React.Component {
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
+    const { data } = this.props;
+    const { courseId, teacherId } = this.state;
     return (
       <div>
         <FilterContainer>
           Filter by:
           <select onChange={this.handleChange} name="courseId">
             <option value="0">Select Course</option>
-            {this.props.data.courses.map(course => (
+            {data.courses.map(course => (
               <option key={course.id} value={course.id}>
                 {course.name}
               </option>
@@ -32,7 +34,7 @@ class FilteredCal extends React.Component {
           </select>
           <select onChange={this.handleChange} name="teacherId">
             <option value="0">Select Teacher</option>
-            {this.props.data.teachers.map(teacher => (
+            {data.teachers.map(teacher => (
               <option key={teacher.id} value={teacher.id}>
                 {`${teacher.firstName} 
                   ${teacher.lastName}`}
@@ -40,10 +42,7 @@ class FilteredCal extends React.Component {
             ))}
           </select>
         </FilterContainer>
-        <ViewSessions2
-          courseId={this.state.courseId}
-          teacherId={this.state.teacherId}
-        />
+        <ViewSessions2 courseId={courseId} teacherId={teacherId} />
       </div>
     );
   }

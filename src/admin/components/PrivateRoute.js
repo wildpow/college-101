@@ -10,6 +10,7 @@ class PrivateRoute extends React.Component {
       navigate(`/admin/login`);
       return null;
     }
+    return null;
   };
 
   render() {

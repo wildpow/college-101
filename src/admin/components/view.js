@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { timeFormat, enrolledNullCheck } from "../../utils/globalFunctions";
 
 const Table = styled.table`
@@ -54,6 +55,7 @@ const View = props => {
         return null;
       }
     }
+    return null;
   });
   return (
     <div>
@@ -98,6 +100,12 @@ const View = props => {
       </div>
     </div>
   );
+};
+
+View.propTypes = {
+  courseId: PropTypes.string.isRequired,
+  teacherId: PropTypes.string.isRequired,
+  date: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default View;

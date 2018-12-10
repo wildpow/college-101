@@ -4,7 +4,6 @@ import { gql } from "apollo-boost";
 import DatePicker from "react-datepicker";
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
-import PropTypes from "prop-types";
 
 const ADD_SESSION = gql`
   mutation(
@@ -139,7 +138,5 @@ class CreateSession extends React.Component {
     );
   }
 }
-CreateSession.propTypes = {
-  data: PropTypes.instanceOf(Object).isRequired,
-};
+
 export default CreateSession;

@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import CreateTeacher from "./createTeacher";
 
-const CapsLi = styled.li`
+const CapsSpan = styled.span`
   text-transform: capitalize;
 `;
 const getTeachers = gql`
@@ -30,10 +30,14 @@ const ViewTeacher = () => (
             <h2>Current Teachers</h2>
             <ul>
               {data.teachers.map(teacher => (
-                <CapsLi key={teacher.id}>
-                  {`${teacher.firstName} ${teacher.lastName} 
-                    ${teacher.userName}`}
-                </CapsLi>
+                <li key={teacher.id}>
+                  <CapsSpan>
+                    {`${teacher.firstName} 
+                    ${teacher.lastName} 
+                    `}
+                  </CapsSpan>
+                  {teacher.userName}
+                </li>
               ))}
             </ul>
             <CreateTeacher teachers={data.teachers} />

@@ -1,6 +1,7 @@
 import React from "react";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
+import PropTypes from "prop-types";
 
 const ADD_TEACHER = gql`
   mutation CreateTeacher(
@@ -108,5 +109,9 @@ class CreateTeacher extends React.Component {
     );
   }
 }
+
+CreateTeacher.propTypes = {
+  teachers: PropTypes.instanceOf(Object).isRequired,
+};
 
 export default CreateTeacher;
