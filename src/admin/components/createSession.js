@@ -4,6 +4,7 @@ import { gql } from "apollo-boost";
 import DatePicker from "react-datepicker";
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
+import PropTypes from "prop-types";
 
 const ADD_SESSION = gql`
   mutation(
@@ -44,14 +45,14 @@ class CreateSession extends React.Component {
 
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
 
-  handleDate(date, stuff) {
-    console.log(stuff);
+  handleDate(date, stateName) {
     this.setState({
-      [stuff]: date,
+      [stateName]: date,
     });
   }
 
   render() {
+    const { data } = this.props;
     const {
       startTime,
       endTime,
@@ -67,9 +68,8 @@ class CreateSession extends React.Component {
             <form
               onSubmit={e => {
                 e.preventDefault();
-                console.log(typeof courseId, typeof teacherId);
                 if (teacherId === "-1" && courseId === "-1") {
-                  return console.log("Error");
+                  console.log("Error"); // Error needs to display in input
                 } else {
                   createSession({
                     variables: {
@@ -85,7 +85,7 @@ class CreateSession extends React.Component {
             >
               <select onChange={this.handleChange} name="courseId">
                 <option value={-1}>Select Course</option>
-                {this.props.teacherCourses.courses.map(course => (
+                {data.courses.map(course => (
                   <option key={course.id} value={course.id}>
                     {course.name}
                   </option>
@@ -93,7 +93,7 @@ class CreateSession extends React.Component {
               </select>
               <select onChange={this.handleChange} name="teacherId">
                 <option value={-1}>Select Teacher</option>
-                {this.props.teacherCourses.teachers.map(teacher => (
+                {data.teachers.map(teacher => (
                   <option key={teacher.id} value={teacher.id}>
                     {`${teacher.firstName} 
                   ${teacher.lastName}`}
@@ -139,5 +139,7 @@ class CreateSession extends React.Component {
     );
   }
 }
-
+CreateSession.propTypes = {
+  data: PropTypes.instanceOf(Object).isRequired,
+};
 export default CreateSession;

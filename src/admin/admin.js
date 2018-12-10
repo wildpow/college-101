@@ -2,15 +2,17 @@ import React from "react";
 import { Router } from "@reach/router";
 import Layout from "../components/layout";
 // import NavBar from "./components/NavBar";
-import Attendance from "./attendance";
-import Main from "./main";
+import Attendance from "./pages/attendance";
+import Main from "./pages/main";
 import PrivateRoute from "./components/PrivateRoute";
-import Login from "./login";
+import Login from "./pages/login";
+import Teacher from "./pages/teacher";
 
 const Admin = () => (
   <Layout>
     <Router>
       <PrivateRoute path="/admin/attendance" component={Attendance} />
+      <PrivateRoute path="/admin/teacher" component={Teacher} />
       <PublicRoute path="/admin">
         <PrivateRoute path="/" component={Main} />
         <Login path="/login" />

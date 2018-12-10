@@ -30,7 +30,7 @@ const Td = styled.td`
 `;
 
 const View = props => {
-  const { data, date } = props;
+  const { data, date, courseId, teacherId } = props;
   const currentSessions = [];
   data.sessions.map(session => {
     const testDate = new Date(session.startTime);
@@ -39,9 +39,21 @@ const View = props => {
       date.getDate() === testDate.getDate() &&
       date.getFullYear() === testDate.getFullYear()
     ) {
-      return currentSessions.push(session);
+      if (courseId === "0" && teacherId === "0") {
+        currentSessions.push(session);
+      } else if (
+        courseId === session.course.id &&
+        teacherId === session.teacher.id
+      ) {
+        return currentSessions.push(session);
+      } else if (courseId === session.course.id && teacherId === "0") {
+        return currentSessions.push(session);
+      } else if (courseId === "0" && teacherId === session.teacher.id) {
+        return currentSessions.push(session);
+      } else {
+        return null;
+      }
     }
-    return null;
   });
   return (
     <div>

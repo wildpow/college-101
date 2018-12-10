@@ -54,6 +54,15 @@ const Navbar = props => {
                 main
               </Link>
               <Link
+                to="/admin/teacher"
+                activeStyle={{
+                  backgroundColor: "#4caf50",
+                  color: "white",
+                }}
+              >
+                teacher
+              </Link>
+              <Link
                 to="/admin/attendance"
                 activeStyle={{
                   backgroundColor: "#4caf50",
@@ -125,37 +134,3 @@ const Navbar = props => {
   );
 };
 export default Navbar;
-
-{
-  /* <Link
-          to="/links"
-          activeStyle={{
-            backgroundColor: "#4caf50",
-            color: "white",
-          }}
-        >
-          Helpful Links
-        </Link> */
-}
-{
-  /* <Link
-          to="/pricing"
-          activeStyle={{
-            backgroundColor: "#4caf50",
-            color: "white",
-          }}
-        >
-          Tuition Pricing
-        </Link> */
-}
-{
-  /* <Link
-          to="/sat-act"
-          activeStyle={{
-            backgroundColor: "#4caf50",
-            color: "white",
-          }}
-        >
-          SAT/ACT
-        </Link> */
-}

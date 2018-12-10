@@ -37,8 +37,10 @@ class CreateTeacher extends React.Component {
   }
 
   userNameExists = () => {
-    const userNameArray = this.props.teachers.map(el => el.userName);
-    const a = userNameArray.includes(this.state.userName.toLowerCase());
+    const { teachers } = this.props;
+    const { userName } = this.state;
+    const userNameArray = teachers.map(el => el.userName);
+    const a = userNameArray.includes(userName.toLowerCase());
     return a;
   };
 
@@ -66,9 +68,9 @@ class CreateTeacher extends React.Component {
                     },
                   });
                   this.setState({ userName: "", firstName: "", lastName: "" });
-                  return console.log("success");
+                  return console.log("success"); // placeholder for success massage
                 }
-                return console.log("UserName already exists");
+                return console.log("UserName already exists"); // placeholder for 'User already exists'
               }}
             >
               <input
