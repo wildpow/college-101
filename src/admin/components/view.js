@@ -82,7 +82,8 @@ const View = props => {
                   <td>{timeFormat(today.startTime)}</td>
                   <td>{timeFormat(today.endTime)}</td>
                   <Td>
-                    {`${enrolledNullCheck(today.enrolled)}
+                    {console.log(today)}
+                    {`${today.students.length === 0 ? 0 : today.students.length}
                     / 
                     ${today.maxSizeOfClass}`}
                   </Td>

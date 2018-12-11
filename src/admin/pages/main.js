@@ -1,6 +1,6 @@
 import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
-// import { getUser } from "./services/auth";
+import { getUser } from "../services/auth";
 import styled from "styled-components";
 
 import QueryTeacherCourse from "../queryComponents/all_Teachers_Courses";
@@ -12,10 +12,9 @@ const Container = styled.div`
 `;
 
 const Main = () => {
-  // const user = getUser();
+  const user = getUser();
   return (
     <Container>
-      {/* {console.log(user.app_metadata.roles[0] === "admin")} */}
       {/* <h1>Your Main App</h1>
       <ul>
         <li>

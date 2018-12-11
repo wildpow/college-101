@@ -29,6 +29,11 @@ const getSessions = gql`
         status
         id
       }
+      students {
+        firstName
+        lastName
+        id
+      }
     }
   }
 `;
