@@ -151,6 +151,20 @@ export const LeftSideNav = styled.div`
     color: floralwhite;
     background-color: #2e8b57;
   }
+  h2 {
+    padding: 15px 16px;
+    /* border: 2px solid white; */
+
+    margin-top: 0;
+    margin-bottom: 0;
+    /* margin-left: 20px; */
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: floralwhite;
+    text-align: center;
+    background-color: #4caf50;
+    /* padding: 15px 16px; */
+  }
 `;
 
 export const RightSideNav = styled.div`
@@ -172,7 +186,11 @@ export const RightSideNav = styled.div`
   a:nth-child(3) {
     color: floralwhite;
     background-color: #2e8b57;
-    /* margin-right: 5px; */
+    margin-right: 5px;
+  }
+  a:nth-child(4) {
+    color: floralwhite;
+    background-color: #2e8b57;
   }
   @media (min-width: 768px) {
     display: flex;

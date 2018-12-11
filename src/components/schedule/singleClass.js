@@ -4,54 +4,45 @@ import { gql } from "apollo-boost";
 import styled from "styled-components";
 // import ClassSize from "./classSize";
 import Enroll from "../enroll";
+import { timeFormat, enrolledNullCheck } from "../../utils/globalFunctions";
 
 const Td = styled.td`
   text-align: center !important;
 `;
 
-const getClassSize = gql`
+const getFreshSession = gql`
   query singleClass($uri: ID) {
-    dateSize(where: { id: $uri }) {
+    session(where: { id: $uri }) {
       id
       enrolled
-      classSize
+      maxSizeOfClass
     }
   }
 `;
 
-const timeFormat = time => {
-  const timeObject = new Date(time);
-  const options = {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-  const timeString = timeObject.toLocaleString("en-US", options);
-  return timeString;
-};
-
-const enrolledNullCheck = enrolled => {
-  if (enrolled === null) return 0;
-  return enrolled;
-};
-
 const SingleClass = props => {
-  const { startDate, endDate, enrolled, id, classSize } = props.today;
+  const { startTime, endTime, enrolled, id, maxSizeOfClass } = props.today;
   return (
     <>
       <tr>
-        <td>{props.today.class.name}</td>
-        <td>{timeFormat(startDate)}</td>
-        <td>{timeFormat(endDate)}</td>
+        <td>{props.today.course.name}</td>
+        <td>{timeFormat(startTime)}</td>
+        <td>{timeFormat(endTime)}</td>
 
-        <Query query={getClassSize} variables={{ uri: id }} pollInterval={500}>
+        <Query
+          query={getFreshSession}
+          variables={{ uri: id }}
+          pollInterval={500}
+        >
           {({ loading, error, data }) => {
             if (loading)
               return (
                 <>
-                  <td>{`${enrolledNullCheck(enrolled)} / ${classSize}`}</td>
                   <td>
-                    {enrolled === classSize ? (
+                    {`${enrolledNullCheck(enrolled)} / ${maxSizeOfClass}`}
+                  </td>
+                  <td>
+                    {enrolled === maxSizeOfClass ? (
                       <>FULL</>
                     ) : (
                       <Enroll enrolled={enrolled} id={id} />
@@ -62,9 +53,11 @@ const SingleClass = props => {
             if (error)
               return (
                 <>
-                  <td>{`${enrolledNullCheck(enrolled)} / ${classSize}`}</td>
                   <td>
-                    {enrolled === classSize ? (
+                    {`${enrolledNullCheck(enrolled)} / ${maxSizeOfClass}`}
+                  </td>
+                  <td>
+                    {enrolled === maxSizeOfClass ? (
                       <>FULL</>
                     ) : (
                       <Enroll enrolled={enrolled} id={id} />
@@ -76,15 +69,15 @@ const SingleClass = props => {
               return (
                 <>
                   <Td>
-                    {`${enrolledNullCheck(data.dateSize.enrolled)} / ${
-                      data.dateSize.classSize
+                    {`${enrolledNullCheck(data.session.enrolled)} / ${
+                      data.session.maxSizeOfClass
                     }`}
                   </Td>
                   <td>
-                    {data.dateSize.enrolled === data.dateSize.classSize ? (
+                    {data.session.enrolled === data.session.maxSizeOfClass ? (
                       <>FULL</>
                     ) : (
-                      <Enroll enrolled={data.dateSize.enrolled} id={id} />
+                      <Enroll enrolled={data.session.enrolled} id={id} />
                     )}
                   </td>
                 </>

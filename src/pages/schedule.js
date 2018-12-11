@@ -39,16 +39,16 @@ class Schedule extends React.Component {
 export const ScheduleGraph = graphql`
   query ScheduleGraph {
     gcms {
-      dateSizes {
+      sessions {
         id
-        startDate
-        endDate
+        startTime
+        endTime
         enrolled
-        classSize
-        class {
+        maxSizeOfClass
+        course {
           id
           name
-          descriptionOfClass
+          description
         }
       }
     }
