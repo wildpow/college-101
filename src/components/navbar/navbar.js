@@ -54,6 +54,15 @@ const Navbar = props => {
                 main
               </Link>
               <Link
+                to="/admin/receipts"
+                activeStyle={{
+                  backgroundColor: "#4caf50",
+                  color: "white",
+                }}
+              >
+                receipts
+              </Link>
+              <Link
                 to="/admin/package"
                 activeStyle={{
                   backgroundColor: "#4caf50",

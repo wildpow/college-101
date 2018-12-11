@@ -9,6 +9,7 @@ import Login from "./pages/login";
 import Teachers from "./pages/teachers";
 import Students from "./pages/students";
 import Package from "./pages/package";
+import Receipts from "./pages/receipts";
 
 const Admin = () => (
   <Layout>
@@ -17,6 +18,7 @@ const Admin = () => (
       <PrivateRoute path="/admin/teachers" component={Teachers} />
       <PrivateRoute path="/admin/students" component={Students} />
       <PrivateRoute path="/admin/package" component={Package} />
+      <PrivateRoute path="/admin/receipts" component={Receipts} />
       <PublicRoute path="/admin">
         <PrivateRoute path="/" component={Main} />
         <Login path="/login" />
