@@ -31,9 +31,9 @@ const Td = styled.td`
 `;
 
 const View = props => {
-  const { data, date, courseId, teacherId } = props;
+  const { sessions, date, courseId, teacherId } = props;
   const currentSessions = [];
-  data.sessions.map(session => {
+  sessions.map(session => {
     const testDate = new Date(session.startTime);
     if (
       date.getMonth() === testDate.getMonth() &&
@@ -82,7 +82,6 @@ const View = props => {
                   <td>{timeFormat(today.startTime)}</td>
                   <td>{timeFormat(today.endTime)}</td>
                   <Td>
-                    {console.log(today)}
                     {`${today.students.length === 0 ? 0 : today.students.length}
                     / 
                     ${today.maxSizeOfClass}`}
