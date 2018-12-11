@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 // import CreateSession from "./createSession";
 
-const allTeachersCourses = gql`
+const ALL_TEACHERS_COURSES = gql`
   query all_Teachers_Courses {
     teachers(where: { teachersStatus: Active }) {
       firstName
@@ -18,7 +18,7 @@ const allTeachersCourses = gql`
 `;
 
 const QueryTeacherCourse = props => (
-  <Query query={allTeachersCourses} pollInterval={1000}>
+  <Query query={ALL_TEACHERS_COURSES} pollInterval={1000}>
     {({ loading, error, data }) => {
       if (loading) return <h1>Loading</h1>;
       if (error) return <h1>Error</h1>;

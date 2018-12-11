@@ -63,22 +63,22 @@ const Navbar = props => {
                 package
               </Link>
               <Link
-                to="/admin/student"
+                to="/admin/students"
                 activeStyle={{
                   backgroundColor: "#4caf50",
                   color: "white",
                 }}
               >
-                student
+                students
               </Link>
               <Link
-                to="/admin/teacher"
+                to="/admin/teachers"
                 activeStyle={{
                   backgroundColor: "#4caf50",
                   color: "white",
                 }}
               >
-                teacher
+                teachers
               </Link>
               <Link
                 to="/admin/attendance"
