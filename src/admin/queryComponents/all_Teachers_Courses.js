@@ -9,6 +9,7 @@ const ALL_TEACHERS_COURSES = gql`
       firstName
       lastName
       id
+      userName
     }
     courses {
       name
