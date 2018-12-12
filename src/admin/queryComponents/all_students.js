@@ -4,7 +4,7 @@ import { gql } from "apollo-boost";
 
 const ALL_STUDENTS = gql`
   query allStudents {
-    students: students {
+    students {
       firstName
       lastName
       id
@@ -30,10 +30,10 @@ const ALL_STUDENTS = gql`
 `;
 const QueryStudents = props => (
   <Query query={ALL_STUDENTS}>
-    {({ loading, error, data: { students } }) => {
+    {({ loading, error, data }) => {
       if (loading) return <h1>loading</h1>;
       if (error) return <h1>Error</h1>;
-      if (students) return <props.component students={students} />;
+      if (data) return <props.component data={data} />;
       return null;
     }}
   </Query>

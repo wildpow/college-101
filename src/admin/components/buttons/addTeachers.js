@@ -108,7 +108,7 @@ class AddTeacher extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showModal: true,
+      showModal: false,
       flipCard: "",
     };
     this.handleHide = this.handleHide.bind(this);
@@ -125,18 +125,22 @@ class AddTeacher extends React.Component {
       showModal: false,
     });
   }
+
   handleFlip() {
     this.setState({ flipCard: "rotateY(180deg)" });
   }
 
   render() {
-    const modal = this.state.showModal ? (
+    const { showModal } = this.state;
+    const modal = showModal ? (
       <Modal>
         <ModalContainer>
           <Card>
             <Header>
               <h3>add teacher</h3>
-              <button onClick={this.handleHide}>close</button>
+              <button type="button" onClick={this.handleHide}>
+                close
+              </button>
             </Header>
             <QueryTeacherCourse component={CreateTeacher} />
           </Card>
