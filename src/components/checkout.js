@@ -1,5 +1,7 @@
 import React from "react";
 import uuid from "uuid/v4";
+import Resolve from "./Resolve";
+
 // hardcoded amount (in US cents) to charge users
 // you could set this variable dynamically to charge different amounts
 const amount = 11100;
@@ -36,6 +38,7 @@ class Checkout extends React.Component {
     buttonText: "BUY NOW",
     paymentMessage: "",
     isHidden: false,
+    apiRequest: undefined,
   };
 
   componentDidMount() {
@@ -59,19 +62,43 @@ class Checkout extends React.Component {
       paymentMessage: "",
     });
   };
+  handleResponse = res => {
+    console.log("ppppp", res, res.json());
+    if (res.status != 404) {
+      this.setState({
+        isHidden: true,
+        paymentMessage: "Payment Successful!",
+      });
+    } else {
+      this.setState({
+        isHidden: true,
+        paymentMessage: "Trouble proccessing",
+      });
+    }
+
+    //setTimeout(this.resetButton, 5000)
+    setTimeout(() => {
+      this.setState({
+        disabled: false,
+        buttonText: "BUY NOW",
+        isHidden: false,
+        paymentMessage: "",
+      });
+    }, 3000);
+  };
 
   openStripeCheckout(event) {
     event.preventDefault();
     const idempotency_key = uuid();
 
-    this.setState({ disabled: true, buttonText: "WAITING..." });
+    // this.setState({ disabled: true, buttonText: "WAITING..." });
     this.stripeHandler.open({
       name: name,
       amount: amount,
       description: description,
       billingAddress: true,
       token: token => {
-        fetch(
+        /*fetch(
           "https://bigtony--college101prep.netlify.com/.netlify/functions/purchase",
           {
             method: "POST",
@@ -116,7 +143,35 @@ class Checkout extends React.Component {
           .catch(error => {
             console.error("Error:", error);
             this.setState({ paymentMessage: "Payment Failed" });
-          });
+          });*/
+
+        return (
+          <Resolve
+            promise={fetch("http://localhost:9000/purchase", {
+              method: "POST",
+              // mode: "cors",
+              body: JSON.stringify({
+                token,
+                amount,
+                description,
+                idempotency_key: idempotency_key,
+              }),
+              headers: new Headers({
+                "Content-Type": "application/json",
+              }),
+            })}
+            then={response => {
+              console.log(response);
+
+              this.handleResponse(response);
+            }}
+            catch={() => this.setState({ paymentMessage: "Payment Failed" })}
+            pending={() =>
+              this.setState({ disabled: true, buttonText: "WAITING..." })
+            }
+            //before={() => "type something to make an api call"}
+          />
+        );
       },
     });
   }
