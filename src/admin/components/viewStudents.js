@@ -25,7 +25,7 @@ const Table = styled.table`
 `;
 
 const ViewStudents = props => {
-  const { students } = props;
+  const { data } = props;
   return (
     <div>
       <Table>
@@ -41,7 +41,7 @@ const ViewStudents = props => {
           </tr>
         </thead>
         <tbody>
-          {students.map(student => (
+          {data.students.map(student => (
             <tr key={student.id}>
               <td>{student.firstName}</td>
               <td>{student.lastName}</td>
@@ -49,8 +49,9 @@ const ViewStudents = props => {
                 {student.attendance ? student.attendance.createdbyuser : `none`}
               </td>
               <td>
-                {student.sessions.length !== 0
-                  ? student.sessions.course.name
+                {/* {console.log("length", student.sessions.length)} */}
+                {student.sessions.length >= 1
+                  ? `${student.sessions.length}`
                   : `none`}
               </td>
               <td>

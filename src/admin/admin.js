@@ -10,20 +10,27 @@ import Teachers from "./pages/teachers";
 import Students from "./pages/students";
 import Package from "./pages/package";
 import Receipts from "./pages/receipts";
+import styled from "styled-components";
+
+const Container = styled.div`
+  margin-top: 50px;
+`;
 
 const Admin = () => (
   <Layout>
-    <Router>
-      <PrivateRoute path="/admin/attendance" component={Attendance} />
-      <PrivateRoute path="/admin/teachers" component={Teachers} />
-      <PrivateRoute path="/admin/students" component={Students} />
-      <PrivateRoute path="/admin/package" component={Package} />
-      <PrivateRoute path="/admin/receipts" component={Receipts} />
-      <PublicRoute path="/admin">
-        <PrivateRoute path="/" component={Main} />
-        <Login path="/login" />
-      </PublicRoute>
-    </Router>
+    <Container>
+      <Router>
+        <PrivateRoute path="/admin/attendance" component={Attendance} />
+        <PrivateRoute path="/admin/teachers" component={Teachers} />
+        <PrivateRoute path="/admin/students" component={Students} />
+        <PrivateRoute path="/admin/package" component={Package} />
+        <PrivateRoute path="/admin/receipts" component={Receipts} />
+        <PublicRoute path="/admin">
+          <PrivateRoute path="/" component={Main} />
+          <Login path="/login" />
+        </PublicRoute>
+      </Router>
+    </Container>
   </Layout>
 );
 

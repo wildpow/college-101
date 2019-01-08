@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import ViewSessions2 from "./viewSessions2";
+import ViewSessions from "./viewSessions";
 
 const FilterContainer = styled.div`
   display: flex;
@@ -42,7 +42,7 @@ class FilteredCal extends React.Component {
             ))}
           </select>
         </FilterContainer>
-        <ViewSessions2 courseId={courseId} teacherId={teacherId} />
+        <ViewSessions courseId={courseId} teacherId={teacherId} />
       </div>
     );
   }
