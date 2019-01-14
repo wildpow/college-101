@@ -14,6 +14,17 @@ const Container = styled.div`
   margin-top: 50px;
 `;
 
+export const Card = styled.div`
+  position: absolute;
+  width: 400px;
+  height: 350px;
+  transform-style: preserve-3d;
+  transition: all 0.5s ease;
+`;
+
+const SessionCard = styled(Card)`
+  height: 500px;
+`;
 const Main = () => {
   const user = getUser();
   return (
@@ -35,8 +46,9 @@ const Main = () => {
       {/* <ViewSessions2 /> */}
 
       <QueryTeacherCourse component={FilteredCal} />
-      <QueryTeacherCourse component={CreateSession} />
+      {/* <QueryTeacherCourse component={CreateSession} /> */}
       <Stuff
+        card={SessionCard}
         query={QueryTeacherCourse}
         component={CreateSession}
         header="add session"
@@ -44,6 +56,7 @@ const Main = () => {
         buttonText="add session"
       />
       <Stuff
+        card={Card}
         query={QueryTeacherCourse}
         component={CreateTeacher}
         header="add teacher"

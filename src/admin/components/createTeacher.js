@@ -3,13 +3,24 @@ import styled from "styled-components";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import PropTypes from "prop-types";
+import ErrorMessage from "./errorMessage";
+
+const ErrorWrapper = styled.div`
+  height: 20px;
+  font-family: Verdana, sans-serif;
+  color: red;
+  text-align: center;
+  line-height: 1.4em;
+  margin-bottom: 10px;
+  margin-top: 10px;
+`;
 
 const Button = styled.button`
   display: flex;
   justify-content: center;
   padding: 0.5em 3em;
   border: 0.16em solid green;
-  margin-top: 25px;
+  margin-top: 20px;
   text-decoration: none;
   text-transform: uppercase;
   font-family: Verdana, sans-serif;
@@ -20,6 +31,7 @@ const Button = styled.button`
   background: transparent;
   outline: none;
   cursor: pointer;
+  margin-bottom: 200px;
   &:hover {
     color: #dddddd;
     border-color: #dddddd;
@@ -38,10 +50,12 @@ const Form = styled.form`
   align-items: center;
   padding: 0px 15px 15px 15px;
   height: 100%;
+  margin-top: 20px;
 
   input {
     padding: 10px;
     margin: 5px;
+    width: 80%;
     font-family: Verdana, sans-serif;
   }
 `;
@@ -155,8 +169,11 @@ class CreateTeacher extends React.Component {
                   value={userName}
                   onChange={this.handleChange}
                 />
-                {this.state.error &&
-                  `The User ${this.state.userName} already exists`}
+                <ErrorWrapper>
+                  {this.state.error && (
+                    <ErrorMessage userName={this.state.userName} />
+                  )}
+                </ErrorWrapper>
                 <Button type="submit">Add Teacher</Button>
               </Form>
             </div>

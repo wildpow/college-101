@@ -39,7 +39,7 @@ export const Header = styled.header`
   color: floralwhite;
   h3 {
     padding: 15px 15px 15px 15px;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     letter-spacing: 0.2rem;
     margin: 0;
   }
@@ -51,7 +51,7 @@ export const Header = styled.header`
     color: white;
     outline: none;
     top: 0.1rem;
-    right: 0.3rem;
+    right: 0.93rem;
     padding: 0.3rem;
     font-size: 2.2em;
     height: 1em;
@@ -118,14 +118,6 @@ export const Back = styled.div`
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
 `;
 
-export const Card = styled.div`
-  position: absolute;
-  width: 400px;
-  height: 350px;
-  transform-style: preserve-3d;
-  transition: all 0.5s ease;
-`;
-
 class Stuff extends React.Component {
   constructor(props) {
     super(props);
@@ -158,7 +150,7 @@ class Stuff extends React.Component {
     const modal = this.state.showModal ? (
       <Modal>
         <ModalContainer>
-          <Card
+          <this.props.card
             style={{
               transform: this.state.flipCard,
               WebkitTransform: this.state.flipCard,
@@ -179,7 +171,7 @@ class Stuff extends React.Component {
             <Back onClick={this.handleHide}>
               <h1>{this.props.successMessage}</h1>
             </Back>
-          </Card>
+          </this.props.card>
         </ModalContainer>
       </Modal>
     ) : null;
