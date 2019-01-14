@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import PropTypes from "prop-types";
-import ErrorMessage from "./errorMessage";
 
 const Button = styled.button`
   display: flex;
@@ -77,7 +76,7 @@ class CreateTeacher extends React.Component {
       firstName: "",
       lastName: "",
       userName: "",
-      errorMessage: "",
+      error: false,
     };
   }
 
@@ -86,17 +85,14 @@ class CreateTeacher extends React.Component {
     const { userName } = this.state;
     const userNameArray = data.teachers.map(el => el.userName);
     const a = userNameArray.includes(userName.toLowerCase());
-    console.log("data", data);
-    console.log("filter", a);
-    console.log("userNamearr", userNameArray);
-    if (a) {
-      this.setState({
-        errorMessage: "User already exists",
-      });
-    }
+    // console.log("data", data);
+    // console.log("filter", a);
+    // console.log("userNamearr", userNameArray);
+    return a;
   };
 
-  handleChange = e => this.setState({ [e.target.name]: e.target.value });
+  handleChange = e =>
+    this.setState({ [e.target.name]: e.target.value, error: false });
 
   render() {
     // const userNameArray = this.props.teachers.map(el => el.userName);
@@ -110,7 +106,9 @@ class CreateTeacher extends React.Component {
               <Form
                 onSubmit={e => {
                   e.preventDefault();
-                  if (!this.userNameExists()) {
+                  if (this.userNameExists()) {
+                    this.setState({ error: true });
+                  } else {
                     createTeacher({
                       variables: {
                         firstName: firstName.toLowerCase(),
@@ -118,14 +116,16 @@ class CreateTeacher extends React.Component {
                         userName: userName.toLowerCase(),
                       },
                     });
-                    this.setState({
-                      userName: "",
-                      firstName: "",
-                      lastName: "",
-                    });
-                    return console.log("success"); // placeholder for success massage
+                    this.setState(
+                      {
+                        userName: "",
+                        firstName: "",
+                        lastName: "",
+                      },
+                      this.props.handleFlip(),
+                    );
                   }
-                  return console.log("UserName already exists"); // placeholder for 'User already exists'
+                  return null;
                 }}
               >
                 <input
@@ -155,7 +155,8 @@ class CreateTeacher extends React.Component {
                   value={userName}
                   onChange={this.handleChange}
                 />
-                <ErrorMessage errorMessage={this.state.errorMessage} />
+                {this.state.error &&
+                  `The User ${this.state.userName} already exists`}
                 <Button type="submit">Add Teacher</Button>
               </Form>
             </div>

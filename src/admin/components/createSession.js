@@ -1,10 +1,52 @@
 import React from "react";
+import styled from "styled-components";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import DatePicker from "react-datepicker";
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
 
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  padding: 0.5em 3em;
+  border: 0.16em solid green;
+  margin-top: 25px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: Verdana, sans-serif;
+  font-weight: 400;
+  color: black;
+  text-align: center;
+  transition: all 0.15s;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  &:hover {
+    color: #dddddd;
+    border-color: #dddddd;
+  }
+  &:active {
+    color: #bbbbbb;
+    border-color: #bbbbbb;
+  }
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  padding: 0px 15px 15px 15px;
+  height: 100%;
+
+  input {
+    padding: 10px;
+    margin: 5px;
+    font-family: Verdana, sans-serif;
+  }
+`;
 const ADD_SESSION = gql`
   mutation(
     $startTime: DateTime!
@@ -63,8 +105,7 @@ class CreateSession extends React.Component {
       <Mutation mutation={ADD_SESSION}>
         {createSession => (
           <div>
-            <h2>Create Session</h2>
-            <form
+            <Form
               onSubmit={e => {
                 e.preventDefault();
                 if (teacherId === "-1" && courseId === "-1") {
@@ -130,8 +171,8 @@ class CreateSession extends React.Component {
                 onChange={this.handleChange}
                 name="maxSizeOfClass"
               />
-              <button type="submit">Add Session</button>
-            </form>
+              <Button type="submit">Add Session</Button>
+            </Form>
           </div>
         )}
       </Mutation>
