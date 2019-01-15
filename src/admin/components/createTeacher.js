@@ -2,45 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import ErrorMessage from "./errorMessage";
-
-const ErrorWrapper = styled.div`
-  height: 20px;
-  font-family: Verdana, sans-serif;
-  color: red;
-  text-align: center;
-  line-height: 1.4em;
-  margin-bottom: 10px;
-  margin-top: 10px;
-`;
-
-const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  padding: 0.5em 3em;
-  border: 0.16em solid green;
-  margin-top: 20px;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-family: Verdana, sans-serif;
-  font-weight: 400;
-  color: black;
-  text-align: center;
-  transition: all 0.15s;
-  background: transparent;
-  outline: none;
-  cursor: pointer;
-  margin-bottom: 200px;
-  &:hover {
-    color: #dddddd;
-    border-color: #dddddd;
-  }
-  &:active {
-    color: #bbbbbb;
-    border-color: #bbbbbb;
-  }
-`;
+import { Button, ErrorWrapper } from "./sharedStyles";
 
 const Form = styled.form`
   display: flex;
@@ -183,9 +147,5 @@ class CreateTeacher extends React.Component {
     );
   }
 }
-
-CreateTeacher.propTypes = {
-  teachers: PropTypes.instanceOf(Object).isRequired,
-};
 
 export default CreateTeacher;

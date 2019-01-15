@@ -116,6 +116,7 @@ export const Back = styled.div`
   -o-transform: rotateY(180deg);
   -ms-transform: rotateY(180deg);
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+  font-family: Verdana, sans-serif;
 `;
 
 class Stuff extends React.Component {

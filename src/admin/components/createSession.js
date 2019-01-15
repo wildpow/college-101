@@ -5,42 +5,18 @@ import { gql } from "apollo-boost";
 import DatePicker from "react-datepicker";
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
-
-const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  padding: 0.5em 3em;
-  border: 0.16em solid green;
-  margin-top: 25px;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-family: Verdana, sans-serif;
-  font-weight: 400;
-  color: black;
-  text-align: center;
-  transition: all 0.15s;
-  background: transparent;
-  outline: none;
-  cursor: pointer;
-  &:hover {
-    color: #dddddd;
-    border-color: #dddddd;
-  }
-  &:active {
-    color: #bbbbbb;
-    border-color: #bbbbbb;
-  }
-`;
+import { Button, ErrorWrapper } from "./sharedStyles";
+const CourseSelectWrapper = styled.div``;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center;
   align-content: center;
-  align-items: center;
+  align-items: center; */
   padding: 0px 15px 15px 15px;
   height: 100%;
-  margin-top: 40px;
+
   input {
     padding: 10px;
     margin: 5px;
@@ -109,7 +85,6 @@ class CreateSession extends React.Component {
     } = this.state;
     return (
       <>
-        {console.log(this.state)}
         <Mutation mutation={ADD_SESSION}>
           {createSession => (
             <div>
@@ -144,7 +119,7 @@ class CreateSession extends React.Component {
                     });
                     this.setState(
                       {
-                        teacherid: "-1",
+                        teacherId: "-1",
                         courseId: "-1",
                         maxSizeOfClass: "",
                       },
@@ -153,14 +128,16 @@ class CreateSession extends React.Component {
                   }
                 }}
               >
-                <select onChange={this.handleChange} name="courseId" required>
-                  <option value={-1}>Select Course</option>
-                  {data.courses.map(course => (
-                    <option key={course.id} value={course.id}>
-                      {course.name}
-                    </option>
-                  ))}
-                </select>
+                <CourseSelectWrapper>
+                  <select onChange={this.handleChange} name="courseId" required>
+                    <option value={-1}>Select Course</option>
+                    {data.courses.map(course => (
+                      <option key={course.id} value={course.id}>
+                        {course.name}
+                      </option>
+                    ))}
+                  </select>
+                </CourseSelectWrapper>
                 <select onChange={this.handleChange} name="teacherId" required>
                   <option value={-1}>Select Teacher</option>
                   {data.teachers.map(teacher => (
@@ -201,7 +178,9 @@ class CreateSession extends React.Component {
                   onChange={this.handleMaxClassSize}
                   name="maxSizeOfClass"
                 />
-                {this.state.error && this.state.errorMessage}
+                <ErrorWrapper>
+                  {this.state.error && this.state.errorMessage}
+                </ErrorWrapper>
                 <Button type="submit">Add Session</Button>
               </Form>
             </div>
