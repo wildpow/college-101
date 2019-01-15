@@ -2,34 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import ErrorMessage from "./errorMessage";
-
-const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  padding: 0.5em 3em;
-  border: 0.16em solid green;
-  margin-top: 25px;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-family: Verdana, sans-serif;
-  font-weight: 400;
-  color: black;
-  text-align: center;
-  transition: all 0.15s;
-  background: transparent;
-  outline: none;
-  cursor: pointer;
-  &:hover {
-    color: #dddddd;
-    border-color: #dddddd;
-  }
-  &:active {
-    color: #bbbbbb;
-    border-color: #bbbbbb;
-  }
-`;
+import { Button, ErrorWrapper } from "./sharedStyles";
 
 const Form = styled.form`
   display: flex;
@@ -39,10 +14,12 @@ const Form = styled.form`
   align-items: center;
   padding: 0px 15px 15px 15px;
   height: 100%;
+  margin-top: 20px;
 
   input {
     padding: 10px;
     margin: 5px;
+    width: 80%;
     font-family: Verdana, sans-serif;
   }
 `;
@@ -77,7 +54,7 @@ class CreateTeacher extends React.Component {
       firstName: "",
       lastName: "",
       userName: "",
-      errorMessage: "",
+      error: false,
     };
   }
 
@@ -86,17 +63,14 @@ class CreateTeacher extends React.Component {
     const { userName } = this.state;
     const userNameArray = data.teachers.map(el => el.userName);
     const a = userNameArray.includes(userName.toLowerCase());
-    console.log("data", data);
-    console.log("filter", a);
-    console.log("userNamearr", userNameArray);
-    if (a) {
-      this.setState({
-        errorMessage: "User already exists",
-      });
-    }
+    // console.log("data", data);
+    // console.log("filter", a);
+    // console.log("userNamearr", userNameArray);
+    return a;
   };
 
-  handleChange = e => this.setState({ [e.target.name]: e.target.value });
+  handleChange = e =>
+    this.setState({ [e.target.name]: e.target.value, error: false });
 
   render() {
     // const userNameArray = this.props.teachers.map(el => el.userName);
@@ -110,7 +84,9 @@ class CreateTeacher extends React.Component {
               <Form
                 onSubmit={e => {
                   e.preventDefault();
-                  if (!this.userNameExists()) {
+                  if (this.userNameExists()) {
+                    this.setState({ error: true });
+                  } else {
                     createTeacher({
                       variables: {
                         firstName: firstName.toLowerCase(),
@@ -118,14 +94,16 @@ class CreateTeacher extends React.Component {
                         userName: userName.toLowerCase(),
                       },
                     });
-                    this.setState({
-                      userName: "",
-                      firstName: "",
-                      lastName: "",
-                    });
-                    return console.log("success"); // placeholder for success massage
+                    this.setState(
+                      {
+                        userName: "",
+                        firstName: "",
+                        lastName: "",
+                      },
+                      this.props.handleFlip(),
+                    );
                   }
-                  return console.log("UserName already exists"); // placeholder for 'User already exists'
+                  return null;
                 }}
               >
                 <input
@@ -155,7 +133,11 @@ class CreateTeacher extends React.Component {
                   value={userName}
                   onChange={this.handleChange}
                 />
-                <ErrorMessage errorMessage={this.state.errorMessage} />
+                <ErrorWrapper>
+                  {this.state.error && (
+                    <ErrorMessage userName={this.state.userName} />
+                  )}
+                </ErrorWrapper>
                 <Button type="submit">Add Teacher</Button>
               </Form>
             </div>
@@ -165,9 +147,5 @@ class CreateTeacher extends React.Component {
     );
   }
 }
-
-CreateTeacher.propTypes = {
-  teachers: PropTypes.instanceOf(Object).isRequired,
-};
 
 export default CreateTeacher;

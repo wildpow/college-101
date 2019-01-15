@@ -1,10 +1,11 @@
 import React from "react";
 
-const ErrorMessage = props => {
-  const { errorMessage } = props;
-  if (errorMessage === undefined) return "";
-  if (errorMessage.length > 0) return `${errorMessage}`;
-  return null;
-};
+const ErrorMessage = props => (
+  <>
+    {`The User ${props.userName}`}
+    <br />
+    already exists!
+  </>
+);
 
 export default ErrorMessage;
