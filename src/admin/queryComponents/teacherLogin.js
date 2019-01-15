@@ -35,15 +35,17 @@ const TEACHER = gql`
   }
 `;
 
-const TeacherLogin = ({ userName }) => (
-  <Query query={TEACHER} variables={{ userName }}>
-    {({ loading, error, data }) => {
-      if (loading) return <h1>loading</h1>;
-      if (error) return <h1>Error</h1>;
-      if (data) return <checkPropTypes.component data={data} {...props} />;
-      return null;
-    }}
-  </Query>
-);
-
+const TeacherLogin = props => {
+  const { userName } = props;
+  return (
+    <Query query={TEACHER} variables={{ userName }}>
+      {({ loading, error, data }) => {
+        if (loading) return <h1>loading</h1>;
+        if (error) return <h1>Error</h1>;
+        if (data) return <props.component data={data} {...props} />;
+        return null;
+      }}
+    </Query>
+  );
+};
 export default TeacherLogin;
