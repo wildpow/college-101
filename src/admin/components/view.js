@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { timeFormat, enrolledNullCheck } from "../../utils/globalFunctions";
+import { timeFormat } from "../../utils/globalFunctions";
 
 const Table = styled.table`
   font-family: Arial, Helvetica, sans-serif;

@@ -1,34 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Modal from "./portal";
-// import QueryTeacherCourse from "../../queryComponents/all_Teachers_Courses";
-// import CreateTeacher from "../createTeacher";
-const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  padding: 0.5em 3em;
-  border: 0.16em solid green;
-  /* margin-right: 10px; */
-  margin-top: 10px;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-family: Verdana, sans-serif;
-  font-weight: 400;
-  color: black;
-  text-align: center;
-  transition: all 0.15s;
-  background: transparent;
-  outline: none;
-  cursor: pointer;
-  &:hover {
-    color: #dddddd;
-    border-color: #dddddd;
-  }
-  &:active {
-    color: #bbbbbb;
-    border-color: #bbbbbb;
-  }
-`;
+import PropTypes from "prop-types";
+import Modal from "./modal";
+import { Button } from "../sharedStyles";
+
 export const Header = styled.header`
   display: flex;
   justify-content: space-between;
@@ -119,7 +94,22 @@ export const Back = styled.div`
   font-family: Verdana, sans-serif;
 `;
 
-class Stuff extends React.Component {
+class FeatureWrapper extends React.Component {
+  static propTypes = {
+    header: PropTypes.string,
+    buttonText: PropTypes.string,
+    successMessage: PropTypes.string,
+    component: PropTypes.func.isRequired,
+    Card: PropTypes.instanceOf(Object).isRequired,
+    Query: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    header: "Modal Header Text",
+    buttonText: "submit button text",
+    successMessage: "Default successful submittion text",
+  };
+
   constructor(props) {
     super(props);
 
@@ -148,31 +138,37 @@ class Stuff extends React.Component {
   }
 
   render() {
-    const modal = this.state.showModal ? (
+    const { showModal, flipCard } = this.state;
+    const {
+      header,
+      component,
+      successMessage,
+      buttonText,
+      Card,
+      Query,
+    } = this.props;
+    const modal = showModal ? (
       <Modal>
         <ModalContainer>
-          <this.props.card
+          <Card
             style={{
-              transform: this.state.flipCard,
-              WebkitTransform: this.state.flipCard,
+              transform: flipCard,
+              WebkitTransform: flipCard,
             }}
           >
             <Front>
               <Header>
-                <h3>{this.props.header}</h3>
+                <h3>{header}</h3>
                 <button type="button" onClick={this.handleHide}>
                   close
                 </button>
               </Header>
-              <this.props.query
-                component={this.props.component}
-                handleFlip={this.handleFlip}
-              />
+              <Query component={component} handleFlip={this.handleFlip} />
             </Front>
             <Back onClick={this.handleHide}>
-              <h1>{this.props.successMessage}</h1>
+              <h1>{successMessage}</h1>
             </Back>
-          </this.props.card>
+          </Card>
         </ModalContainer>
       </Modal>
     ) : null;
@@ -180,7 +176,7 @@ class Stuff extends React.Component {
       <>
         <div>
           <Button onClick={this.handleShow} type="button">
-            {this.props.buttonText}
+            {buttonText}
           </Button>
         </div>
         {modal}
@@ -189,4 +185,4 @@ class Stuff extends React.Component {
   }
 }
 
-export default Stuff;
+export default FeatureWrapper;

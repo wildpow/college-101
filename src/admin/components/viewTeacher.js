@@ -3,8 +3,6 @@ import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 import styled from "styled-components";
 
-import CreateTeacher from "./createTeacher";
-
 const CapsSpan = styled.span`
   text-transform: capitalize;
 `;
@@ -40,7 +38,6 @@ const ViewTeacher = () => (
                 </li>
               ))}
             </ul>
-            <CreateTeacher teachers={data.teachers} />
           </>
         );
       return null;

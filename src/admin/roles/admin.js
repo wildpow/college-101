@@ -3,7 +3,7 @@ import styled from "styled-components";
 import QueryTeacherCourse from "../queryComponents/all_Teachers_Courses";
 import CreateSession from "../components/createSession";
 import FilteredCal from "../components/filterCal";
-import Stuff from "../components/buttons/test";
+import FeatureWrapper from "../components/buttons/featureWrapper";
 import CreateTeacher from "../components/createTeacher";
 
 const Card = styled.div`
@@ -21,18 +21,17 @@ const Admin = ({ userName }) => {
   return (
     <>
       <QueryTeacherCourse component={FilteredCal} />
-      {/* <QueryTeacherCourse component={CreateSession} /> */}
-      <Stuff
-        card={SessionCard}
-        query={QueryTeacherCourse}
+      <FeatureWrapper
+        Card={SessionCard}
+        Query={QueryTeacherCourse}
         component={CreateSession}
         header="add session"
         successMessage="Session was created successfully"
         buttonText="add session"
       />
-      <Stuff
-        card={Card}
-        query={QueryTeacherCourse}
+      <FeatureWrapper
+        Card={Card}
+        Query={QueryTeacherCourse}
         component={CreateTeacher}
         header="add teacher"
         successMessage="Teacher was added successfully"
