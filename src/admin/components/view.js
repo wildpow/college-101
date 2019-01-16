@@ -43,30 +43,18 @@ const View = props => {
       if (courseId === "0" && teacherId === "0") {
         currentSessions.push(session);
       }
-      if (session.teacher === null) {
-        if (courseId === session.course.id && teacherId === "0") {
-          currentSessions.push(session);
-        } else if (courseId === session.course.id && teacherId === "-1") {
-          currentSessions.push(session);
-        } else if (courseId === "0" && teacherId === "-1") {
-          currentSessions.push(session);
-        }
+      if (courseId === session.course.id && teacherId === "0") {
+        currentSessions.push(session);
+      } else if (
+        courseId === session.course.id &&
+        teacherId === session.teacher.id
+      ) {
+        currentSessions.push(session);
+      } else if (courseId === "0" && teacherId === session.teacher.id) {
+        currentSessions.push(session);
+      } else {
+        return null;
       }
-      if (session.teacher !== null) {
-        if (
-          courseId === session.course.id &&
-          teacherId === session.teacher.id
-        ) {
-          currentSessions.push(session);
-        } else if (courseId === session.course.id && teacherId === "0") {
-          currentSessions.push(session);
-        } else if (courseId === "0" && teacherId === session.teacher.id) {
-          currentSessions.push(session);
-        } else {
-          return null;
-        }
-      }
-      return null;
     }
     return null;
   });
@@ -100,10 +88,12 @@ const View = props => {
                     ${today.maxSizeOfClass}`}
                   </Td>
                   <td>
+                    {/* placeholder for change teacher button */}
                     {today.teacher
                       ? `${today.teacher.firstName} ${today.teacher.lastName}`
                       : "no teacher"}
                   </td>
+                  {/* placeholder for take attendance button */}
                   <td>{today.attendance ? "taken" : "none"}</td>
                 </tr>
               ))}
