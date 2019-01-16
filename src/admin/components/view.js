@@ -42,18 +42,31 @@ const View = props => {
     ) {
       if (courseId === "0" && teacherId === "0") {
         currentSessions.push(session);
-      } else if (
-        courseId === session.course.id &&
-        teacherId === session.teacher.id
-      ) {
-        return currentSessions.push(session);
-      } else if (courseId === session.course.id && teacherId === "0") {
-        return currentSessions.push(session);
-      } else if (courseId === "0" && teacherId === session.teacher.id) {
-        return currentSessions.push(session);
-      } else {
-        return null;
       }
+      if (session.teacher === null) {
+        if (courseId === session.course.id && teacherId === "0") {
+          currentSessions.push(session);
+        } else if (courseId === session.course.id && teacherId === "-1") {
+          currentSessions.push(session);
+        } else if (courseId === "0" && teacherId === "-1") {
+          currentSessions.push(session);
+        }
+      }
+      if (session.teacher !== null) {
+        if (
+          courseId === session.course.id &&
+          teacherId === session.teacher.id
+        ) {
+          currentSessions.push(session);
+        } else if (courseId === session.course.id && teacherId === "0") {
+          currentSessions.push(session);
+        } else if (courseId === "0" && teacherId === session.teacher.id) {
+          currentSessions.push(session);
+        } else {
+          return null;
+        }
+      }
+      return null;
     }
     return null;
   });
