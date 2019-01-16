@@ -5,7 +5,7 @@ import { gql } from "apollo-boost";
 
 const ALL_TEACHERS_COURSES = gql`
   query all_Teachers_Courses {
-    teachers(where: { teachersStatus: Active }) {
+    teachers(where: { teachersStatus: Active }, orderBy: firstName_ASC) {
       firstName
       lastName
       id
