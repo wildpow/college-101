@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { timeFormat } from "../../../utils/globalFunctions";
+import TakeAttendance from "./takeAttendance";
 
 const Table = styled.table`
   font-family: Arial, Helvetica, sans-serif;
@@ -44,6 +45,8 @@ const ClassView = ({ sessions, date }) => {
   });
   return (
     <div>
+      {console.log(sessions)}
+
       <h1>{`Current Classes for ${date.toDateString()}`}</h1>
       <div>
         {currentSessions.length === 0 ? (
@@ -72,7 +75,13 @@ const ClassView = ({ sessions, date }) => {
                   </Td>
 
                   {/* placeholder for take attendance button */}
-                  <td>{today.attendance ? "taken" : "none"}</td>
+                  <td>
+                    {today.attendance ? (
+                      <button type="button">view</button>
+                    ) : (
+                      <TakeAttendance />
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
