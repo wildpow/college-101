@@ -19,11 +19,11 @@ class TeacherCal extends React.Component {
 
   render() {
     const { date } = this.state;
-    const { sessions } = this.props;
+    const { sessions, teacher } = this.props;
     return (
       <>
         <DatePicker selected={date} onChange={this.handleChange} />
-        <ClassView date={date} sessions={sessions} />
+        <ClassView date={date} sessions={sessions} teacher={teacher} />
       </>
     );
   }

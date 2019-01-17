@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Modal from "../../components/buttons/modal";
 import { Button } from "../../components/sharedStyles";
+import CreateAttendance from "./createAttendance";
 
 const Card = styled.div`
   position: absolute;
@@ -132,6 +133,7 @@ class TakeAttendance extends React.Component {
   }
 
   render() {
+    const { session, teacher } = this.props;
     const { showModal, flipCard } = this.state;
     const modal = showModal ? (
       <Modal>
@@ -149,8 +151,7 @@ class TakeAttendance extends React.Component {
                   close
                 </button>
               </Header>
-              {/* place holder text */}
-              <h1>stuff goes here</h1>
+              <CreateAttendance session={session} teacher={teacher} />
             </Front>
             <Back onClick={this.handleHide}>Success!!!!!!</Back>
           </Card>

@@ -30,7 +30,7 @@ const Td = styled.td`
   text-align: center !important;
 `;
 
-const ClassView = ({ sessions, date }) => {
+const ClassView = ({ sessions, date, teacher }) => {
   const currentSessions = [];
   sessions.map(session => {
     const testDate = new Date(session.startTime);
@@ -45,8 +45,6 @@ const ClassView = ({ sessions, date }) => {
   });
   return (
     <div>
-      {console.log(sessions)}
-
       <h1>{`Current Classes for ${date.toDateString()}`}</h1>
       <div>
         {currentSessions.length === 0 ? (
@@ -79,7 +77,7 @@ const ClassView = ({ sessions, date }) => {
                     {today.attendance ? (
                       <button type="button">view</button>
                     ) : (
-                      <TakeAttendance />
+                      <TakeAttendance session={today} teacher={teacher} />
                     )}
                   </td>
                 </tr>

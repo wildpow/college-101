@@ -9,7 +9,10 @@ const Employee = props => {
     return <h1>You have no scheduled classes</h1>;
   return (
     <>
-      <TeacherCal sessions={data.teacher.sessions} />
+      <TeacherCal
+        sessions={data.teacher.sessions}
+        teacher={data.teacher.userName}
+      />
       <h1>{`Welcome ${data.teacher.firstName} ${data.teacher.lastName}`}</h1>
     </>
   );
