@@ -63,9 +63,6 @@ class CreateTeacher extends React.Component {
     const { userName } = this.state;
     const userNameArray = data.teachers.map(el => el.userName);
     const a = userNameArray.includes(userName.toLowerCase());
-    // console.log("data", data);
-    // console.log("filter", a);
-    // console.log("userNamearr", userNameArray);
     return a;
   };
 

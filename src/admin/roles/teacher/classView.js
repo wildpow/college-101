@@ -71,8 +71,6 @@ const ClassView = ({ sessions, date, teacher }) => {
                     / 
                     ${today.maxSizeOfClass}`}
                   </Td>
-
-                  {/* placeholder for take attendance button */}
                   <td>
                     {today.attendance ? (
                       <button type="button">view</button>

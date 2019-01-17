@@ -1,6 +1,39 @@
 import React from "react";
+import styled from "styled-components";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
+import { Button } from "../../components/sharedStyles";
+
+const NewButton = styled(Button)`
+  margin-top: 5px;
+`;
+const TableWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+const Table = styled.table`
+  font-family: Arial, Helvetica, sans-serif;
+
+  /* max-width: 800px; */
+  border: 1px solid black;
+  border-collapse: collapse;
+  & th,
+  td {
+    padding: 15px;
+    text-align: left;
+  }
+  th {
+    background-color: black;
+    color: white;
+  }
+  tr:nth-child(even) {
+    background-color: #eee !important;
+  }
+  tr:nth-child(odd) {
+    background-color: #fff !important;
+  }
+`;
 
 const ADD_ATTENDANCE = gql`
   mutation(
@@ -30,10 +63,14 @@ class CreateAttendance extends React.Component {
     super(props);
     this.state = {
       presentStudents: [],
-      extraStudents: [],
+      extraStudentsArr: [],
       notes: "",
+      inputExtraStudents: "",
     };
     this.handleStudent = this.handleStudent.bind(this);
+    this.handleExtraStudents = this.handleExtraStudents.bind(this);
+    this.submitExtraStudent = this.submitExtraStudent.bind(this);
+    this.removeExtra = this.removeExtra.bind(this);
   }
 
   handleStudent(e) {
@@ -57,15 +94,40 @@ class CreateAttendance extends React.Component {
         presentStudents: updateStudent,
       });
     }
-    console.log("event", e);
-    console.log("present students", this.state.presentStudents);
-    console.log("enrolled students", enrolledStudents);
-    console.log(present);
+  }
+
+  handleExtraStudents(e) {
+    this.setState({
+      inputExtraStudents: e.target.value,
+    });
+  }
+
+  submitExtraStudent() {
+    const extraStudents = this.state.inputExtraStudents;
+    const extraArr = this.state.extraStudentsArr;
+    extraArr.push(extraStudents);
+    this.setState({
+      extraStudentsArr: extraArr,
+      inputExtraStudents: "",
+    });
+  }
+
+  removeExtra(e) {
+    let extraArrCopy = this.state.extraStudentsArr;
+    extraArrCopy.splice(e.target.value, 1);
+    this.setState({
+      extraStudentsArr: extraArrCopy,
+    });
   }
 
   render() {
     const { teacher, session } = this.props;
-    const { presentStudents } = this.state;
+    const {
+      presentStudents,
+      notes,
+      extraStudentsArr,
+      inputExtraStudents,
+    } = this.state;
     return (
       <>
         <Mutation mutation={ADD_ATTENDANCE}>
@@ -79,35 +141,100 @@ class CreateAttendance extends React.Component {
                   fomatStudents.push(itemObj);
                   return null;
                 });
+                const formatExtraStudents = {
+                  set: this.state.extraStudentsArr,
+                };
                 createAttendance({
                   variables: {
                     sessionId: session.id,
                     userName: teacher,
                     students: fomatStudents,
-                    notes: "",
+                    notes,
+                    extraStudents: formatExtraStudents,
                   },
                 });
+                this.props.handleFlip();
               }}
             >
               {session.students.length === 0 ? (
                 <h1>No students are enrolled in this class</h1>
               ) : (
-                <ul>
-                  {session.students.map(student => {
-                    return (
-                      <li key={student.id}>
-                        <input
-                          type="checkbox"
-                          onChange={this.handleStudent}
-                          value={student.id}
-                        />
-                        {`${student.firstName} ${student.lastName}`}
-                      </li>
-                    );
-                  })}
-                </ul>
+                <TableWrapper>
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Student</th>
+                        <th>Present?</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {session.students.map(student => {
+                        return (
+                          <tr key={student.id}>
+                            <td>
+                              {" "}
+                              {`${student.firstName} ${student.lastName}`}
+                            </td>
+                            <td>
+                              <input
+                                type="checkbox"
+                                onChange={this.handleStudent}
+                                value={student.id}
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                  <div>
+                    <h3>Extra Students?</h3>
+                    <input
+                      type="text"
+                      placeholder="enter first and last name"
+                      value={inputExtraStudents}
+                      onChange={this.handleExtraStudents}
+                    />
+                    {inputExtraStudents.length === 0 ? (
+                      <button
+                        disabled
+                        type="button"
+                        onClick={this.handleExtraStudents}
+                      >
+                        add
+                      </button>
+                    ) : (
+                      <button type="button" onClick={this.submitExtraStudent}>
+                        add
+                      </button>
+                    )}
+                    <ul>
+                      {extraStudentsArr.map((student, index) => {
+                        const count = index;
+                        return (
+                          <>
+                            <li key={count}>
+                              {student}
+                              <button
+                                value={count}
+                                onClick={this.removeExtra}
+                                type="button"
+                              >
+                                remove
+                              </button>
+                            </li>
+                          </>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                  <div>
+                    <h3>Notes</h3>
+                    <textarea />
+                  </div>
+                  <NewButton type="submit">Save</NewButton>
+                </TableWrapper>
               )}
-              <button type="submit">Save</button>
             </form>
           )}
         </Mutation>

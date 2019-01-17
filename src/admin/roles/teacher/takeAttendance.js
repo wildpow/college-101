@@ -8,7 +8,7 @@ import CreateAttendance from "./createAttendance";
 const Card = styled.div`
   position: absolute;
   width: 400px;
-  height: 350px;
+  height: 550px;
   transform-style: preserve-3d;
   transition: all 0.5s ease;
 `;
@@ -151,8 +151,13 @@ class TakeAttendance extends React.Component {
                   close
                 </button>
               </Header>
-              <CreateAttendance session={session} teacher={teacher} />
+              <CreateAttendance
+                handleFlip={this.handleFlip}
+                session={session}
+                teacher={teacher}
+              />
             </Front>
+
             <Back onClick={this.handleHide}>Success!!!!!!</Back>
           </Card>
         </ModalContainer>
@@ -164,6 +169,7 @@ class TakeAttendance extends React.Component {
           <NewButton onClick={this.handleShow} type="button">
             Take Attendance
           </NewButton>
+          {console.log(this.state)}
         </div>
         {modal}
       </>
