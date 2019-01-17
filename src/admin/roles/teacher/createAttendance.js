@@ -7,7 +7,7 @@ const ADD_ATTENDANCE = gql`
     $sessionId: ID
     $userName: String
     $students: [StudentWhereUniqueInput!]
-    $extraStudents: [String!]
+    $extraStudents: AttendanceCreateextraStudentsInput
     $notes: String!
   ) {
     createAttendance(
@@ -65,6 +65,7 @@ class CreateAttendance extends React.Component {
 
   render() {
     const { teacher, session } = this.props;
+    const { presentStudents } = this.state;
     return (
       <>
         <Mutation mutation={ADD_ATTENDANCE}>
@@ -72,6 +73,20 @@ class CreateAttendance extends React.Component {
             <form
               onSubmit={e => {
                 e.preventDefault();
+                const fomatStudents = [];
+                presentStudents.map(item => {
+                  const itemObj = { id: item };
+                  fomatStudents.push(itemObj);
+                  return null;
+                });
+                createAttendance({
+                  variables: {
+                    sessionId: session.id,
+                    userName: teacher,
+                    students: fomatStudents,
+                    notes: "",
+                  },
+                });
               }}
             >
               {session.students.length === 0 ? (
@@ -92,10 +107,10 @@ class CreateAttendance extends React.Component {
                   })}
                 </ul>
               )}
+              <button type="submit">Save</button>
             </form>
           )}
         </Mutation>
-        {console.log("present students", this.state.presentStudents)}
       </>
     );
   }
