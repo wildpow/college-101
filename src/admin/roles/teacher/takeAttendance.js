@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import Modal from "../../components/buttons/modal";
 import { Button } from "../../components/sharedStyles";
 import CreateAttendance from "./createAttendance";
@@ -166,10 +166,13 @@ class TakeAttendance extends React.Component {
     return (
       <>
         <div>
-          <NewButton onClick={this.handleShow} type="button">
-            Take Attendance
-          </NewButton>
-          {console.log(this.state)}
+          {session.attendance ? (
+            <button type="button">view</button>
+          ) : (
+            <NewButton onClick={this.handleShow} type="button">
+              Take Attendance
+            </NewButton>
+          )}
         </div>
         {modal}
       </>

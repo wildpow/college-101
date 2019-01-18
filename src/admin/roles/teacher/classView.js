@@ -72,11 +72,7 @@ const ClassView = ({ sessions, date, teacher }) => {
                     ${today.maxSizeOfClass}`}
                   </Td>
                   <td>
-                    {today.attendance ? (
-                      <button type="button">view</button>
-                    ) : (
-                      <TakeAttendance session={today} teacher={teacher} />
-                    )}
+                    <TakeAttendance session={today} teacher={teacher} />
                   </td>
                 </tr>
               ))}
