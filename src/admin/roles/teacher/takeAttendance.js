@@ -8,7 +8,7 @@ import CreateAttendance from "./createAttendance";
 const Card = styled.div`
   position: absolute;
   width: 400px;
-  height: 550px;
+  height: 650px;
   transform-style: preserve-3d;
   transition: all 0.5s ease;
 `;
