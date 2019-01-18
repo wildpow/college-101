@@ -1,5 +1,6 @@
 import React from "react";
 import { Router } from "@reach/router";
+import styled from "styled-components";
 import Layout from "../components/layout";
 // import NavBar from "./components/NavBar";
 import Attendance from "./pages/attendance";
@@ -10,7 +11,6 @@ import Teachers from "./pages/teachers";
 import Students from "./pages/students";
 import Package from "./pages/package";
 import Receipts from "./pages/receipts";
-import styled from "styled-components";
 
 const Container = styled.div`
   margin-top: 50px;

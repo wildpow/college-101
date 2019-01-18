@@ -34,7 +34,6 @@ class FilteredCal extends React.Component {
           </select>
           <select onChange={this.handleChange} name="teacherId">
             <option value="0">Select Teacher</option>
-            <option value="-1">No Teacher</option>
             {data.teachers.map(teacher => (
               <option key={teacher.id} value={teacher.id}>
                 {`${teacher.firstName} 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import { checkPropTypes } from "prop-types";
+import Spinner from "../components/loading";
 
 const TEACHER = gql`
   query findTeacher($userName: String!) {
@@ -12,11 +12,14 @@ const TEACHER = gql`
       sessions {
         course {
           name
+          id
         }
         id
         attendance {
           students {
             firstName
+            lastName
+            id
           }
           id
           status
@@ -27,6 +30,7 @@ const TEACHER = gql`
         enrolled
         maxSizeOfClass
         students {
+          id
           firstName
           lastName
         }
@@ -38,9 +42,9 @@ const TEACHER = gql`
 const TeacherLogin = props => {
   const { userName } = props;
   return (
-    <Query query={TEACHER} variables={{ userName }}>
+    <Query query={TEACHER} variables={{ userName }} pollInterval={1000}>
       {({ loading, error, data }) => {
-        if (loading) return <h1>loading</h1>;
+        if (loading) return <Spinner />;
         if (error) return <h1>Error</h1>;
         if (data) return <props.component data={data} {...props} />;
         return null;
