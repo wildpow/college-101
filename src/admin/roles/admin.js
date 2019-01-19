@@ -5,6 +5,7 @@ import CreateSession from "../components/createSession";
 import FilteredCal from "../components/filterCal";
 import FeatureWrapper from "../components/buttons/featureWrapper";
 import CreateTeacher from "../components/createTeacher";
+import CreateSession2 from "../components/createSession2";
 
 const Card = styled.div`
   position: absolute;
@@ -37,6 +38,7 @@ const Admin = ({ userName }) => {
         successMessage="Teacher was added successfully"
         buttonText="add teacher"
       />
+      <CreateSession2 />
     </>
   );
 };
