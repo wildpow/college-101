@@ -1,7 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { Box, Button, Grommet, Layer, Heading, Select, Text } from "grommet";
-import { Add, Close, FormClose, StatusGood, Trash } from "grommet-icons";
+import {
+  Box,
+  Button,
+  Grommet,
+  Layer,
+  Heading,
+  Select,
+  Text,
+  DropButton,
+  Calendar,
+} from "grommet";
+import { Add, Close, FormDown, StatusGood, Trash } from "grommet-icons";
 import { grommet } from "grommet/themes";
 
 const ErrorText = styled(Text)`
@@ -16,6 +26,8 @@ class CreateSession extends React.Component {
     selectedCourse: "",
     teacherError: false,
     courseError: false,
+    startDateOpen: false,
+    startDate: undefined,
   };
 
   componentDidMount() {
@@ -32,6 +44,9 @@ class CreateSession extends React.Component {
     });
   }
 
+  startTimeSelect = date =>
+    this.setState({ startDate: date, startDateOpen: false });
+
   onOpen = () => this.setState({ LayerOpen: true });
 
   onClose = () => this.setState({ LayerOpen: undefined });
@@ -45,6 +60,8 @@ class CreateSession extends React.Component {
       selectedCourse,
       teacherError,
       courseError,
+      startDateOpen,
+      startDate,
     } = this.state;
     const { data } = this.props;
     const teachersNamesCopy = [];
@@ -77,10 +94,11 @@ class CreateSession extends React.Component {
               onEsc={this.onClose}
             >
               <Box
+                // gap="medium"
                 as="form"
                 fill="vertical"
                 overflow="auto"
-                width="medium"
+                width="large"
                 pad="medium"
                 onSubmit={event => {
                   event.preventDefault();
@@ -179,16 +197,46 @@ class CreateSession extends React.Component {
                       }
                       options={teacherOptions}
                     />
-                    {teacherError && (
-                      <Text
-                        alignSelf="center"
-                        margin="xsmall"
-                        size="medium"
-                        color="status-critical"
+                    <ErrorText
+                      alignSelf="center"
+                      margin="xsmall"
+                      size="medium"
+                      color="status-critical"
+                    >
+                      {teacherError && `Please select a Teacher`}
+                    </ErrorText>
+                  </Box>
+
+                  <Box align="start">
+                    <Text alignSelf="start" margin="xsmall" size="large">
+                      Start Date
+                    </Text>
+                    <DropButton
+                      open={startDateOpen}
+                      onClose={() => this.setState({ startDateOpen: false })}
+                      onOpen={() => this.setState({ startDateOpen: true })}
+                      dropContent={
+                        <Calendar
+                          date={startDate}
+                          onSelect={this.startTimeSelect}
+                          size="medium"
+                        />
+                      }
+                    >
+                      <Box
+                        direction="row"
+                        // gap="medium"
+                        align="center"
+                        pad="small"
                       >
-                        Please select a Teacher
-                      </Text>
-                    )}
+                        <Text>
+                          {startDate
+                            ? new Date(startDate).toLocaleDateString()
+                            : "Select Date"}
+                        </Text>
+                        <FormDown color="brand" />
+                      </Box>
+                    </DropButton>
                   </Box>
                 </Box>
                 <Box
