@@ -38,7 +38,7 @@ const Admin = ({ userName }) => {
         successMessage="Teacher was added successfully"
         buttonText="add teacher"
       />
-      <CreateSession2 />
+      <QueryTeacherCourse component={CreateSession2} />
     </>
   );
 };
