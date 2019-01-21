@@ -1,5 +1,5 @@
 import React from "react";
-import { format, formatDistance, formatRelative, subDays } from "date-fns";
+import { addDays } from "date-fns";
 import styled from "styled-components";
 import { hpe } from "grommet-theme-hpe";
 import { Mutation } from "react-apollo";
@@ -70,7 +70,7 @@ class CreateSession extends React.Component {
     teacherError: false,
     courseError: false,
     startDateOpen: false,
-    startDate: new Date(),
+    startDate: undefined,
     endDateOpen: false,
     endDate: new Date(),
     maxSizeOfClass: 1,
@@ -82,16 +82,18 @@ class CreateSession extends React.Component {
     const { data } = this.props;
     const teachersNames = [];
     const courseNames = [];
+    const date = new Date();
     data.teachers.map(teacher =>
       teachersNames.push(`${teacher.firstName} ${teacher.lastName}`),
     );
     data.courses.map(course => courseNames.push(course.name));
-
     this.setState({
       teacherOptions: teachersNames,
       teachersNamesCopy: teachersNames,
       courseOptions: courseNames,
       courseNamesCopy: courseNames,
+      startDate: date.toISOString(),
+      endDate: date.toISOString(),
     });
   }
 
@@ -129,10 +131,11 @@ class CreateSession extends React.Component {
     });
   };
 
-  startTimeSelect = date =>
+  startDateSelect = date => {
     this.setState({ startDate: date, startDateOpen: false });
+  };
 
-  endTimeSelect = date => this.setState({ endDate: date, endDateOpen: false });
+  endDateSelect = date => this.setState({ endDate: date, endDateOpen: false });
 
   onOpen = () => this.setState({ LayerOpen: true });
 
@@ -255,16 +258,11 @@ class CreateSession extends React.Component {
                         teacherIDs[teachersNamesCopy.indexOf(selectedTeacher)];
                       const courseId =
                         courseIDs[courseNamesCopy.indexOf(selectedCourse)];
-                      // console.log(format(startDate));
                       const finalStart = this.convertDateTime(
                         startDate,
                         startTime,
                       );
                       const FinalEnd = this.convertDateTime(endDate, endTime);
-
-                      console.log("FINAL start!!!!!!!", finalStart);
-                      console.log("FINAL end!!!!!!!", FinalEnd);
-
                       createSession({
                         variables: {
                           startTime: finalStart,
@@ -304,6 +302,7 @@ class CreateSession extends React.Component {
                         teacherOptions={teacherOptions}
                         teacherError={teacherError}
                       />
+                      {console.log(startDate)}
                       <TimeWrapper
                         direction="row"
                         // justify="between"
@@ -320,7 +319,7 @@ class CreateSession extends React.Component {
                               startOnOpen={this.startOnOpen}
                               startOnClose={this.startOnClose}
                               startDate={startDate}
-                              startTimeSelect={this.startTimeSelect}
+                              startDateSelect={this.startDateSelect}
                             />
                             <StartTimePicker
                               startTime={startTime}
@@ -338,7 +337,7 @@ class CreateSession extends React.Component {
                               endOnOpen={this.endOnOpen}
                               endOnClose={this.endOnClose}
                               endDate={endDate}
-                              endTimeSelect={this.endTimeSelect}
+                              endDateSelect={this.endDateSelect}
                             />
                             <EndTime
                               endTime={endTime}
@@ -347,8 +346,11 @@ class CreateSession extends React.Component {
                           </Box>
                         </EndTimeContainer>
                       </TimeWrapper>
-                      <BLA margin="xsmall">
-                        <FormField label="Max Size of Class" name="max">
+                      <BLA margin={{ right: "small", left: "small" }}>
+                        <Heading alignSelf="center" margin="small" level={4}>
+                          Max Number of student in this session?
+                        </Heading>
+                        <FormField name="max">
                           <RangeInput
                             onChange={event =>
                               this.setState({

@@ -14,7 +14,7 @@ const StartDate = props => {
     startOnOpen,
     startOnClose,
     startDate,
-    startTimeSelect,
+    startDateSelect,
   } = props;
   return (
     <FormField label="Date">
@@ -25,13 +25,12 @@ const StartDate = props => {
         dropContent={
           <Calendar
             date={startDate}
-            onSelect={startTimeSelect}
+            onSelect={startDateSelect}
             size="medium"
             bounds={[todayString, futureString]}
           />
         }
       >
-        {console.log(todayString, futureString)}
         <Box
           direction="row"
           // gap="medium"

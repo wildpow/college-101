@@ -3,7 +3,7 @@ import { FormField, DropButton, Calendar, Box, Text } from "grommet";
 import { FormDown } from "grommet-icons";
 
 const EndDate = props => {
-  const { endDateOpen, endDate, endTimeSelect, endOnOpen, endOnClose } = props;
+  const { endDateOpen, endDate, endDateSelect, endOnOpen, endOnClose } = props;
   return (
     <FormField label="Date">
       <DropButton
@@ -11,7 +11,7 @@ const EndDate = props => {
         onClose={endOnClose}
         onOpen={endOnOpen}
         dropContent={
-          <Calendar date={endDate} onSelect={endTimeSelect} size="medium" />
+          <Calendar date={endDate} onSelect={endDateSelect} size="medium" />
         }
       >
         <Box
