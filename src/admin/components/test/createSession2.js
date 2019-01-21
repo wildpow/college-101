@@ -1,33 +1,35 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  Box,
-  Button,
-  Grommet,
-  Layer,
-  Heading,
-  Select,
-  Text,
-  DropButton,
-  Calendar,
-} from "grommet";
-import { Add, Close, FormDown, StatusGood, Trash } from "grommet-icons";
+import { Box, Button, Grommet, Layer, Heading } from "grommet";
+import { Add, Close } from "grommet-icons";
 import { grommet } from "grommet/themes";
+import TimePicker from "./timePicker";
+import SelectCourse from "./selectCourse";
+import SelectTeacher from "./selectTeacher";
+import StartDate from "./startDate";
+import EndDate from "./endDate";
 
-const ErrorText = styled(Text)`
-  height: 24px;
+const StartTimeContainer = styled(Box)``;
+const EndTimeContainer = styled(Box)``;
+const TimeWrapper = styled(Box)`
+  justify-content: space-evenly;
 `;
+
 class CreateSession extends React.Component {
   state = {
     LayerOpen: false,
     selectedTeacher: "",
     teacherOptions: [],
+    teachersNamesCopy: [],
     courseOptions: [],
+    courseNamesCopy: [],
     selectedCourse: "",
     teacherError: false,
     courseError: false,
     startDateOpen: false,
     startDate: undefined,
+    endDateOpen: false,
+    endDate: undefined,
   };
 
   componentDidMount() {
@@ -40,16 +42,62 @@ class CreateSession extends React.Component {
 
     this.setState({
       teacherOptions: teachersNames,
+      teachersNamesCopy: teachersNames,
       courseOptions: courseNames,
+      courseNamesCopy: courseNames,
     });
   }
+
+  courseSelectChange = event => {
+    const { courseNamesCopy } = this.state;
+    this.setState({
+      selectedCourse: event.value,
+      courseOptions: courseNamesCopy,
+      courseError: false,
+    });
+  };
+
+  teacherSelectChange = event => {
+    const { teachersNamesCopy } = this.state;
+    this.setState({
+      selectedTeacher: event.value,
+      teacherOptions: teachersNamesCopy,
+      teacherError: false,
+    });
+  };
+
+  onSearchTeachers = searchText => {
+    const { teachersNamesCopy } = this.state;
+    const regexp = new RegExp(searchText, "i");
+    this.setState({
+      teacherOptions: teachersNamesCopy.filter(o => o.match(regexp)),
+    });
+  };
+
+  onSearchCourses = searchText => {
+    const { courseNamesCopy } = this.state;
+    const regexp = new RegExp(searchText, "i");
+    this.setState({
+      courseOptions: courseNamesCopy.filter(o => o.match(regexp)),
+    });
+  };
 
   startTimeSelect = date =>
     this.setState({ startDate: date, startDateOpen: false });
 
+  endTimeSelect = date => this.setState({ endDate: date, endDateOpen: false });
+
   onOpen = () => this.setState({ LayerOpen: true });
 
   onClose = () => this.setState({ LayerOpen: undefined });
+
+  startOnOpen = () => this.setState({ startDateOpen: true });
+
+  startOnClose = () => this.setState({ startDateOpen: false });
+
+  endOnOpen = () => this.setState({ endDateOpen: true });
+
+  endOnClose = () => this.setState({ endDateOpen: false });
 
   render() {
     const {
@@ -62,6 +110,8 @@ class CreateSession extends React.Component {
       courseError,
       startDateOpen,
       startDate,
+      endDateOpen,
+      endDate,
     } = this.state;
     const { data } = this.props;
     const teachersNamesCopy = [];
@@ -98,7 +148,7 @@ class CreateSession extends React.Component {
                 as="form"
                 fill="vertical"
                 overflow="auto"
-                width="large"
+                width="medium"
                 pad="medium"
                 onSubmit={event => {
                   event.preventDefault();
@@ -140,105 +190,59 @@ class CreateSession extends React.Component {
                   pad={{ vertical: "small" }}
                   // gap="medium"
                 >
-                  <Box>
-                    <Text alignSelf="start" margin="xsmall" size="large">
-                      Course
-                    </Text>
-                    <Select
-                      placeholder="Select a Course"
-                      value={selectedCourse}
-                      onSearch={searchText => {
-                        const regexp = new RegExp(searchText, "i");
-                        this.setState({
-                          courseOptions: courseNamesCopy.filter(o =>
-                            o.match(regexp),
-                          ),
-                        });
-                      }}
-                      onChange={event =>
-                        this.setState({
-                          selectedCourse: event.value,
-                          courseOptions: courseNamesCopy,
-                          courseError: false,
-                        })
-                      }
-                      options={courseOptions}
-                    />
-                    <ErrorText
-                      alignSelf="center"
-                      margin="xsmall"
-                      size="medium"
-                      color="status-critical"
-                    >
-                      {courseError && `Please select a Course`}
-                    </ErrorText>
-                  </Box>
-                  <Box>
-                    <Text alignSelf="start" margin="xsmall" size="large">
-                      Teacher
-                    </Text>
-                    <Select
-                      placeholder="Select a Teacher"
-                      value={selectedTeacher}
-                      onSearch={searchText => {
-                        const regexp = new RegExp(searchText, "i");
-                        this.setState({
-                          teacherOptions: teachersNamesCopy.filter(o =>
-                            o.match(regexp),
-                          ),
-                        });
-                      }}
-                      onChange={event =>
-                        this.setState({
-                          selectedTeacher: event.value,
-                          teacherOptions: teachersNamesCopy,
-                          teacherError: false,
-                        })
-                      }
-                      options={teacherOptions}
-                    />
-                    <ErrorText
-                      alignSelf="center"
-                      margin="xsmall"
-                      size="medium"
-                      color="status-critical"
-                    >
-                      {teacherError && `Please select a Teacher`}
-                    </ErrorText>
-                  </Box>
-
-                  <Box align="start">
-                    <Text alignSelf="start" margin="xsmall" size="large">
-                      Start Date
-                    </Text>
-                    <DropButton
-                      open={startDateOpen}
-                      onClose={() => this.setState({ startDateOpen: false })}
-                      onOpen={() => this.setState({ startDateOpen: true })}
-                      dropContent={
-                        <Calendar
-                          date={startDate}
-                          onSelect={this.startTimeSelect}
-                          size="medium"
+                  <SelectCourse
+                    selectedCourse={selectedCourse}
+                    courseSelectChange={this.courseSelectChange}
+                    onSearchCourses={this.onSearchCourses}
+                    courseOptions={courseOptions}
+                    courseError={courseError}
+                  />
+                  <SelectTeacher
+                    selectedTeacher={selectedTeacher}
+                    teacherSelectChange={this.teacherSelectChange}
+                    onSearchTeachers={this.onSearchTeachers}
+                    teacherOptions={teacherOptions}
+                    teacherError={teacherError}
+                  />
+                  <TimeWrapper
+                    direction="row"
+                    // justify="between"
+                    margin={{ top: "medium" }}
+                    flex={false}
+                  >
+                    <StartTimeContainer align="start" direction="column">
+                      <Heading alignSelf="center" margin="xsmall" level={4}>
+                        Start Time
+                      </Heading>
+                      <Box margin="small">
+                        <StartDate
+                          startDateOpen={startDateOpen}
+                          startOnOpen={this.startOnOpen}
+                          startOnClose={this.startOnClose}
+                          startDate={startDate}
+                          startTimeSelect={this.startTimeSelect}
                         />
-                      }
-                    >
-                      <Box
-                        direction="row"
-                        // gap="medium"
-                        align="center"
-                        pad="small"
-                      >
-                        <Text>
-                          {startDate
-                            ? new Date(startDate).toLocaleDateString()
-                            : "Select Date"}
-                        </Text>
-                        <FormDown color="brand" />
+                        <TimePicker />
                       </Box>
-                    </DropButton>
-                  </Box>
+                    </StartTimeContainer>
+                    <EndTimeContainer align="start" direction="column">
+                      <Heading alignSelf="center" margin="xsmall" level={4}>
+                        End Time
+                      </Heading>
+                      <Box margin="small">
+                        <EndDate
+                          endDateOpen={endDateOpen}
+                          endOnOpen={this.endOnOpen}
+                          endOnClose={this.endOnClose}
+                          endDate={endDate}
+                          endTimeSelect={this.endTimeSelect}
+                        />
+                        <TimePicker />
+                      </Box>
+                    </EndTimeContainer>
+                  </TimeWrapper>
                 </Box>
+
                 <Box
                   direction="row"
                   justify="between"
@@ -247,7 +251,12 @@ class CreateSession extends React.Component {
                   <Button
                     label="Clear"
                     onClick={() =>
-                      this.setState({ selectedCourse: "", selectedTeacher: "" })
+                      this.setState({
+                        selectedCourse: "",
+                        selectedTeacher: "",
+                        endDate: undefined,
+                        startDate: undefined,
+                      })
                     }
                   />
                   <Button type="submit" label="Add" primary />

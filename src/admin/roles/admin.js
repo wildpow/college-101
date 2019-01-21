@@ -6,7 +6,7 @@ import FilteredCal from "../components/filterCal";
 import FeatureWrapper from "../components/buttons/featureWrapper";
 import CreateTeacher from "../components/createTeacher";
 import CreateSession2 from "../components/test/createSession2";
-import New from "../components/test/new";
+
 const Card = styled.div`
   position: absolute;
   width: 400px;
@@ -39,7 +39,6 @@ const Admin = ({ userName }) => {
         buttonText="add teacher"
       />
       <QueryTeacherCourse component={CreateSession2} />
-      <New />
     </>
   );
 };
