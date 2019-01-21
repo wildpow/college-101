@@ -101,6 +101,7 @@ const View = props => {
           </Table>
         )}
       </div>
+      {console.log(sessions)}
     </div>
   );
 };

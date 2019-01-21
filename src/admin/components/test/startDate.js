@@ -3,6 +3,12 @@ import { FormField, DropButton, Calendar, Box, Text } from "grommet";
 import { FormDown } from "grommet-icons";
 
 const StartDate = props => {
+  const today = new Date();
+  const day = `${today.getDate()}`;
+  const month = `${today.getMonth()}`;
+  const todayString = `${today.getFullYear()}-${month + 1}-${day}`;
+  const futureString = `${today.getFullYear() + 1}-${month + 1}-${day}`;
+
   const {
     startDateOpen,
     startOnOpen,
@@ -17,9 +23,15 @@ const StartDate = props => {
         onClose={startOnClose}
         onOpen={startOnOpen}
         dropContent={
-          <Calendar date={startDate} onSelect={startTimeSelect} size="medium" />
+          <Calendar
+            date={startDate}
+            onSelect={startTimeSelect}
+            size="medium"
+            bounds={[todayString, futureString]}
+          />
         }
       >
+        {console.log(todayString, futureString)}
         <Box
           direction="row"
           // gap="medium"

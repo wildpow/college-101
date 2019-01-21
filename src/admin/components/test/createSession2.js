@@ -1,4 +1,5 @@
 import React from "react";
+import { format, formatDistance, formatRelative, subDays } from "date-fns";
 import styled from "styled-components";
 import { hpe } from "grommet-theme-hpe";
 import { Mutation } from "react-apollo";
@@ -14,11 +15,12 @@ import {
 } from "grommet";
 import { Add, Close, FormSubtract } from "grommet-icons";
 // import { grommet } from "grommet/themes";
-import TimePicker from "./timePicker";
+import EndTime from "./endTime";
 import SelectCourse from "./selectCourse";
 import SelectTeacher from "./selectTeacher";
 import StartDate from "./startDate";
 import EndDate from "./endDate";
+import StartTimePicker from "./startTimePicker";
 
 const ADD_SESSION = gql`
   mutation(
@@ -68,10 +70,12 @@ class CreateSession extends React.Component {
     teacherError: false,
     courseError: false,
     startDateOpen: false,
-    startDate: undefined,
+    startDate: new Date(),
     endDateOpen: false,
-    endDate: undefined,
+    endDate: new Date(),
     maxSizeOfClass: 1,
+    startTime: "",
+    endTime: "",
   };
 
   componentDidMount() {
@@ -142,6 +146,31 @@ class CreateSession extends React.Component {
 
   endOnClose = () => this.setState({ endDateOpen: false });
 
+  onChangeStartTime = event => this.setState({ startTime: event.target.value });
+
+  onChangeEndTime = event => this.setState({ endTime: event.target.value });
+
+  convertDateTime = (date, time) => {
+    const finalStart = new Date(date);
+    let hour = 0;
+    let minutes = 0;
+    if (time.indexOf("a") === -1) {
+      hour += 12;
+    }
+    if (Number(time[0]) === 1) {
+      hour += Number(`${time[0]}${time[1]}`);
+      minutes += Number(`${time[3]}${time[4]}`);
+    } else {
+      hour += Number(time[0]);
+      minutes += Number(`${time[2]}${time[3]}`);
+    }
+    finalStart.setHours(hour);
+    finalStart.setMinutes(minutes);
+    finalStart.setSeconds(0);
+
+    return finalStart;
+  };
+
   render() {
     const {
       LayerOpen,
@@ -156,6 +185,8 @@ class CreateSession extends React.Component {
       endDateOpen,
       endDate,
       maxSizeOfClass,
+      startTime,
+      endTime,
     } = this.state;
     const { data } = this.props;
     const teachersNamesCopy = [];
@@ -224,16 +255,27 @@ class CreateSession extends React.Component {
                         teacherIDs[teachersNamesCopy.indexOf(selectedTeacher)];
                       const courseId =
                         courseIDs[courseNamesCopy.indexOf(selectedCourse)];
-                      // console.log(maxSizeOfClass);
-                      // createSession({
-                      //   variables: {
-                      //     startTime,
-                      //     endTime,
-                      //     teacherId,
-                      //     courseId,
-                      //     maxSizeOfClass,
-                      //   },
-                      // });
+                      // console.log(format(startDate));
+                      const finalStart = this.convertDateTime(
+                        startDate,
+                        startTime,
+                      );
+                      const FinalEnd = this.convertDateTime(endDate, endTime);
+
+                      console.log("FINAL start!!!!!!!", finalStart);
+                      console.log("FINAL end!!!!!!!", FinalEnd);
+
+                      createSession({
+                        variables: {
+                          startTime: finalStart,
+                          endTime: FinalEnd,
+                          teacherId,
+                          courseId,
+                          maxSizeOfClass,
+                        },
+                      });
+                      this.onClose();
+                      return null;
                     }}
                   >
                     <Box flex={false} direction="row" justify="between">
@@ -280,7 +322,10 @@ class CreateSession extends React.Component {
                               startDate={startDate}
                               startTimeSelect={this.startTimeSelect}
                             />
-                            <TimePicker />
+                            <StartTimePicker
+                              startTime={startTime}
+                              onChangeStartTime={this.onChangeStartTime}
+                            />
                           </Box>
                         </StartTimeContainer>
                         <EndTimeContainer align="start" direction="column">
@@ -295,7 +340,10 @@ class CreateSession extends React.Component {
                               endDate={endDate}
                               endTimeSelect={this.endTimeSelect}
                             />
-                            <TimePicker />
+                            <EndTime
+                              endTime={endTime}
+                              onChangeEndTime={this.onChangeEndTime}
+                            />
                           </Box>
                         </EndTimeContainer>
                       </TimeWrapper>
@@ -304,7 +352,7 @@ class CreateSession extends React.Component {
                           <RangeInput
                             onChange={event =>
                               this.setState({
-                                maxSizeOfClass: event.target.value,
+                                maxSizeOfClass: Number(event.target.value),
                               })
                             }
                             min={1}
