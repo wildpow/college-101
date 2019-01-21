@@ -1,8 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { Box, Button, Grommet, Layer, Heading } from "grommet";
-import { Add, Close } from "grommet-icons";
-import { grommet } from "grommet/themes";
+import { hpe } from "grommet-theme-hpe";
+// import { aruba } from "grommet-theme-aruba";
+
+import {
+  Box,
+  Button,
+  Grommet,
+  Layer,
+  Heading,
+  RangeInput,
+  FormField,
+} from "grommet";
+import { Add, Close, FormSubtract } from "grommet-icons";
+// import { grommet } from "grommet/themes";
 import TimePicker from "./timePicker";
 import SelectCourse from "./selectCourse";
 import SelectTeacher from "./selectTeacher";
@@ -13,6 +24,12 @@ const StartTimeContainer = styled(Box)``;
 const EndTimeContainer = styled(Box)``;
 const TimeWrapper = styled(Box)`
   justify-content: space-evenly;
+`;
+const BLA = styled(Box)`
+  div {
+    border-bottom: 0px solid black !important;
+    border: none !important;
+  }
 `;
 
 class CreateSession extends React.Component {
@@ -30,6 +47,7 @@ class CreateSession extends React.Component {
     startDate: undefined,
     endDateOpen: false,
     endDate: undefined,
+    maxSize: 1,
   };
 
   componentDidMount() {
@@ -112,6 +130,7 @@ class CreateSession extends React.Component {
       startDate,
       endDateOpen,
       endDate,
+      maxSize,
     } = this.state;
     const { data } = this.props;
     const teachersNamesCopy = [];
@@ -129,7 +148,7 @@ class CreateSession extends React.Component {
       return null;
     });
     return (
-      <Grommet theme={grommet}>
+      <Grommet theme={hpe}>
         {/* {console.log("props", this.props)} */}
         {/* {console.log("option", teacherOptions)}
         {console.log("userNames", teacherUserName)} */}
@@ -144,7 +163,7 @@ class CreateSession extends React.Component {
               onEsc={this.onClose}
             >
               <Box
-                // gap="medium"
+                // gap="small"
                 as="form"
                 fill="vertical"
                 overflow="auto"
@@ -188,7 +207,7 @@ class CreateSession extends React.Component {
                   flex="grow"
                   overflow="auto"
                   pad={{ vertical: "small" }}
-                  // gap="medium"
+                  gap="small"
                 >
                   <SelectCourse
                     selectedCourse={selectedCourse}
@@ -207,7 +226,7 @@ class CreateSession extends React.Component {
                   <TimeWrapper
                     direction="row"
                     // justify="between"
-                    margin={{ top: "medium" }}
+                    // margin={{ top: "medium" }}
                     flex={false}
                   >
                     <StartTimeContainer align="start" direction="column">
@@ -241,14 +260,29 @@ class CreateSession extends React.Component {
                       </Box>
                     </EndTimeContainer>
                   </TimeWrapper>
+                  <BLA margin="xsmall">
+                    <FormField label="Max Size of Class" name="max">
+                      <RangeInput
+                        onChange={event =>
+                          this.setState({ maxSize: event.target.value })
+                        }
+                        min={1}
+                        max={25}
+                        value={maxSize}
+                      />
+                      <Box direction="row" align="center" alignSelf="center">
+                        <Heading level={1}>{maxSize}</Heading>
+                      </Box>
+                    </FormField>
+                  </BLA>
                 </Box>
-
                 <Box
                   direction="row"
                   justify="between"
-                  margin={{ top: "medium" }}
+                  // margin={{ top: "xsmall" }}
                 >
                   <Button
+                    icon={<FormSubtract />}
                     label="Clear"
                     onClick={() =>
                       this.setState({
@@ -259,7 +293,7 @@ class CreateSession extends React.Component {
                       })
                     }
                   />
-                  <Button type="submit" label="Add" primary />
+                  <Button type="submit" label="Add" primary icon={<Add />} />
                 </Box>
               </Box>
             </Layer>

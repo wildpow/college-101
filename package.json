@@ -24,6 +24,8 @@
     "grommet": "^2.3.1",
     "grommet-icons": "^4.1.0",
     "grommet-styles": "^0.2.0",
+    "grommet-theme-aruba": "^0.1.0",
+    "grommet-theme-hpe": "^0.4.0",
     "isomorphic-fetch": "^2.2.1",
     "netlify-identity-widget": "^1.5.2",
     "react": "^16.7.0",
