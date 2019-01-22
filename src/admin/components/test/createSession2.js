@@ -1,5 +1,4 @@
 import React from "react";
-import { addDays } from "date-fns";
 import styled from "styled-components";
 import { hpe } from "grommet-theme-hpe";
 import { Mutation } from "react-apollo";
@@ -19,7 +18,6 @@ import EndTime from "./endTime";
 import SelectCourse from "./selectCourse";
 import SelectTeacher from "./selectTeacher";
 import StartDate from "./startDate";
-import EndDate from "./endDate";
 import StartTimePicker from "./startTimePicker";
 
 const ADD_SESSION = gql`
@@ -45,19 +43,16 @@ const ADD_SESSION = gql`
     }
   }
 `;
-
-const StartTimeContainer = styled(Box)``;
-const EndTimeContainer = styled(Box)``;
-const TimeWrapper = styled(Box)`
-  justify-content: space-evenly;
-`;
-const BLA = styled(Box)`
+const MaxStudentWrapper = styled(Box)`
   div {
     border-bottom: 0px solid black !important;
     border: none !important;
   }
+  h1 {
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
 `;
-
 class CreateSession extends React.Component {
   state = {
     LayerOpen: false,
@@ -71,8 +66,6 @@ class CreateSession extends React.Component {
     courseError: false,
     startDateOpen: false,
     startDate: undefined,
-    endDateOpen: false,
-    endDate: new Date(),
     maxSizeOfClass: 1,
     startTime: "",
     endTime: "",
@@ -93,7 +86,6 @@ class CreateSession extends React.Component {
       courseOptions: courseNames,
       courseNamesCopy: courseNames,
       startDate: date.toISOString(),
-      endDate: date.toISOString(),
     });
   }
 
@@ -135,8 +127,6 @@ class CreateSession extends React.Component {
     this.setState({ startDate: date, startDateOpen: false });
   };
 
-  endDateSelect = date => this.setState({ endDate: date, endDateOpen: false });
-
   onOpen = () => this.setState({ LayerOpen: true });
 
   onClose = () => this.setState({ LayerOpen: undefined });
@@ -144,10 +134,6 @@ class CreateSession extends React.Component {
   startOnOpen = () => this.setState({ startDateOpen: true });
 
   startOnClose = () => this.setState({ startDateOpen: false });
-
-  endOnOpen = () => this.setState({ endDateOpen: true });
-
-  endOnClose = () => this.setState({ endDateOpen: false });
 
   onChangeStartTime = event => this.setState({ startTime: event.target.value });
 
@@ -185,8 +171,6 @@ class CreateSession extends React.Component {
       courseError,
       startDateOpen,
       startDate,
-      endDateOpen,
-      endDate,
       maxSizeOfClass,
       startTime,
       endTime,
@@ -208,9 +192,6 @@ class CreateSession extends React.Component {
     });
     return (
       <Grommet theme={hpe}>
-        {/* {console.log("props", this.props)} */}
-        {/* {console.log("option", teacherOptions)}
-        {console.log("userNames", teacherUserName)} */}
         <Box fill align="center" justify="center">
           <Button icon={<Add />} label="Add Session" onClick={this.onOpen} />
           {LayerOpen && (
@@ -262,7 +243,7 @@ class CreateSession extends React.Component {
                         startDate,
                         startTime,
                       );
-                      const FinalEnd = this.convertDateTime(endDate, endTime);
+                      const FinalEnd = this.convertDateTime(startDate, endTime);
                       createSession({
                         variables: {
                           startTime: finalStart,
@@ -285,7 +266,7 @@ class CreateSession extends React.Component {
                     <Box
                       flex="grow"
                       overflow="auto"
-                      pad={{ vertical: "small" }}
+                      // pad={{ vertical: "small" }}
                       gap="small"
                     >
                       <SelectCourse
@@ -302,55 +283,26 @@ class CreateSession extends React.Component {
                         teacherOptions={teacherOptions}
                         teacherError={teacherError}
                       />
-                      {console.log(startDate)}
-                      <TimeWrapper
-                        direction="row"
-                        // justify="between"
-                        // margin={{ top: "medium" }}
-                        flex={false}
-                      >
-                        <StartTimeContainer align="start" direction="column">
-                          <Heading alignSelf="center" margin="xsmall" level={4}>
-                            Start Time
-                          </Heading>
-                          <Box margin="small">
-                            <StartDate
-                              startDateOpen={startDateOpen}
-                              startOnOpen={this.startOnOpen}
-                              startOnClose={this.startOnClose}
-                              startDate={startDate}
-                              startDateSelect={this.startDateSelect}
-                            />
-                            <StartTimePicker
-                              startTime={startTime}
-                              onChangeStartTime={this.onChangeStartTime}
-                            />
-                          </Box>
-                        </StartTimeContainer>
-                        <EndTimeContainer align="start" direction="column">
-                          <Heading alignSelf="center" margin="xsmall" level={4}>
-                            End Time
-                          </Heading>
-                          <Box margin="small">
-                            <EndDate
-                              endDateOpen={endDateOpen}
-                              endOnOpen={this.endOnOpen}
-                              endOnClose={this.endOnClose}
-                              endDate={endDate}
-                              endDateSelect={this.endDateSelect}
-                            />
-                            <EndTime
-                              endTime={endTime}
-                              onChangeEndTime={this.onChangeEndTime}
-                            />
-                          </Box>
-                        </EndTimeContainer>
-                      </TimeWrapper>
-                      <BLA margin={{ right: "small", left: "small" }}>
-                        <Heading alignSelf="center" margin="small" level={4}>
-                          Max Number of student in this session?
-                        </Heading>
-                        <FormField name="max">
+                      <StartDate
+                        startDateOpen={startDateOpen}
+                        startOnOpen={this.startOnOpen}
+                        startOnClose={this.startOnClose}
+                        startDate={startDate}
+                        startDateSelect={this.startDateSelect}
+                      />
+                      <StartTimePicker
+                        startTime={startTime}
+                        onChangeStartTime={this.onChangeStartTime}
+                      />
+                      <EndTime
+                        endTime={endTime}
+                        onChangeEndTime={this.onChangeEndTime}
+                      />
+                      <MaxStudentWrapper>
+                        <FormField
+                          name="max"
+                          label="Max Number of student in this session?"
+                        >
                           <RangeInput
                             onChange={event =>
                               this.setState({
@@ -369,12 +321,12 @@ class CreateSession extends React.Component {
                             <Heading level={1}>{maxSizeOfClass}</Heading>
                           </Box>
                         </FormField>
-                      </BLA>
+                      </MaxStudentWrapper>
                     </Box>
                     <Box
                       direction="row"
                       justify="between"
-                      // margin={{ top: "xsmall" }}
+                      margin={{ bottom: "small" }}
                     >
                       <Button
                         icon={<FormSubtract />}
@@ -383,7 +335,6 @@ class CreateSession extends React.Component {
                           this.setState({
                             selectedCourse: "",
                             selectedTeacher: "",
-                            endDate: undefined,
                             startDate: undefined,
                           })
                         }
