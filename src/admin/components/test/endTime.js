@@ -1,10 +1,6 @@
 import React from "react";
-import { MaskedInput, FormField, Text } from "grommet";
-import styled from "styled-components";
-
-const ErrorText = styled(Text)`
-  height: 24px;
-`;
+import { MaskedInput, FormField } from "grommet";
+import { ErrorText } from "./sharedStyles";
 
 const EndTime = props => {
   const { endTime, onChangeEndTime, endTimeError } = props;

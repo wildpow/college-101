@@ -1,10 +1,6 @@
 import React from "react";
-import styled from "styled-components";
-import { FormField, Select, Text } from "grommet";
-
-const ErrorText = styled(Text)`
-  height: 24px;
-`;
+import { FormField, Select } from "grommet";
+import { ErrorText } from "./sharedStyles";
 
 const SelectTeacher = props => {
   const {
@@ -16,9 +12,6 @@ const SelectTeacher = props => {
   } = props;
   return (
     <FormField label="Teacher">
-      {/* <Text alignSelf="start" margin="xsmall" size="large">
-                      Teacher
-                    </Text> */}
       <Select
         placeholder="Select a Teacher"
         value={selectedTeacher}

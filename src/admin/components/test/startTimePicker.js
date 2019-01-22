@@ -1,10 +1,7 @@
 import React from "react";
-import { MaskedInput, FormField, Text } from "grommet";
-import styled from "styled-components";
+import { MaskedInput, FormField } from "grommet";
+import { ErrorText } from "./sharedStyles";
 
-const ErrorText = styled(Text)`
-  height: 24px;
-`;
 const StartTimePicker = props => {
   const { startTime, onChangeStartTime, startTimeError } = props;
   return (

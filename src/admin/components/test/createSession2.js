@@ -12,7 +12,7 @@ import {
   RangeInput,
   FormField,
 } from "grommet";
-import { Add, Close, FormSubtract } from "grommet-icons";
+import { Add, FormClose, FormSubtract } from "grommet-icons";
 // import { grommet } from "grommet/themes";
 import EndTime from "./endTime";
 import SelectCourse from "./selectCourse";
@@ -43,14 +43,33 @@ const ADD_SESSION = gql`
     }
   }
 `;
+const TitleWrapper = styled(Box)`
+  button {
+    /* padding-bottom: 0px;
+    padding-top: 0px; */
+    padding: 0;
+  }
+  h2 {
+    align-self: center;
+  }
+  button svg:hover {
+    transition: all 250ms ease-in-out;
+    stroke: black;
+    fill: black;
+  }
+`;
 const MaxStudentWrapper = styled(Box)`
   div {
     border-bottom: 0px solid black !important;
     border: none !important;
+    margin-bottom: 0; // PPPP
   }
   h1 {
     margin-bottom: 5px;
     margin-top: 5px;
+  }
+  div div {
+    margin-bottom: 6px;
   }
 `;
 class CreateSession extends React.Component {
@@ -226,6 +245,27 @@ class CreateSession extends React.Component {
               onClickOutside={this.onClose}
               onEsc={this.onClose}
             >
+              <TitleWrapper
+                background="#61a785"
+                flex={false}
+                direction="row"
+                justify="between"
+                elevation="xlarge"
+                pad={{
+                  left: "medium",
+                  right: "medium",
+                  top: "xsmall",
+                  bottom: "xsmall",
+                }}
+              >
+                <Heading level={2} margin="none" color="floralwhite">
+                  Add Session
+                </Heading>
+                <Button
+                  icon={<FormClose color="floralwhite" size="large" />}
+                  onClick={this.onClose}
+                />
+              </TitleWrapper>
               <Mutation mutation={ADD_SESSION}>
                 {createSession => (
                   <Box
@@ -276,17 +316,17 @@ class CreateSession extends React.Component {
                       }
                     }}
                   >
-                    <Box flex={false} direction="row" justify="between">
+                    {/* <Box flex={false} direction="row" justify="between">
                       <Heading level={2} margin="none">
                         Add Session
                       </Heading>
                       <Button icon={<Close />} onClick={this.onClose} />
-                    </Box>
+                    </Box> */}
                     <Box
                       flex="grow"
                       overflow="auto"
                       // pad={{ vertical: "small" }}
-                      gap="small"
+                      gap="xsmall"
                     >
                       <SelectCourse
                         selectedCourse={selectedCourse}
