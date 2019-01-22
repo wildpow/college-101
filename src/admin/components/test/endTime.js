@@ -1,8 +1,13 @@
 import React from "react";
-import { MaskedInput, FormField } from "grommet";
+import { MaskedInput, FormField, Text } from "grommet";
+import styled from "styled-components";
+
+const ErrorText = styled(Text)`
+  height: 24px;
+`;
 
 const EndTime = props => {
-  const { endTime, onChangeEndTime } = props;
+  const { endTime, onChangeEndTime, endTimeError } = props;
   return (
     <FormField label="End Time">
       <MaskedInput
@@ -44,6 +49,14 @@ const EndTime = props => {
         value={endTime}
         onChange={onChangeEndTime}
       />
+      <ErrorText
+        alignSelf="center"
+        margin="xsmall"
+        size="medium"
+        color="status-critical"
+      >
+        {endTimeError && `Please enter end time`}
+      </ErrorText>
     </FormField>
   );
 };

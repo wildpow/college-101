@@ -68,7 +68,9 @@ class CreateSession extends React.Component {
     startDate: undefined,
     maxSizeOfClass: 1,
     startTime: "",
+    startTimeError: false,
     endTime: "",
+    endTimeError: false,
   };
 
   componentDidMount() {
@@ -129,15 +131,25 @@ class CreateSession extends React.Component {
 
   onOpen = () => this.setState({ LayerOpen: true });
 
-  onClose = () => this.setState({ LayerOpen: undefined });
+  onClose = () =>
+    this.setState({
+      LayerOpen: undefined,
+      startTime: "",
+      endTime: "",
+      selectedCourse: "",
+      selectedTeacher: "",
+      maxSizeOfClass: 1,
+    });
 
   startOnOpen = () => this.setState({ startDateOpen: true });
 
   startOnClose = () => this.setState({ startDateOpen: false });
 
-  onChangeStartTime = event => this.setState({ startTime: event.target.value });
+  onChangeStartTime = event =>
+    this.setState({ startTime: event.target.value, startTimeError: false });
 
-  onChangeEndTime = event => this.setState({ endTime: event.target.value });
+  onChangeEndTime = event =>
+    this.setState({ endTime: event.target.value, endTimeError: false });
 
   convertDateTime = (date, time) => {
     const finalStart = new Date(date);
@@ -160,6 +172,16 @@ class CreateSession extends React.Component {
     return finalStart;
   };
 
+  errorCheck = (value, errorState) => {
+    if (value.length === 0) {
+      this.setState({
+        [`${errorState}`]: true,
+      });
+      return null;
+    }
+    return null;
+  };
+
   render() {
     const {
       LayerOpen,
@@ -174,6 +196,8 @@ class CreateSession extends React.Component {
       maxSizeOfClass,
       startTime,
       endTime,
+      startTimeError,
+      endTimeError,
     } = this.state;
     const { data } = this.props;
     const teachersNamesCopy = [];
@@ -214,47 +238,42 @@ class CreateSession extends React.Component {
                     onSubmit={event => {
                       event.preventDefault();
                       if (
-                        selectedCourse.length === 0 &&
-                        selectedTeacher.length === 0
+                        selectedCourse.length === 0 ||
+                        selectedTeacher.length === 0 ||
+                        startTime.length === 0 ||
+                        endTime.length === 0
                       ) {
-                        this.setState({
-                          teacherError: true,
-                          courseError: true,
+                        this.errorCheck(startTime, "startTimeError");
+                        this.errorCheck(endTime, "endTimeError");
+                        this.errorCheck(selectedCourse, "courseError");
+                        this.errorCheck(selectedTeacher, "teacherError");
+                      } else {
+                        const teacherId =
+                          teacherIDs[
+                            teachersNamesCopy.indexOf(selectedTeacher)
+                          ];
+                        const courseId =
+                          courseIDs[courseNamesCopy.indexOf(selectedCourse)];
+                        const finalStart = this.convertDateTime(
+                          startDate,
+                          startTime,
+                        );
+                        const FinalEnd = this.convertDateTime(
+                          startDate,
+                          endTime,
+                        );
+                        createSession({
+                          variables: {
+                            startTime: finalStart,
+                            endTime: FinalEnd,
+                            teacherId,
+                            courseId,
+                            maxSizeOfClass,
+                          },
                         });
+                        this.onClose();
                         return null;
                       }
-                      if (selectedTeacher.length === 0) {
-                        this.setState({
-                          teacherError: true,
-                        });
-                        return null;
-                      }
-                      if (selectedCourse.length === 0) {
-                        this.setState({
-                          courseError: true,
-                        });
-                        return null;
-                      }
-                      const teacherId =
-                        teacherIDs[teachersNamesCopy.indexOf(selectedTeacher)];
-                      const courseId =
-                        courseIDs[courseNamesCopy.indexOf(selectedCourse)];
-                      const finalStart = this.convertDateTime(
-                        startDate,
-                        startTime,
-                      );
-                      const FinalEnd = this.convertDateTime(startDate, endTime);
-                      createSession({
-                        variables: {
-                          startTime: finalStart,
-                          endTime: FinalEnd,
-                          teacherId,
-                          courseId,
-                          maxSizeOfClass,
-                        },
-                      });
-                      this.onClose();
-                      return null;
                     }}
                   >
                     <Box flex={false} direction="row" justify="between">
@@ -293,10 +312,12 @@ class CreateSession extends React.Component {
                       <StartTimePicker
                         startTime={startTime}
                         onChangeStartTime={this.onChangeStartTime}
+                        startTimeError={startTimeError}
                       />
                       <EndTime
                         endTime={endTime}
                         onChangeEndTime={this.onChangeEndTime}
+                        endTimeError={endTimeError}
                       />
                       <MaxStudentWrapper>
                         <FormField
@@ -326,7 +347,7 @@ class CreateSession extends React.Component {
                     <Box
                       direction="row"
                       justify="between"
-                      margin={{ bottom: "small" }}
+                      // margin={{ bottom: "small" }}
                     >
                       <Button
                         icon={<FormSubtract />}
@@ -336,6 +357,12 @@ class CreateSession extends React.Component {
                             selectedCourse: "",
                             selectedTeacher: "",
                             startDate: undefined,
+                            startTime: "",
+                            endTime: "",
+                            endTimeError: false,
+                            startTimeError: false,
+                            courseError: false,
+                            teacherError: false,
                           })
                         }
                       />

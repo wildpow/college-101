@@ -1,8 +1,12 @@
 import React from "react";
-import { MaskedInput, FormField } from "grommet";
+import { MaskedInput, FormField, Text } from "grommet";
+import styled from "styled-components";
 
+const ErrorText = styled(Text)`
+  height: 24px;
+`;
 const StartTimePicker = props => {
-  const { startTime, onChangeStartTime } = props;
+  const { startTime, onChangeStartTime, startTimeError } = props;
   return (
     <FormField label="Start Time">
       <MaskedInput
@@ -44,6 +48,14 @@ const StartTimePicker = props => {
         value={startTime}
         onChange={onChangeStartTime}
       />
+      <ErrorText
+        alignSelf="center"
+        margin="xsmall"
+        size="medium"
+        color="status-critical"
+      >
+        {startTimeError && "Please enter start time"}
+      </ErrorText>
     </FormField>
   );
 };
