@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { hpe } from "grommet-theme-hpe";
 import { Grommet, Box, Grid } from "grommet";
 import QueryTeacherCourse from "../queryComponents/all_Teachers_Courses";
-// import CreateSession from "../components/createSession";
+import CreateSession from "../components/createSession";
 import FilteredCal from "../components/filterCal";
 import FeatureWrapper from "../components/buttons/featureWrapper";
 import CreateTeacher from "../components/createTeacher";
@@ -17,14 +17,14 @@ const Card = styled.div`
   transition: all 0.5s ease;
 `;
 
-// const SessionCard = styled(Card)`
-//   height: 500px;
-// `;
+const SessionCard = styled(Card)`
+  height: 500px;
+`;
 const Admin = ({ userName }) => {
   return (
     // col row
     <Grommet theme={hpe}>
-      <Grid
+      {/* <Grid
         fill
         justifyContent="center"
         alignContent="center"
@@ -45,33 +45,31 @@ const Admin = ({ userName }) => {
         <Box gridArea="nav" background="brand">
           NAV
         </Box>
-        <Box gridArea="main" background="brand">
-          MAIN
-        </Box>
-        <Box gridArea="foot" background="accent-1">
+        <Box gridArea="main" background="brand" />
+        <Box gridArea="foot" background="accent-1" justifyContent="center">
           <QueryTeacherCourse component={CreateSession2} />
         </Box>
         <Box gridArea="gutter2" />
-      </Grid>
-      {/* <QueryTeacherCourse component={FilteredCal} /> */}
-      {/* <FeatureWrapper
-        Card={SessionCard}
-        Query={QueryTeacherCourse}
-        component={CreateSession}
-        header="add session"
-        successMessage="Session was created successfully"
-        buttonText="add session"
-      /> */}
-
-      {/* <FeatureWrapper
+      </Grid> */}
+      <QueryTeacherCourse component={FilteredCal} />
+      <FeatureWrapper
         Card={Card}
         Query={QueryTeacherCourse}
         component={CreateTeacher}
         header="add teacher"
         successMessage="Teacher was added successfully"
         buttonText="add teacher"
-      /> */}
-      {/* <QueryTeacherCourse component={CreateSession2} /> */}
+      />
+      <FeatureWrapper
+        Card={SessionCard}
+        Query={QueryTeacherCourse}
+        component={CreateSession}
+        header="add session"
+        successMessage="Session was created successfully"
+        buttonText="add session"
+      />
+
+      <QueryTeacherCourse component={CreateSession2} />
     </Grommet>
   );
 };
