@@ -4,7 +4,7 @@ import { MaskedInput, FormField } from "grommet";
 const StartTimePicker = props => {
   const { startTime, onChangeStartTime } = props;
   return (
-    <FormField label="Time">
+    <FormField label="Start Time">
       <MaskedInput
         mask={[
           {

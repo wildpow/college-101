@@ -17,6 +17,7 @@ const SelectCourse = props => {
   return (
     <FormField label="Course">
       <Select
+        searchPlaceholder="Search Courses"
         placeholder="Select a Course"
         value={selectedCourse}
         onSearch={searchText => onSearchCourses(searchText)}
