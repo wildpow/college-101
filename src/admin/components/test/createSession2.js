@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { hpe } from "grommet-theme-hpe";
+// import { hpe } from "grommet-theme-hpe";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import {
   Box,
   Button,
-  Grommet,
   Layer,
   Heading,
   RangeInput,
@@ -59,6 +58,7 @@ const TitleWrapper = styled(Box)`
     fill: black;
   }
 `;
+
 const MaxStudentWrapper = styled(Box)`
   div {
     border-bottom: 0px solid black !important;
@@ -71,6 +71,30 @@ const MaxStudentWrapper = styled(Box)`
   }
   div div {
     margin-bottom: 6px;
+  }
+`;
+
+const Poop = styled(Box)`
+  div div button div div svg {
+    transition: all 250ms ease-in-out;
+    :hover {
+      stroke: black;
+    }
+  }
+  div div button {
+    :hover {
+      border: 1px solid #6aac5c;
+    }
+  }
+`;
+const HoverBorder = styled(Box)`
+  transition: all 250ms ease-in-out;
+  div {
+    :nth-of-type(2) {
+      :hover {
+        border-bottom: 1px solid #6aac5c !important;
+      }
+    }
   }
 `;
 class CreateSession extends React.Component {
@@ -211,7 +235,7 @@ class CreateSession extends React.Component {
     this.setState({ success: true });
     setTimeout(() => {
       this.setState({ success: false });
-    }, 2000);
+    }, 4000);
   };
 
   render() {
@@ -248,95 +272,91 @@ class CreateSession extends React.Component {
       return null;
     });
     return (
-      <Grommet theme={hpe}>
-        <Box fill align="center" justify="center">
-          <Button icon={<Add />} label="Add Session" onClick={this.onOpen} />
-          {LayerOpen && (
-            <Layer
-              position="right"
-              full="vertical"
-              modal
-              onClickOutside={this.onClose}
-              onEsc={this.onClose}
+      <Box fill align="center" justify="center">
+        <Button icon={<Add />} label="Add Session" onClick={this.onOpen} />
+        {LayerOpen && (
+          <Layer
+            position="right"
+            full="vertical"
+            modal
+            onClickOutside={this.onClose}
+            onEsc={this.onClose}
+          >
+            <TitleWrapper
+              background="#61a785"
+              flex={false}
+              direction="row"
+              justify="between"
+              elevation="xlarge"
+              pad={{
+                left: "medium",
+                right: "medium",
+                top: "xsmall",
+                bottom: "xsmall",
+              }}
             >
-              <TitleWrapper
-                background="#61a785"
-                flex={false}
-                direction="row"
-                justify="between"
-                elevation="xlarge"
-                pad={{
-                  left: "medium",
-                  right: "medium",
-                  top: "xsmall",
-                  bottom: "xsmall",
-                }}
-              >
-                <Heading level={2} margin="none" color="floralwhite">
-                  Add Session
-                </Heading>
-                <Button
-                  icon={<FormClose color="floralwhite" size="large" />}
-                  onClick={this.onClose}
-                />
-              </TitleWrapper>
-              <Mutation mutation={ADD_SESSION}>
-                {createSession => (
+              <Heading level={2} margin="none" color="floralwhite">
+                Add Session
+              </Heading>
+              <Button
+                icon={<FormClose color="floralwhite" size="large" />}
+                onClick={this.onClose}
+              />
+            </TitleWrapper>
+            <Mutation mutation={ADD_SESSION}>
+              {createSession => (
+                <Box
+                  // gap="small"
+                  as="form"
+                  fill="vertical"
+                  overflow="auto"
+                  width="medium"
+                  pad="medium"
+                  onSubmit={event => {
+                    event.preventDefault();
+                    if (
+                      selectedCourse.length === 0 ||
+                      selectedTeacher.length === 0 ||
+                      startTime.length === 0 ||
+                      endTime.length === 0
+                    ) {
+                      this.errorCheck(startTime, "startTimeError");
+                      this.errorCheck(endTime, "endTimeError");
+                      this.errorCheck(selectedCourse, "courseError");
+                      this.errorCheck(selectedTeacher, "teacherError");
+                    } else {
+                      const teacherId =
+                        teacherIDs[teachersNamesCopy.indexOf(selectedTeacher)];
+                      const courseId =
+                        courseIDs[courseNamesCopy.indexOf(selectedCourse)];
+                      const finalStart = this.convertDateTime(
+                        startDate,
+                        startTime,
+                      );
+                      const FinalEnd = this.convertDateTime(startDate, endTime);
+                      createSession({
+                        variables: {
+                          startTime: finalStart,
+                          endTime: FinalEnd,
+                          teacherId,
+                          courseId,
+                          maxSizeOfClass,
+                        },
+                      });
+                      this.onClose();
+                      this.successOpen();
+                      return null;
+                    }
+                    return null;
+                  }}
+                >
                   <Box
-                    // gap="small"
-                    as="form"
-                    fill="vertical"
+                    flex="grow"
                     overflow="auto"
-                    width="medium"
-                    pad="medium"
-                    onSubmit={event => {
-                      event.preventDefault();
-                      if (
-                        selectedCourse.length === 0 ||
-                        selectedTeacher.length === 0 ||
-                        startTime.length === 0 ||
-                        endTime.length === 0
-                      ) {
-                        this.errorCheck(startTime, "startTimeError");
-                        this.errorCheck(endTime, "endTimeError");
-                        this.errorCheck(selectedCourse, "courseError");
-                        this.errorCheck(selectedTeacher, "teacherError");
-                      } else {
-                        const teacherId =
-                          teacherIDs[
-                            teachersNamesCopy.indexOf(selectedTeacher)
-                          ];
-                        const courseId =
-                          courseIDs[courseNamesCopy.indexOf(selectedCourse)];
-                        const finalStart = this.convertDateTime(
-                          startDate,
-                          startTime,
-                        );
-                        const FinalEnd = this.convertDateTime(
-                          startDate,
-                          endTime,
-                        );
-                        createSession({
-                          variables: {
-                            startTime: finalStart,
-                            endTime: FinalEnd,
-                            teacherId,
-                            courseId,
-                            maxSizeOfClass,
-                          },
-                        });
-                        this.onClose();
-                        this.successOpen();
-                        return null;
-                      }
-                    }}
+                    // pad={{ vertical: "small" }}
+                    // gap="xsmall"
                   >
-                    <Box
-                      flex="grow"
-                      overflow="auto"
-                      // pad={{ vertical: "small" }}
-                      gap="xsmall"
-                    >
+                    <Poop>
                       <SelectCourse
                         selectedCourse={selectedCourse}
                         courseSelectChange={this.courseSelectChange}
@@ -344,6 +364,8 @@ class CreateSession extends React.Component {
                         courseOptions={courseOptions}
                         courseError={courseError}
                       />
+                    </Poop>
+                    <Poop>
                       <SelectTeacher
                         selectedTeacher={selectedTeacher}
                         teacherSelectChange={this.teacherSelectChange}
@@ -351,6 +373,8 @@ class CreateSession extends React.Component {
                         teacherOptions={teacherOptions}
                         teacherError={teacherError}
                       />
+                    </Poop>
+                    <HoverBorder>
                       <StartDate
                         startDateOpen={startDateOpen}
                         startOnOpen={this.startOnOpen}
@@ -358,111 +382,106 @@ class CreateSession extends React.Component {
                         startDate={startDate}
                         startDateSelect={this.startDateSelect}
                       />
+                    </HoverBorder>
+                    <HoverBorder>
                       <StartTimePicker
                         startTime={startTime}
                         onChangeStartTime={this.onChangeStartTime}
                         startTimeError={startTimeError}
                       />
+                    </HoverBorder>
+                    <HoverBorder>
                       <EndTime
                         endTime={endTime}
                         onChangeEndTime={this.onChangeEndTime}
                         endTimeError={endTimeError}
                       />
-                      <MaxStudentWrapper>
-                        <FormField
-                          name="max"
-                          label="Max Number of student in this session?"
-                        >
-                          <RangeInput
-                            onChange={event =>
-                              this.setState({
-                                maxSizeOfClass: Number(event.target.value),
-                              })
-                            }
-                            min={1}
-                            max={25}
-                            value={maxSizeOfClass}
-                          />
-                          <Box
-                            direction="row"
-                            align="center"
-                            alignSelf="center"
-                          >
-                            <Heading level={1}>{maxSizeOfClass}</Heading>
-                          </Box>
-                        </FormField>
-                      </MaxStudentWrapper>
-                    </Box>
-                    <Box
-                      direction="row"
-                      justify="between"
-                      // margin={{ bottom: "small" }}
-                    >
-                      <Button
-                        icon={<FormSubtract />}
-                        label="Clear"
-                        onClick={() =>
-                          this.setState({
-                            selectedCourse: "",
-                            selectedTeacher: "",
-                            startDate: undefined,
-                            startTime: "",
-                            endTime: "",
-                            endTimeError: false,
-                            startTimeError: false,
-                            courseError: false,
-                            teacherError: false,
-                          })
-                        }
-                      />
-                      <Button
-                        type="submit"
-                        label="Add"
-                        primary
-                        icon={<Add />}
-                      />
-                    </Box>
+                    </HoverBorder>
+                    <MaxStudentWrapper>
+                      <FormField
+                        name="max"
+                        label="Max Number of student in this session?"
+                      >
+                        <RangeInput
+                          onChange={event =>
+                            this.setState({
+                              maxSizeOfClass: Number(event.target.value),
+                            })
+                          }
+                          min={1}
+                          max={25}
+                          value={maxSizeOfClass}
+                        />
+                        <Box direction="row" align="center" alignSelf="center">
+                          <Heading level={1}>{maxSizeOfClass}</Heading>
+                        </Box>
+                      </FormField>
+                    </MaxStudentWrapper>
                   </Box>
-                )}
-              </Mutation>
-            </Layer>
-          )}
-          {success && (
-            <Layer
-              position="bottom"
-              full="horizontal"
-              modal={false}
-              responsive={false}
-              onEsc={this.successClose}
+                  <Box
+                    direction="row"
+                    justify="between"
+                    // margin={{ bottom: "small" }}
+                  >
+                    <Button
+                      icon={<FormSubtract />}
+                      label="Clear"
+                      onClick={() =>
+                        this.setState({
+                          selectedCourse: "",
+                          selectedTeacher: "",
+                          startDate: undefined,
+                          startTime: "",
+                          endTime: "",
+                          endTimeError: false,
+                          startTimeError: false,
+                          courseError: false,
+                          teacherError: false,
+                        })
+                      }
+                    />
+                    <Button type="submit" label="Add" primary icon={<Add />} />
+                  </Box>
+                </Box>
+              )}
+            </Mutation>
+          </Layer>
+        )}
+        {success && (
+          <Layer
+            position="bottom"
+            full="horizontal"
+            modal={false}
+            responsive={false}
+            onEsc={this.successClose}
+          >
+            <Box
+              align="start"
+              pad={{ vertical: "medium", horizontal: "small" }}
             >
               <Box
-                align="start"
-                pad={{ vertical: "medium", horizontal: "small" }}
+                align="center"
+                direction="row"
+                gap="small"
+                round="medium"
+                elevation="medium"
+                pad={{ vertical: "xsmall", horizontal: "small" }}
+                background="status-ok"
               >
-                <Box
-                  align="center"
-                  direction="row"
-                  gap="small"
-                  round="medium"
-                  elevation="medium"
-                  pad={{ vertical: "xsmall", horizontal: "small" }}
-                  background="status-ok"
-                >
-                  <Box align="center" direction="row" gap="xsmall">
-                    <StatusGood />
-                    <Text>{`A new session was added for ${startDate}`}</Text>
-                  </Box>
-                  <Button
-                    icon={<FormClose />}
-                    onClick={this.successClose}
-                    plain
-                  />
+                <Box align="center" direction="row" gap="xsmall">
+                  <StatusGood />
+                  <Text>A new session was added</Text>
                 </Box>
+                <Button
+                  icon={<FormClose />}
+                  onClick={this.successClose}
+                  plain
+                />
               </Box>
-            </Layer>
-          )}
-        </Box>
-      </Grommet>
+            </Box>
+          </Layer>
+        )}
+      </Box>
     );
   }
 }

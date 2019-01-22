@@ -39,7 +39,7 @@ const EndTime = props => {
             length: 2,
             options: ["am", "pm"],
             regexp: /^[ap]m$|^[AP]M$|^[aApP]$/,
-            placeholder: "ap",
+            placeholder: "am/pm",
           },
         ]}
         value={endTime}
