@@ -65,8 +65,8 @@ class Admin extends React.Component {
             <Calendar date={date} onSelect={this.onSelect} size="medium" />
           </Box>
           <Box gridArea="main">
-            <QueryTeacherCourse component={ViewSession} />
-            <QuerySessions component={ViewSessionTest} date={date} />
+            {/* <QueryTeacherCourse component={ViewSession} /> */}
+            <ViewSessionTest date={date} />
           </Box>
           <Box gridArea="foot" background="accent-1" justifyContent="center">
             <QueryTeacherCourse component={CreateSession2} />

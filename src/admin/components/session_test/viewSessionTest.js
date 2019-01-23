@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Table,
+  Heading,
   TableBody,
   TableCell,
   TableFooter,
@@ -11,7 +12,9 @@ import {
   Text,
 } from "grommet";
 import { FormUp, FormDown } from "grommet-icons";
-import { timeFormat } from "../../../utils/globalFunctions";
+// import { timeFormat } from "../../../utils/globalFunctions";
+import QuerySessions from "../../queryComponents/all_sessions";
+import Test from "./test";
 
 const COLUMNS = [
   {
@@ -40,91 +43,40 @@ const COLUMNS = [
   },
 ];
 
-class ViewSessionTest extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      poop: "",
-    };
-  }
+const ViewSessionTest = props => {
+  const { date } = props;
+  return (
+    <>
+      <Box flex={false}>
+        <Table caption="Session table">
+          <TableHeader>
+            <TableRow>
+              {COLUMNS.map(c => (
+                <TableCell key={c.property} scope="col">
+                  <Text>{c.label}</Text>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHeader>
+        </Table>
+      </Box>
 
-  render() {
-    const { sessions, date } = this.props;
-    const currentSessions = [];
-    sessions.map(session => {
-      const testDate = new Date(session.startTime);
-      const today = new Date(date);
-      if (
-        today.getMonth() === testDate.getMonth() &&
-        today.getDate() === testDate.getDate() &&
-        today.getFullYear() === testDate.getFullYear()
-      ) {
-        currentSessions.push(session);
-      }
-      return null;
-    });
-    return (
-      <>
-        <Box flex={false}>
-          <Table caption="Session table">
-            <TableHeader>
-              <TableRow>
-                {COLUMNS.map(c => (
-                  <TableCell key={c.property} scope="col">
-                    <Text>{c.label}</Text>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHeader>
-          </Table>
-          {console.log(sessions)}
-        </Box>
-
-        <Box flex={false} overflow="scroll">
-          <Table>
-            <TableBody>
-              {currentSessions.map(session => {
-                return (
-                  <TableRow key={session.id}>
-                    <TableCell>
-                      <Text>{session.course.name}</Text>
-                    </TableCell>
-                    <TableCell>
-                      <Text>{timeFormat(session.startTime)}</Text>
-                    </TableCell>
-                    <TableCell>
-                      <Text>{timeFormat(session.endTime)}</Text>
-                    </TableCell>
-                    <TableCell>
-                      <Text>
-                        {`${
-                          session.students.length === 0
-                            ? 0
-                            : session.students.length
-                        }
-                    / 
-                    ${session.maxSizeOfClass}`}
-                      </Text>
-                    </TableCell>
-                    <TableCell>
-                      <Text>
-                        {`${session.teacher.firstName} ${
-                          session.teacher.lastName
-                        }`}
-                      </Text>
-                    </TableCell>
-                    <TableCell>
-                      <Text>{session.attendance ? "taken" : "none"}</Text>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Box>
-      </>
-    );
-  }
-}
+      <QuerySessions component={Test} date={date} />
+      <Box flex={false}>
+        <Table caption="Table footer">
+          <TableFooter>
+            <TableRow>
+              <TableCell align="center">
+                <Heading level={2}>
+                  {`Current Classes for ${new Date(date).toDateString()}`}
+                </Heading>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </Box>
+    </>
+  );
+};
 
 export default ViewSessionTest;
