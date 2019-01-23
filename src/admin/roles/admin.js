@@ -1,77 +1,101 @@
 import React from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { hpe } from "grommet-theme-hpe";
-import { Grommet, Box, Grid } from "grommet";
+import { Grommet, Box, Grid, Calendar } from "grommet";
 import QueryTeacherCourse from "../queryComponents/all_Teachers_Courses";
-import CreateSession from "../components/createSession";
-import FilteredCal from "../components/filterCal";
-import FeatureWrapper from "../components/buttons/featureWrapper";
-import CreateTeacher from "../components/createTeacher";
+// import CreateSession from "../components/createSession";
+// import FilteredCal from "../components/filterCal";
+// import FeatureWrapper from "../components/buttons/featureWrapper";
+// import CreateTeacher from "../components/createTeacher";
 import CreateSession2 from "../components/test/createSession2";
+import QuerySessions from "../queryComponents/all_sessions";
 
-const Card = styled.div`
-  position: absolute;
-  width: 400px;
-  height: 350px;
-  transform-style: preserve-3d;
-  transition: all 0.5s ease;
-`;
+// import SessionCal from "../components/session_test/sessionCal";
+// const Card = styled.div`
+//   position: absolute;
+//   width: 400px;
+//   height: 350px;
+//   transform-style: preserve-3d;
+//   transition: all 0.5s ease;
+// `;
+import ViewSessionTest from "../components/session_test/viewSessionTest";
 
-const SessionCard = styled(Card)`
-  height: 500px;
-`;
-const Admin = ({ userName }) => {
-  return (
-    // col row
-    <Grommet theme={hpe}>
-      {/* <Grid
-        fill
-        justifyContent="center"
-        alignContent="center"
-        areas={[
-          { name: "topGutter", start: [0, 0], end: [3, 0] },
-          { name: "gutter1", start: [0, 1], end: [0, 2] },
-          { name: "nav", start: [1, 1], end: [1, 1] },
-          { name: "main", start: [2, 1], end: [2, 1] },
-          { name: "gutter2", start: [3, 1], end: [3, 2] },
-          { name: "foot", start: [1, 2], end: [2, 2] },
-        ]}
-        columns={[".14em", "small", "flex", ".14em"]}
-        rows={["0vh", "70vh", "15vh"]}
-        gap="small"
-      >
-        <Box gridArea="topGutter" background="yellow" />
-        <Box gridArea="gutter1" />
-        <Box gridArea="nav" background="brand">
-          NAV
-        </Box>
-        <Box gridArea="main" background="brand" />
-        <Box gridArea="foot" background="accent-1" justifyContent="center">
-          <QueryTeacherCourse component={CreateSession2} />
-        </Box>
-        <Box gridArea="gutter2" />
-      </Grid> */}
-      <QueryTeacherCourse component={FilteredCal} />
-      <FeatureWrapper
-        Card={Card}
-        Query={QueryTeacherCourse}
-        component={CreateTeacher}
-        header="add teacher"
-        successMessage="Teacher was added successfully"
-        buttonText="add teacher"
-      />
-      <FeatureWrapper
-        Card={SessionCard}
-        Query={QueryTeacherCourse}
-        component={CreateSession}
-        header="add session"
-        successMessage="Session was created successfully"
-        buttonText="add session"
-      />
+// import ViewSession from "../components/session_test/vewSession";
+// const SessionCard = styled(Card)`
+//   height: 500px;
+// `;
+class Admin extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date().toLocaleDateString(),
+    };
+  }
 
-      <QueryTeacherCourse component={CreateSession2} />
-    </Grommet>
-  );
-};
+  onSelect = nextDate => {
+    const { date } = this.state;
+    this.setState({ date: nextDate !== date ? nextDate : undefined });
+  };
+
+  render() {
+    const { date } = this.state;
+
+    return (
+      // col row
+      <Grommet theme={hpe}>
+        <Grid
+          fill
+          justifyContent="center"
+          alignContent="center"
+          areas={[
+            { name: "topGutter", start: [0, 0], end: [3, 0] },
+            { name: "gutter1", start: [0, 1], end: [0, 2] },
+            { name: "nav", start: [1, 1], end: [1, 1] },
+            { name: "main", start: [2, 1], end: [2, 1] },
+            { name: "gutter2", start: [3, 1], end: [3, 2] },
+            { name: "foot", start: [1, 2], end: [2, 2] },
+          ]}
+          columns={[".14em", "30%", "flex", ".14em"]}
+          rows={["1vh", "70vh", "15vh"]}
+          gap="small"
+        >
+          <Box gridArea="topGutter" />
+          <Box gridArea="gutter1" />
+          <Box gridArea="nav">
+            <Calendar date={date} onSelect={this.onSelect} size="medium" />
+          </Box>
+          <Box gridArea="main">
+            {/* <QueryTeacherCourse component={ViewSession} /> */}
+            <QuerySessions component={ViewSessionTest} date={date} />
+          </Box>
+          <Box gridArea="foot" background="accent-1" justifyContent="center">
+            <QueryTeacherCourse component={CreateSession2} />
+          </Box>
+          <Box gridArea="gutter2" />
+        </Grid>
+        {/* <QueryTeacherCourse component={FilteredCal} /> */}
+
+        {/* <FeatureWrapper
+          Card={Card}
+          Query={QueryTeacherCourse}
+          component={CreateTeacher}
+          header="add teacher"
+          successMessage="Teacher was added successfully"
+          buttonText="add teacher"
+        />
+        <FeatureWrapper
+          Card={SessionCard}
+          Query={QueryTeacherCourse}
+          component={CreateSession}
+          header="add session"
+          successMessage="Session was created successfully"
+          buttonText="add session"
+        />
+  
+        <QueryTeacherCourse component={CreateSession2} /> */}
+      </Grommet>
+    );
+  }
+}
 
 export default Admin;
