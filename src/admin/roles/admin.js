@@ -20,7 +20,7 @@ import QuerySessions from "../queryComponents/all_sessions";
 // `;
 import ViewSessionTest from "../components/session_test/viewSessionTest";
 
-// import ViewSession from "../components/session_test/vewSession";
+import ViewSession from "../components/session_test/vewSession";
 // const SessionCard = styled(Card)`
 //   height: 500px;
 // `;
@@ -65,7 +65,7 @@ class Admin extends React.Component {
             <Calendar date={date} onSelect={this.onSelect} size="medium" />
           </Box>
           <Box gridArea="main">
-            {/* <QueryTeacherCourse component={ViewSession} /> */}
+            <QueryTeacherCourse component={ViewSession} />
             <QuerySessions component={ViewSessionTest} date={date} />
           </Box>
           <Box gridArea="foot" background="accent-1" justifyContent="center">

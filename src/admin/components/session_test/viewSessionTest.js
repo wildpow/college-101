@@ -11,6 +11,7 @@ import {
   Text,
 } from "grommet";
 import { FormUp, FormDown } from "grommet-icons";
+import { timeFormat } from "../../../utils/globalFunctions";
 
 const COLUMNS = [
   {
@@ -87,6 +88,33 @@ class ViewSessionTest extends React.Component {
                   <TableRow key={session.id}>
                     <TableCell>
                       <Text>{session.course.name}</Text>
+                    </TableCell>
+                    <TableCell>
+                      <Text>{timeFormat(session.startTime)}</Text>
+                    </TableCell>
+                    <TableCell>
+                      <Text>{timeFormat(session.endTime)}</Text>
+                    </TableCell>
+                    <TableCell>
+                      <Text>
+                        {`${
+                          session.students.length === 0
+                            ? 0
+                            : session.students.length
+                        }
+                    / 
+                    ${session.maxSizeOfClass}`}
+                      </Text>
+                    </TableCell>
+                    <TableCell>
+                      <Text>
+                        {`${session.teacher.firstName} ${
+                          session.teacher.lastName
+                        }`}
+                      </Text>
+                    </TableCell>
+                    <TableCell>
+                      <Text>{session.attendance ? "taken" : "none"}</Text>
                     </TableCell>
                   </TableRow>
                 );
