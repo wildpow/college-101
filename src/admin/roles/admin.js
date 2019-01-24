@@ -34,7 +34,8 @@ class Admin extends React.Component {
 
   onSelect = nextDate => {
     const { date } = this.state;
-    this.setState({ date: nextDate !== date ? nextDate : undefined });
+    // this.setState({ date: nextDate !== date ? nextDate : undefined });
+    this.setState({ date: nextDate });
   };
 
   render() {
@@ -65,10 +66,10 @@ class Admin extends React.Component {
             <Calendar date={date} onSelect={this.onSelect} size="medium" />
           </Box>
           <Box gridArea="main">
-            {/* <QueryTeacherCourse component={ViewSession} /> */}
-            <ViewSessionTest date={date} />
+            <QueryTeacherCourse component={ViewSession} />
+            <QuerySessions component={ViewSessionTest} date={date} />
           </Box>
-          <Box gridArea="foot" background="accent-1" justifyContent="center">
+          <Box gridArea="foot" justifyContent="center">
             <QueryTeacherCourse component={CreateSession2} />
           </Box>
           <Box gridArea="gutter2" />

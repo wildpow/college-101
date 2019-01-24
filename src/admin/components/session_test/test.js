@@ -13,29 +13,59 @@ import {
 } from "grommet";
 
 const Test = props => {
-  const { sessions, date } = props;
-  const currentSessions = [];
-  const today = new Date(date);
-  sessions.map(session => {
-    const testDate = new Date(session.startTime);
-    if (
-      today.getMonth() === testDate.getMonth() &&
-      today.getDate() === testDate.getDate() &&
-      today.getFullYear() === testDate.getFullYear()
-    ) {
-      currentSessions.push(session);
-    }
-    return null;
-  });
+  const {
+    sessions,
+    selected,
+    over,
+    sessionMouseOut,
+    sessionMouseOver,
+    sessionOnFocus,
+    sessionOnBlur,
+    sessionOnClick,
+  } = props;
+  // const currentSessions = [];
+  // const today = new Date(date);
+  // sessions.map(session => {
+  //   const testDate = new Date(session.startTime);
+  //   if (
+  //     today.getMonth() === testDate.getMonth() &&
+  //     today.getDate() === testDate.getDate() &&
+  //     today.getFullYear() === testDate.getFullYear()
+  //   ) {
+  //     currentSessions.push(session);
+  //   }
+  //   return null;
+  // });
   return (
     <Box flex={false} overflow="scroll">
-      <Table>
+      <Table caption="list of session for current date">
         <TableBody>
-          {currentSessions.map(session => {
+          {sessions.map(session => {
+            let background;
+            if (session.id === selected) {
+              background = "brand";
+            } else if (session.id === over) {
+              background = "light-2";
+            }
             return (
               <TableRow key={session.id}>
                 <TableCell>
-                  <Text>{session.course.name}</Text>
+                  <Button
+                    fill
+                    plain
+                    onMouseOver={id => sessionMouseOver(id)}
+                    onMouseOut={sessionMouseOut}
+                    onFocus={id => sessionOnFocus(id)}
+                    onBlur={sessionOnBlur}
+                    onClick={id => sessionOnClick(id)}
+                  >
+                    <Box
+                      background={background}
+                      pad={{ horizontal: "small", vertical: "xsmall" }}
+                    >
+                      <Text>{session.course.name}</Text>
+                    </Box>
+                  </Button>
                 </TableCell>
                 <TableCell>
                   <Text>{timeFormat(session.startTime)}</Text>
