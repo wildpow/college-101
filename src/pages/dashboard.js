@@ -1,6 +1,6 @@
-import Admin from "../admin/admin";
+import DashBoard from "../reactDashBoard/dashboard";
 
-export default Admin;
+export default DashBoard;
 
 // `src/app` is not "special", it is re-exported by `src/pages/app.js`
 // and contains all the clientside dynamic App pages that we dont want to be statically generated.

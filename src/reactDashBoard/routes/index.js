@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import "react-datepicker/dist/react-datepicker.css";
 import { getUser } from "../services/auth";
-import Teacher from "../roles/teacher/teacher";
+import Teacher from "../roles/teacher";
 import Admin from "../roles/admin";
 import Customer from "../roles/customer";
 import UserLoggins from "../queryComponents/userLoggins";
@@ -21,13 +21,15 @@ const Main = () => {
         <UserLoggins component={Customer} userName={user.email} />
       </Container>
     );
-  } else if (user.app_metadata.roles[0] === "admin") {
+  }
+  if (user.app_metadata.roles[0] === "admin") {
     return (
       <Container>
         <Admin userName={user.email} />
       </Container>
     );
-  } else if (user.app_metadata.roles[0] === "teacher") {
+  }
+  if (user.app_metadata.roles[0] === "teacher") {
     return (
       <Container>
         <TeacherLogin component={Teacher} userName={user.email} />

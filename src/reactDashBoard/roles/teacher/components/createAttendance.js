@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import { Button } from "../../components/sharedStyles";
+import { Button } from "../../../components/sharedStyles";
 
 const NewButton = styled(Button)`
   margin-top: 5px;

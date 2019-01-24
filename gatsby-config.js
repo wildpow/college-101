@@ -10,7 +10,7 @@ module.exports = {
     `gatsby-plugin-styled-components`,
     {
       resolve: `gatsby-plugin-create-client-paths`,
-      options: { prefixes: [`/admin/*`] },
+      options: { prefixes: [`/dashboard/*`] },
     },
     "gatsby-plugin-stripe-checkout",
     "gatsby-plugin-react-helmet",

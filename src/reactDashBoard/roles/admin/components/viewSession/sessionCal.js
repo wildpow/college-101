@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Box, Button, Calendar, Grommet, Heading, Text } from "grommet";
+import { Calendar } from "grommet";
 
 class SimpleCalendar extends Component {
   state = {

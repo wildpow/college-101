@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { timeFormat } from "../../../utils/globalFunctions";
+import { timeFormat } from "../../../../utils/globalFunctions";
 import TakeAttendance from "./takeAttendance";
 
 const Table = styled.table`

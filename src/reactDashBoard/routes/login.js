@@ -3,7 +3,7 @@ import { navigate } from "gatsby";
 import { handleLogin } from "../services/auth";
 
 class Login extends React.Component {
-  handleSubmit = () => handleLogin(user => navigate(`/admin`));
+  handleSubmit = () => handleLogin(user => navigate(`/dashboard`));
 
   render() {
     return (

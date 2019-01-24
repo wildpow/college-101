@@ -1,29 +1,11 @@
 import React from "react";
-// import styled from "styled-components";
 import { hpe } from "grommet-theme-hpe";
 import { Grommet, Box, Grid, Calendar } from "grommet";
-import QueryTeacherCourse from "../queryComponents/all_Teachers_Courses";
-// import CreateSession from "../components/createSession";
-// import FilteredCal from "../components/filterCal";
-// import FeatureWrapper from "../components/buttons/featureWrapper";
-// import CreateTeacher from "../components/createTeacher";
-import CreateSession2 from "../components/test/createSession2";
-import QuerySessions from "../queryComponents/all_sessions";
+import QueryTeacherCourse from "../../queryComponents/all_Teachers_Courses";
+import CreateSession2 from "./components/createSession/createSession2";
+import QuerySessions from "../../queryComponents/all_sessions";
+import ViewSessionTest from "./components/viewSession/viewSessionTest";
 
-// import SessionCal from "../components/session_test/sessionCal";
-// const Card = styled.div`
-//   position: absolute;
-//   width: 400px;
-//   height: 350px;
-//   transform-style: preserve-3d;
-//   transition: all 0.5s ease;
-// `;
-import ViewSessionTest from "../components/session_test/viewSessionTest";
-
-// import ViewSession from "../components/session_test/vewSession";
-// const SessionCard = styled(Card)`
-//   height: 500px;
-// `;
 class Admin extends React.Component {
   constructor(props) {
     super(props);
@@ -33,8 +15,6 @@ class Admin extends React.Component {
   }
 
   onSelect = nextDate => {
-    const { date } = this.state;
-    // this.setState({ date: nextDate !== date ? nextDate : undefined });
     this.setState({ date: nextDate });
   };
 
@@ -74,26 +54,6 @@ class Admin extends React.Component {
           </Box>
           <Box gridArea="gutter2" />
         </Grid>
-        {/* <QueryTeacherCourse component={FilteredCal} /> */}
-
-        {/* <FeatureWrapper
-          Card={Card}
-          Query={QueryTeacherCourse}
-          component={CreateTeacher}
-          header="add teacher"
-          successMessage="Teacher was added successfully"
-          buttonText="add teacher"
-        />
-        <FeatureWrapper
-          Card={SessionCard}
-          Query={QueryTeacherCourse}
-          component={CreateSession}
-          header="add session"
-          successMessage="Session was created successfully"
-          buttonText="add session"
-        />
-  
-        <QueryTeacherCourse component={CreateSession2} /> */}
       </Grommet>
     );
   }

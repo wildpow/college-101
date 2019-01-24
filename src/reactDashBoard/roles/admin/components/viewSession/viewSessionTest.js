@@ -12,7 +12,7 @@ import {
 } from "grommet";
 
 import { FormUp, FormDown } from "grommet-icons";
-import { timeFormat } from "../../../utils/globalFunctions";
+import { timeFormat } from "../../../../../utils/globalFunctions";
 
 const COLUMNS = [
   {
