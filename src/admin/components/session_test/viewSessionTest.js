@@ -6,18 +6,13 @@ import {
   Heading,
   TableBody,
   TableCell,
-  TableFooter,
   TableHeader,
   TableRow,
   Text,
-  Grommet,
 } from "grommet";
-import { hpe } from "grommet-theme-hpe";
 
-import { FormUp, FormDown, Add } from "grommet-icons";
+import { FormUp, FormDown } from "grommet-icons";
 import { timeFormat } from "../../../utils/globalFunctions";
-// import QuerySessions from "../../queryComponents/all_sessions";
-// import Test from "./test";
 
 const COLUMNS = [
   {
@@ -70,9 +65,10 @@ class ViewSessionTest extends React.Component {
   }
 
   componentWillMount() {
+    const { date, sessions } = this.props;
     const currentSessions = [];
-    const today = new Date(this.props.date);
-    this.props.sessions.map(session => {
+    const today = new Date(date);
+    sessions.map(session => {
       const testDate = new Date(session.startTime);
       if (
         today.getMonth() === testDate.getMonth() &&
@@ -87,10 +83,11 @@ class ViewSessionTest extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.date !== this.props.date) {
+    const { date, sessions } = this.props;
+    if (nextProps.date !== date) {
       const currentSessions = [];
       const today = new Date(nextProps.date);
-      this.props.sessions.map(session => {
+      sessions.map(session => {
         const testDate = new Date(session.startTime);
         if (
           today.getMonth() === testDate.getMonth() &&
@@ -115,13 +112,14 @@ class ViewSessionTest extends React.Component {
   sessionOnBlur = () => this.setState({ over: undefined });
 
   sessionOnClick = id => {
+    const { selected } = this.state;
     this.setState({
-      selected: id === this.state.selected ? undefined : id,
+      selected: id === selected ? undefined : id,
     });
   };
 
   onSort = property => {
-    const { sortProperty, sortDirection } = this.state;
+    const { sortProperty, sortDirection, sessions } = this.state;
     let nextSortDirection;
     if (sortProperty === property) {
       nextSortDirection = sortDirection === "asc" ? "desc" : "asc";
@@ -129,7 +127,7 @@ class ViewSessionTest extends React.Component {
     } else {
       nextSortDirection = "asc";
     }
-    const data = this.state.sessions.sort((d1, d2) => {
+    const data = sessions.sort((d1, d2) => {
       if (property === "startTime" || property === "endTime") {
         return nextSortDirection === "asc"
           ? new Date(d1[property]) - new Date(d2[property])
@@ -189,7 +187,7 @@ class ViewSessionTest extends React.Component {
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
       <>
-        <Box flex={false}>
+        <Box flex={false} animation="fadeIn">
           <Heading level={2}>
             {`Current Classes for ${new Date(date).toDateString()}`}
           </Heading>
