@@ -1,7 +1,7 @@
 import React from "react";
-import Home from "../components/homePage";
-import Layout from "../components/layout";
-import { initAuth } from "../admin/services/auth";
+import Home from "../gatsbyComponents/homePage";
+import Layout from "../gatsbyComponents/layout";
+import { initAuth } from "../reactDashBoard/services/auth";
 
 initAuth();
 const IndexPage = () => (

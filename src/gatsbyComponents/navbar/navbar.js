@@ -6,7 +6,7 @@ import {
   isLoggedIn,
   logout,
   handleLogin,
-} from "../../admin/services/auth";
+} from "../../reactDashBoard/services/auth";
 
 import MobileButton from "../mobileMenu/mobileButton";
 import {
@@ -45,7 +45,7 @@ const Navbar = props => {
           {isLoggedIn() ? (
             <>
               <Link
-                to="/admin/"
+                to="/dashboard/"
                 activeStyle={{
                   backgroundColor: "#4caf50",
                   color: "white",
@@ -54,7 +54,7 @@ const Navbar = props => {
                 main
               </Link>
               <Link
-                to="/admin/receipts"
+                to="/dashboard/receipts"
                 activeStyle={{
                   backgroundColor: "#4caf50",
                   color: "white",
@@ -63,7 +63,7 @@ const Navbar = props => {
                 receipts
               </Link>
               <Link
-                to="/admin/package"
+                to="/dashboard/package"
                 activeStyle={{
                   backgroundColor: "#4caf50",
                   color: "white",
@@ -72,7 +72,7 @@ const Navbar = props => {
                 package
               </Link>
               <Link
-                to="/admin/students"
+                to="/dashboard/students"
                 activeStyle={{
                   backgroundColor: "#4caf50",
                   color: "white",
@@ -81,7 +81,7 @@ const Navbar = props => {
                 students
               </Link>
               <Link
-                to="/admin/teachers"
+                to="/dashboard/teachers"
                 activeStyle={{
                   backgroundColor: "#4caf50",
                   color: "white",
@@ -90,7 +90,7 @@ const Navbar = props => {
                 teachers
               </Link>
               <Link
-                to="/admin/attendance"
+                to="/dashboard/attendance"
                 activeStyle={{
                   backgroundColor: "#4caf50",
                   color: "white",
@@ -142,7 +142,7 @@ const Navbar = props => {
                 href="/app"
                 onClick={event => {
                   event.preventDefault();
-                  handleLogin(user => navigate("/admin"));
+                  handleLogin(user => navigate("/dashboard"));
                 }}
               >
                 admin

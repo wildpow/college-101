@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { graphql } from "gatsby";
 import { Wrapper, CalContainer, CalStyled } from "../styles/sheduleStyles";
-import Layout from "../components/layout";
-import ClassViewer from "../components/schedule/classView";
+import Layout from "../gatsbyComponents/layout";
+import ClassViewer from "../gatsbyComponents/schedule/classView";
 
 class Schedule extends React.Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import React from "react";
-import TeacherCal from "./teacherCal";
+import TeacherCal from "./components/teacherCal";
 
 const Employee = props => {
   const { data, userName } = props;

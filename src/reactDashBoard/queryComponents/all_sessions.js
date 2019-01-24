@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import Spinner from "../components/loading";
+// import Spinner from "../components/loading";
 
 const ALL_SESSIONS = gql`
   query allSessions {
@@ -35,7 +35,7 @@ const ALL_SESSIONS = gql`
 const QuerySessions = props => (
   <Query query={ALL_SESSIONS} pollInterval={1000}>
     {({ loading, error, data: { sessions } }) => {
-      if (loading) return <Spinner />;
+      if (loading) return null;
       if (error) return <h1>Error</h1>;
       if (sessions) return <props.component sessions={sessions} {...props} />;
       return null;

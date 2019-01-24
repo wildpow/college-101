@@ -1,7 +1,7 @@
 import React from "react";
-import Layout from "../components/layout";
+import Layout from "../gatsbyComponents/layout";
 // import Link from "gatsby-link";
-import C2 from "../components/c2";
+import C2 from "../gatsbyComponents/c2";
 
 const HomeWorkHelp = () => (
   <Layout>

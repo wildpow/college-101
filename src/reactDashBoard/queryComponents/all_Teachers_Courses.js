@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import Spinner from "../components/loading";
+// import Spinner from "../components/loading";
 
 const ALL_TEACHERS_COURSES = gql`
   query all_Teachers_Courses {
@@ -21,7 +21,7 @@ const ALL_TEACHERS_COURSES = gql`
 const QueryTeacherCourse = props => (
   <Query query={ALL_TEACHERS_COURSES} pollInterval={1000}>
     {({ loading, error, data }) => {
-      if (loading) return <Spinner />;
+      if (loading) return null;
       if (error) return <h1>Error</h1>;
       if (data) return <props.component data={data} {...props} />;
       return null;
