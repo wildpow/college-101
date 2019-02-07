@@ -1,6 +1,10 @@
 import React from "react";
-import { Select } from "grommet";
+import { Select, Button, Box } from "grommet";
+import styled from "styled-components";
 
+const FixedheightBox = styled(Box)`
+  height: 50px;
+`;
 class UserCheck extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +45,7 @@ class UserCheck extends React.Component {
   render() {
     const { customerOptions, selectedCustomer } = this.state;
     return (
-      <div>
+      <Box direction="column" gap="xsmall">
         <Select
           searchPlaceholder="Search Customers"
           placeholder="Select a Customer"
@@ -50,7 +54,14 @@ class UserCheck extends React.Component {
           onSearch={searchText => this.onSearchCustomer(searchText)}
           onChange={event => this.customerSelectChange(event)}
         />
-      </div>
+        <Box height="50px">
+          {selectedCustomer.length === 0 ? null : (
+            <Box animation="zoomIn">
+              <Button type="button" label="Confirm" />
+            </Box>
+          )}
+        </Box>
+      </Box>
     );
   }
 }
