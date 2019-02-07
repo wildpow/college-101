@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Modal from "../../../components/buttons/modal";
 import { Button } from "../../../components/sharedStyles";
 import CreateAttendance from "./createAttendance";
+import ViewClass from "./viewClass";
 
 const Card = styled.div`
   position: absolute;
@@ -167,7 +168,7 @@ class TakeAttendance extends React.Component {
       <>
         <div>
           {session.attendance ? (
-            <button type="button">view</button>
+            <ViewClass data={session} />
           ) : (
             <NewButton onClick={this.handleShow} type="button">
               Take Attendance
