@@ -11,7 +11,7 @@ class UserCheck extends React.Component {
     this.state = {
       customerOptions: [],
       selectedCustomer: "",
-      customerCopy: [],
+      customerOptionsCopy: [],
     };
     this.onSearchCustomer = this.onSearchCustomer.bind(this);
   }
@@ -22,23 +22,23 @@ class UserCheck extends React.Component {
     data.userloggins.map(customer => customerNames.push(customer.username));
     this.setState({
       customerOptions: customerNames,
-      customerCopy: customerNames,
+      customerOptionsCopy: customerNames,
     });
   }
 
   onSearchCustomer = searchText => {
-    const { customerCopy } = this.state;
+    const { customerOptionsCopy } = this.state;
     const regexp = new RegExp(searchText, "i");
     this.setState({
-      customerOptions: customerCopy.filter(o => o.match(regexp)),
+      customerOptions: customerOptionsCopy.filter(o => o.match(regexp)),
     });
   };
 
   customerSelectChange = event => {
-    const { customerCopy } = this.state;
+    const { customerOptionsCopy } = this.state;
     this.setState({
       selectedCustomer: event.value,
-      customerOptions: customerCopy,
+      customerOptions: customerOptionsCopy,
     });
   };
 

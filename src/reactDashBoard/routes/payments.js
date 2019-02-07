@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import UserCheck from "../payments/userCheck";
-import QueryAllUsers from "../queryComponents/all_users";
+import { Grommet, Button, Box, Heading, Paragraph } from "grommet";
 import { hpe } from "grommet-theme-hpe";
-import { Grommet, Button, Box, Heading, Paragraph, FormField } from "grommet";
+import UserCheck from "../payments/userCheck";
+import QueryAllUsers from "../queryComponents/QueryAllUsers";
 
 const Wrapper = styled.div`
   margin: 40px;
