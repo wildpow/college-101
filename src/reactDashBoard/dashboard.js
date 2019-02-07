@@ -9,11 +9,13 @@ import Teachers from "./routes/teachers";
 import Students from "./routes/students";
 import Package from "./routes/package";
 import Receipts from "./routes/receipts";
+import Payments from "./routes/payments";
 
 const DashBoard = () => (
   <Layout>
     <Router>
       <PrivateRoute path="/dashboard/attendance" component={Attendance} />
+      <PrivateRoute path="/dashboard/payments" component={Payments} />
       <PrivateRoute path="/dashboard/teachers" component={Teachers} />
       <PrivateRoute path="/dashboard/students" component={Students} />
       <PrivateRoute path="/dashboard/package" component={Package} />
