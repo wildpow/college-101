@@ -5,6 +5,7 @@ import { hpe } from "grommet-theme-hpe";
 import UserCheck from "../payments/userCheck";
 import QueryAllUsers from "../queryComponents/QueryAllUsers";
 import ProgressiveDrop from "../payments/test3";
+import PaymentWizard from "../payments/new/newTest";
 const Wrapper = styled.div`
   margin: 40px;
   display: flex;
@@ -44,7 +45,10 @@ const Payments = () => {
               <Button primary type="button" label="Create New" />
             </Box>
           </Box> */}
-        <ProgressiveDrop />
+
+        <PaymentWizard />
+
+        {/* <ProgressiveDrop /> */}
         {/* </Box> */}
       </Wrapper>
     </Grommet>
