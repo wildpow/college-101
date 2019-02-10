@@ -1,16 +1,22 @@
 import React from "react";
-import { useSpring, animated, useTransition } from "react-spring";
+import styled from "styled-components";
+import { useSpring, animated } from "react-spring";
 import { Box, Button, Heading } from "grommet";
 import states from "./States";
-import styled from "styled-components";
 
-const Pooper = styled(animated.div)`
+const AnimateWrapper = styled(animated.div)`
   width: 100%;
   height: 100%;
 `;
-const pages = [
-  ({ style, props }) => (
-    <animated.div style={{ ...style, background: "lightpink" }}>
+
+const CreateUser = props => {
+  const transision = useSpring({
+    opacity: 1,
+    transform: "translate3d(0%,0,0)",
+    from: { opacity: 0, transform: "translate3d(100%,0,0)" },
+  });
+  return (
+    <AnimateWrapper style={transision}>
       <Box
         flex
         direction="column"
@@ -37,18 +43,7 @@ const pages = [
           </Box>
         </Box>
       </Box>
-    </animated.div>
-  ),
-];
-const CreateUser = props => {
-  const transitions = useTransition(p => p, {
-    from: { opacity: 0, transform: "translate3d(100%,0,0)" },
-    enter: { opacity: 1, transform: "translate3d(0%,0,0)" },
-    leave: { opacity: 0, transform: "translate3d(-50%,0,0)" },
-  });
-  return transitions.map(({ item, props, key }) => {
-    const Page = pages[item];
-    return <Page key={key} style={props} />;
-  });
+    </AnimateWrapper>
+  );
 };
 export default CreateUser;
