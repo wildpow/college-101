@@ -4,11 +4,12 @@ import { FormDown } from "grommet-icons";
 
 const StartDate = props => {
   const today = new Date();
-  const day = `${today.getDate()}`;
-  const month = `${today.getMonth()}`;
-  const todayString = `${today.getFullYear()}-${month + 1}-${day}`;
-  const futureString = `${today.getFullYear() + 1}-${month + 1}-${day}`;
-
+  const day =
+    today.getDate() >= 9 ? `0${today.getDate()}` : `${today.getDate()}`;
+  const month = `${today.getMonth() + 1}`;
+  const todayString = `${today.getFullYear()}-${month}-${day}`;
+  const futureString = `${today.getFullYear() + 1}-${month}-${day}`;
+  const bounds = [todayString, futureString];
   const {
     startDateOpen,
     startOnOpen,
@@ -18,6 +19,12 @@ const StartDate = props => {
   } = props;
   return (
     <FormField label="Date">
+      {console.log("bounds", bounds)}
+      {console.log("month", month)}
+
+      {console.log("startDate", startDate)}
+      {console.log("todayString", todayString)}
+      {console.log("futureString", futureString)}
       <DropButton
         open={startDateOpen}
         onClose={startOnClose}
@@ -27,7 +34,7 @@ const StartDate = props => {
             date={startDate}
             onSelect={startDateSelect}
             size="medium"
-            bounds={[todayString, futureString]}
+            bounds={bounds}
           />
         }
       >

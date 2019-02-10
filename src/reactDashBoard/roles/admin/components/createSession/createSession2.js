@@ -109,7 +109,7 @@ class CreateSession extends React.Component {
     teacherError: false,
     courseError: false,
     startDateOpen: false,
-    startDate: undefined,
+    startDate: new Date().toISOString(),
     maxSizeOfClass: 1,
     startTime: "",
     startTimeError: false,

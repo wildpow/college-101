@@ -248,8 +248,8 @@ class ViewSessionTest extends React.Component {
                       <Button
                         fill
                         plain
-                        focusIndicator="false"
-                        hoverIndicator="false"
+                        focusIndicator={false}
+                        hoverIndicator={false}
                         onMouseOver={() => this.setState({ over: session.id })}
                         onMouseOut={() => this.setState({ over: undefined })}
                         onFocus={() => this.setState({ over: session.id })}
@@ -273,8 +273,8 @@ class ViewSessionTest extends React.Component {
                       <Button
                         fill
                         plain
-                        focusIndicator="false"
-                        hoverIndicator="false"
+                        focusIndicator={false}
+                        hoverIndicator={false}
                         onMouseOver={() => this.setState({ over: session.id })}
                         onMouseOut={() => this.setState({ over: undefined })}
                         onFocus={() => this.setState({ over: session.id })}
@@ -302,8 +302,8 @@ class ViewSessionTest extends React.Component {
                       <Button
                         fill
                         plain
-                        focusIndicator="false"
-                        hoverIndicator="false"
+                        focusIndicator={false}
+                        hoverIndicator={false}
                         onMouseOver={() => this.setState({ over: session.id })}
                         onMouseOut={() => this.setState({ over: undefined })}
                         onFocus={() => this.setState({ over: session.id })}
@@ -327,8 +327,8 @@ class ViewSessionTest extends React.Component {
                       <Button
                         fill
                         plain
-                        focusIndicator="false"
-                        hoverIndicator="false"
+                        focusIndicator={false}
+                        hoverIndicator={false}
                         onMouseOver={() => this.setState({ over: session.id })}
                         onMouseOut={() => this.setState({ over: undefined })}
                         onFocus={() => this.setState({ over: session.id })}
@@ -352,8 +352,8 @@ class ViewSessionTest extends React.Component {
                       <Button
                         fill
                         plain
-                        focusIndicator="false"
-                        hoverIndicator="false"
+                        focusIndicator={false}
+                        hoverIndicator={false}
                         onMouseOver={() => this.setState({ over: session.id })}
                         onMouseOut={() => this.setState({ over: undefined })}
                         onFocus={() => this.setState({ over: session.id })}
@@ -385,8 +385,8 @@ class ViewSessionTest extends React.Component {
                       <Button
                         fill
                         plain
-                        focusIndicator="false"
-                        hoverIndicator="false"
+                        focusIndicator={false}
+                        hoverIndicator={false}
                         onMouseOver={() => this.setState({ over: session.id })}
                         onMouseOut={() => this.setState({ over: undefined })}
                         onFocus={() => this.setState({ over: session.id })}
