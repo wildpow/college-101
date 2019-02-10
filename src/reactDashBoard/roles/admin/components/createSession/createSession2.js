@@ -310,7 +310,7 @@ class CreateSession extends React.Component {
                   as="form"
                   fill
                   overflow="scroll"
-                  // width="small"
+                  // width="large"
                   pad={{
                     left: "medium",
                     right: "medium",

@@ -13,7 +13,11 @@ class SimpleCalendar extends Component {
 
   render() {
     const { date } = this.state;
-    return <Calendar date={date} onSelect={this.onSelect} size="medium" />;
+    return (
+      <>
+        <Calendar date={date} onSelect={this.onSelect} size="medium" />
+      </>
+    );
   }
 }
 

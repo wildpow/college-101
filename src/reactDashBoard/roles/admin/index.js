@@ -1,6 +1,7 @@
 import React from "react";
 import { hpe } from "grommet-theme-hpe";
-import { Grommet, Box, Grid, Calendar } from "grommet";
+import { FormDown } from "grommet-icons";
+import { Grommet, Box, Grid, Calendar, DropButton, Text } from "grommet";
 import QueryTeacherCourse from "../../queryComponents/all_Teachers_Courses";
 import CreateSession2 from "./components/createSession/createSession2";
 import QuerySessions from "../../queryComponents/all_sessions";
@@ -10,16 +11,34 @@ class Admin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dropCal: false,
       date: new Date().toLocaleDateString(),
+      startDateOpen: false,
+      startDate: new Date().toISOString(),
+      col: [".14em", "30%", "flex", ".14em"],
     };
   }
 
-  onSelect = nextDate => {
-    this.setState({ date: nextDate });
+  componentDidMount() {
+    if (window.innerWidth < 1266) {
+      this.setState({ dropCal: true, col: [".14em", "5%", "flex", ".14em"] });
+    }
+  }
+
+  startDateSelect = date => {
+    this.setState({ startDate: date, startDateOpen: false });
   };
 
+  onSelect = nextDate => {
+    this.setState({ startDate: nextDate });
+  };
+
+  startOnOpen = () => this.setState({ startDateOpen: true });
+
+  startOnClose = () => this.setState({ startDateOpen: false });
+
   render() {
-    const { date } = this.state;
+    const { dropCal, startDate, startDateOpen, col } = this.state;
 
     return (
       // col row
@@ -36,18 +55,52 @@ class Admin extends React.Component {
             { name: "gutter2", start: [3, 1], end: [3, 2] },
             { name: "foot", start: [1, 2], end: [2, 2] },
           ]}
-          columns={[".14em", "30%", "flex", ".14em"]}
+          columns={col}
           rows={["1vh", "70vh", "15vh"]}
           gap="small"
         >
           <Box gridArea="topGutter" />
           <Box gridArea="gutter1" />
           <Box gridArea="nav">
-            <Calendar date={date} onSelect={this.onSelect} size="medium" />
+            {dropCal ? (
+              <DropButton
+                open={startDateOpen}
+                onClose={this.startOnClose}
+                onOpen={this.startOnOpen}
+                dropContent={
+                  <Calendar
+                    date={startDate}
+                    onSelect={this.startDateSelect}
+                    size="medium"
+                    // bounds={bounds}
+                  />
+                }
+              >
+                <Box
+                  direction="row"
+                  // gap="medium"
+                  align="center"
+                  pad="small"
+                >
+                  <Text>
+                    {startDate
+                      ? new Date(startDate).toLocaleDateString()
+                      : new Date().toLocaleDateString()}
+                  </Text>
+                  <FormDown color="brand" />
+                </Box>
+              </DropButton>
+            ) : (
+              <Calendar
+                date={startDate}
+                onSelect={this.onSelect}
+                size="medium"
+              />
+            )}
           </Box>
           <Box gridArea="main">
             {/* <QueryTeacherCourse component={ViewSession} /> */}
-            <QuerySessions component={ViewSessionTest} date={date} />
+            <QuerySessions component={ViewSessionTest} date={startDate} />
           </Box>
           <Box gridArea="foot" justifyContent="center">
             <QueryTeacherCourse component={CreateSession2} />
