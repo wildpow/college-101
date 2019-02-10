@@ -19,12 +19,6 @@ const StartDate = props => {
   } = props;
   return (
     <FormField label="Date">
-      {console.log("bounds", bounds)}
-      {console.log("month", month)}
-
-      {console.log("startDate", startDate)}
-      {console.log("todayString", todayString)}
-      {console.log("futureString", futureString)}
       <DropButton
         open={startDateOpen}
         onClose={startOnClose}
