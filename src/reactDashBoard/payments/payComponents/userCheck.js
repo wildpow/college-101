@@ -1,12 +1,8 @@
 import React from "react";
 import { Select, Button, Box } from "grommet";
-import styled from "styled-components";
 import states from "../States";
 import { PaymentContext } from "../context";
 
-const FixedheightBox = styled(Box)`
-  height: 50px;
-`;
 class UserCheck extends React.Component {
   constructor(props) {
     super(props);
