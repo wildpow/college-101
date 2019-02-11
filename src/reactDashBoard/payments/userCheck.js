@@ -1,6 +1,7 @@
 import React from "react";
 import { Select, Button, Box } from "grommet";
 import styled from "styled-components";
+import states from "./new/States";
 
 const FixedheightBox = styled(Box)`
   height: 50px;
@@ -42,6 +43,13 @@ class UserCheck extends React.Component {
     });
   };
 
+  onConfirm = () => {
+    const { selectedCustomer } = this.state;
+    const { next } = this.props;
+    localStorage.setItem("existingUserName", selectedCustomer);
+    next(states.EXISTINGUSER);
+  };
+
   render() {
     const { customerOptions, selectedCustomer } = this.state;
     return (
@@ -57,7 +65,7 @@ class UserCheck extends React.Component {
         <Box height="50px">
           {selectedCustomer.length === 0 ? null : (
             <Box animation="zoomIn">
-              <Button type="button" label="Confirm" />
+              <Button type="button" label="Confirm" onClick={this.onConfirm} />
             </Box>
           )}
         </Box>

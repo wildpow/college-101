@@ -42,7 +42,7 @@ const QueryAllUsers = props => (
     {({ loading, error, data }) => {
       if (loading) return <Spinner />;
       if (error) return <h1>Error</h1>;
-      if (data) return <props.component data={data} />;
+      if (data) return <props.component data={data} {...props} />;
       return null;
     }}
   </Query>

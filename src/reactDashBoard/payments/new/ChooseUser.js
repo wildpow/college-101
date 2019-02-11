@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 import { Box, Button, Heading } from "grommet";
 import states from "./States";
+import QueryAllUsers from "../../queryComponents/QueryAllUsers";
+import UserCheck from "../userCheck";
 
 const AnimateWrapper = styled(animated.div)`
   width: 100%;
@@ -25,9 +27,40 @@ const ChooseUser = props => {
         background="white"
         elevation="large"
       >
-        <Box>
-          <Heading level={2}>Choose a user</Heading>
-          <Box gap="small" flex direction="row">
+        {/* <Box
+          width="70%"
+          gap="xsmall"
+          pad="medium"
+          justify="center"
+          align="center"
+          alignContent="center"
+          alignSelf="center"
+        > */}
+        <Box
+          direction="column"
+          justify="center"
+          flex={false}
+          alignContent="center"
+          alignSelf="center"
+        >
+          <Box pad="medium" align="center">
+            <Heading level={3}>check if customer exists</Heading>
+            <QueryAllUsers component={UserCheck} next={props.next} />
+          </Box>
+          <Box pad="medium">
+            <Heading align="center" alignSelf="center" level={3}>
+              Or create new customer
+            </Heading>
+            <Button
+              primary
+              type="button"
+              label="Create New"
+              onClick={() => props.next(states.CREATEUSER)}
+            />
+          </Box>
+        </Box>
+        {/* <Heading level={2}>Choose a user</Heading> */}
+        {/* <Box gap="small" flex direction="row">
             <Button
               type="button"
               onClick={() => props.next(states.EXISTINGUSER)}
@@ -39,9 +72,9 @@ const ChooseUser = props => {
               onClick={() => props.next(states.CREATEUSER)}
               label="create"
             />
-          </Box>
-        </Box>
+          </Box> */}
       </Box>
+      {/* </Box> */}
     </AnimateWrapper>
   );
 };

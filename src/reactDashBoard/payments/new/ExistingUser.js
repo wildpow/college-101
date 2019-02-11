@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 import { Box, Button, Heading } from "grommet";
+import QueryOneUser from "../../queryComponents/QueryOneUser";
 import states from "./States";
-
+import ExistingUserDisplay from "./ExistingUserDisplay";
 const AnimateWrapper = styled(animated.div)`
   width: 100%;
   height: 100%;
 `;
 const ExistingUser = props => {
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    const newUserName = localStorage.getItem("existingUserName");
+    setUserName(newUserName);
+  });
   const transision = useSpring({
     opacity: 1,
     transform: "translate3d(0%,0,0)",
@@ -20,21 +26,28 @@ const ExistingUser = props => {
       <Box
         flex
         direction="column"
-        justify="center"
+        justify="start"
         align="center"
         fill
         background="white"
         elevation="large"
       >
-        <Box>
-          <Heading level={2}>Existing User</Heading>
-          <Box gap="small" flex direction="row">
+        <Box gap="medium" alignContent="between">
+          <Heading level={2}>Is this the correct user?</Heading>
+          <QueryOneUser userName={userName} component={ExistingUserDisplay} />
+          <Box
+            gap="large"
+            flex
+            direction="row"
+            justify="center"
+            margin={{ top: "medium" }}
+          >
             <Button
               onClick={() => props.back(states.CHOOSEUSER)}
               type="button"
               label="Back"
             />
-
+            {/* {console.log(userName)} */}
             <Button
               onClick={() => props.next(states.PICKCLASS)}
               type="button"
