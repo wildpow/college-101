@@ -2,7 +2,7 @@ import React from "react";
 
 export const PaymentContext = React.createContext();
 
-class Highest extends React.Component {
+class PayWizardContext extends React.Component {
   state = {
     currentUserName: "",
     userData: [],
@@ -35,4 +35,4 @@ class Highest extends React.Component {
   }
 }
 
-export default Highest;
+export default PayWizardContext;

@@ -2,7 +2,7 @@ import React from "react";
 import { Select, Button, Box } from "grommet";
 import styled from "styled-components";
 import states from "../States";
-import { PaymentContext } from "../payPages/context";
+import { PaymentContext } from "../context";
 
 const FixedheightBox = styled(Box)`
   height: 50px;

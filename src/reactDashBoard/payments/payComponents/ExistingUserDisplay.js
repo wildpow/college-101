@@ -2,7 +2,7 @@ import React from "react";
 import { Text, Box, Button } from "grommet";
 import states from "../States";
 
-import { PaymentContext } from "../payPages/context";
+import { PaymentContext } from "../context";
 
 class ExistingUserDisplay extends React.Component {
   confirm = (context, data) => {

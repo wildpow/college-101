@@ -11,8 +11,7 @@ import Payment from "./payPages/Payment";
 import Recipt from "./payPages/Recipt";
 import states from "./States";
 import StateMachine from "./StateMachine";
-import Highest from "./payPages/context";
-// import QueryAllUsers from "../queryComponents/QueryAllUsers";
+import PayWizardContext from "./context";
 
 class PaymentWizard extends React.Component {
   constructor(props) {
@@ -73,7 +72,7 @@ class PaymentWizard extends React.Component {
   render() {
     return (
       <Box width="70vw" height="70vh">
-        <Highest>{this.currentStep()}</Highest>
+        <PayWizardContext>{this.currentStep()}</PayWizardContext>
       </Box>
     );
   }

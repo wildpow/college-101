@@ -23,7 +23,7 @@ const Recipt = props => {
         justify="center"
         align="center"
         fill
-        animation="slideLeft"
+        // animation="slideLeft"
         background="white"
         elevation="large"
       >
