@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 import { Box, Button, Heading } from "grommet";
 import QueryOneUser from "../../queryComponents/QueryOneUser";
-import states from "./States";
-import ExistingUserDisplay from "./ExistingUserDisplay";
+import states from "../States";
+import ExistingUserDisplay from "../payComponents/ExistingUserDisplay";
+
 const AnimateWrapper = styled(animated.div)`
   width: 100%;
   height: 100%;

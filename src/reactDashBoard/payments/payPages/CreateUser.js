@@ -1,15 +1,15 @@
 import React from "react";
+import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 import { Box, Button, Heading } from "grommet";
-import states from "./States";
-import styled from "styled-components";
+import states from "../States";
 
 const AnimateWrapper = styled(animated.div)`
   width: 100%;
   height: 100%;
 `;
 
-const ConfirmClass = props => {
+const CreateUser = props => {
   const transision = useSpring({
     opacity: 1,
     transform: "translate3d(0%,0,0)",
@@ -27,18 +27,19 @@ const ConfirmClass = props => {
         elevation="large"
       >
         <Box>
-          <Heading level={2}>Confirm Class</Heading>
+          <Heading level={2}>Create User</Heading>
+
           <Box gap="small" flex direction="row">
             <Button
-              type="button"
               onClick={() => props.back(states.CHOOSEUSER)}
+              type="button"
               label="back"
             />
             <Button
+              onClick={() => props.next(states.PICKCLASS)}
               type="button"
-              onClick={() => props.next(states.PAYMENT)}
+              label="Submit"
               primary
-              label="Payment"
             />
           </Box>
         </Box>
@@ -46,4 +47,4 @@ const ConfirmClass = props => {
     </AnimateWrapper>
   );
 };
-export default ConfirmClass;
+export default CreateUser;

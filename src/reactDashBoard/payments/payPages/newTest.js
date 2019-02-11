@@ -9,8 +9,8 @@ import PackageClass from "./PackageClass";
 import ConfirmClass from "./ConfirmClass";
 import Payment from "./Payment";
 import Recipt from "./Recipt";
-import states from "./States";
-import StateMachine from "./StateMachine";
+import states from "../States";
+import StateMachine from "../StateMachine";
 
 class PaymentWizard extends React.Component {
   constructor(props) {

@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 import { Box, Button, Heading } from "grommet";
-import states from "./States";
+import states from "../States";
 import QueryAllUsers from "../../queryComponents/QueryAllUsers";
-import UserCheck from "../userCheck";
+import UserCheck from "../payComponents/userCheck";
 
 const AnimateWrapper = styled(animated.div)`
   width: 100%;

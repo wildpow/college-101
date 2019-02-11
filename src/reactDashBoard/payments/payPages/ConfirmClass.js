@@ -1,15 +1,15 @@
 import React from "react";
-import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
+import styled from "styled-components";
 import { Box, Button, Heading } from "grommet";
-import states from "./States";
+import states from "../States";
 
 const AnimateWrapper = styled(animated.div)`
   width: 100%;
   height: 100%;
 `;
 
-const PickClass = props => {
+const ConfirmClass = props => {
   const transision = useSpring({
     opacity: 1,
     transform: "translate3d(0%,0,0)",
@@ -23,28 +23,22 @@ const PickClass = props => {
         justify="center"
         align="center"
         fill
-        animation="slideLeft"
         background="white"
         elevation="large"
       >
         <Box>
-          <Heading level={2}>PickClass</Heading>
+          <Heading level={2}>Confirm Class</Heading>
           <Box gap="small" flex direction="row">
             <Button
+              type="button"
               onClick={() => props.back(states.CHOOSEUSER)}
-              type="button"
-              label="start over"
+              label="back"
             />
             <Button
-              onClick={() => props.next(states.PACKAGECLASS)}
               type="button"
-              label="Package"
-            />
-
-            <Button
-              onClick={() => props.next(states.SINGLECLASS)}
-              type="button"
-              label="Single"
+              onClick={() => props.next(states.PAYMENT)}
+              primary
+              label="Payment"
             />
           </Box>
         </Box>
@@ -52,4 +46,4 @@ const PickClass = props => {
     </AnimateWrapper>
   );
 };
-export default PickClass;
+export default ConfirmClass;

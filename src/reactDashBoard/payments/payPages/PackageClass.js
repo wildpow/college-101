@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 import { Box, Button, Heading } from "grommet";
-import states from "./States";
+import states from "../States";
 
 const AnimateWrapper = styled(animated.div)`
   width: 100%;
   height: 100%;
 `;
 
-const SingleClass = props => {
+const PackageClass = props => {
   const transision = useSpring({
     opacity: 1,
     transform: "translate3d(0%,0,0)",
@@ -28,8 +28,13 @@ const SingleClass = props => {
         elevation="large"
       >
         <Box>
-          <Heading level={2}>SingleClass</Heading>
+          <Heading level={2}>PackageClass</Heading>
           <Box gap="small" flex direction="row">
+            <Button
+              onClick={() => props.back(states.PICKCLASS)}
+              type="button"
+              label="back"
+            />
             <Button
               onClick={() => props.next(states.CONFIRM)}
               type="button"
@@ -42,17 +47,10 @@ const SingleClass = props => {
               type="button"
               label="Start Over"
             />
-
-            <Button
-              onClick={() => props.back(states.PICKCLASS)}
-              type="button"
-              label="back"
-            />
           </Box>
         </Box>
       </Box>
     </AnimateWrapper>
   );
 };
-
-export default SingleClass;
+export default PackageClass;
