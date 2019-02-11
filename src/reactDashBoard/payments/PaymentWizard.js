@@ -1,16 +1,18 @@
 import React from "react";
 import { Box } from "grommet";
-import ChooseUser from "./ChooseUser";
-import ExistingUser from "./ExistingUser";
-import CreateUser from "./CreateUser";
-import SingleClass from "./SingleClass";
-import PickClass from "./PickClass";
-import PackageClass from "./PackageClass";
-import ConfirmClass from "./ConfirmClass";
-import Payment from "./Payment";
-import Recipt from "./Recipt";
-import states from "../States";
-import StateMachine from "../StateMachine";
+import ChooseUser from "./payPages/ChooseUser";
+import ExistingUser from "./payPages/ExistingUser";
+import CreateUser from "./payPages/CreateUser";
+import SingleClass from "./payPages/SingleClass";
+import PickClass from "./payPages/PickClass";
+import PackageClass from "./payPages/PackageClass";
+import ConfirmClass from "./payPages/ConfirmClass";
+import Payment from "./payPages/Payment";
+import Recipt from "./payPages/Recipt";
+import states from "./States";
+import StateMachine from "./StateMachine";
+import Highest from "./payPages/context";
+// import QueryAllUsers from "../queryComponents/QueryAllUsers";
 
 class PaymentWizard extends React.Component {
   constructor(props) {
@@ -71,7 +73,7 @@ class PaymentWizard extends React.Component {
   render() {
     return (
       <Box width="70vw" height="70vh">
-        {this.currentStep()}
+        <Highest>{this.currentStep()}</Highest>
       </Box>
     );
   }

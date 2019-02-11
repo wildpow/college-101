@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Grommet, Button, Box, Heading, Paragraph } from "grommet";
 import { hpe } from "grommet-theme-hpe";
-import PaymentWizard from "../payments/new/newTest";
+import PaymentWizard from "../payments/PaymentWizard";
 
 const Wrapper = styled.div`
   margin: 40px;

@@ -3,19 +3,20 @@ import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
 import { Box, Button, Heading } from "grommet";
 import QueryOneUser from "../../queryComponents/QueryOneUser";
-import states from "../States";
+// import states from "../States";
 import ExistingUserDisplay from "../payComponents/ExistingUserDisplay";
+import { PaymentContext } from "./context";
 
 const AnimateWrapper = styled(animated.div)`
   width: 100%;
   height: 100%;
 `;
 const ExistingUser = props => {
-  const [userName, setUserName] = useState("");
-  useEffect(() => {
-    const newUserName = localStorage.getItem("existingUserName");
-    setUserName(newUserName);
-  });
+  // const [userName, setUserName] = useState("");
+  // useEffect(() => {
+  //   const newUserName = localStorage.getItem("existingUserName");
+  //   setUserName(newUserName);
+  // });
   const transision = useSpring({
     opacity: 1,
     transform: "translate3d(0%,0,0)",
@@ -35,27 +36,20 @@ const ExistingUser = props => {
       >
         <Box gap="medium" alignContent="between">
           <Heading level={2}>Is this the correct user?</Heading>
-          <QueryOneUser userName={userName} component={ExistingUserDisplay} />
-          <Box
-            gap="large"
-            flex
-            direction="row"
-            justify="center"
-            margin={{ top: "medium" }}
-          >
-            <Button
-              onClick={() => props.back(states.CHOOSEUSER)}
-              type="button"
-              label="Back"
-            />
-            {/* {console.log(userName)} */}
-            <Button
-              onClick={() => props.next(states.PICKCLASS)}
-              type="button"
-              label="Confirm"
-              primary
-            />
-          </Box>
+          <PaymentContext.Consumer>
+            {context => (
+              <>
+                {console.log(context.state)}
+                <QueryOneUser
+                  userName={context.state.currentUserName}
+                  component={ExistingUserDisplay}
+                  next={props.next}
+                  back={props.back}
+                />
+              </>
+            )}
+            {/* <QueryOneUser userName={userName} component={ExistingUserDisplay} /> */}
+          </PaymentContext.Consumer>
         </Box>
       </Box>
     </AnimateWrapper>

@@ -42,7 +42,6 @@ const QueryOneUser = props => {
   const { userName } = props;
   return (
     <>
-      {console.log("query var", userName)}
       <Query query={ONEUSER} variables={{ username: userName }}>
         {({ loading, error, data }) => {
           if (loading) return <Spinner />;

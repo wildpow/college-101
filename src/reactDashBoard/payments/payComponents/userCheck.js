@@ -1,7 +1,8 @@
 import React from "react";
 import { Select, Button, Box } from "grommet";
 import styled from "styled-components";
-import states from "./new/States";
+import states from "../States";
+import { PaymentContext } from "../payPages/context";
 
 const FixedheightBox = styled(Box)`
   height: 50px;
@@ -43,33 +44,48 @@ class UserCheck extends React.Component {
     });
   };
 
-  onConfirm = () => {
+  onConfirm = context => {
+    // console.log(context);
+    // console.log("ppop");
     const { selectedCustomer } = this.state;
     const { next } = this.props;
-    localStorage.setItem("existingUserName", selectedCustomer);
+    context.setCurrentUser(selectedCustomer);
+    // localStorage.setItem("existingUserName", selectedCustomer);
     next(states.EXISTINGUSER);
   };
 
   render() {
     const { customerOptions, selectedCustomer } = this.state;
     return (
-      <Box direction="column" gap="xsmall">
-        <Select
-          searchPlaceholder="Search Customers"
-          placeholder="Select a Customer"
-          options={customerOptions}
-          value={selectedCustomer}
-          onSearch={searchText => this.onSearchCustomer(searchText)}
-          onChange={event => this.customerSelectChange(event)}
-        />
-        <Box height="50px">
-          {selectedCustomer.length === 0 ? null : (
-            <Box animation="zoomIn">
-              <Button type="button" label="Confirm" onClick={this.onConfirm} />
-            </Box>
+      <>
+        <PaymentContext.Consumer>
+          {context => (
+            <>
+              <Box direction="column" gap="xsmall">
+                <Select
+                  searchPlaceholder="Search Customers"
+                  placeholder="Select a Customer"
+                  options={customerOptions}
+                  value={selectedCustomer}
+                  onSearch={searchText => this.onSearchCustomer(searchText)}
+                  onChange={event => this.customerSelectChange(event)}
+                />
+                <Box height="50px">
+                  {selectedCustomer.length === 0 ? null : (
+                    <Box animation="zoomIn">
+                      <Button
+                        type="button"
+                        label="Confirm"
+                        onClick={() => this.onConfirm(context)}
+                      />
+                    </Box>
+                  )}
+                </Box>
+              </Box>
+            </>
           )}
-        </Box>
-      </Box>
+        </PaymentContext.Consumer>
+      </>
     );
   }
 }
