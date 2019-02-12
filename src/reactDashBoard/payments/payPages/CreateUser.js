@@ -34,6 +34,7 @@ const CreateUser = props => {
               next={next}
               back={back}
               users={context.state.userNames}
+              setNewUser={context.setNewUser}
             />
           )}
         </PaymentContext.Consumer>

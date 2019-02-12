@@ -17,6 +17,10 @@ class CreateUserDisplay extends React.Component {
       users: [],
       email: "",
       emailError: false,
+      street: "",
+      city: "",
+      state: "",
+      zip: "",
     };
   }
 
@@ -30,16 +34,68 @@ class CreateUserDisplay extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const { users, email } = this.state;
+    const {
+      users,
+      email,
+      firstName,
+      lastName,
+      street,
+      state,
+      city,
+      zip,
+    } = this.state;
     if (users.indexOf(email.toLowerCase()) === -1) {
-      console.log("success");
+      const newUser = {
+        firstName,
+        lastName,
+        street,
+        city,
+        state,
+        zip,
+        email,
+      };
+      this.props.setNewUser(newUser);
+      this.props.next(states.PICKCLASS);
     } else {
       this.setState({ emailError: true });
     }
   };
 
+  onChangeAdress = (event, type) => {
+    switch (type) {
+      case "street":
+        this.setState({ street: event.target.value });
+        break;
+      case "city":
+        this.setState({ city: event.target.value });
+        break;
+      case "state":
+        this.setState({ state: event.target.value });
+        break;
+      case "zip":
+        this.setState({ zip: event.target.value });
+        break;
+      default:
+        return null;
+    }
+    return null;
+  };
+
+  onChangeFirst = event => this.setState({ firstName: event.target.value });
+
+  onChangeLast = event => this.setState({ lastName: event.target.value });
+
   render() {
-    const { emailError, email } = this.state;
+    const {
+      emailError,
+      email,
+      firstName,
+      lastName,
+      street,
+      city,
+      zip,
+      state,
+    } = this.state;
     return (
       <Box>
         {/* {console.log(this.state)} */}
@@ -56,6 +112,7 @@ class CreateUserDisplay extends React.Component {
               // validate={(value, obj) => this.poop(value, obj)}
             >
               <TextInput
+                autoComplete="email"
                 onChange={event => this.onChange(event)}
                 value={email}
                 // id="userName-input"
@@ -73,6 +130,61 @@ class CreateUserDisplay extends React.Component {
               </ErrorText>
             </FormField>
           </BottomBoardHover>
+          <FormField label="First Name">
+            <TextInput
+              type="text"
+              required
+              value={firstName}
+              onChange={event => this.onChangeFirst(event)}
+              autoComplete="given-name"
+            />
+          </FormField>
+          <FormField label="Last Name">
+            <TextInput
+              type="text"
+              required
+              value={lastName}
+              onChange={event => this.onChangeLast(event)}
+              autoComplete="family-name"
+            />
+          </FormField>
+          <FormField label="Address">
+            <Box direction="column">
+              <TextInput
+                label="street"
+                required
+                onChange={event => this.onChangeAdress(event, "street")}
+                autoComplete="street-address address-line1"
+                // autoComplete="section-red shipping street-address"
+                value={street}
+              />
+              <Box direction="row">
+                <TextInput
+                  label="City"
+                  required
+                  onChange={event => this.onChangeAdress(event, "city")}
+                  autoComplete=" street-address address-level2"
+                  // autoComplete="section-red shipping address-level2"
+                  value={city}
+                />
+                <TextInput
+                  label="State"
+                  required
+                  onChange={event => this.onChangeAdress(event, "state")}
+                  autoComplete="street-address address-level1"
+                  value={state}
+                />
+                <TextInput
+                  label="zip code"
+                  required
+                  onChange={event => this.onChangeAdress(event, "zip")}
+                  autoComplete="street-address postal-code"
+                  // autocomplete="section-red shipping postal-code"
+                  value={zip}
+                />
+              </Box>
+            </Box>
+          </FormField>
           {/* <FormField
             label="Email"
             name="email"
