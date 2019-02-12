@@ -16,6 +16,9 @@ const TEACHER = gql`
         }
         id
         attendance {
+          notes
+          status
+          extraStudents
           students {
             firstName
             lastName
