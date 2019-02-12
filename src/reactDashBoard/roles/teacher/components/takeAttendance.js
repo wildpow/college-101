@@ -166,6 +166,7 @@ class TakeAttendance extends React.Component {
     ) : null;
     return (
       <>
+        {console.log("session", session)}
         <div>
           {session.attendance ? (
             <ViewClass data={session} />
