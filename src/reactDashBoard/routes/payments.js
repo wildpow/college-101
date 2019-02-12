@@ -1,16 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { Grommet, Button, Box, Heading, Paragraph } from "grommet";
+import { Grommet, Heading } from "grommet";
 import { hpe } from "grommet-theme-hpe";
 import PaymentWizard from "../payments/PaymentWizard";
 
 const Wrapper = styled.div`
-  margin: 40px;
+  /* margin-top: 0px; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  @media (min-width: 768px) {
+    margin-top: 40px;
+  }
 `;
 const Payments = () => {
   return (

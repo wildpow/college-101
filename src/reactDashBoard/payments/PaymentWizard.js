@@ -1,5 +1,6 @@
 import React from "react";
 import { Box } from "grommet";
+import styled from "styled-components";
 import ChooseUser from "./payPages/ChooseUser";
 import ExistingUser from "./payPages/ExistingUser";
 import CreateUser from "./payPages/CreateUser";
@@ -13,6 +14,14 @@ import states from "./States";
 import StateMachine from "./StateMachine";
 import PayWizardContext from "./context";
 
+const Wrapper = styled(Box)`
+  width: 95%;
+  height: 70vh;
+  @media (min-width: 768px) {
+    width: 70%;
+    height: 60vh;
+  }
+`;
 class PaymentWizard extends React.Component {
   constructor(props) {
     super(props);
@@ -71,9 +80,9 @@ class PaymentWizard extends React.Component {
 
   render() {
     return (
-      <Box width="70vw" height="70vh">
+      <Wrapper>
         <PayWizardContext>{this.currentStep()}</PayWizardContext>
-      </Box>
+      </Wrapper>
     );
   }
 }

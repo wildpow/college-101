@@ -61,24 +61,26 @@ class CreateUserDisplay extends React.Component {
     }
   };
 
-  onChangeAdress = (event, type) => {
-    switch (type) {
-      case "street":
-        this.setState({ street: event.target.value });
-        break;
-      case "city":
-        this.setState({ city: event.target.value });
-        break;
-      case "state":
-        this.setState({ state: event.target.value });
-        break;
-      case "zip":
-        this.setState({ zip: event.target.value });
-        break;
-      default:
-        return null;
-    }
-    return null;
+  onChangeAdress = event => {
+    console.log(event.target.name);
+    this.setState({ [event.target.name]: event.target.value });
+    // switch (type) {
+    //   case "street":
+    //     this.setState({ street: event.target.value });
+    //     break;
+    //   case "city":
+    //     this.setState({ city: event.target.value });
+    //     break;
+    //   case "state":
+    //     this.setState({ state: event.target.value });
+    //     break;
+    //   case "zip":
+    //     this.setState({ zip: event.target.value });
+    //     break;
+    //   default:
+    //     return null;
+    // }
+    // return null;
   };
 
   onChangeFirst = event => this.setState({ firstName: event.target.value });
@@ -119,6 +121,7 @@ class CreateUserDisplay extends React.Component {
                 placeholder="example@domain.com"
                 type="email"
                 required
+                name="email"
               />
               <ErrorText
                 alignSelf="center"
@@ -137,6 +140,7 @@ class CreateUserDisplay extends React.Component {
               value={firstName}
               onChange={event => this.onChangeFirst(event)}
               autoComplete="given-name"
+              name="firstName"
             />
           </FormField>
           <FormField label="Last Name">
@@ -146,6 +150,7 @@ class CreateUserDisplay extends React.Component {
               value={lastName}
               onChange={event => this.onChangeLast(event)}
               autoComplete="family-name"
+              name="lastName"
             />
           </FormField>
           <FormField label="Address">
@@ -153,36 +158,41 @@ class CreateUserDisplay extends React.Component {
               <TextInput
                 label="street"
                 required
-                onChange={event => this.onChangeAdress(event, "street")}
+                onChange={event => this.onChangeAdress(event)}
                 autoComplete="street-address address-line1"
                 // autoComplete="section-red shipping street-address"
                 value={street}
+                name="street"
               />
               <Box direction="row">
                 <TextInput
                   label="City"
                   required
-                  onChange={event => this.onChangeAdress(event, "city")}
+                  onChange={event => this.onChangeAdress(event)}
                   autoComplete=" street-address address-level2"
                   // autoComplete="section-red shipping address-level2"
                   value={city}
+                  name="city"
                 />
                 <TextInput
                   label="State"
                   required
-                  onChange={event => this.onChangeAdress(event, "state")}
+                  onChange={event => this.onChangeAdress(event)}
                   autoComplete="street-address address-level1"
                   value={state}
+                  name="state"
                 />
                 <TextInput
                   label="zip code"
                   required
-                  onChange={event => this.onChangeAdress(event, "zip")}
+                  onChange={event => this.onChangeAdress(event)}
                   autoComplete="street-address postal-code"
                   // autocomplete="section-red shipping postal-code"
                   value={zip}
+                  name="zip"
                 />
               </Box>
+              {console.log(this.state)}
             </Box>
           </FormField>
           {/* <FormField
