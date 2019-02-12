@@ -64,23 +64,6 @@ class CreateUserDisplay extends React.Component {
   onChangeAdress = event => {
     console.log(event.target.name);
     this.setState({ [event.target.name]: event.target.value });
-    // switch (type) {
-    //   case "street":
-    //     this.setState({ street: event.target.value });
-    //     break;
-    //   case "city":
-    //     this.setState({ city: event.target.value });
-    //     break;
-    //   case "state":
-    //     this.setState({ state: event.target.value });
-    //     break;
-    //   case "zip":
-    //     this.setState({ zip: event.target.value });
-    //     break;
-    //   default:
-    //     return null;
-    // }
-    // return null;
   };
 
   onChangeFirst = event => this.setState({ firstName: event.target.value });

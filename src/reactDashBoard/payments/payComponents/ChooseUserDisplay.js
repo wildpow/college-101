@@ -2,7 +2,7 @@ import React from "react";
 import { Select, Button, Box, Heading } from "grommet";
 import states from "../States";
 import { PaymentContext } from "../context";
-
+import Tester from "./CreateUser/test";
 class UserCheckDisplay extends React.Component {
   constructor(props) {
     super(props);
@@ -61,6 +61,7 @@ class UserCheckDisplay extends React.Component {
     const { customerOptions, selectedCustomer } = this.state;
     return (
       <>
+        {/* <Tester /> */}
         <PaymentContext.Consumer>
           {context => (
             <Box
