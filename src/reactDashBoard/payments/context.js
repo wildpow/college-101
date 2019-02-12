@@ -6,11 +6,18 @@ class PayWizardContext extends React.Component {
   state = {
     currentUserName: "",
     userData: [],
+    userNames: [],
   };
 
   setCurrentUser = currentUserName => {
     this.setState({
       currentUserName,
+    });
+  };
+
+  getExistingUsers = users => {
+    this.setState({
+      userNames: users,
     });
   };
 
@@ -27,6 +34,7 @@ class PayWizardContext extends React.Component {
           state: this.state,
           setCurrentUser: this.setCurrentUser,
           setUserData: this.setUserData,
+          getExistingUsers: this.getExistingUsers,
         }}
       >
         {this.props.children}

@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useSpring, animated } from "react-spring";
-import { Box, Button, Heading } from "grommet";
-import states from "../States";
+import { Box } from "grommet";
+import { PaymentContext } from "../context";
+import CreateUserDisplay from "../payComponents/CreateUserDisplay";
 
 const AnimateWrapper = styled(animated.div)`
   width: 100%;
@@ -15,6 +16,7 @@ const CreateUser = props => {
     transform: "translate3d(0%,0,0)",
     from: { opacity: 0, transform: "translate3d(100%,0,0)" },
   });
+  const { next, back } = props;
   return (
     <AnimateWrapper style={transision}>
       <Box
@@ -26,23 +28,15 @@ const CreateUser = props => {
         background="white"
         elevation="large"
       >
-        <Box>
-          <Heading level={2}>Create User</Heading>
-
-          <Box gap="small" flex direction="row">
-            <Button
-              onClick={() => props.back(states.CHOOSEUSER)}
-              type="button"
-              label="back"
+        <PaymentContext.Consumer>
+          {context => (
+            <CreateUserDisplay
+              next={next}
+              back={back}
+              users={context.state.userNames}
             />
-            <Button
-              onClick={() => props.next(states.PICKCLASS)}
-              type="button"
-              label="Submit"
-              primary
-            />
-          </Box>
-        </Box>
+          )}
+        </PaymentContext.Consumer>
       </Box>
     </AnimateWrapper>
   );
