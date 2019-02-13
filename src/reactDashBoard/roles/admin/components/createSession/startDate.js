@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FormField, DropButton, Calendar, Box, Text } from "grommet";
 import { FormDown } from "grommet-icons";
 
@@ -8,7 +9,6 @@ const StartDate = props => {
   const month = `${today.getMonth()}`;
   const todayString = `${today.getFullYear()}-${month + 1}-${day}`;
   const futureString = `${today.getFullYear() + 1}-${month + 1}-${day}`;
-
   const {
     startDateOpen,
     startOnOpen,
@@ -16,20 +16,21 @@ const StartDate = props => {
     startDate,
     startDateSelect,
   } = props;
+  const Cal = (
+    <Calendar
+      date={startDate}
+      onSelect={startDateSelect}
+      size="medium"
+      bounds={[todayString, futureString]}
+    />
+  );
   return (
     <FormField label="Date">
       <DropButton
         open={startDateOpen}
         onClose={startOnClose}
         onOpen={startOnOpen}
-        dropContent={
-          <Calendar
-            date={startDate}
-            onSelect={startDateSelect}
-            size="medium"
-            bounds={[todayString, futureString]}
-          />
-        }
+        dropContent={Cal}
       >
         <Box
           direction="row"
@@ -47,6 +48,14 @@ const StartDate = props => {
       </DropButton>
     </FormField>
   );
+};
+
+StartDate.propTypes = {
+  startDateSelect: PropTypes.func.isRequired,
+  startDateOpen: PropTypes.bool.isRequired,
+  startDate: PropTypes.string.isRequired,
+  startOnOpen: PropTypes.func.isRequired,
+  startOnClose: PropTypes.func.isRequired,
 };
 
 export default StartDate;

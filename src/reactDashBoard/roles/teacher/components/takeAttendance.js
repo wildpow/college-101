@@ -1,6 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
-// import PropTypes from "prop-types";
 import Modal from "../../../components/buttons/modal";
 import { Button } from "../../../components/sharedStyles";
 import CreateAttendance from "./createAttendance";
@@ -107,6 +107,11 @@ export const Back = styled.div`
 `;
 
 class TakeAttendance extends React.Component {
+  static propTypes = {
+    teacher: PropTypes.string.isRequired,
+    session: PropTypes.instanceOf(Object).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -166,7 +171,6 @@ class TakeAttendance extends React.Component {
     ) : null;
     return (
       <>
-        {console.log("session", session)}
         <div>
           {session.attendance ? (
             <ViewClass data={session} />

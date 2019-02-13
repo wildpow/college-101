@@ -1,8 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import TeacherCal from "./components/teacherCal";
 
 const Employee = props => {
-  const { data, userName } = props;
+  const { data } = props;
   if (data.teacher === null)
     return <h1>Please have your admin add you as a teacher</h1>;
   if (data.teacher.sessions.length === 0)
@@ -18,4 +19,7 @@ const Employee = props => {
   );
 };
 
+Employee.propTypes = {
+  data: PropTypes.instanceOf(Object).isRequired,
+};
 export default Employee;

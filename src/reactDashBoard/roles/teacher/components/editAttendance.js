@@ -54,12 +54,9 @@ class EditAttendance extends React.Component {
     const present = [];
     const enrolled = [];
 
-    session.attendance.students.map(student => {
-      present.push(student);
-    });
-    session.students.map(student => {
-      enrolled.push(student);
-    });
+    session.attendance.students.map(student => present.push(student));
+    session.students.map(student => enrolled.push(student));
+
     this.setState({
       presentStudents: present,
       enrolledStudents: enrolled,
@@ -94,11 +91,10 @@ class EditAttendance extends React.Component {
   }
 
   render() {
+    const { handleHide } = this.props;
     const { inputExtraStudents, extraStudentsArr, notes } = this.state;
-    // const { session } = this.props;
     return (
       <div>
-        {console.log("!!!!", this.state)}
         <h1>Edit Attendance</h1>
         <div>
           <h3>Extra Students?</h3>
@@ -141,7 +137,7 @@ class EditAttendance extends React.Component {
           <h3>Notes</h3>
           <textarea value={notes} />
         </div>
-        <button type="button" onClick={this.props.handleHide}>
+        <button type="button" onClick={handleHide}>
           Submit
         </button>
       </div>

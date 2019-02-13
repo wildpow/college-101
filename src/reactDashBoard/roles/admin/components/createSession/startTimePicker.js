@@ -1,6 +1,6 @@
 import React from "react";
 import { MaskedInput, FormField } from "grommet";
-import { ErrorText } from "./sharedStyles";
+import ErrorText from "./sharedStyles";
 
 const StartTimePicker = props => {
   const { startTime, onChangeStartTime, startTimeError } = props;

@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { MaskedInput, FormField } from "grommet";
-import { ErrorText } from "./sharedStyles";
+import ErrorText from "./sharedStyles";
 
 const EndTime = props => {
   const { endTime, onChangeEndTime, endTimeError } = props;
@@ -55,6 +56,12 @@ const EndTime = props => {
       </ErrorText>
     </FormField>
   );
+};
+
+EndTime.propTypes = {
+  endTime: PropTypes.string.isRequired,
+  onChangeEndTime: PropTypes.func.isRequired,
+  endTimeError: PropTypes.bool.isRequired,
 };
 
 export default EndTime;
