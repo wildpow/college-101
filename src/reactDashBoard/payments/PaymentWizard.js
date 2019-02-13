@@ -19,7 +19,10 @@ const Wrapper = styled(Box)`
   height: 70vh;
   @media (min-width: 768px) {
     width: 70%;
-    height: 60vh;
+    height: 70vh;
+  }
+  @media (min-width: 1168px) {
+    height: 70vh;
   }
 `;
 class PaymentWizard extends React.Component {

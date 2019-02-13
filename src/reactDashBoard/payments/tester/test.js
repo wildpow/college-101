@@ -1,12 +1,23 @@
 import React from "react";
+import styled from "styled-components";
 import { Select, Button, Box, Heading } from "grommet";
-import states from "../States";
-import { PaymentContext } from "../context";
+import CreateTest from "./createtest";
+import { PaymentContext } from "./context";
 
-class UserCheckDisplay extends React.Component {
-  constructor(props) {
-    super(props);
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  display: ${props => (props.disabler ? "none" : "")};
+`;
+class Test extends React.Component {
+  constructor() {
+    super();
     this.state = {
+      disabler: false,
+      newUser: false,
+
+      existingUser: false,
       customerOptions: [],
       selectedCustomer: "",
       customerOptionsCopy: [],
@@ -40,38 +51,23 @@ class UserCheckDisplay extends React.Component {
     });
   };
 
-  onCreate = context => {
-    const { customerOptionsCopy } = this.state;
-    const { next } = this.props;
-    context.getExistingUsers(customerOptionsCopy);
-    next(states.CREATEUSER);
-  };
-
-  onConfirm = context => {
-    // console.log(context);
-    // console.log("ppop");
-    const { selectedCustomer } = this.state;
-    const { next } = this.props;
-    context.setCurrentUser(selectedCustomer);
-    // localStorage.setItem("existingUserName", selectedCustomer);
-    next(states.EXISTINGUSER);
-  };
-
   render() {
-    const { customerOptions, selectedCustomer } = this.state;
+    const {
+      existingUser,
+      customerOptions,
+      selectedCustomer,
+      newUser,
+      disabler,
+      customerOptionsCopy,
+    } = this.state;
+
     return (
-      <>
-        {/* <Tester /> */}
-        <PaymentContext.Consumer>
-          {context => (
-            <Box
-              direction="column"
-              justify="center"
-              flex={false}
-              alignContent="center"
-              alignSelf="center"
-            >
-              <Box pad="medium" align="center">
+      <PaymentContext.Consumer>
+        {context => (
+          <>
+            {console.log(context)}
+            <Wrapper disabler={disabler}>
+              <Box align="center">
                 <Heading level={3}>check if customer exists</Heading>
                 <Box direction="column" gap="xsmall">
                   <Select
@@ -88,14 +84,19 @@ class UserCheckDisplay extends React.Component {
                         <Button
                           type="button"
                           label="Confirm"
-                          onClick={() => this.onConfirm(context)}
+                          onClick={() =>
+                            this.setState({
+                              disabler: true,
+                              existingUser: true,
+                            })
+                          }
                         />
                       </Box>
                     )}
                   </Box>
                 </Box>
               </Box>
-              <Box pad="medium">
+              <Box>
                 <Heading align="center" alignSelf="center" level={3}>
                   Or create new customer
                 </Heading>
@@ -103,15 +104,28 @@ class UserCheckDisplay extends React.Component {
                   primary
                   type="button"
                   label="Create New"
-                  onClick={() => this.onCreate(context)}
+                  onClick={() =>
+                    this.setState({
+                      newUser: true,
+                      disabler: true,
+                    })
+                  }
                 />
               </Box>
-            </Box>
-          )}
-        </PaymentContext.Consumer>
-      </>
+            </Wrapper>
+
+            <CreateTest
+              users={customerOptionsCopy}
+              setNewUser={context.setNewUser}
+              newUser={newUser}
+            />
+
+            {existingUser && <div>Existing User</div>}
+          </>
+        )}
+      </PaymentContext.Consumer>
     );
   }
 }
 
-export default UserCheckDisplay;
+export default Test;

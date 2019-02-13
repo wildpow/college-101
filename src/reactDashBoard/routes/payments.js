@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { Grommet, Heading } from "grommet";
 import { hpe } from "grommet-theme-hpe";
-import PaymentWizard from "../payments/PaymentWizard";
+// import PaymentWizard from "../payments/PaymentWizard";
+import QueryAllUsers from "../queryComponents/QueryAllUsers";
+import Test from "../payments/tester/test";
+import PayWizardContext from "../payments/tester/context";
+import Proxy1 from "../payments/The final test/proxy1";
 
 const Wrapper = styled.div`
   /* margin-top: 0px; */
@@ -20,9 +24,11 @@ const Payments = () => {
     <Grommet theme={hpe}>
       <Wrapper>
         <Heading level={1}>Payment</Heading>
-
-        <PaymentWizard />
-
+        {/* <PayWizardContext>
+          <QueryAllUsers component={Test} />
+        </PayWizardContext> */}
+        <QueryAllUsers component={Proxy1} />
+        {/* <PaymentWizard /> */}
         {/* <ProgressiveDrop /> */}
         {/* </Box> */}
       </Wrapper>
