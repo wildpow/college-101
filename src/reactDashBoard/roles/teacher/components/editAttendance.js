@@ -43,7 +43,6 @@ class EditAttendance extends React.Component {
       extraStudentsArr: [],
       notes: "",
       inputExtraStudents: "",
-      extra: [],
     };
     this.handleExtraStudents = this.handleExtraStudents.bind(this);
     this.submitExtraStudent = this.submitExtraStudent.bind(this);
@@ -79,9 +78,9 @@ class EditAttendance extends React.Component {
   }
 
   submitExtraStudent() {
-    const extraStudents = this.state.inputExtraStudents;
-    const extraArr = this.state.extraStudentsArr;
-    extraArr.push(extraStudents);
+    const { inputExtraStudents, extraStudentsArr } = this.state;
+    const extraArr = extraStudentsArr.map(i => i);
+    extraArr.push(inputExtraStudents);
     this.setState({
       extraStudentsArr: extraArr,
       inputExtraStudents: "",
@@ -95,8 +94,8 @@ class EditAttendance extends React.Component {
   }
 
   render() {
-    const { inputExtraStudents, extraStudentsArr } = this.state;
-    const { session } = this.props;
+    const { inputExtraStudents, extraStudentsArr, notes } = this.state;
+    // const { session } = this.props;
     return (
       <div>
         {console.log("!!!!", this.state)}
@@ -138,6 +137,13 @@ class EditAttendance extends React.Component {
             })}
           </ul>
         </div>
+        <div>
+          <h3>Notes</h3>
+          <textarea value={notes} />
+        </div>
+        <button type="button" onClick={this.props.handleHide}>
+          Submit
+        </button>
       </div>
     );
   }
