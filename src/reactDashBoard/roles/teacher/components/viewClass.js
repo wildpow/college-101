@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Modal from "../../../components/buttons/modal";
 import { Button } from "../../../components/sharedStyles";
+import EditAttendance from "./editAttendance";
 
 const Card = styled.div`
   position: absolute;
@@ -170,9 +171,8 @@ class ViewClass extends React.Component {
                 </button>
               </Header>
               <div>
+                <Button onClick={this.handleFlip}>edit</Button>
                 All the stuff goes
-                {console.log("absent", absent)}
-                {console.log("attended", attended)}
                 <ul>
                   Enrolled Students
                   {students(enrolled)}
@@ -190,8 +190,13 @@ class ViewClass extends React.Component {
                   {extra}
                 </ul>
               </div>
-              <button onClick={this.handleHide}>close</button>
+              <button type="button" onClick={this.handleHide}>
+                close
+              </button>
             </Front>
+            <Back>
+              <EditAttendance session={data} handleHide={this.handleHide} />
+            </Back>
           </Card>
         </ModalContainer>
       </Modal>
