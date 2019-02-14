@@ -4,9 +4,9 @@ import { Grommet, Heading } from "grommet";
 import { hpe } from "grommet-theme-hpe";
 // import PaymentWizard from "../payments/PaymentWizard";
 import QueryAllUsers from "../queryComponents/QueryAllUsers";
-import Test from "../payments/tester/test";
-import PayWizardContext from "../payments/tester/context";
-import Proxy1 from "../payments/The final test/proxy1";
+// import Test from "../payments/tester/test";
+// import PayWizardContext from "../payments/tester/context";
+import Consumer from "../payments/final/setup/Consumer";
 
 const Wrapper = styled.div`
   /* margin-top: 0px; */
@@ -27,7 +27,7 @@ const Payments = () => {
         {/* <PayWizardContext>
           <QueryAllUsers component={Test} />
         </PayWizardContext> */}
-        <QueryAllUsers component={Proxy1} />
+        <QueryAllUsers component={Consumer} />
         {/* <PaymentWizard /> */}
         {/* <ProgressiveDrop /> */}
         {/* </Box> */}

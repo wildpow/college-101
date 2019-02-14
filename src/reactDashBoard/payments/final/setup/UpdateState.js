@@ -1,0 +1,29 @@
+import React from "react";
+import PropTypes from "prop-types";
+import Display from "../display";
+
+class UpdateState extends React.Component {
+  static propTypes = {
+    data: PropTypes.instanceOf(Object).isRequired,
+    getExistingUsers: PropTypes.func.isRequired,
+    setUserData: PropTypes.func.isRequired,
+  };
+
+  componentWillMount() {
+    const { data, getExistingUsers, setUserData } = this.props;
+    const customerNames = [];
+    data.userloggins.map(customer => customerNames.push(customer.username));
+    getExistingUsers(customerNames);
+    setUserData(data);
+  }
+
+  render() {
+    return (
+      <>
+        <Display />
+      </>
+    );
+  }
+}
+
+export default UpdateState;

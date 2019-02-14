@@ -41,6 +41,7 @@ class PickClass extends React.Component {
           onClose={this.startOnClose}
           onOpen={this.startOnOpen}
           dropContent={
+            // eslint-disable-next-line react/jsx-wrap-multilines
             <Calendar
               date={startDate}
               onSelect={this.startDateSelect}

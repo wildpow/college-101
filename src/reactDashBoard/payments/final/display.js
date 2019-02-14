@@ -1,8 +1,9 @@
 import React from "react";
-import { PaymentContext } from "./context";
+import { PaymentContext } from "./setup/context";
 import UserCheck from "./UserCheck";
 import CreateUser from "./CreateUser";
 import PickClass from "./PickClass";
+import Payment from "./Payment";
 
 const Display = () => {
   return (
@@ -12,6 +13,7 @@ const Display = () => {
           {context.state.userCheckBool && <UserCheck />}
           {context.state.createUserBool && <CreateUser />}
           {context.state.chooseClassBool && <PickClass />}
+          {context.state.paymentBool && <Payment />}
         </>
       )}
     </PaymentContext.Consumer>

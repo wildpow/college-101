@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Select, Button, Box, Heading } from "grommet";
-import { PaymentContext } from "./context";
+import { PaymentContext } from "./setup/context";
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,7 +14,6 @@ const UserCheck = () => {
     <PaymentContext.Consumer>
       {context => (
         <Wrapper>
-          {/* {console.log("sefwefwef", context)} */}
           <Box align="center">
             <Heading level={3}>check if customer exists</Heading>
             <Box direction="column" gap="xsmall">

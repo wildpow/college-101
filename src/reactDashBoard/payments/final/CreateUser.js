@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Box, Button, Heading, Form, FormField, TextInput } from "grommet";
-import { PaymentContext } from "./context";
+import { PaymentContext } from "./setup/context";
 import { ErrorText } from "../../roles/admin/components/createSession/sharedStyles";
 
 const BottomBoardHover = styled(Box)`

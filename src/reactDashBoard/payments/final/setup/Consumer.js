@@ -1,14 +1,15 @@
 import React from "react";
+import PropTypes from "prop-types";
 import PayWizardContext, { PaymentContext } from "./context";
-import Proxy from "./proxy";
+import UpdateState from "./UpdateState";
 
-const Prox1 = props => {
+const Consumer = props => {
   const { data } = props;
   return (
     <PayWizardContext>
       <PaymentContext.Consumer>
         {context => (
-          <Proxy
+          <UpdateState
             data={data}
             getExistingUsers={context.getExistingUsers}
             setUserData={context.setUserData}
@@ -19,4 +20,7 @@ const Prox1 = props => {
   );
 };
 
-export default Prox1;
+Consumer.propTypes = {
+  data: PropTypes.instanceOf(Object).isRequired,
+};
+export default Consumer;

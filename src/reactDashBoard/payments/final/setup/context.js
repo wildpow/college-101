@@ -1,8 +1,15 @@
+/* eslint-disable react/no-unused-state */
+
 import React from "react";
+import PropTypes from "prop-types";
 
 export const PaymentContext = React.createContext();
 
 class PayWizardContext extends React.Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
   state = {
     selectedUser: "",
     currentUserName: "",
@@ -10,6 +17,7 @@ class PayWizardContext extends React.Component {
     userNames: [],
     userNamesCopy: [],
     newUser: {},
+    paymentBool: false,
     userCheckBool: true,
     createUserBool: false,
     chooseClassBool: false,
@@ -20,6 +28,7 @@ class PayWizardContext extends React.Component {
     state: "",
     zip: "",
     user: [],
+    selectedSession: [],
   };
 
   onChangeEmail = event =>
@@ -68,6 +77,7 @@ class PayWizardContext extends React.Component {
       if (user.username === currentUserName) {
         this.setUser(user);
       }
+      return null;
     });
     this.setState({
       currentUserName,
@@ -118,11 +128,21 @@ class PayWizardContext extends React.Component {
 
   onChangeLast = event => this.setState({ lastName: event.target.value });
 
+  selectSession = session => {
+    this.setState({
+      selectedSession: session,
+      paymentBool: true,
+      chooseClassBool: false,
+    });
+  };
+
   render() {
+    const { children } = this.props;
     return (
       <PaymentContext.Provider
         value={{
           state: this.state,
+          selectSession: this.selectSession,
           setCurrentUser: this.setCurrentUser,
           setUserData: this.setUserData,
           getExistingUsers: this.getExistingUsers,
@@ -138,7 +158,7 @@ class PayWizardContext extends React.Component {
           confirmExistingUser: this.confirmExistingUser,
         }}
       >
-        {this.props.children}
+        {children}
       </PaymentContext.Provider>
     );
   }
