@@ -64,6 +64,7 @@ class SessionView extends React.Component {
       selected: "",
       over: "",
       completeSingleSession: [],
+      activeBuyButton: true,
     };
   }
 
@@ -127,6 +128,7 @@ class SessionView extends React.Component {
     this.setState({
       selected: id === selected ? undefined : id,
       completeSingleSession: singleSession,
+      activeBuyButton: false,
     });
   };
 
@@ -191,6 +193,7 @@ class SessionView extends React.Component {
   render() {
     // const { date } = this.props;
     const {
+      activeBuyButton,
       sortProperty,
       sortDirection,
       sessions,
@@ -415,16 +418,29 @@ class SessionView extends React.Component {
                 </TableBody>
               </Table>
             </Box>
+            <Box
+              direction="row"
+              pad={{ top: "large" }}
+              justify="center"
+              alignContent="around"
+              fill
+              gap="large"
+            >
+              <Button
+                label="start over"
+                onClick={() => context.backOne("pick")}
+              />
+              {/* {selected && selected !== 0 && ( */}
 
-            {selected && selected !== 0 && (
-              <Box pad="medium">
-                <Button
-                  primary
-                  label="Buy Now"
-                  onClick={() => context.selectSession(completeSingleSession)}
-                />
-              </Box>
-            )}
+              <Button
+                primary
+                label="Buy Now"
+                onClick={() => context.selectSession(completeSingleSession)}
+                disabled={activeBuyButton}
+              />
+
+              {/* )} */}
+            </Box>
           </>
         )}
       </PaymentContext.Consumer>

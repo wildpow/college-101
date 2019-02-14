@@ -136,6 +136,32 @@ class PayWizardContext extends React.Component {
     });
   };
 
+  backOne = where => {
+    if (where === "create") {
+      this.setState({
+        createUserBool: false,
+        userCheckBool: true,
+      });
+    } else if (where === "pick") {
+      this.setState({
+        chooseClassBool: false,
+        userCheckBool: true,
+      });
+    }
+  };
+
+  clearCreateForm = () => {
+    this.setState({
+      email: "",
+      firstName: "",
+      lastName: "",
+      street: "",
+      state: "",
+      city: "",
+      zip: "",
+    });
+  };
+
   render() {
     const { children } = this.props;
     return (
@@ -156,6 +182,8 @@ class PayWizardContext extends React.Component {
           onChangeFirst: this.onChangeFirst,
           onChangeAdress: this.onChangeAdress,
           confirmExistingUser: this.confirmExistingUser,
+          backOne: this.backOne,
+          clearCreateForm: this.clearCreateForm,
         }}
       >
         {children}

@@ -109,19 +109,19 @@ const CreateUser = () => {
               </Box>
             </FormField>
 
-            <Box gap="small" flex direction="row">
-              {/* <Button
-                onClick={() => this.props.back(states.CHOOSEUSER)}
-                type="button"
-                label="back"
-              /> */}
+            <Box gap="small" flex direction="row" justify="between">
               <Button type="submit" label="create" primary />
-              {/* <Button
-              onClick={() => this.props.next(states.PICKCLASS)}
-              type="button"
-              label="Submit"
-              primary
-            /> */}
+
+              <Button
+                type="button"
+                label="Clear"
+                onClick={() => context.clearCreateForm()}
+              />
+              <Button
+                type="button"
+                label="Back"
+                onClick={() => context.backOne("create")}
+              />
             </Box>
           </Form>
         </Box>
