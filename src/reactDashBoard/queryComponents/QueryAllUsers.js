@@ -8,6 +8,9 @@ const ALL_USERS = gql`
     userloggins {
       username
       status
+      firstName
+      lastName
+      mailingAddress
       students {
         firstName
         lastName
