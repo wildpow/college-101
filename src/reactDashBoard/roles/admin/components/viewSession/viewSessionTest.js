@@ -55,7 +55,7 @@ const COLUMNS = [
 
 class ViewSessionTest extends React.Component {
   static propTypes = {
-    date: PropTypes.instanceOf(Object).isRequired,
+    date: PropTypes.string.isRequired,
     sessions: PropTypes.instanceOf(Object).isRequired,
   };
 

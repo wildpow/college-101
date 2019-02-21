@@ -13,10 +13,10 @@ const StartDate = props => {
   const futureString = `${today.getFullYear() + 1}-${month}-${day}`;
   const bounds = [todayString, futureString];
 
-  const day = `${today.getDate()}`;
-  const month = `${today.getMonth()}`;
-  const todayString = `${today.getFullYear()}-${month + 1}-${day}`;
-  const futureString = `${today.getFullYear() + 1}-${month + 1}-${day}`;
+  // const day = `${today.getDate()}`;
+  // const month = `${today.getMonth()}`;
+  // const todayString = `${today.getFullYear()}-${month + 1}-${day}`;
+  // const futureString = `${today.getFullYear() + 1}-${month + 1}-${day}`;
 
   const {
     startDateOpen,
@@ -39,7 +39,6 @@ const StartDate = props => {
         open={startDateOpen}
         onClose={startOnClose}
         onOpen={startOnOpen}
-
         dropContent={
           <Calendar
             date={startDate}
@@ -48,9 +47,7 @@ const StartDate = props => {
             bounds={bounds}
           />
         }
-
         dropContent={Cal}
-
       >
         <Box
           direction="row"

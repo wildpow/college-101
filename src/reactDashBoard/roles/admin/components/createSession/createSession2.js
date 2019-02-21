@@ -99,9 +99,9 @@ const HoverBorder = styled(Box)`
 `;
 
 class CreateSession extends React.Component {
-  static propTypes = {
-    data: PropTypes.instanceOf(Object).isRequired,
-  };
+  // static propTypes = {
+  //   data: PropTypes.instanceOf(Object).isRequired,
+  // };
 
   state = {
     LayerOpen: false,
