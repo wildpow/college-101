@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { FormField, Select } from "grommet";
-import { ErrorText } from "./sharedStyles";
+import ErrorText from "./sharedStyles";
 
 const SelectTeacher = props => {
   const {
@@ -29,6 +30,14 @@ const SelectTeacher = props => {
       </ErrorText>
     </FormField>
   );
+};
+
+SelectTeacher.propTypes = {
+  teacherError: PropTypes.bool.isRequired,
+  onSearchTeachers: PropTypes.func.isRequired,
+  selectedTeacher: PropTypes.string.isRequired,
+  teacherOptions: PropTypes.instanceOf(Object).isRequired,
+  teacherSelectChange: PropTypes.func.isRequired,
 };
 
 export default SelectTeacher;

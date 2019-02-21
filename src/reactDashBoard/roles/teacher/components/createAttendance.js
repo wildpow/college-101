@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
@@ -59,6 +60,12 @@ const ADD_ATTENDANCE = gql`
 `;
 
 class CreateAttendance extends React.Component {
+  static propTypes = {
+    teacher: PropTypes.instanceOf(Object).isRequired,
+    session: PropTypes.instanceOf(Object).isRequired,
+    handleFlip: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -74,11 +81,7 @@ class CreateAttendance extends React.Component {
   }
 
   handleStudent(e) {
-    const presentStudents = this.state.presentStudents;
-    const enrolledStudents = this.props.session.students.map(
-      student => student.id,
-    );
-    // const userNameArray = data.teachers.map(el => el.userName);
+    const { presentStudents } = this.state;
     const present = presentStudents.includes(e.target.value);
     if (present === false) {
       const updateStudent = presentStudents;
@@ -103,9 +106,9 @@ class CreateAttendance extends React.Component {
   }
 
   submitExtraStudent() {
-    const extraStudents = this.state.inputExtraStudents;
-    const extraArr = this.state.extraStudentsArr;
-    extraArr.push(extraStudents);
+    const { inputExtraStudents, extraStudentsArr } = this.state;
+    const extraArr = extraStudentsArr.map(i => i);
+    extraArr.push(inputExtraStudents);
     this.setState({
       extraStudentsArr: extraArr,
       inputExtraStudents: "",
@@ -113,7 +116,8 @@ class CreateAttendance extends React.Component {
   }
 
   removeExtra(e) {
-    let extraArrCopy = this.state.extraStudentsArr;
+    const { extraStudentsArr } = this.state;
+    const extraArrCopy = extraStudentsArr.map(i => i);
     extraArrCopy.splice(e.target.value, 1);
     this.setState({
       extraStudentsArr: extraArrCopy,
@@ -121,7 +125,7 @@ class CreateAttendance extends React.Component {
   }
 
   render() {
-    const { teacher, session } = this.props;
+    const { teacher, session, handleFlip } = this.props;
     const {
       presentStudents,
       notes,
@@ -142,7 +146,7 @@ class CreateAttendance extends React.Component {
                   return null;
                 });
                 const formatExtraStudents = {
-                  set: this.state.extraStudentsArr,
+                  set: extraStudentsArr,
                 };
                 createAttendance({
                   variables: {
@@ -153,7 +157,7 @@ class CreateAttendance extends React.Component {
                     extraStudents: formatExtraStudents,
                   },
                 });
-                this.props.handleFlip();
+                handleFlip();
               }}
             >
               {session.students.length === 0 ? (
@@ -168,23 +172,18 @@ class CreateAttendance extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {session.students.map(student => {
-                        return (
-                          <tr key={student.id}>
-                            <td>
-                              {" "}
-                              {`${student.firstName} ${student.lastName}`}
-                            </td>
-                            <td>
-                              <input
-                                type="checkbox"
-                                onChange={this.handleStudent}
-                                value={student.id}
-                              />
-                            </td>
-                          </tr>
-                        );
-                      })}
+                      {session.students.map(student => (
+                        <tr key={student.id}>
+                          <td>{`${student.firstName} ${student.lastName}`}</td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              onChange={this.handleStudent}
+                              value={student.id}
+                            />
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </Table>
                   <div>

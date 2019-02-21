@@ -1,8 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import ClassView from "./classView";
 
 class TeacherCal extends React.Component {
+  static propTypes = {
+    teacher: PropTypes.instanceOf(Object).isRequired,
+    sessions: PropTypes.instanceOf(Object).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {

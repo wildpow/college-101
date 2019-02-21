@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-// import { hpe } from "grommet-theme-hpe";
+import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import {
@@ -97,7 +97,12 @@ const HoverBorder = styled(Box)`
     }
   }
 `;
+
 class CreateSession extends React.Component {
+  static propTypes = {
+    data: PropTypes.instanceOf(Object).isRequired,
+  };
+
   state = {
     LayerOpen: false,
     selectedTeacher: "",

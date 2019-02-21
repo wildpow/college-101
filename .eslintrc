@@ -3,7 +3,11 @@
     "browser": true,
     "node": true
   },
-  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "extends": [
+    "airbnb",
+    "plugin:prettier/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
   "plugins": ["prettier"],
   "parser": "babel-eslint",
   "rules": {
