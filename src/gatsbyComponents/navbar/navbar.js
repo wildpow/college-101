@@ -63,6 +63,15 @@ const Navbar = props => {
                 receipts
               </Link>
               <Link
+                to="/dashboard/payments"
+                activeStyle={{
+                  backgroundColor: "#4caf50",
+                  color: "white",
+                }}
+              >
+                payments
+              </Link>
+              <Link
                 to="/dashboard/package"
                 activeStyle={{
                   backgroundColor: "#4caf50",

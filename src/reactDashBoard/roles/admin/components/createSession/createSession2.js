@@ -74,7 +74,7 @@ const MaxStudentWrapper = styled(Box)`
   }
 `;
 
-const Poop = styled(Box)`
+const HoverContainer = styled(Box)`
   div div button div div svg {
     transition: all 250ms ease-in-out;
     :hover {
@@ -114,7 +114,7 @@ class CreateSession extends React.Component {
     teacherError: false,
     courseError: false,
     startDateOpen: false,
-    startDate: undefined,
+    startDate: new Date().toISOString(),
     maxSizeOfClass: 1,
     startTime: "",
     startTimeError: false,
@@ -311,12 +311,17 @@ class CreateSession extends React.Component {
             <Mutation mutation={ADD_SESSION}>
               {createSession => (
                 <Box
-                  // gap="small"
+                  gap="small"
                   as="form"
-                  fill="vertical"
-                  overflow="auto"
-                  width="medium"
-                  pad="medium"
+                  fill
+                  overflow="scroll"
+                  // width="large"
+                  pad={{
+                    left: "medium",
+                    right: "medium",
+                    top: "small",
+                    bottom: "medium",
+                  }}
                   onSubmit={event => {
                     event.preventDefault();
                     if (
@@ -356,12 +361,12 @@ class CreateSession extends React.Component {
                   }}
                 >
                   <Box
-                    flex="grow"
-                    overflow="auto"
-                    // pad={{ vertical: "small" }}
-                    // gap="xsmall"
+                    fill
+                    overflow="scroll"
+                    pad={{ vertical: "small" }}
+                    gap="small"
                   >
-                    <Poop>
+                    <HoverContainer>
                       <SelectCourse
                         selectedCourse={selectedCourse}
                         courseSelectChange={this.courseSelectChange}
@@ -369,8 +374,8 @@ class CreateSession extends React.Component {
                         courseOptions={courseOptions}
                         courseError={courseError}
                       />
-                    </Poop>
-                    <Poop>
+                    </HoverContainer>
+                    <HoverContainer>
                       <SelectTeacher
                         selectedTeacher={selectedTeacher}
                         teacherSelectChange={this.teacherSelectChange}
@@ -378,7 +383,7 @@ class CreateSession extends React.Component {
                         teacherOptions={teacherOptions}
                         teacherError={teacherError}
                       />
-                    </Poop>
+                    </HoverContainer>
                     <HoverBorder>
                       <StartDate
                         startDateOpen={startDateOpen}

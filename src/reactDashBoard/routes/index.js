@@ -9,7 +9,7 @@ import UserLoggins from "../queryComponents/userLoggins";
 import TeacherLogin from "../queryComponents/teacherLogin";
 
 const Container = styled.div`
-  margin-top: 8px;
+  margin-top: 10px;
 `;
 
 const Main = () => {
