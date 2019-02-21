@@ -54,11 +54,10 @@ class PayWizardContext extends React.Component {
       const user = {
         firstName,
         lastName,
-        street,
-        city,
-        state,
-        zip,
-        email,
+        mailingAddress: [street, city, state, zip],
+        username: email,
+        receipts: [],
+        students: [],
       };
       this.setUser(user);
       this.setState({
