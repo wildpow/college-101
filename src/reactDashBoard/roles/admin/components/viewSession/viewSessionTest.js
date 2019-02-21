@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Box,
   Button,
@@ -53,6 +54,11 @@ const COLUMNS = [
 ];
 
 class ViewSessionTest extends React.Component {
+  static propTypes = {
+    date: PropTypes.instanceOf(Object).isRequired,
+    sessions: PropTypes.instanceOf(Object).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -166,6 +172,7 @@ class ViewSessionTest extends React.Component {
         }
         return nextSortDirection === "asc" ? 1 : -1;
       }
+      return null;
     });
 
     this.setState({

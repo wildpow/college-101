@@ -1,10 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import Modal from "../../../components/buttons/modal";
 import { Button } from "../../../components/sharedStyles";
-import CreateAttendance from "./createAttendance";
-import ViewClass from "./viewClass";
+import EditAttendance from "./editAttendance";
 
 const Card = styled.div`
   position: absolute;
@@ -106,12 +104,7 @@ export const Back = styled.div`
   font-family: Verdana, sans-serif;
 `;
 
-class TakeAttendance extends React.Component {
-  static propTypes = {
-    teacher: PropTypes.string.isRequired,
-    session: PropTypes.instanceOf(Object).isRequired,
-  };
-
+class ViewClass extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -139,8 +132,28 @@ class TakeAttendance extends React.Component {
   }
 
   render() {
-    const { session, teacher } = this.props;
     const { showModal, flipCard } = this.state;
+    const { data } = this.props;
+    let _id = 0;
+    const generateId = () => _id++;
+    let extra = data.attendance.extraStudents.map(elm => (
+      <li key={generateId()}>{elm}</li>
+    ));
+    let attended = data.attendance.students.map(elm => elm);
+    let enrolled = data.students.map(elm => elm);
+    let absent = enrolled.filter(obj => {
+      if (!attended.some(attend => attend.id === obj.id)) {
+        return obj;
+      }
+    });
+    let students = type =>
+      type.map(student => (
+        <li key={student.id}>
+          {`${student.firstName}\n`}
+          {student.lastName}
+        </li>
+      ));
+
     const modal = showModal ? (
       <Modal>
         <ModalContainer>
@@ -152,19 +165,38 @@ class TakeAttendance extends React.Component {
           >
             <Front>
               <Header>
-                <h3>Take Attendance</h3>
+                <h3>View Attendance</h3>
                 <button type="button" onClick={this.handleHide}>
                   close
                 </button>
               </Header>
-              <CreateAttendance
-                handleFlip={this.handleFlip}
-                session={session}
-                teacher={teacher}
-              />
+              <div>
+                <Button onClick={this.handleFlip}>edit</Button>
+                All the stuff goes
+                <ul>
+                  Enrolled Students
+                  {students(enrolled)}
+                </ul>
+                <ul>
+                  Absent Students
+                  {students(absent)}
+                </ul>
+                <ul>
+                  Attended Students
+                  {students(attended)}
+                </ul>
+                <ul>
+                  Extra Students
+                  {extra}
+                </ul>
+              </div>
+              <button type="button" onClick={this.handleHide}>
+                close
+              </button>
             </Front>
-
-            <Back onClick={this.handleHide}>Success!!!!!!</Back>
+            <Back>
+              <EditAttendance session={data} handleHide={this.handleHide} />
+            </Back>
           </Card>
         </ModalContainer>
       </Modal>
@@ -172,13 +204,9 @@ class TakeAttendance extends React.Component {
     return (
       <>
         <div>
-          {session.attendance ? (
-            <ViewClass data={session} />
-          ) : (
-            <NewButton onClick={this.handleShow} type="button">
-              Take Attendance
-            </NewButton>
-          )}
+          <NewButton onClick={this.handleShow} type="button">
+            View Attendance
+          </NewButton>
         </div>
         {modal}
       </>
@@ -186,4 +214,4 @@ class TakeAttendance extends React.Component {
   }
 }
 
-export default TakeAttendance;
+export default ViewClass;

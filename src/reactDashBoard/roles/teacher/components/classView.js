@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { timeFormat } from "../../../../utils/globalFunctions";
 import TakeAttendance from "./takeAttendance";
@@ -82,6 +83,11 @@ const ClassView = ({ sessions, date, teacher }) => {
       </div>
     </div>
   );
+};
+ClassView.propTypes = {
+  sessions: PropTypes.instanceOf(Object).isRequired,
+  date: PropTypes.instanceOf(Object).isRequired,
+  teacher: PropTypes.string.isRequired,
 };
 
 export default ClassView;
