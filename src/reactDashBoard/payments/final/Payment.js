@@ -95,6 +95,12 @@ const Payment = () => {
           {console.log(context.state.user)}
           <Box>
             <Heading level={3}>Payment Type</Heading>
+            <select>
+              <option>Check</option>
+              <option>Cash</option>
+              <option>Credit</option>
+              <option>On-line</option>
+            </select>
           </Box>
         </Box>
       )}
