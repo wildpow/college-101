@@ -65,40 +65,32 @@ const Wrapper = styled.div`
     display: ${props => (props.hide1024 ? "block" : "none")};
   }
 `;
-const HelpfulLinks = props => (
-  <Wrapper hide1024={props.hide1024}>
-    <h2>Helpful Links</h2>
-    <Container>
-      <ul>
-        {LinkStore.map(link => (
-          <li>
-            <a
-              href={link.href}
-              key={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {link.linkText}
-            </a>
-          </li>
-        ))}
-      </ul>
-      <ul>
-        {LinkStore2.map(link => (
-          <li>
-            <a
-              href={link.href}
-              key={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {link.linkText}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </Container>
-  </Wrapper>
-);
+const HelpfulLinks = ({ hide1024 }) => {
+  return (
+    <Wrapper hide1024={hide1024}>
+      <h2>Helpful Links</h2>
+      <Container>
+        <ul>
+          {LinkStore.map(link => (
+            <li key={link.href}>
+              <a href={link.href} target="_blank" rel="noopener noreferrer">
+                {link.linkText}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <ul>
+          {LinkStore2.map(link => (
+            <li key={link.href}>
+              <a href={link.href} target="_blank" rel="noopener noreferrer">
+                {link.linkText}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Container>
+    </Wrapper>
+  );
+};
 
 export default HelpfulLinks;
