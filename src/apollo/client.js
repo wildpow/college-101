@@ -1,9 +1,24 @@
 import ApolloClient from "apollo-boost";
 import fetch from "isomorphic-fetch";
 
-const { GATSBY_GRAPHCMS } = process.env;
-
 export const client = new ApolloClient({
-  uri: GATSBY_GRAPHCMS,
-  fetch,
+  uri: process.env.GATSBY_GRAPHCMS,
+  fetchOptions: {
+    credentials: "include",
+  },
+  request: async operation => {
+    operation.setContext({
+      headers: {
+        authorization: `Bearer ${process.env.GATSBY_APOLLO_AUTH}`,
+      },
+    });
+  },
+  onError: ({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      console.log(graphQLErrors);
+    }
+    if (networkError) {
+      console.log(networkError);
+    }
+  },
 });

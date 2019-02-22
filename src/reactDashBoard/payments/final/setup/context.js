@@ -7,7 +7,7 @@ export const PaymentContext = React.createContext();
 
 class PayWizardContext extends React.Component {
   static propTypes = {
-    children: PropTypes.node.isRequired,
+    children: PropTypes.instanceOf(Object).isRequired,
   };
 
   state = {
@@ -23,6 +23,8 @@ class PayWizardContext extends React.Component {
     chooseClassBool: false,
     email: "",
     emailError: false,
+    firstName: "",
+    lastName: "",
     street: "",
     city: "",
     state: "",

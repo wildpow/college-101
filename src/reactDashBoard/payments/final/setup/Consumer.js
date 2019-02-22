@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import PayWizardContext, { PaymentContext } from "./context";
 import UpdateState from "./UpdateState";
 
@@ -20,7 +19,4 @@ const Consumer = props => {
   );
 };
 
-Consumer.propTypes = {
-  data: PropTypes.instanceOf(Object).isRequired,
-};
 export default Consumer;

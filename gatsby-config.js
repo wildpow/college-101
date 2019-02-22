@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { GATSBY_GRAPHCMS } = process.env;
+const { GATSBY_GRAPHCMS, GATSBY_APOLLO_AUTH } = process.env;
 
 module.exports = {
   siteMetadata: {
@@ -23,6 +23,11 @@ module.exports = {
         fieldName: "gcms",
         // Your API endpoint, available from the dashboard and settings window.
         url: GATSBY_GRAPHCMS,
+
+        headers: {
+          // Learn about environment variables: https://gatsby.app/env-vars
+          Authorization: `Bearer ${GATSBY_APOLLO_AUTH}`,
+        },
       },
     },
     {

@@ -4,7 +4,6 @@ import Display from "../display";
 
 class UpdateState extends React.Component {
   static propTypes = {
-    data: PropTypes.instanceOf(Object).isRequired,
     getExistingUsers: PropTypes.func.isRequired,
     setUserData: PropTypes.func.isRequired,
   };
