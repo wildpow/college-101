@@ -1,25 +1,18 @@
 import React from "react";
 import { Router } from "@reach/router";
 import Layout from "../gatsbyComponents/layout";
-import Attendance from "./routes/attendance";
 import Main from "./routes";
 import PrivateRoute from "./components/PrivateRoute";
 import Login from "./routes/login";
-import Teachers from "./routes/teachers";
-import Students from "./routes/students";
-import Package from "./routes/package";
-import Receipts from "./routes/receipts";
+import Reports from "./routes/reports";
+import AdminRoutes from "./components/adminRoutes";
 import Payments from "./routes/payments";
 
 const DashBoard = () => (
   <Layout>
     <Router>
-      <PrivateRoute path="/dashboard/attendance" component={Attendance} />
-      <PrivateRoute path="/dashboard/payments" component={Payments} />
-      <PrivateRoute path="/dashboard/teachers" component={Teachers} />
-      <PrivateRoute path="/dashboard/students" component={Students} />
-      <PrivateRoute path="/dashboard/package" component={Package} />
-      <PrivateRoute path="/dashboard/receipts" component={Receipts} />
+      <AdminRoutes path="/dashboard/reports" component={Reports} />
+      <AdminRoutes path="/dashboard/payments" component={Payments} />
       <PublicRoute path="/dashboard">
         <PrivateRoute path="/" component={Main} />
         <Login path="/login" />

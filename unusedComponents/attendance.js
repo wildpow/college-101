@@ -1,5 +1,5 @@
 import React from "react";
-import { getUser } from "../services/auth";
+import { getUser } from "../src/reactDashBoard/services/auth";
 
 const Attendance = () => {
   const user = getUser();

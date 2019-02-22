@@ -1,8 +1,8 @@
 import React from "react";
 import { navigate } from "gatsby";
-import { isLoggedIn } from "../services/auth";
+import { isLoggedIn, getUser } from "../services/auth";
 
-class PrivateRoute extends React.Component {
+class AdminRoutes extends React.Component {
   componentDidMount = () => {
     const { location } = this.props;
     if (!isLoggedIn() && location.pathname !== `/dashboard/login`) {
@@ -15,8 +15,15 @@ class PrivateRoute extends React.Component {
 
   render() {
     const { component: Component, location, ...rest } = this.props;
-    return isLoggedIn() ? <Component {...rest} /> : null;
+    if (isLoggedIn()) {
+      const user = getUser();
+      const role = user.app_metadata.roles;
+      if (role === undefined) {
+        return <h1>Unathurized Route</h1>;
+      }
+      return <Component {...rest} />;
+    }
+    return null;
   }
 }
-
-export default PrivateRoute;
+export default AdminRoutes;

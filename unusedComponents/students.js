@@ -1,6 +1,6 @@
 import React from "react";
-import QueryStudents from "../queryComponents/all_students";
-import ViewStudents from "../components/viewStudents";
+import QueryStudents from "../src/reactDashBoard/queryComponents/all_students";
+import ViewStudents from "../src/reactDashBoard/components/viewStudents";
 
 const Students = () => (
   <>

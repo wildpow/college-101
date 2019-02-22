@@ -6,7 +6,7 @@ import NavBar from "./navbar/navbar";
 import MobileNav from "./mobileMenu/mobileNav";
 
 const Wrapper = styled.div`
-  margin-top: 100px;
+  margin-top: 55px;
 `;
 class Layout extends React.Component {
   constructor(props) {

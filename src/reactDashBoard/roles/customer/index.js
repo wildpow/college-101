@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const Customer = props => {
   const { data } = props;
@@ -11,7 +10,4 @@ const Customer = props => {
   );
 };
 
-Customer.propTypes = {
-  data: PropTypes.instanceOf(Object).isRequired,
-};
 export default Customer;

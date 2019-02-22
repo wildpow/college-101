@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import TeacherCal from "./components/teacherCal";
 
 const Employee = props => {
@@ -19,7 +18,4 @@ const Employee = props => {
   );
 };
 
-Employee.propTypes = {
-  data: PropTypes.instanceOf(Object).isRequired,
-};
 export default Employee;
