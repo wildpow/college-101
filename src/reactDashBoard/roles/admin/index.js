@@ -1,12 +1,27 @@
 import React from "react";
+import styled from "styled-components";
 import { hpe } from "grommet-theme-hpe";
 import { FormDown } from "grommet-icons";
-import { Grommet, Box, Grid, Calendar, DropButton, Text } from "grommet";
+import {
+  Grommet,
+  Box,
+  Grid,
+  Calendar,
+  DropButton,
+  Text,
+  Heading,
+} from "grommet";
 import QueryTeacherCourse from "../../queryComponents/all_Teachers_Courses";
 import CreateSession2 from "./components/createSession/createSession2";
 import QuerySessions from "../../queryComponents/all_sessions";
 import ViewSessionTest from "./components/viewSession/viewSessionTest";
 
+const BottomBorder = styled(Box)`
+  transition: all 250ms ease-in-out !important;
+  :hover {
+    color: green;
+  }
+`;
 class Admin extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +53,7 @@ class Admin extends React.Component {
   startOnClose = () => this.setState({ startDateOpen: false });
 
   render() {
-    const { dropCal, startDate, startDateOpen, col } = this.state;
+    const { dropCal, startDate, startDateOpen, col, date } = this.state;
 
     return (
       // col row
@@ -62,7 +77,19 @@ class Admin extends React.Component {
           <Box gridArea="topGutter" />
           <Box gridArea="gutter1" />
           <Box gridArea="nav">
-            {dropCal ? (
+            {/* {dropCal ? ( */}
+
+            {/* ) : (
+              <Calendar
+                date={startDate}
+                onSelect={this.onSelect}
+                size="medium"
+              />
+            )} */}
+          </Box>
+          <Box gridArea="main">
+            <Heading level={2}>
+              {`Current Classes for`}
               <DropButton
                 open={startDateOpen}
                 onClose={this.startOnClose}
@@ -76,29 +103,21 @@ class Admin extends React.Component {
                   />
                 }
               >
-                <Box
+                <BottomBorder
                   direction="row"
                   // gap="medium"
                   align="center"
                   pad="small"
                 >
-                  <Text>
-                    {startDate
-                      ? new Date(startDate).toLocaleDateString()
-                      : new Date().toLocaleDateString()}
-                  </Text>
+                  {/* <Text size="large"> */}
+                  {startDate
+                    ? new Date(startDate).toDateString()
+                    : new Date().toLocaleDateString()}
+                  {/* </Text> */}
                   <FormDown color="brand" />
-                </Box>
+                </BottomBorder>
               </DropButton>
-            ) : (
-              <Calendar
-                date={startDate}
-                onSelect={this.onSelect}
-                size="medium"
-              />
-            )}
-          </Box>
-          <Box gridArea="main">
+            </Heading>
             {/* <QueryTeacherCourse component={ViewSession} /> */}
             <QuerySessions component={ViewSessionTest} date={startDate} />
           </Box>

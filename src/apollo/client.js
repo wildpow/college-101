@@ -21,4 +21,5 @@ export const client = new ApolloClient({
       console.log(networkError);
     }
   },
+  fetch,
 });

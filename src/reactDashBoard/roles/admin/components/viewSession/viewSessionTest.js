@@ -195,9 +195,6 @@ class ViewSessionTest extends React.Component {
     return (
       <>
         <Box flex={false}>
-          <Heading level={2}>
-            {`Current Classes for ${new Date(date).toDateString()}`}
-          </Heading>
           <Table caption="Session table header">
             <TableHeader>
               <TableRow>

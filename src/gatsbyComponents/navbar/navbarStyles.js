@@ -154,6 +154,9 @@ export const LeftSideNav = styled.div`
   h2 {
     padding: 15px 16px;
     /* border: 2px solid white; */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     margin-top: 0;
     margin-bottom: 0;
