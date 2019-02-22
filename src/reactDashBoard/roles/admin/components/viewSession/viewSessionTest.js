@@ -46,11 +46,11 @@ const COLUMNS = [
     label: "Attendance",
     size: "small",
   },
-  {
-    property: "actions",
-    label: "Actions",
-    size: "small",
-  },
+  // {
+  //   property: "actions",
+  //   label: "Actions",
+  //   size: "small",
+  // },
 ];
 
 class ViewSessionTest extends React.Component {
@@ -194,7 +194,7 @@ class ViewSessionTest extends React.Component {
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
       <>
-        <Box flex={false} animation="fadeIn">
+        <Box flex={false}>
           <Heading level={2}>
             {`Current Classes for ${new Date(date).toDateString()}`}
           </Heading>
@@ -413,7 +413,7 @@ class ViewSessionTest extends React.Component {
                         </Box>
                       </Button>
                     </TableCell>
-                    <TableCell scope="row" size="small" plain>
+                    {/* <TableCell scope="row" size="small" plain>
                       <Box
                         direction="row"
                         pad={{ horizontal: "small", vertical: "xsmall" }}
@@ -430,7 +430,7 @@ class ViewSessionTest extends React.Component {
                           label="Edit"
                         />
                       </Box>
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 );
               })}
