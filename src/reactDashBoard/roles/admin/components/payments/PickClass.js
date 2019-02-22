@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Box, Calendar, DropButton, Text } from "grommet";
 import { FormDown } from "grommet-icons";
-import QuerySessions from "../../queryComponents/all_sessions";
+import QuerySessions from "../../../../queryComponents/QuerySessions";
 import SessionView from "./sessionView";
 
 const Wrapper = styled.div`

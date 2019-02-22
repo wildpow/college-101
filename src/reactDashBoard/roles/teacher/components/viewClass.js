@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Modal from "../../../components/buttons/modal";
-import { Button } from "../../../components/sharedStyles";
+import Modal from "../../../Global_components/modal";
+import { Button } from "../../../Global_components/sharedStyles";
 import EditAttendance from "./editAttendance";
 
 const Card = styled.div`

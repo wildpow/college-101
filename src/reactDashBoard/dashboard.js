@@ -2,10 +2,10 @@ import React from "react";
 import { Router } from "@reach/router";
 import Layout from "../gatsbyComponents/layout";
 import Main from "./routes";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./Global_components/PrivateRoute";
 import Login from "./routes/login";
 import Reports from "./routes/reports";
-import AdminRoutes from "./components/adminRoutes";
+import AdminRoutes from "./Global_components/adminRoutes";
 import Payments from "./routes/payments";
 
 const DashBoard = () => (

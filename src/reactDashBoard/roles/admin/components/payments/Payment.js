@@ -11,7 +11,7 @@ import {
   Text,
 } from "grommet";
 import { PaymentContext } from "./setup/context";
-import { timeFormat } from "../../../utils/globalFunctions";
+import { timeFormat } from "../../../../../utils/globalFunctions";
 
 const Payment = () => {
   return (

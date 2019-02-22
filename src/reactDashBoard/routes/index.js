@@ -5,8 +5,8 @@ import { getUser } from "../services/auth";
 import Teacher from "../roles/teacher";
 import Admin from "../roles/admin";
 import Customer from "../roles/customer";
-import UserLoggins from "../queryComponents/userLoggins";
-import TeacherLogin from "../queryComponents/teacherLogin";
+import QueryUserNames from "../queryComponents/QueryUserNames";
+import QueryTeacher from "../queryComponents/QueryTeacher";
 
 const Container = styled.div`
   margin-top: 10px;
@@ -18,7 +18,7 @@ const Main = () => {
   if (role === undefined) {
     return (
       <Container>
-        <UserLoggins component={Customer} userName={user.email} />
+        <QueryUserNames component={Customer} userName={user.email} />
       </Container>
     );
   }
@@ -32,7 +32,7 @@ const Main = () => {
   if (user.app_metadata.roles[0] === "teacher") {
     return (
       <Container>
-        <TeacherLogin component={Teacher} userName={user.email} />
+        <QueryTeacher component={Teacher} userName={user.email} />
       </Container>
     );
   }

@@ -2,18 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { hpe } from "grommet-theme-hpe";
 import { FormDown } from "grommet-icons";
-import {
-  Grommet,
-  Box,
-  Grid,
-  Calendar,
-  DropButton,
-  Text,
-  Heading,
-} from "grommet";
-import QueryTeacherCourse from "../../queryComponents/all_Teachers_Courses";
+import { Grommet, Box, Grid, Calendar, DropButton, Heading } from "grommet";
+import QueryTeacherCourse from "../../queryComponents/QueryTeacherCourse";
 import CreateSession2 from "./components/createSession/createSession2";
-import QuerySessions from "../../queryComponents/all_sessions";
+import QuerySessions from "../../queryComponents/QuerySessions";
 import ViewSessionTest from "./components/viewSession/viewSessionTest";
 
 const BottomBorder = styled(Box)`

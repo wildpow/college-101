@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import Spinner from "../components/loading";
+import Spinner from "../Global_components/loading";
 
 const ALL_USERS = gql`
   query userCheck {

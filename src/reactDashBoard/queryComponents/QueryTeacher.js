@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import Spinner from "../components/loading";
+import Spinner from "../Global_components/loading";
 
 const TEACHER = gql`
   query findTeacher($userName: String!) {
@@ -42,7 +42,7 @@ const TEACHER = gql`
   }
 `;
 
-const TeacherLogin = props => {
+const QueryTeacher = props => {
   const { userName } = props;
   return (
     <Query query={TEACHER} variables={{ userName }} pollInterval={1000}>
@@ -55,4 +55,4 @@ const TeacherLogin = props => {
     </Query>
   );
 };
-export default TeacherLogin;
+export default QueryTeacher;
