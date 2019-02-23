@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Table,
-  Heading,
   TableBody,
   TableCell,
   TableHeader,
@@ -46,11 +45,6 @@ const COLUMNS = [
     label: "Attendance",
     size: "small",
   },
-  // {
-  //   property: "actions",
-  //   label: "Actions",
-  //   size: "small",
-  // },
 ];
 
 class ViewSessionTest extends React.Component {
@@ -86,27 +80,6 @@ class ViewSessionTest extends React.Component {
       return null;
     });
     this.setState({ sessions: currentSessions });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { date, sessions } = this.props;
-    if (nextProps.date !== date) {
-      const currentSessions = [];
-      const today = new Date(nextProps.date);
-      sessions.map(session => {
-        const testDate = new Date(session.startTime);
-        if (
-          today.getMonth() === testDate.getMonth() &&
-          today.getDate() === testDate.getDate() &&
-          today.getFullYear() === testDate.getFullYear()
-        ) {
-          currentSessions.push(session);
-        }
-        return null;
-      });
-      this.setState({ sessions: currentSessions });
-    }
-    return null;
   }
 
   sessionMouseOver = id => this.setState({ over: id });
@@ -183,15 +156,22 @@ class ViewSessionTest extends React.Component {
   };
 
   render() {
-    const { date } = this.props;
-    const {
-      sortProperty,
-      sortDirection,
-      sessions,
-      selected,
-      over,
-    } = this.state;
+    const { sortProperty, sortDirection, selected, over } = this.state;
+    const { sessions, date } = this.props;
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
+    const currentSessions = [];
+    const today = new Date(date);
+    sessions.map(session => {
+      const testDate = new Date(session.startTime);
+      if (
+        today.getMonth() === testDate.getMonth() &&
+        today.getDate() === testDate.getDate() &&
+        today.getFullYear() === testDate.getFullYear()
+      ) {
+        currentSessions.push(session);
+      }
+      return null;
+    });
     return (
       <>
         <Box flex={false}>
@@ -239,7 +219,7 @@ class ViewSessionTest extends React.Component {
         <Box overflow="scroll" basis="medium" flex={false}>
           <Table caption="list of session for current date">
             <TableBody>
-              {sessions.map(session => {
+              {currentSessions.map(session => {
                 let background;
                 if (session.id === selected) {
                   background = "brand";
@@ -266,6 +246,7 @@ class ViewSessionTest extends React.Component {
                         }
                       >
                         <Box
+                          animation="fadeIn"
                           background={background}
                           pad={{ horizontal: "small", vertical: "xsmall" }}
                         >
@@ -291,6 +272,7 @@ class ViewSessionTest extends React.Component {
                         }
                       >
                         <Box
+                          animation="fadeIn"
                           background={background}
                           pad={{ horizontal: "small", vertical: "xsmall" }}
                         >
@@ -320,6 +302,7 @@ class ViewSessionTest extends React.Component {
                         }
                       >
                         <Box
+                          animation="fadeIn"
                           background={background}
                           pad={{ horizontal: "small", vertical: "xsmall" }}
                         >
@@ -345,6 +328,7 @@ class ViewSessionTest extends React.Component {
                         }
                       >
                         <Box
+                          animation="fadeIn"
                           background={background}
                           pad={{ horizontal: "small", vertical: "xsmall" }}
                         >
@@ -370,6 +354,7 @@ class ViewSessionTest extends React.Component {
                         }
                       >
                         <Box
+                          animation="fadeIn"
                           background={background}
                           pad={{ horizontal: "small", vertical: "xsmall" }}
                         >
@@ -403,6 +388,7 @@ class ViewSessionTest extends React.Component {
                         }
                       >
                         <Box
+                          animation="fadeIn"
                           background={background}
                           pad={{ horizontal: "small", vertical: "xsmall" }}
                         >
@@ -410,44 +396,12 @@ class ViewSessionTest extends React.Component {
                         </Box>
                       </Button>
                     </TableCell>
-                    {/* <TableCell scope="row" size="small" plain>
-                      <Box
-                        direction="row"
-                        pad={{ horizontal: "small", vertical: "xsmall" }}
-                      >
-                        <Button
-                          label="View"
-                          onClick={() => console.log("view")}
-                          margin={{ right: "4px" }}
-                        />
-
-                        <Button
-                          margin={{ left: "4px" }}
-                          onClick={() => console.log("edit")}
-                          label="Edit"
-                        />
-                      </Box>
-                    </TableCell> */}
                   </TableRow>
                 );
               })}
             </TableBody>
           </Table>
         </Box>
-
-        {/* <Box>
-          <Table caption="Table footer">
-            <TableFooter>
-              <TableRow>
-                <TableCell align="center">
-                  <Heading level={2}>
-                    {`Current Classes for ${new Date(date).toDateString()}`}
-                  </Heading>
-                </TableCell>
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </Box> */}
       </>
     );
   }

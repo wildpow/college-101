@@ -19,7 +19,7 @@ const ALL_TEACHERS_COURSES = gql`
 `;
 
 const QueryTeacherCourse = props => (
-  <Query query={ALL_TEACHERS_COURSES} pollInterval={1000}>
+  <Query query={ALL_TEACHERS_COURSES}>
     {({ loading, error, data }) => {
       if (loading) return null;
       if (error) return <h1>Error</h1>;

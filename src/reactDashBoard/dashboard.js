@@ -1,4 +1,6 @@
 import React from "react";
+import { Grommet } from "grommet";
+import { hpe } from "grommet-theme-hpe";
 import { Router } from "@reach/router";
 import Layout from "../gatsbyComponents/layout";
 import Main from "./routes";
@@ -10,14 +12,16 @@ import Payments from "./routes/payments";
 
 const DashBoard = () => (
   <Layout>
-    <Router>
-      <AdminRoutes path="/dashboard/reports" component={Reports} />
-      <AdminRoutes path="/dashboard/payments" component={Payments} />
-      <PublicRoute path="/dashboard">
-        <PrivateRoute path="/" component={Main} />
-        <Login path="/login" />
-      </PublicRoute>
-    </Router>
+    <Grommet theme={hpe}>
+      <Router>
+        <AdminRoutes path="/dashboard/reports" component={Reports} />
+        <AdminRoutes path="/dashboard/payments" component={Payments} />
+        <PublicRoute path="/dashboard">
+          <PrivateRoute path="/" component={Main} />
+          <Login path="/login" />
+        </PublicRoute>
+      </Router>
+    </Grommet>
   </Layout>
 );
 
