@@ -82,6 +82,30 @@ class ViewSessionTest extends React.Component {
     this.setState({ sessions: currentSessions });
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { date, sessions } = this.props;
+    if (
+      nextProps.date !== date ||
+      nextProps.sessions.length !== sessions.length
+    ) {
+      const currentSessions = [];
+      const today = new Date(nextProps.date);
+      sessions.map(session => {
+        const testDate = new Date(session.startTime);
+        if (
+          today.getMonth() === testDate.getMonth() &&
+          today.getDate() === testDate.getDate() &&
+          today.getFullYear() === testDate.getFullYear()
+        ) {
+          currentSessions.push(session);
+        }
+        return null;
+      });
+      this.setState({ sessions: currentSessions });
+    }
+    return null;
+  }
+
   sessionMouseOver = id => this.setState({ over: id });
 
   sessionMouseOut = () => this.setState({ over: undefined });
@@ -156,22 +180,28 @@ class ViewSessionTest extends React.Component {
   };
 
   render() {
-    const { sortProperty, sortDirection, selected, over } = this.state;
-    const { sessions, date } = this.props;
+    const {
+      sortProperty,
+      sortDirection,
+      selected,
+      over,
+      sessions,
+    } = this.state;
+    const { date } = this.props;
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
-    const currentSessions = [];
-    const today = new Date(date);
-    sessions.map(session => {
-      const testDate = new Date(session.startTime);
-      if (
-        today.getMonth() === testDate.getMonth() &&
-        today.getDate() === testDate.getDate() &&
-        today.getFullYear() === testDate.getFullYear()
-      ) {
-        currentSessions.push(session);
-      }
-      return null;
-    });
+    // const currentSessions = [];
+    // const today = new Date(date);
+    // sessions.map(session => {
+    //   const testDate = new Date(session.startTime);
+    //   if (
+    //     today.getMonth() === testDate.getMonth() &&
+    //     today.getDate() === testDate.getDate() &&
+    //     today.getFullYear() === testDate.getFullYear()
+    //   ) {
+    //     currentSessions.push(session);
+    //   }
+    //   return null;
+    // });
     return (
       <>
         <Box flex={false}>
@@ -219,7 +249,7 @@ class ViewSessionTest extends React.Component {
         <Box overflow="scroll" basis="medium" flex={false}>
           <Table caption="list of session for current date">
             <TableBody>
-              {currentSessions.map(session => {
+              {sessions.map(session => {
                 let background;
                 if (session.id === selected) {
                   background = "brand";
