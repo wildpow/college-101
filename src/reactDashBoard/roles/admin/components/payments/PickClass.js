@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Box, Calendar, DropButton, Text } from "grommet";
 import { FormDown } from "grommet-icons";
 import QuerySessions from "../../../../queryComponents/QuerySessions";
-import SessionView from "./sessionView";
+import SessionView from "./paySessionView";
 
 const Wrapper = styled.div`
   width: 100%;

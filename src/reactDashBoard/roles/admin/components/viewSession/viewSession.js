@@ -13,6 +13,7 @@ import {
 
 import { FormUp, FormDown } from "grommet-icons";
 import { timeFormat } from "../../../../../utils/globalFunctions";
+import SingleSession from "./singleSession";
 
 const COLUMNS = [
   {
@@ -90,7 +91,7 @@ class ViewSessionTest extends React.Component {
     ) {
       const currentSessions = [];
       const today = new Date(nextProps.date);
-      sessions.map(session => {
+      nextProps.sessions.map(session => {
         const testDate = new Date(session.startTime);
         if (
           today.getMonth() === testDate.getMonth() &&
@@ -101,6 +102,7 @@ class ViewSessionTest extends React.Component {
         }
         return null;
       });
+
       this.setState({ sessions: currentSessions });
     }
     return null;
@@ -187,21 +189,7 @@ class ViewSessionTest extends React.Component {
       over,
       sessions,
     } = this.state;
-    const { date } = this.props;
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
-    // const currentSessions = [];
-    // const today = new Date(date);
-    // sessions.map(session => {
-    //   const testDate = new Date(session.startTime);
-    //   if (
-    //     today.getMonth() === testDate.getMonth() &&
-    //     today.getDate() === testDate.getDate() &&
-    //     today.getFullYear() === testDate.getFullYear()
-    //   ) {
-    //     currentSessions.push(session);
-    //   }
-    //   return null;
-    // });
     return (
       <>
         <Box flex={false}>
@@ -257,176 +245,15 @@ class ViewSessionTest extends React.Component {
                   background = "light-2";
                 }
                 return (
-                  <TableRow key={session.id}>
-                    <TableCell scope="row" size="small" plain>
-                      <Button
-                        fill
-                        plain
-                        focusIndicator={false}
-                        hoverIndicator={false}
-                        onMouseOver={() => this.setState({ over: session.id })}
-                        onMouseOut={() => this.setState({ over: undefined })}
-                        onFocus={() => this.setState({ over: session.id })}
-                        onBlur={() => this.setState({ over: undefined })}
-                        onClick={() =>
-                          this.setState({
-                            selected:
-                              session.id === selected ? undefined : session.id,
-                          })
-                        }
-                      >
-                        <Box
-                          animation="fadeIn"
-                          background={background}
-                          pad={{ horizontal: "small", vertical: "xsmall" }}
-                        >
-                          <Text>{session.course.name}</Text>
-                        </Box>
-                      </Button>
-                    </TableCell>
-                    <TableCell scope="row" size="small" plain>
-                      <Button
-                        fill
-                        plain
-                        focusIndicator={false}
-                        hoverIndicator={false}
-                        onMouseOver={() => this.setState({ over: session.id })}
-                        onMouseOut={() => this.setState({ over: undefined })}
-                        onFocus={() => this.setState({ over: session.id })}
-                        onBlur={() => this.setState({ over: undefined })}
-                        onClick={() =>
-                          this.setState({
-                            selected:
-                              session.id === selected ? undefined : session.id,
-                          })
-                        }
-                      >
-                        <Box
-                          animation="fadeIn"
-                          background={background}
-                          pad={{ horizontal: "small", vertical: "xsmall" }}
-                        >
-                          <Text>
-                            {`${session.teacher.firstName} ${
-                              session.teacher.lastName
-                            }`}
-                          </Text>
-                        </Box>
-                      </Button>
-                    </TableCell>
-                    <TableCell scope="row" size="small" plain>
-                      <Button
-                        fill
-                        plain
-                        focusIndicator={false}
-                        hoverIndicator={false}
-                        onMouseOver={() => this.setState({ over: session.id })}
-                        onMouseOut={() => this.setState({ over: undefined })}
-                        onFocus={() => this.setState({ over: session.id })}
-                        onBlur={() => this.setState({ over: undefined })}
-                        onClick={() =>
-                          this.setState({
-                            selected:
-                              session.id === selected ? undefined : session.id,
-                          })
-                        }
-                      >
-                        <Box
-                          animation="fadeIn"
-                          background={background}
-                          pad={{ horizontal: "small", vertical: "xsmall" }}
-                        >
-                          <Text>{timeFormat(session.startTime)}</Text>
-                        </Box>
-                      </Button>
-                    </TableCell>
-                    <TableCell scope="row" size="small" plain>
-                      <Button
-                        fill
-                        plain
-                        focusIndicator={false}
-                        hoverIndicator={false}
-                        onMouseOver={() => this.setState({ over: session.id })}
-                        onMouseOut={() => this.setState({ over: undefined })}
-                        onFocus={() => this.setState({ over: session.id })}
-                        onBlur={() => this.setState({ over: undefined })}
-                        onClick={() =>
-                          this.setState({
-                            selected:
-                              session.id === selected ? undefined : session.id,
-                          })
-                        }
-                      >
-                        <Box
-                          animation="fadeIn"
-                          background={background}
-                          pad={{ horizontal: "small", vertical: "xsmall" }}
-                        >
-                          <Text>{timeFormat(session.endTime)}</Text>
-                        </Box>
-                      </Button>
-                    </TableCell>
-                    <TableCell scope="row" size="small" plain>
-                      <Button
-                        fill
-                        plain
-                        focusIndicator={false}
-                        hoverIndicator={false}
-                        onMouseOver={() => this.setState({ over: session.id })}
-                        onMouseOut={() => this.setState({ over: undefined })}
-                        onFocus={() => this.setState({ over: session.id })}
-                        onBlur={() => this.setState({ over: undefined })}
-                        onClick={() =>
-                          this.setState({
-                            selected:
-                              session.id === selected ? undefined : session.id,
-                          })
-                        }
-                      >
-                        <Box
-                          animation="fadeIn"
-                          background={background}
-                          pad={{ horizontal: "small", vertical: "xsmall" }}
-                        >
-                          <Text>
-                            {`${
-                              session.students.length === 0
-                                ? 0
-                                : session.students.length
-                            }
-            / 
-            ${session.maxSizeOfClass}`}
-                          </Text>
-                        </Box>
-                      </Button>
-                    </TableCell>
-                    <TableCell scope="row" size="small" plain>
-                      <Button
-                        fill
-                        plain
-                        focusIndicator={false}
-                        hoverIndicator={false}
-                        onMouseOver={() => this.setState({ over: session.id })}
-                        onMouseOut={() => this.setState({ over: undefined })}
-                        onFocus={() => this.setState({ over: session.id })}
-                        onBlur={() => this.setState({ over: undefined })}
-                        onClick={() =>
-                          this.setState({
-                            selected:
-                              session.id === selected ? undefined : session.id,
-                          })
-                        }
-                      >
-                        <Box
-                          animation="fadeIn"
-                          background={background}
-                          pad={{ horizontal: "small", vertical: "xsmall" }}
-                        >
-                          <Text>{session.attendance ? "taken" : "none"}</Text>
-                        </Box>
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+                  <SingleSession
+                    sessionMouseOver={this.sessionMouseOver}
+                    sessionMouseOut={this.sessionMouseOut}
+                    sessionOnFocus={this.sessionOnFocus}
+                    sessionOnBlur={this.sessionOnBlur}
+                    sessionOnClick={this.sessionOnClick}
+                    background={background}
+                    session={session}
+                  />
                 );
               })}
             </TableBody>
