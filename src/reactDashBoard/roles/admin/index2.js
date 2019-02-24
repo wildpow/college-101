@@ -35,7 +35,7 @@ class Admin extends Component {
     const { sessions } = this.props;
     return (
       <>
-        <Box>
+        <Box pad={{ horizontal: "small" }}>
           <div>
             <Heading level={2}>
               {/* {`Current Classes for`} */}

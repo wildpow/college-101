@@ -163,7 +163,7 @@ const SingleSession = props => {
         </Button>
       </TableCell>
       <TableCell scope="row" size="small" plain>
-        <Button
+        {/* <Button
           fill
           plain
           focusIndicator={false}
@@ -173,28 +173,31 @@ const SingleSession = props => {
           onFocus={() => sessionOnFocus(session.id)}
           onBlur={() => sessionOnBlur}
           onClick={() => sessionOnClick(session.id, session)}
+        > */}
+        <Box
+          animation={{
+            type: "fadeIn",
+            delay: 0,
+            duration: 250,
+            size: "xsmall",
+          }}
+          background={background}
+          pad={{ horizontal: "small", vertical: "xsmall" }}
         >
-          <Box
-            animation={{
-              type: "fadeIn",
-              delay: 0,
-              duration: 250,
-              size: "xsmall",
-            }}
-            background={background}
-            pad={{ horizontal: "small", vertical: "xsmall" }}
-          >
-            {/* <Text> */}
-            {session.attendance ? (
-              <Button label="View" />
-            ) : (
-              <ExtraPadText color="status-critical" size="larger" weight="bold">
-                Not Taken
-              </ExtraPadText>
-            )}
-            {/* </Text> */}
-          </Box>
-        </Button>
+          {/* <Text> */}
+          {session.attendance ? (
+            <Button
+              label="View"
+              onClick={() => console.log("view attendance")}
+            />
+          ) : (
+            <ExtraPadText color="status-critical" size="larger" weight="bold">
+              Not Taken
+            </ExtraPadText>
+          )}
+          {/* </Text> */}
+        </Box>
+        {/* </Button> */}
       </TableCell>
     </TableRow>
   );

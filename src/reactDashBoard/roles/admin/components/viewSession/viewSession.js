@@ -240,7 +240,12 @@ class ViewSessionTest extends React.Component {
           </Table>
         </Box>
 
-        <Box overflow="scroll" basis="medium" flex={false}>
+        <Box
+          overflow="scroll"
+          basis="medium"
+          flex={false}
+          // pad={{ horizontal: "xsmall" }}
+        >
           <Table caption="list of session for current date">
             <TableBody>
               {sessions.map(session => {

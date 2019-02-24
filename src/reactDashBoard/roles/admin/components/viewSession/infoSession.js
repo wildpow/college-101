@@ -49,25 +49,31 @@ const InfoSession = props => {
   };
   return (
     <Box>
-      {console.log("bla", selectedSession)}
+      {/* {console.log("bla", selectedSession)}
       {console.log("att", attendance)}
       {console.log("enrolled", enrolledStudent)}
       {console.log("paid", studentsPaid)}
-      {console.log("receipt", receipts)}
-      {console.log("resault", resultFilter(enrolledStudent, studentsPaid))}
+      {console.log("receipt", receipts)} */}
+      {/* {console.log("resault", resultFilter(enrolledStudent, studentsPaid))} */}
       {selectedSession.length !== 0 ? (
         <Box
-          width="500px"
+          width="600px"
           // justify="center"
           // alignContent="center"
           alignSelf="center"
+          pad={{ vertical: "small", horizontal: "large" }}
         >
-          <Box justify="center" alignContent="center">
-            <Heading level={4}>Extra Info</Heading>
+          <Box elevation="large" background="white" pad="small">
+            <Heading level={3} alignSelf="center">
+              Extra Info
+            </Heading>
             {selectedSession.students.length === 0 ? (
-              <Box>
-                <Text>Session has no current enrolled students</Text>
+              <Box justify="center" alignContent="center" gap="small">
+                <Text alignSelf="center">
+                  Session has no current enrolled students
+                </Text>
                 <Button
+                  alignSelf="center"
                   label="Add Student"
                   onClick={() => console.log("student added")}
                 />
