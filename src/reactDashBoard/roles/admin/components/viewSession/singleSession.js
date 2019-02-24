@@ -1,7 +1,18 @@
 import React from "react";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Box, Button, TableCell, TableRow, Text } from "grommet";
 import { timeFormat } from "../../../../../utils/globalFunctions";
+
+const ExtraPad = styled(Box)`
+  padding-top: 12px;
+  padding-bottom: 12px;
+`;
+
+const ExtraPadText = styled(Text)`
+  padding-top: 5px;
+  padding-bottom: 6px;
+`;
 
 const SingleSession = props => {
   const {
@@ -27,7 +38,7 @@ const SingleSession = props => {
           onBlur={() => sessionOnBlur}
           onClick={() => sessionOnClick(session.id, session)}
         >
-          <Box
+          <ExtraPad
             animation={{
               type: "fadeIn",
               delay: 0,
@@ -38,7 +49,7 @@ const SingleSession = props => {
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
             <Text truncate>{session.course.name}</Text>
-          </Box>
+          </ExtraPad>
         </Button>
       </TableCell>
       <TableCell scope="row" size="small" plain>
@@ -53,7 +64,7 @@ const SingleSession = props => {
           onBlur={() => sessionOnBlur}
           onClick={() => sessionOnClick(session.id, session)}
         >
-          <Box
+          <ExtraPad
             animation={{
               type: "fadeIn",
               delay: 0,
@@ -66,7 +77,7 @@ const SingleSession = props => {
             <Text truncate>
               {`${session.teacher.firstName} ${session.teacher.lastName}`}
             </Text>
-          </Box>
+          </ExtraPad>
         </Button>
       </TableCell>
       <TableCell scope="row" size="small" plain>
@@ -81,7 +92,7 @@ const SingleSession = props => {
           onBlur={() => sessionOnBlur}
           onClick={() => sessionOnClick(session.id, session)}
         >
-          <Box
+          <ExtraPad
             animation={{
               type: "fadeIn",
               delay: 0,
@@ -92,7 +103,7 @@ const SingleSession = props => {
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
             <Text truncate>{timeFormat(session.startTime)}</Text>
-          </Box>
+          </ExtraPad>
         </Button>
       </TableCell>
       <TableCell scope="row" size="small" plain>
@@ -107,7 +118,7 @@ const SingleSession = props => {
           onBlur={() => sessionOnBlur}
           onClick={() => sessionOnClick(session.id, session)}
         >
-          <Box
+          <ExtraPad
             animation={{
               type: "fadeIn",
               delay: 0,
@@ -118,7 +129,7 @@ const SingleSession = props => {
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
             <Text truncate>{timeFormat(session.endTime)}</Text>
-          </Box>
+          </ExtraPad>
         </Button>
       </TableCell>
       <TableCell scope="row" size="small" plain>
@@ -133,7 +144,7 @@ const SingleSession = props => {
           onBlur={() => sessionOnBlur}
           onClick={() => sessionOnClick(session.id, session)}
         >
-          <Box
+          <ExtraPad
             animation={{
               type: "fadeIn",
               delay: 0,
@@ -148,7 +159,7 @@ const SingleSession = props => {
             / 
             ${session.maxSizeOfClass}`}
             </Text>
-          </Box>
+          </ExtraPad>
         </Button>
       </TableCell>
       <TableCell scope="row" size="small" plain>
@@ -173,15 +184,15 @@ const SingleSession = props => {
             background={background}
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
-            <Text>
-              {session.attendance ? (
-                <Button label="View Attendance" />
-              ) : (
-                <Text color="status-critical" size="larger" weight="bold">
-                  Not Taken
-                </Text>
-              )}
-            </Text>
+            {/* <Text> */}
+            {session.attendance ? (
+              <Button label="View" />
+            ) : (
+              <ExtraPadText color="status-critical" size="larger" weight="bold">
+                Not Taken
+              </ExtraPadText>
+            )}
+            {/* </Text> */}
           </Box>
         </Button>
       </TableCell>

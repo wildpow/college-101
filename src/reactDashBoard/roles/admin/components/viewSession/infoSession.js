@@ -38,12 +38,9 @@ const InfoSession = props => {
     selectedSession.length !== 0 && selectedSession.receipts.length !== 0
       ? selectedSession.receipts.map(receipt => receipt.student)
       : [];
-  let arr = [
-    { name: "string s", value: "this", other: "that" },
-    { name: "string 2", value: "this", other: "that" },
-  ];
+
   const studentNotPaid = resultFilter(enrolledStudent, studentsPaid);
-  let obj = studentNotPaid.find(o => o.name === "string 1");
+
   const attendanceCheck = (att, object) => {
     if (object.length === 0) return false;
     const poop = object.find(o => o.id === att);
@@ -52,7 +49,6 @@ const InfoSession = props => {
   };
   return (
     <Box>
-      {console.log("sefwefwf", obj)}
       {console.log("bla", selectedSession)}
       {console.log("att", attendance)}
       {console.log("enrolled", enrolledStudent)}
@@ -137,7 +133,7 @@ const InfoSession = props => {
                         </TableCell>
                         <TableCell>
                           <Button
-                            label="view Receipt"
+                            label="View Receipt"
                             onClick={() =>
                               console.log("View Recipt needs to be implamented")
                             }
