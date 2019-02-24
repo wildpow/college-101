@@ -154,6 +154,20 @@ const InfoSession = props => {
                     ))}
                   </TableBody>
                 </Table>
+                <Box
+                  direction="row"
+                  justify="evenly"
+                  pad={{ vertical: "small" }}
+                >
+                  <Button
+                    label="Add Student"
+                    onClick={() => console.log("student added")}
+                  />
+                  <Button
+                    label="Edit Session"
+                    onClick={() => console.log("Edit Session")}
+                  />
+                </Box>
               </Box>
             )}
           </Box>
