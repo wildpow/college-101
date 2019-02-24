@@ -12,8 +12,8 @@ import {
 } from "grommet";
 
 import { FormUp, FormDown } from "grommet-icons";
-import { timeFormat } from "../../../../../utils/globalFunctions";
 import SingleSession from "./singleSession";
+import InfoSession from "./infoSession";
 
 const COLUMNS = [
   {
@@ -118,10 +118,10 @@ class ViewSessionTest extends React.Component {
   sessionOnBlur = () => this.setState({ over: undefined });
 
   sessionOnClick = (id, session) => {
-    const { selected } = this.state;
+    const { selected, selectedSession } = this.state;
     this.setState({
       selected: id === selected ? undefined : id,
-      selectedSession: session,
+      selectedSession: session.id === selectedSession.id ? [] : session,
     });
   };
 
@@ -190,6 +190,7 @@ class ViewSessionTest extends React.Component {
       selected,
       over,
       sessions,
+      selectedSession,
     } = this.state;
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
@@ -227,7 +228,7 @@ class ViewSessionTest extends React.Component {
                         gap="xsmall"
                       >
                         <Text size="large">{c.label}</Text>
-                        {/* {sortProperty === c.property ? sortIcon : null} */}
+                        {sortProperty === c.property ? sortIcon : null}
                       </Box>
                     )}
                   </TableCell>
@@ -263,6 +264,7 @@ class ViewSessionTest extends React.Component {
             </TableBody>
           </Table>
         </Box>
+        <InfoSession selectedSession={selectedSession} />
       </>
     );
   }

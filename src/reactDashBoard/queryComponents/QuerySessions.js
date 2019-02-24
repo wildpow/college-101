@@ -11,6 +11,33 @@ const ALL_SESSIONS = gql`
       endTime
       maxSizeOfClass
       enrolled
+
+      attendance {
+        status
+        id
+        extraStudents
+        notes
+        students {
+          firstName
+          lastName
+        }
+      }
+
+      receipts {
+        student {
+          firstName
+          lastName
+          id
+          receipts {
+            id
+          }
+          attendance {
+            id
+          }
+        }
+        id
+        email
+      }
       course {
         name
         id
@@ -20,14 +47,17 @@ const ALL_SESSIONS = gql`
         lastName
         id
       }
-      attendance {
-        status
-        id
-      }
+
       students {
         firstName
         lastName
         id
+        receipts {
+          id
+        }
+        attendance {
+          id
+        }
       }
     }
   }

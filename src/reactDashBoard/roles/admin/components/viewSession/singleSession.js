@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Box, Button, TableCell, TableRow, Text } from "grommet";
 import { timeFormat } from "../../../../../utils/globalFunctions";
 
@@ -178,6 +179,19 @@ const SingleSession = props => {
       </TableCell>
     </TableRow>
   );
+};
+SingleSession.defaultProps = {
+  background: "",
+};
+
+SingleSession.propTypes = {
+  sessionMouseOut: PropTypes.func.isRequired,
+  sessionMouseOver: PropTypes.func.isRequired,
+  sessionOnBlur: PropTypes.func.isRequired,
+  sessionOnFocus: PropTypes.func.isRequired,
+  sessionOnClick: PropTypes.func.isRequired,
+  background: PropTypes.string,
+  session: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default SingleSession;

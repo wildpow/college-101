@@ -42,7 +42,7 @@ const ADD_ATTENDANCE = gql`
     $userName: String
     $students: [StudentWhereUniqueInput!]
     $extraStudents: AttendanceCreateextraStudentsInput
-    $notes: String!
+    $notes: AttendanceCreatenotesInput
   ) {
     createAttendance(
       data: {
@@ -61,7 +61,7 @@ const ADD_ATTENDANCE = gql`
 
 class CreateAttendance extends React.Component {
   static propTypes = {
-    teacher: PropTypes.instanceOf(Object).isRequired,
+    teacher: PropTypes.string.isRequired,
     session: PropTypes.instanceOf(Object).isRequired,
     handleFlip: PropTypes.func.isRequired,
   };
@@ -71,7 +71,7 @@ class CreateAttendance extends React.Component {
     this.state = {
       presentStudents: [],
       extraStudentsArr: [],
-      notes: "",
+      notes: [],
       inputExtraStudents: "",
     };
     this.handleStudent = this.handleStudent.bind(this);
