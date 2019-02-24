@@ -104,7 +104,7 @@ class ViewSessionTest extends React.Component {
         return null;
       });
 
-      this.setState({ sessions: currentSessions });
+      this.setState({ sessions: currentSessions, selectedSession: [] });
     }
     return null;
   }
@@ -215,7 +215,9 @@ class ViewSessionTest extends React.Component {
                           border="bottom"
                           gap="xsmall"
                         >
-                          <Text size="large">{c.label}</Text>
+                          <Text size="large" truncate>
+                            {c.label}
+                          </Text>
                           {sortProperty === c.property ? sortIcon : null}
                         </Box>
                       </Button>

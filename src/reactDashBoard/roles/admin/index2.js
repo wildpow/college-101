@@ -34,40 +34,42 @@ class Admin extends Component {
     const { calendarOpen, date } = this.state;
     const { sessions } = this.props;
     return (
-      <Box>
-        <div>
-          <Heading level={2}>
-            {/* {`Current Classes for`} */}
-            <DropButton
-              open={calendarOpen}
-              onClose={this.startOnClose}
-              onOpen={this.startOnOpen}
-              dropContent={
-                // eslint-disable-next-line react/jsx-wrap-multilines
-                <Calendar
-                  date={date}
-                  onSelect={this.startDateSelect}
-                  size="medium"
-                  // bounds={bounds}
-                />
-              }
-            >
-              <BottomBorder direction="row" align="center" pad="small">
-                {date
-                  ? new Date(date).toDateString()
-                  : new Date().toLocaleDateString()}
-                <FormDown color="brand" />
-              </BottomBorder>
-            </DropButton>
-          </Heading>
-        </div>
-        <div>
-          <ViewSession sessions={sessions} date={date} />
-        </div>
-        <div>
+      <>
+        <Box>
+          <div>
+            <Heading level={2}>
+              {/* {`Current Classes for`} */}
+              <DropButton
+                open={calendarOpen}
+                onClose={this.startOnClose}
+                onOpen={this.startOnOpen}
+                dropContent={
+                  // eslint-disable-next-line react/jsx-wrap-multilines
+                  <Calendar
+                    date={date}
+                    onSelect={this.startDateSelect}
+                    size="medium"
+                    // bounds={bounds}
+                  />
+                }
+              >
+                <BottomBorder direction="row" align="center" pad="small">
+                  {date
+                    ? new Date(date).toDateString()
+                    : new Date().toLocaleDateString()}
+                  <FormDown color="brand" />
+                </BottomBorder>
+              </DropButton>
+            </Heading>
+          </div>
+          <div>
+            <ViewSession sessions={sessions} date={date} />
+          </div>
+        </Box>
+        <Box margin={{ top: "150px" }}>
           <QueryTeacherCourse component={CreateSession} />
-        </div>
-      </Box>
+        </Box>
+      </>
     );
   }
 }

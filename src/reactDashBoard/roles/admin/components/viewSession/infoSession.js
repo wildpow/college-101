@@ -46,7 +46,7 @@ const InfoSession = props => {
   let obj = studentNotPaid.find(o => o.name === "string 1");
   const attendanceCheck = (att, object) => {
     if (object.length === 0) return false;
-    const poop = obj.find(o => o.id === att);
+    const poop = object.find(o => o.id === att);
     if (poop === undefined) return false;
     return true;
   };
@@ -60,9 +60,14 @@ const InfoSession = props => {
       {console.log("receipt", receipts)}
       {console.log("resault", resultFilter(enrolledStudent, studentsPaid))}
       {selectedSession.length !== 0 ? (
-        <>
-          <Box>
-            <Heading level={4}>Students</Heading>
+        <Box
+          width="500px"
+          // justify="center"
+          // alignContent="center"
+          alignSelf="center"
+        >
+          <Box justify="center" alignContent="center">
+            <Heading level={4}>Extra Info</Heading>
             {selectedSession.students.length === 0 ? (
               <Box>
                 <Text>Session has no current enrolled students</Text>
@@ -120,8 +125,8 @@ const InfoSession = props => {
                         <TableCell>Not Paid</TableCell>
                         <TableCell>
                           {attendanceCheck(attendance, student.attendance)
-                            ? "taken"
-                            : "not taken"}
+                            ? "present"
+                            : "absent"}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -130,11 +135,18 @@ const InfoSession = props => {
                         <TableCell plain size="xsmall">
                           {`${student.firstName} ${student.lastName}`}
                         </TableCell>
-                        <TableCell>Not Paid</TableCell>
+                        <TableCell>
+                          <Button
+                            label="view Receipt"
+                            onClick={() =>
+                              console.log("View Recipt needs to be implamented")
+                            }
+                          />
+                        </TableCell>
                         <TableCell>
                           {attendanceCheck(attendance, student.attendance)
-                            ? "taken"
-                            : "not taken"}
+                            ? "present"
+                            : "absent"}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -143,7 +155,7 @@ const InfoSession = props => {
               </Box>
             )}
           </Box>
-        </>
+        </Box>
       ) : null}
     </Box>
   );

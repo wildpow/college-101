@@ -37,7 +37,7 @@ const SingleSession = props => {
             background={background}
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
-            <Text>{session.course.name}</Text>
+            <Text truncate>{session.course.name}</Text>
           </Box>
         </Button>
       </TableCell>
@@ -63,7 +63,7 @@ const SingleSession = props => {
             background={background}
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
-            <Text>
+            <Text truncate>
               {`${session.teacher.firstName} ${session.teacher.lastName}`}
             </Text>
           </Box>
@@ -91,7 +91,7 @@ const SingleSession = props => {
             background={background}
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
-            <Text>{timeFormat(session.startTime)}</Text>
+            <Text truncate>{timeFormat(session.startTime)}</Text>
           </Box>
         </Button>
       </TableCell>
@@ -117,7 +117,7 @@ const SingleSession = props => {
             background={background}
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
-            <Text>{timeFormat(session.endTime)}</Text>
+            <Text truncate>{timeFormat(session.endTime)}</Text>
           </Box>
         </Button>
       </TableCell>
@@ -143,7 +143,7 @@ const SingleSession = props => {
             background={background}
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
-            <Text>
+            <Text truncate>
               {`${session.students.length === 0 ? 0 : session.students.length}
             / 
             ${session.maxSizeOfClass}`}
@@ -173,7 +173,15 @@ const SingleSession = props => {
             background={background}
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
-            <Text>{session.attendance ? "taken" : "none"}</Text>
+            <Text>
+              {session.attendance ? (
+                <Button label="View Attendance" />
+              ) : (
+                <Text color="status-critical" size="larger" weight="bold">
+                  Not Taken
+                </Text>
+              )}
+            </Text>
           </Box>
         </Button>
       </TableCell>
