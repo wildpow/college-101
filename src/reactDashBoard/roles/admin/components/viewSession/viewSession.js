@@ -62,6 +62,7 @@ class ViewSessionTest extends React.Component {
       sessions: [],
       selected: "",
       over: "",
+      selectedSession: [],
     };
   }
 
@@ -116,10 +117,11 @@ class ViewSessionTest extends React.Component {
 
   sessionOnBlur = () => this.setState({ over: undefined });
 
-  sessionOnClick = id => {
+  sessionOnClick = (id, session) => {
     const { selected } = this.state;
     this.setState({
       selected: id === selected ? undefined : id,
+      selectedSession: session,
     });
   };
 
@@ -192,6 +194,7 @@ class ViewSessionTest extends React.Component {
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
       <>
+        {console.log(this.state)}
         <Box flex={false}>
           <Table caption="Session table header">
             <TableHeader>
@@ -253,6 +256,7 @@ class ViewSessionTest extends React.Component {
                     sessionOnClick={this.sessionOnClick}
                     background={background}
                     session={session}
+                    key={session.id}
                   />
                 );
               })}

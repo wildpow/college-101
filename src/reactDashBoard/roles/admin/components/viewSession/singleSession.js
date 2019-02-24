@@ -24,7 +24,7 @@ const SingleSession = props => {
           onMouseOut={() => sessionMouseOut}
           onFocus={() => sessionOnFocus(session.id)}
           onBlur={() => sessionOnBlur}
-          onClick={() => sessionOnClick(session.id)}
+          onClick={() => sessionOnClick(session.id, session)}
         >
           <Box
             animation={{
@@ -50,7 +50,7 @@ const SingleSession = props => {
           onMouseOut={() => sessionMouseOut}
           onFocus={() => sessionOnFocus(session.id)}
           onBlur={() => sessionOnBlur}
-          onClick={() => sessionOnClick(session.id)}
+          onClick={() => sessionOnClick(session.id, session)}
         >
           <Box
             animation={{
@@ -78,7 +78,7 @@ const SingleSession = props => {
           onMouseOut={() => sessionMouseOut}
           onFocus={() => sessionOnFocus(session.id)}
           onBlur={() => sessionOnBlur}
-          onClick={() => sessionOnClick(session.id)}
+          onClick={() => sessionOnClick(session.id, session)}
         >
           <Box
             animation={{
@@ -104,7 +104,7 @@ const SingleSession = props => {
           onMouseOut={() => sessionMouseOut}
           onFocus={() => sessionOnFocus(session.id)}
           onBlur={() => sessionOnBlur}
-          onClick={() => sessionOnClick(session.id)}
+          onClick={() => sessionOnClick(session.id, session)}
         >
           <Box
             animation={{
@@ -130,7 +130,7 @@ const SingleSession = props => {
           onMouseOut={() => sessionMouseOut}
           onFocus={() => sessionOnFocus(session.id)}
           onBlur={() => sessionOnBlur}
-          onClick={() => sessionOnClick(session.id)}
+          onClick={() => sessionOnClick(session.id, session)}
         >
           <Box
             animation={{
@@ -160,7 +160,7 @@ const SingleSession = props => {
           onMouseOut={() => sessionMouseOut}
           onFocus={() => sessionOnFocus(session.id)}
           onBlur={() => sessionOnBlur}
-          onClick={() => sessionOnClick(session.id)}
+          onClick={() => sessionOnClick(session.id, session)}
         >
           <Box
             animation={{
