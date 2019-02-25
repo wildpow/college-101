@@ -73,8 +73,8 @@ const InfoSession = props => {
               Extra Info
             </Heading> */}
             {selectedSession.students.length === 0 ? (
-              <Box justify="center" alignContent="center" gap="small">
-                <Text alignSelf="center">
+              <Box justify="center" alignContent="center" gap="large">
+                <Text alignSelf="center" size="large">
                   Session has no current enrolled students
                 </Text>
                 <Button
