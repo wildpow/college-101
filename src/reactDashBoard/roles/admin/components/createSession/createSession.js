@@ -277,8 +277,13 @@ class CreateSession extends React.Component {
       return null;
     });
     return (
-      <Box fill align="center" justify="center">
-        <Button icon={<Add />} label="Add Session" onClick={this.onOpen} />
+      <Box fill align="end" justify="end">
+        <Button
+          icon={<Add />}
+          label="Add Session"
+          onClick={this.onOpen}
+          primary
+        />
         {LayerOpen && (
           <Layer
             position="right"

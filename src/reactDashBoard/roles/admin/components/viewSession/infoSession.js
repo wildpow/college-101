@@ -10,7 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "grommet";
+import styled from "styled-components";
 
+const TableBB = styled(Table)`
+  border-bottom: solid 1px rgba(0, 0, 0, 0.33);
+`;
 const InfoSession = props => {
   const resultFilter = (firstArray, secondArray) => {
     return firstArray.filter(
@@ -57,16 +61,17 @@ const InfoSession = props => {
       {/* {console.log("resault", resultFilter(enrolledStudent, studentsPaid))} */}
       {selectedSession.length !== 0 ? (
         <Box
-          width="600px"
+          fill
+          // width="600px"
           // justify="center"
           // alignContent="center"
           alignSelf="center"
-          pad={{ vertical: "small", horizontal: "large" }}
+          pad={{ vertical: "medium", horizontal: "large" }}
         >
-          <Box elevation="large" background="white" pad="small">
-            <Heading level={3} alignSelf="center">
+          <Box elevation="small" background="white" pad="medium">
+            {/* <Heading level={3} alignSelf="center">
               Extra Info
-            </Heading>
+            </Heading> */}
             {selectedSession.students.length === 0 ? (
               <Box justify="center" alignContent="center" gap="small">
                 <Text alignSelf="center">
@@ -80,13 +85,16 @@ const InfoSession = props => {
               </Box>
             ) : (
               <Box>
-                <Table caption="Students enrolled in session">
+                <TableBB
+                  caption="Students enrolled in session"
+                  margin={{ vertical: "xsmall" }}
+                >
                   <TableHeader>
                     <TableRow>
                       <TableCell plain size="xsmall">
                         <Box
                           direction="row"
-                          pad={{ horizontal: "small", vertical: "xsmall" }}
+                          pad={{ horizontal: "xsmall", vertical: "xsmall" }}
                           justify="start"
                           border="bottom"
                           gap="xsmall"
@@ -97,23 +105,23 @@ const InfoSession = props => {
                       <TableCell plain size="xsmall">
                         <Box
                           direction="row"
-                          pad={{ horizontal: "small", vertical: "xsmall" }}
+                          pad={{ horizontal: "xsmall", vertical: "xsmall" }}
                           justify="start"
                           border="bottom"
                           gap="xsmall"
                         >
-                          Paid
+                          <Text size="large">Paid</Text>
                         </Box>
                       </TableCell>
                       <TableCell plain size="xsmall">
                         <Box
                           direction="row"
-                          pad={{ horizontal: "small", vertical: "xsmall" }}
+                          pad={{ horizontal: "xsmall", vertical: "xsmall" }}
                           justify="start"
                           border="bottom"
                           gap="xsmall"
                         >
-                          Attendance
+                          <Text size="large">Attendance</Text>
                         </Box>
                       </TableCell>
                     </TableRow>
@@ -153,11 +161,12 @@ const InfoSession = props => {
                       </TableRow>
                     ))}
                   </TableBody>
-                </Table>
+                </TableBB>
                 <Box
                   direction="row"
                   justify="evenly"
                   pad={{ vertical: "small" }}
+                  margin={{ vertical: "xsmall" }}
                 >
                   <Button
                     label="Add Student"

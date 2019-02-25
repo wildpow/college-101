@@ -6,6 +6,23 @@ import CreateSession from "./components/createSession/createSession";
 import QueryTeacherCourse from "../../queryComponents/QueryTeacherCourse";
 import ViewSession from "./components/viewSession/viewSession";
 
+const Header = styled.div`
+  display: flex;
+  /* flex-basis: 100%; */
+  /* width: 100%; */
+  /* justify-content: space-around; */
+  /* justify-self: center;
+  justify-items: center; */
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  h2 {
+    margin: 0px;
+    width: 100%;
+  }
+  div {
+  }
+`;
 const BottomBorder = styled(Box)`
   transition: all 250ms ease-in-out !important;
   :hover {
@@ -36,7 +53,7 @@ class Admin extends Component {
     return (
       <>
         <Box pad={{ horizontal: "small" }}>
-          <div>
+          <Header>
             <Heading level={2}>
               {/* {`Current Classes for`} */}
               <DropButton
@@ -61,14 +78,15 @@ class Admin extends Component {
                 </BottomBorder>
               </DropButton>
             </Heading>
-          </div>
+            <QueryTeacherCourse component={CreateSession} />
+          </Header>
           <div>
             <ViewSession sessions={sessions} date={date} />
           </div>
         </Box>
-        <Box margin={{ top: "150px" }}>
+        {/* <Box margin={{ top: "150px" }}>
           <QueryTeacherCourse component={CreateSession} />
-        </Box>
+        </Box> */}
       </>
     );
   }
