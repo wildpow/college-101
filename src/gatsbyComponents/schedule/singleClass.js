@@ -42,11 +42,7 @@ const SingleClass = props => {
                     {`${enrolledNullCheck(enrolled)} / ${maxSizeOfClass}`}
                   </td>
                   <td>
-                    {enrolled === maxSizeOfClass ? (
-                      <>FULL</>
-                    ) : (
-                      <Enroll enrolled={enrolled} id={id} />
-                    )}
+                    {enrolled === maxSizeOfClass ? <>FULL</> : <>enroll</>}
                   </td>
                 </>
               );
@@ -91,3 +87,5 @@ const SingleClass = props => {
 };
 
 export default SingleClass;
+
+/* <Enroll enrolled={enrolled} id={id} /> */

@@ -63,7 +63,7 @@ const ALL_SESSIONS = gql`
   }
 `;
 const QuerySessions = props => (
-  <Query query={ALL_SESSIONS} pollInterval={1000}>
+  <Query query={ALL_SESSIONS} pollInterval={2000}>
     {({ loading, error, data: { sessions } }) => {
       if (loading) return <Spinner />;
       if (error) return <h1>Error</h1>;

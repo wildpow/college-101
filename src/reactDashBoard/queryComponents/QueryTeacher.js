@@ -45,7 +45,7 @@ const TEACHER = gql`
 const QueryTeacher = props => {
   const { userName } = props;
   return (
-    <Query query={TEACHER} variables={{ userName }} pollInterval={1000}>
+    <Query query={TEACHER} variables={{ userName }}>
       {({ loading, error, data }) => {
         if (loading) return <Spinner />;
         if (error) return <h1>Error</h1>;
