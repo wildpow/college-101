@@ -4,12 +4,13 @@ import fetch from "isomorphic-fetch";
 export const client = new ApolloClient({
   uri: process.env.GATSBY_GRAPHCMS,
   fetchOptions: {
-    // credentials: "include",
+    credentials: "include",
     // mode: "no-cors",
   },
   request: async operation => {
     operation.setContext({
       headers: {
+        mode: `Access-Control-Allow-Origin`,
         authorization: `Bearer ${process.env.GATSBY_APOLLO_AUTH}`,
       },
     });

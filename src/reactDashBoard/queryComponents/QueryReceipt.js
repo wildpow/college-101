@@ -4,8 +4,8 @@ import { gql } from "apollo-boost";
 import Spinner from "../Global_components/loading";
 
 const ONERECEIPT = gql`
-  query SingleReceipt($receipt: ID!) {
-    receipt(where: { id: $receipt }) {
+  query SingleReceipt($receiptID: ID!) {
+    receipt(where: { id: $receiptID }) {
       name
       email
       createdAt
@@ -28,7 +28,7 @@ const ONERECEIPT = gql`
 
 const QueryReceipt = ({ receiptID, component: Component }) => {
   return (
-    <Query query={ONERECEIPT} variable={{ id: receiptID }}>
+    <Query query={ONERECEIPT} variables={{ receiptID }}>
       {({ loading, error, data }) => {
         if (loading) return <Spinner />;
         if (error) return <h1>Error</h1>;

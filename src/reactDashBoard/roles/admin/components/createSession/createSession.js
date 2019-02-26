@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import {
@@ -19,6 +19,7 @@ import SelectCourse from "./selectCourse";
 import SelectTeacher from "./selectTeacher";
 import StartDate from "./startDate";
 import StartTimePicker from "./startTimePicker";
+import { TitleWrapper } from "../../sharedStyles/slideLayer";
 
 const ADD_SESSION = gql`
   mutation(
@@ -41,21 +42,6 @@ const ADD_SESSION = gql`
       startTime
       endTime
     }
-  }
-`;
-const TitleWrapper = styled(Box)`
-  button {
-    /* padding-bottom: 0px;
-    padding-top: 0px; */
-    padding: 0;
-  }
-  h2 {
-    align-self: center;
-  }
-  button svg:hover {
-    transition: all 250ms ease-in-out;
-    stroke: black;
-    fill: black;
   }
 `;
 

@@ -2,7 +2,6 @@ import React from "react";
 import {
   Box,
   Text,
-  Heading,
   Button,
   Table,
   TableBody,
@@ -11,19 +10,13 @@ import {
   TableRow,
 } from "grommet";
 import styled from "styled-components";
+import ViewReceipt from "./viewReceipt";
+import QueryReceipt from "../../../../queryComponents/QueryReceipt";
 
 const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
 `;
 const InfoSession = props => {
-  const resultFilter = (firstArray, secondArray) => {
-    return firstArray.filter(
-      firstArrayItem =>
-        !secondArray.some(
-          secondArrayItem => firstArrayItem.id === secondArrayItem.id,
-        ),
-    );
-  };
   const { selectedSession } = props;
   const attendance =
     selectedSession.attendance === undefined ||
@@ -38,40 +31,34 @@ const InfoSession = props => {
     selectedSession.length !== 0 && selectedSession.students.length !== 0
       ? selectedSession.students.map(student => student)
       : [];
-  const studentsPaid =
-    selectedSession.length !== 0 && selectedSession.receipts.length !== 0
-      ? selectedSession.receipts.map(receipt => receipt.student)
-      : [];
-
-  const studentNotPaid = resultFilter(enrolledStudent, studentsPaid);
-
+  const receiptCheck = (sessionReceipts, studentReceipts) => {
+    if (studentReceipts.length === 0 || sessionReceipts.length === 0)
+      return false;
+    let result = "";
+    studentReceipts.forEach(val => {
+      if (sessionReceipts.includes(val.id)) {
+        result = val.id;
+      } else {
+        result = false;
+      }
+    });
+    return result;
+  };
   const attendanceCheck = (att, object) => {
     if (object.length === 0) return false;
-    const poop = object.find(o => o.id === att);
-    if (poop === undefined) return false;
+    const result = object.find(o => o.id === att);
+    if (result === undefined) return false;
     return true;
   };
   return (
     <Box>
-      {/* {console.log("bla", selectedSession)}
-      {console.log("att", attendance)}
-      {console.log("enrolled", enrolledStudent)}
-      {console.log("paid", studentsPaid)}
-      {console.log("receipt", receipts)} */}
-      {/* {console.log("resault", resultFilter(enrolledStudent, studentsPaid))} */}
       {selectedSession.length !== 0 ? (
         <Box
           fill
-          // width="600px"
-          // justify="center"
-          // alignContent="center"
           alignSelf="center"
           pad={{ vertical: "medium", horizontal: "large" }}
         >
           <Box elevation="small" background="white" pad="medium">
-            {/* <Heading level={3} alignSelf="center">
-              Extra Info
-            </Heading> */}
             {selectedSession.students.length === 0 ? (
               <Box justify="center" alignContent="center" gap="large">
                 <Text alignSelf="center" size="large">
@@ -127,36 +114,44 @@ const InfoSession = props => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {studentNotPaid.map(student => (
-                      <TableRow key={student.id}>
-                        <TableCell plain size="xsmall">
-                          {`${student.firstName} ${student.lastName}`}
-                        </TableCell>
-                        <TableCell>Not Paid</TableCell>
-                        <TableCell>
-                          {attendanceCheck(attendance, student.attendance)
-                            ? "present"
-                            : "absent"}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                    {studentsPaid.map(student => (
+                    {enrolledStudent.map(student => (
                       <TableRow key={student.id}>
                         <TableCell plain size="xsmall">
                           {`${student.firstName} ${student.lastName}`}
                         </TableCell>
                         <TableCell>
-                          <Button
-                            label="View Receipt"
-                            onClick={() =>
-                              console.log("View Recipt needs to be implamented")
-                            }
-                          />
+                          {receiptCheck(receipts, student.receipts) ? (
+                            <QueryReceipt
+                              component={ViewReceipt}
+                              receiptID={receiptCheck(
+                                receipts,
+                                student.receipts,
+                              )}
+                            />
+                          ) : (
+                            <Text
+                              color="status-critical"
+                              weight="bold"
+                              size="large"
+                            >
+                              No Receipt
+                            </Text>
+                          )}
                         </TableCell>
                         <TableCell>
-                          {attendanceCheck(attendance, student.attendance)
-                            ? "present"
-                            : "absent"}
+                          {attendanceCheck(attendance, student.attendance) ? (
+                            <Text weight="bold" size="large" color="brand">
+                              present
+                            </Text>
+                          ) : (
+                            <Text
+                              weight="bold"
+                              size="large"
+                              color="status-warning"
+                            >
+                              absent
+                            </Text>
+                          )}
                         </TableCell>
                       </TableRow>
                     ))}
