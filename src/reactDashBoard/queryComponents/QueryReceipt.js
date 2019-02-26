@@ -30,7 +30,7 @@ const QueryReceipt = ({ receiptID, component: Component }) => {
   return (
     <Query query={ONERECEIPT} variables={{ receiptID }}>
       {({ loading, error, data }) => {
-        if (loading) return <Spinner />;
+        if (loading) return null;
         if (error) return <h1>Error</h1>;
         if (data) return <Component data={data} />;
         return null;

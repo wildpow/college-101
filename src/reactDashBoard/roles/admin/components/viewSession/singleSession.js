@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Box, Button, TableCell, TableRow, Text } from "grommet";
 import { timeFormat } from "../../../../../utils/globalFunctions";
+import ViewAttendance from "./viewAttendance";
 
 const ExtraPad = styled(Box)`
   padding-top: 12px;
@@ -186,10 +187,9 @@ const SingleSession = props => {
         >
           {/* <Text> */}
           {session.attendance ? (
-            <Button
-              label="View"
-              onClick={() => console.log("view attendance")}
-            />
+            <Box alignSelf="start">
+              <ViewAttendance />
+            </Box>
           ) : (
             <ExtraPadText color="status-critical" size="larger" weight="bold">
               Not Taken

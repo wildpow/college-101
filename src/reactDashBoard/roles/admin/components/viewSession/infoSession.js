@@ -12,6 +12,8 @@ import {
 import styled from "styled-components";
 import ViewReceipt from "./viewReceipt";
 import QueryReceipt from "../../../../queryComponents/QueryReceipt";
+import QueryStudents from "../../../../queryComponents/QueryStudents";
+import AddStudent from "./addStudent";
 
 const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
@@ -64,11 +66,9 @@ const InfoSession = props => {
                 <Text alignSelf="center" size="large">
                   Session has no current enrolled students
                 </Text>
-                <Button
-                  alignSelf="center"
-                  label="Add Student"
-                  onClick={() => console.log("student added")}
-                />
+                <Box alignSelf="center">
+                  <QueryStudents component={AddStudent} />
+                </Box>
               </Box>
             ) : (
               <Box>
@@ -163,10 +163,7 @@ const InfoSession = props => {
                   pad={{ vertical: "small" }}
                   margin={{ vertical: "xsmall" }}
                 >
-                  <Button
-                    label="Add Student"
-                    onClick={() => console.log("student added")}
-                  />
+                  <QueryStudents component={AddStudent} />
                   <Button
                     label="Edit Session"
                     onClick={() => console.log("Edit Session")}

@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { Mutation } from "react-apollo";
-import { gql } from "apollo-boost";
 import { Button, Layer, Heading, Box, Text } from "grommet";
 import { FormClose } from "grommet-icons";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
 
-const AddStudent = props => {
-  const { data } = props;
+const ViewAttendance = props => {
+  // const { data } = props;
   const [open, setOpen] = useState(false);
   return (
     <>
-      {console.log(data)}
-      <Button onClick={() => setOpen(true)} label="Add Student" />
+      {/* {console.log(data)} */}
+      <Button onClick={() => setOpen(true)} label="View" />
       {open && (
         <Layer
           position="right"
@@ -34,7 +32,7 @@ const AddStudent = props => {
             }}
           >
             <Heading level={2} margin="none" color="floralwhite">
-              Add Student
+              View Attendance
             </Heading>
             <Button
               icon={<FormClose color="floralwhite" size="large" />}
@@ -65,7 +63,7 @@ const AddStudent = props => {
               pad={{ vertical: "small" }}
               gap="medium"
             >
-              add student
+              View Attendance
             </Box>
           </Box>
         </Layer>
@@ -74,4 +72,4 @@ const AddStudent = props => {
   );
 };
 
-export default AddStudent;
+export default ViewAttendance;
