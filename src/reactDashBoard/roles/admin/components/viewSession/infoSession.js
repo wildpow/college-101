@@ -14,6 +14,7 @@ import ViewReceipt from "./viewReceipt";
 import QueryReceipt from "../../../../queryComponents/QueryReceipt";
 import QueryStudents from "../../../../queryComponents/QueryStudents";
 import AddStudent from "./addStudent";
+import EditSession from "./editSession";
 
 const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
@@ -164,10 +165,7 @@ const InfoSession = props => {
                   margin={{ vertical: "xsmall" }}
                 >
                   <QueryStudents component={AddStudent} />
-                  <Button
-                    label="Edit Session"
-                    onClick={() => console.log("Edit Session")}
-                  />
+                  <EditSession session={selectedSession} />
                 </Box>
               </Box>
             )}

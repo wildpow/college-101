@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 // import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
-import { gql, refetch } from "apollo-boost";
+import { gql } from "apollo-boost";
 import {
   Box,
   Button,
@@ -21,6 +21,7 @@ import StartDate from "./startDate";
 import StartTimePicker from "./startTimePicker";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
+
 const ADD_SESSION = gql`
   mutation(
     $startTime: DateTime!
