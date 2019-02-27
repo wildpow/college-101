@@ -1,24 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import {
-  Box,
-  Button,
-  Layer,
-  Heading,
-  RangeInput,
-  FormField,
-  Text,
-} from "grommet";
-import { Add, FormClose, FormSubtract, StatusGood } from "grommet-icons";
+import { Box, Button, Layer, Heading, RangeInput, FormField } from "grommet";
+import { Add, FormClose, FormSubtract } from "grommet-icons";
 // import { grommet } from "grommet/themes";
 import EndTime from "./endTime";
 import SelectCourse from "./selectCourse";
 import SelectTeacher from "./selectTeacher";
 import StartDate from "./startDate";
 import StartTimePicker from "./startTimePicker";
+import { TitleWrapper } from "../../sharedStyles/slideLayer";
+import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 
 const ADD_SESSION = gql`
   mutation(
@@ -41,21 +35,6 @@ const ADD_SESSION = gql`
       startTime
       endTime
     }
-  }
-`;
-const TitleWrapper = styled(Box)`
-  button {
-    /* padding-bottom: 0px;
-    padding-top: 0px; */
-    padding: 0;
-  }
-  h2 {
-    align-self: center;
-  }
-  button svg:hover {
-    transition: all 250ms ease-in-out;
-    stroke: black;
-    fill: black;
   }
 `;
 
@@ -120,7 +99,6 @@ class CreateSession extends React.Component {
     startTimeError: false,
     endTime: "",
     endTimeError: false,
-    success: false,
   };
 
   componentDidMount() {
@@ -232,17 +210,6 @@ class CreateSession extends React.Component {
     return null;
   };
 
-  successClose = () => {
-    this.setState({ success: false });
-  };
-
-  successOpen = () => {
-    this.setState({ success: true });
-    setTimeout(() => {
-      this.setState({ success: false });
-    }, 4000);
-  };
-
   render() {
     const {
       LayerOpen,
@@ -259,7 +226,6 @@ class CreateSession extends React.Component {
       endTime,
       startTimeError,
       endTimeError,
-      success,
     } = this.state;
     const { data } = this.props;
     const teachersNamesCopy = [];
@@ -277,8 +243,13 @@ class CreateSession extends React.Component {
       return null;
     });
     return (
-      <Box fill align="center" justify="center">
-        <Button icon={<Add />} label="Add Session" onClick={this.onOpen} />
+      <Box fill align="end" justify="end">
+        <Button
+          icon={<Add />}
+          label="Add Session"
+          onClick={this.onOpen}
+          primary
+        />
         {LayerOpen && (
           <Layer
             position="right"
@@ -308,14 +279,22 @@ class CreateSession extends React.Component {
                 onClick={this.onClose}
               />
             </TitleWrapper>
-            <Mutation mutation={ADD_SESSION}>
+            <Mutation
+              mutation={ADD_SESSION}
+              refetchQueries={() => {
+                return [
+                  {
+                    query: ALL_SESSIONS,
+                  },
+                ];
+              }}
+            >
               {createSession => (
                 <Box
                   gap="small"
                   as="form"
                   fill
                   overflow="scroll"
-                  // width="large"
                   pad={{
                     left: "medium",
                     right: "medium",
@@ -324,6 +303,7 @@ class CreateSession extends React.Component {
                   }}
                   onSubmit={event => {
                     event.preventDefault();
+                    const { eventTimer, setMessage } = this.props;
                     if (
                       selectedCourse.length === 0 ||
                       selectedTeacher.length === 0 ||
@@ -354,7 +334,8 @@ class CreateSession extends React.Component {
                         },
                       });
                       this.onClose();
-                      this.successOpen();
+                      eventTimer(true);
+                      setMessage("A new session was added");
                       return null;
                     }
                     return null;
@@ -428,11 +409,7 @@ class CreateSession extends React.Component {
                       </FormField>
                     </MaxStudentWrapper>
                   </Box>
-                  <Box
-                    direction="row"
-                    justify="between"
-                    // margin={{ bottom: "small" }}
-                  >
+                  <Box direction="row" justify="between">
                     <Button
                       icon={<FormSubtract />}
                       label="Clear"
@@ -455,40 +432,6 @@ class CreateSession extends React.Component {
                 </Box>
               )}
             </Mutation>
-          </Layer>
-        )}
-        {success && (
-          <Layer
-            position="bottom"
-            full="horizontal"
-            modal={false}
-            responsive={false}
-            onEsc={this.successClose}
-          >
-            <Box
-              align="start"
-              pad={{ vertical: "medium", horizontal: "small" }}
-            >
-              <Box
-                align="center"
-                direction="row"
-                gap="small"
-                round="medium"
-                elevation="medium"
-                pad={{ vertical: "xsmall", horizontal: "small" }}
-                background="status-ok"
-              >
-                <Box align="center" direction="row" gap="xsmall">
-                  <StatusGood />
-                  <Text>A new session was added</Text>
-                </Box>
-                <Button
-                  icon={<FormClose />}
-                  onClick={this.successClose}
-                  plain
-                />
-              </Box>
-            </Box>
           </Layer>
         )}
       </Box>

@@ -6,7 +6,7 @@ import { hpe } from "grommet-theme-hpe";
 import QueryAllUsers from "../queryComponents/QueryAllUsers";
 // import Test from "../payments/tester/test";
 // import PayWizardContext from "../payments/tester/context";
-import Consumer from "../payments/final/setup/Consumer";
+import Consumer from "../roles/admin/components/payments/setup/Consumer";
 
 const Wrapper = styled.div`
   /* margin-top: 0px; */

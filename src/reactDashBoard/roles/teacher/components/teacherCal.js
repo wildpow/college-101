@@ -5,7 +5,7 @@ import ClassView from "./classView";
 
 class TeacherCal extends React.Component {
   static propTypes = {
-    teacher: PropTypes.instanceOf(Object).isRequired,
+    teacher: PropTypes.string.isRequired,
     sessions: PropTypes.instanceOf(Object).isRequired,
   };
 

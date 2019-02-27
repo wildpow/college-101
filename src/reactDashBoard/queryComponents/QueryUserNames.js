@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import Spinner from "../components/loading";
+import Spinner from "../Global_components/loading";
 
 const USER_LOGGINS = gql`
   query findUser($username: String!) {
@@ -11,7 +11,7 @@ const USER_LOGGINS = gql`
   }
 `;
 
-const UserLoggins = props => {
+const QueryUserNames = props => {
   const { userName } = props;
   return (
     <>
@@ -27,4 +27,4 @@ const UserLoggins = props => {
   );
 };
 
-export default UserLoggins;
+export default QueryUserNames;

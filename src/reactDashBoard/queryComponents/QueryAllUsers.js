@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import Spinner from "../components/loading";
+import Spinner from "../Global_components/loading";
 
 const ALL_USERS = gql`
   query userCheck {
@@ -41,14 +41,16 @@ const ALL_USERS = gql`
 `;
 
 const QueryAllUsers = props => (
-  <Query query={ALL_USERS}>
-    {({ loading, error, data }) => {
-      if (loading) return <Spinner />;
-      if (error) return <h1>Error</h1>;
-      if (data) return <props.component data={data} {...props} />;
-      return null;
-    }}
-  </Query>
+  <>
+    <Query query={ALL_USERS}>
+      {({ loading, error, data }) => {
+        if (loading) return <Spinner />;
+        if (error) return <h1>Error</h1>;
+        if (data) return <props.component data={data} {...props} />;
+        return null;
+      }}
+    </Query>
+  </>
 );
 
 export default QueryAllUsers;

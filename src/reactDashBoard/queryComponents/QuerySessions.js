@@ -1,9 +1,9 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-// import Spinner from "../components/loading";
+import Spinner from "../Global_components/loading";
 
-const ALL_SESSIONS = gql`
+export const ALL_SESSIONS = gql`
   query allSessions {
     sessions(orderBy: startTime_ASC) {
       id
@@ -11,6 +11,33 @@ const ALL_SESSIONS = gql`
       endTime
       maxSizeOfClass
       enrolled
+
+      attendance {
+        status
+        id
+        extraStudents
+        notes
+        students {
+          firstName
+          lastName
+        }
+      }
+
+      receipts {
+        student {
+          firstName
+          lastName
+          id
+          receipts {
+            id
+          }
+          attendance {
+            id
+          }
+        }
+        id
+        email
+      }
       course {
         name
         id
@@ -20,22 +47,25 @@ const ALL_SESSIONS = gql`
         lastName
         id
       }
-      attendance {
-        status
-        id
-      }
+
       students {
         firstName
         lastName
         id
+        receipts {
+          id
+        }
+        attendance {
+          id
+        }
       }
     }
   }
 `;
 const QuerySessions = props => (
-  <Query query={ALL_SESSIONS} pollInterval={1000}>
+  <Query query={ALL_SESSIONS}>
     {({ loading, error, data: { sessions } }) => {
-      if (loading) return null;
+      if (loading) return <Spinner />;
       if (error) return <h1>Error</h1>;
       if (sessions) return <props.component sessions={sessions} {...props} />;
       return null;

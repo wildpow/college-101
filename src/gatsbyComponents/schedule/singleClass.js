@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 import styled from "styled-components";
 // import ClassSize from "./classSize";
-import Enroll from "../enroll";
+// import Enroll from "../enroll";
 import { timeFormat, enrolledNullCheck } from "../../utils/globalFunctions";
 
 const Td = styled.td`
@@ -42,11 +42,7 @@ const SingleClass = props => {
                     {`${enrolledNullCheck(enrolled)} / ${maxSizeOfClass}`}
                   </td>
                   <td>
-                    {enrolled === maxSizeOfClass ? (
-                      <>FULL</>
-                    ) : (
-                      <Enroll enrolled={enrolled} id={id} />
-                    )}
+                    {enrolled === maxSizeOfClass ? <>FULL</> : <>enroll</>}
                   </td>
                 </>
               );
@@ -60,7 +56,9 @@ const SingleClass = props => {
                     {enrolled === maxSizeOfClass ? (
                       <>FULL</>
                     ) : (
-                      <Enroll enrolled={enrolled} id={id} />
+                      {
+                        /* <Enroll enrolled={enrolled} id={id} /> */
+                      }
                     )}
                   </td>
                 </>
@@ -77,7 +75,9 @@ const SingleClass = props => {
                     {data.session.enrolled === data.session.maxSizeOfClass ? (
                       <>FULL</>
                     ) : (
-                      <Enroll enrolled={data.session.enrolled} id={id} />
+                      {
+                        /* <Enroll enrolled={data.session.enrolled} id={id} /> */
+                      }
                     )}
                   </td>
                 </>
@@ -91,3 +91,5 @@ const SingleClass = props => {
 };
 
 export default SingleClass;
+
+/* <Enroll enrolled={enrolled} id={id} /> */
