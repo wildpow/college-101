@@ -3,7 +3,7 @@ import styled from "styled-components";
 import "react-datepicker/dist/react-datepicker.css";
 import { getUser } from "../services/auth";
 import Teacher from "../roles/teacher";
-import Admin from "../roles/admin/index2";
+import Admin from "../roles/admin/index3";
 import Customer from "../roles/customer";
 import QueryUserNames from "../queryComponents/QueryUserNames";
 import QueryTeacher from "../queryComponents/QueryTeacher";

@@ -355,8 +355,9 @@ class CreateSession extends React.Component {
                         },
                       });
                       this.onClose();
-                      this.successOpen();
-
+                      // this.successOpen();
+                      this.props.setEvent(true);
+                      this.props.setMessage("A new session was added");
                       return null;
                     }
                     return null;

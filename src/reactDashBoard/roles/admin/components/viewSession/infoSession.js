@@ -2,7 +2,6 @@ import React from "react";
 import {
   Box,
   Text,
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -47,10 +46,24 @@ const InfoSession = props => {
     });
     return result;
   };
+  let message = "";
+  const setMesage = res => {
+    if (res === 1) message = "None Provided";
+    if (res === 2) message = "Absent";
+    if (res === 3) message = "Present";
+  };
+
   const attendanceCheck = (att, object) => {
-    if (object.length === 0) return false;
+    if (object.length === 0 || att === null) {
+      setMesage(1);
+      return false;
+    }
     const result = object.find(o => o.id === att);
-    if (result === undefined) return false;
+    if (result === undefined) {
+      setMesage(2);
+      return false;
+    }
+    setMesage(3);
     return true;
   };
   return (
@@ -145,7 +158,7 @@ const InfoSession = props => {
                         <TableCell>
                           {attendanceCheck(attendance, student.attendance) ? (
                             <Text weight="bold" size="large" color="brand">
-                              present
+                              {message}
                             </Text>
                           ) : (
                             <Text
@@ -153,7 +166,7 @@ const InfoSession = props => {
                               size="large"
                               color="status-warning"
                             >
-                              absent
+                              {message}
                             </Text>
                           )}
                         </TableCell>

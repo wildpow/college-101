@@ -2,8 +2,20 @@ import React, { useState } from "react";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { Button, Layer, Heading, Box, Text, Select } from "grommet";
-import { FormClose } from "grommet-icons";
+import { FormClose, StatusGood } from "grommet-icons";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
+import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
+
+const ADD_STUDENT = gql`
+  mutation($students: [StudentWhereUniqueInput!], $sessionId: ID) {
+    updateSession(
+      where: { id: $sessionId }
+      data: { students: { connect: $students } }
+    ) {
+      id
+    }
+  }
+`;
 
 const AddStudent = props => {
   const { data } = props;
@@ -17,13 +29,14 @@ const AddStudent = props => {
   const [studentList, setList] = useState(students);
   const [selectStudent, setStudent] = useState("");
   const [open, setOpen] = useState(false);
+  const [success, setSuccess] = useState(false);
   const onSearch = searchText => {
     const regexp = new RegExp(searchText, "i");
     setList(students.filter(o => o.match(regexp)));
   };
   return (
-    <>
-      {console.log(studentIds, props.session.id)}
+    <Box>
+      {console.log(props.session)}
       {/* {console.log(students, studentIds)} */}
       <Button onClick={() => setOpen(true)} label="Add Student" />
       {open && (
@@ -55,49 +68,110 @@ const AddStudent = props => {
               onClick={() => setOpen(false)}
             />
           </TitleWrapper>
+          <Mutation
+            mutation={ADD_STUDENT}
+            refetchQueries={() => {
+              return [
+                {
+                  query: ALL_SESSIONS,
+                },
+              ];
+            }}
+          >
+            {updateSession => (
+              <Box
+                fill="vertical"
+                overflow="auto"
+                width="medium"
+                pad="medium"
+                as="form"
+                onSubmit={event => {
+                  event.preventDefault();
+                  console.log("heloo");
+                  const fomatStudents = [];
+                  selectStudent.map((item, index) => {
+                    const itemObj = { id: studentIds[index] };
+                    fomatStudents.push(itemObj);
+                    return null;
+                  });
+                  updateSession({
+                    variables: {
+                      sessionId: props.session.id,
+                      students: fomatStudents,
+                    },
+                  });
+                  setOpen(false);
+                  setSuccess(true);
+                }}
+              >
+                <Box
+                  fill
+                  justify="start"
+                  overflow="scroll"
+                  pad={{ vertical: "small" }}
+                  gap="medium"
+                >
+                  <Box>
+                    <Heading level={4}>Add existing student</Heading>
+                    <Select
+                      multiple
+                      searchPlaceholder="Search Student"
+                      placeholder="Select One or Multiple Students"
+                      value={selectStudent}
+                      onChange={({ value: nextValue }) => setStudent(nextValue)}
+                      // onChange={event => setStudent(event.value)}
+                      options={studentList}
+                      onSearch={searchText => onSearch(searchText)}
+                      // multiple
+                    />
+                    <Button label="Add Student" type="submit" />
+                  </Box>
+                </Box>
+              </Box>
+            )}
+          </Mutation>
+        </Layer>
+      )}
+      {success && (
+        <Layer
+          margin={{ bottom: "20px" }}
+          position="bottom"
+          // full="horizontal"
+          modal={false}
+          responsive={false}
+          onEsc={setSuccess(false)}
+        >
           <Box
-            fill="vertical"
-            overflow="auto"
-            width="medium"
-            pad="medium"
-            as="form"
-            // gap="small"
-            // fill
-            // overflow="scroll"
-            // width="large"
-            // pad={{
-            //   left: "medium",
-            //   right: "medium",
-            //   top: "small",
-            //   bottom: "medium",
-            // }}
+            background="floralwhite"
+            align="start"
+            pad={{ vertical: "medium", horizontal: "small" }}
           >
             <Box
-              fill
-              justify="start"
-              overflow="scroll"
-              pad={{ vertical: "small" }}
-              gap="medium"
+              align="center"
+              direction="row"
+              gap="small"
+              round="medium"
+              elevation="medium"
+              pad={{ vertical: "xsmall", horizontal: "small" }}
+              background="status-ok"
             >
-              <Box>
-                <Heading level={4}>Add existing student</Heading>
-                <Select
-                  multiple
-                  searchPlaceholder="Search Student"
-                  placeholder="Select One or Multiple Students"
-                  value={selectStudent}
-                  onChange={({ value: nextValue }) => setStudent(nextValue)}
-                  // onChange={event => setStudent(event.value)}
-                  options={studentList}
-                  onSearch={searchText => onSearch(searchText)}
-                  // multiple
-                />
+              <Box align="center" direction="row" gap="medium">
+                <StatusGood size="large" />
+                <Text size="xlarge" weight="bold">
+                  Student Added
+                </Text>
               </Box>
+              <Button
+                icon={<FormClose size="large" />}
+                onClick={setSuccess(false)}
+                plain
+              />
+              {console.log("sefjwefoiw")}
             </Box>
           </Box>
         </Layer>
       )}
-    </>
+    </Box>
   );
 };
 

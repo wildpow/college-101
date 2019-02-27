@@ -88,7 +88,8 @@ class ViewSessionTest extends React.Component {
     const { date, sessions } = this.props;
     if (
       nextProps.date !== date ||
-      nextProps.sessions.length !== sessions.length
+      // nextProps.sessions.length !== sessions.length
+      JSON.stringify(nextProps.sessions) !== JSON.stringify(sessions)
     ) {
       const currentSessions = [];
       const today = new Date(nextProps.date);

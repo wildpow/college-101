@@ -8,11 +8,6 @@ import ViewSession from "./components/viewSession/viewSession";
 
 const Header = styled.div`
   display: flex;
-  /* flex-basis: 100%; */
-  /* width: 100%; */
-  /* justify-content: space-around; */
-  /* justify-self: center;
-  justify-items: center; */
   align-items: center;
   margin-top: 20px;
   margin-bottom: 10px;
