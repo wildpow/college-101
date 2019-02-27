@@ -10,7 +10,6 @@ const AddStudent = props => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      {console.log(data)}
       <Button onClick={() => setOpen(true)} label="Add Student" />
       {open && (
         <Layer

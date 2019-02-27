@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 // import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
-import { gql } from "apollo-boost";
+import { gql, refetch } from "apollo-boost";
 import {
   Box,
   Button,
@@ -20,7 +20,7 @@ import SelectTeacher from "./selectTeacher";
 import StartDate from "./startDate";
 import StartTimePicker from "./startTimePicker";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
-
+import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 const ADD_SESSION = gql`
   mutation(
     $startTime: DateTime!
@@ -299,7 +299,16 @@ class CreateSession extends React.Component {
                 onClick={this.onClose}
               />
             </TitleWrapper>
-            <Mutation mutation={ADD_SESSION}>
+            <Mutation
+              mutation={ADD_SESSION}
+              refetchQueries={() => {
+                return [
+                  {
+                    query: ALL_SESSIONS,
+                  },
+                ];
+              }}
+            >
               {createSession => (
                 <Box
                   gap="small"
@@ -346,6 +355,7 @@ class CreateSession extends React.Component {
                       });
                       this.onClose();
                       this.successOpen();
+
                       return null;
                     }
                     return null;

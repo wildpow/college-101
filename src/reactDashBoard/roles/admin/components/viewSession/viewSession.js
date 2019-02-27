@@ -195,7 +195,6 @@ class ViewSessionTest extends React.Component {
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
       <>
-        {/* {console.log(this.state)} */}
         <Box flex={false}>
           <Table caption="Session table header">
             <TableHeader>

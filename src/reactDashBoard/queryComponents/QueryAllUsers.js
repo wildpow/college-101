@@ -41,14 +41,16 @@ const ALL_USERS = gql`
 `;
 
 const QueryAllUsers = props => (
-  <Query query={ALL_USERS}>
-    {({ loading, error, data }) => {
-      if (loading) return <Spinner />;
-      if (error) return <h1>Error</h1>;
-      if (data) return <props.component data={data} {...props} />;
-      return null;
-    }}
-  </Query>
+  <>
+    <Query query={ALL_USERS}>
+      {({ loading, error, data }) => {
+        if (loading) return <Spinner />;
+        if (error) return <h1>Error</h1>;
+        if (data) return <props.component data={data} {...props} />;
+        return null;
+      }}
+    </Query>
+  </>
 );
 
 export default QueryAllUsers;

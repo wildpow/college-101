@@ -8,7 +8,6 @@ const ViewAttendance = props => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      {/* {console.log(data)} */}
       <Button onClick={() => setOpen(true)} label="View" />
       {open && (
         <Layer

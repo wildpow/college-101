@@ -1,12 +1,7 @@
 import React from "react";
-import { Link, navigate } from "gatsby";
+import { Link } from "gatsby";
 // import styled from "styled-components";
-import {
-  getUser,
-  isLoggedIn,
-  logout,
-  handleLogin,
-} from "../../reactDashBoard/services/auth";
+import { getUser, isLoggedIn } from "../../reactDashBoard/services/auth";
 import NavSwitch from "./navSwtich";
 import MobileButton from "../mobileMenu/mobileButton";
 import {
