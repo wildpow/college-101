@@ -11,7 +11,6 @@ const Messages = props => {
         <Layer
           margin={{ bottom: "20px" }}
           position="bottom"
-          // full="horizontal"
           modal={false}
           responsive={false}
           onEsc={() => setEvent(false)}
