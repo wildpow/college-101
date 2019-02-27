@@ -15,6 +15,12 @@ const ALL_TEACHERS_COURSES = gql`
       name
       id
     }
+    timeAndPrices {
+      name
+      time
+      price
+      maxStudents
+    }
   }
 `;
 
