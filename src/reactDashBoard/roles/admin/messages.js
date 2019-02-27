@@ -7,7 +7,6 @@ const Messages = props => {
   const { event, message, setEvent } = props;
   return (
     <>
-      {console.log("event", typeof event)}
       {event && (
         <Layer
           margin={{ bottom: "20px" }}

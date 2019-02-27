@@ -63,6 +63,8 @@ class ViewSessionTest extends React.Component {
       selected: "",
       over: "",
       selectedSession: [],
+      selectedStart: "",
+      selectedEnd: "",
     };
   }
 
@@ -119,10 +121,18 @@ class ViewSessionTest extends React.Component {
   sessionOnBlur = () => this.setState({ over: undefined });
 
   sessionOnClick = (id, session) => {
-    const { selected, selectedSession } = this.state;
+    const {
+      selected,
+      selectedSession,
+      selectedStart,
+      selectedEnd,
+    } = this.state;
     this.setState({
       selected: id === selected ? undefined : id,
       selectedSession: session.id === selectedSession.id ? [] : session,
+      selectedStart:
+        session.startTime === selectedStart ? "" : session.startTime,
+      selectedEnd: session.endTime === selectedEnd ? "" : session.endTime,
     });
   };
 
@@ -192,6 +202,8 @@ class ViewSessionTest extends React.Component {
       over,
       sessions,
       selectedSession,
+      selectedStart,
+      selectedEnd,
     } = this.state;
     const { eventTimer, setMessage } = this.props;
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
@@ -273,6 +285,8 @@ class ViewSessionTest extends React.Component {
           </Table>
         </Box>
         <InfoSession
+          selectedEnd={selectedEnd}
+          selectedStart={selectedStart}
           selectedSession={selectedSession}
           eventTimer={eventTimer}
           setMessage={setMessage}

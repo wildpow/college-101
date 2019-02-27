@@ -4,10 +4,19 @@ import { FormClose } from "grommet-icons";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
 
 const EditSession = props => {
+  const { startTimeCheck, endTimeTimeCheck } = props;
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button onClick={() => setOpen(true)} label="Edit Session" />
+      {startTimeCheck && endTimeTimeCheck && (
+        <Button onClick={() => setOpen(true)} label="Edit Session" disabled />
+      )}
+      {startTimeCheck && !endTimeTimeCheck && (
+        <Button onClick={() => setOpen(true)} label="Edit Session" />
+      )}
+      {!startTimeCheck && !endTimeTimeCheck && (
+        <Button onClick={() => setOpen(true)} label="Edit Session" />
+      )}
       {open && (
         <Layer
           position="right"

@@ -52,6 +52,8 @@ const InfoSession = props => {
     if (res === 2) message = "Absent";
     if (res === 3) message = "Present";
   };
+  const startTimeCheck = new Date(props.selectedStart) < new Date() && true;
+  const endTimeTimeCheck = new Date(props.selectedEnd) < new Date() && true;
 
   const attendanceCheck = (att, object) => {
     if (object.length === 0 || att === null) {
@@ -80,17 +82,61 @@ const InfoSession = props => {
                 <Text alignSelf="center" size="large">
                   Session has no current enrolled students
                 </Text>
+
+                {startTimeCheck && endTimeTimeCheck && (
+                  <Text
+                    color="status-critical"
+                    textAlign="center"
+                    size="large"
+                    weight="bold"
+                  >
+                    This session is in the past and can not be edited.
+                  </Text>
+                )}
+                {startTimeCheck && !endTimeTimeCheck && (
+                  <Text
+                    color="status-critical"
+                    textAlign="center"
+                    size="large"
+                    weight="bold"
+                  >
+                    This session is in progress right now.
+                  </Text>
+                )}
+
                 <Box alignSelf="center">
                   <QueryStudents
                     component={AddStudent}
                     session={selectedSession}
                     eventTimer={eventTimer}
                     setMessage={setMessage}
+                    startTimeCheck={startTimeCheck}
+                    endTimeTimeCheck={endTimeTimeCheck}
                   />
                 </Box>
               </Box>
             ) : (
               <Box>
+                {startTimeCheck && endTimeTimeCheck && (
+                  <Text
+                    color="status-critical"
+                    textAlign="center"
+                    size="large"
+                    weight="bold"
+                  >
+                    This session is in the past and can not be edited.
+                  </Text>
+                )}
+                {startTimeCheck && !endTimeTimeCheck && (
+                  <Text
+                    color="status-critical"
+                    textAlign="center"
+                    size="large"
+                    weight="bold"
+                  >
+                    This session is in progress right now.
+                  </Text>
+                )}
                 <TableBB
                   caption="Students enrolled in session"
                   margin={{ vertical: "xsmall" }}
@@ -183,12 +229,18 @@ const InfoSession = props => {
                   margin={{ vertical: "xsmall" }}
                 >
                   <QueryStudents
+                    startTimeCheck={startTimeCheck}
+                    endTimeTimeCheck={endTimeTimeCheck}
                     eventTimer={eventTimer}
                     setMessage={setMessage}
                     component={AddStudent}
                     session={selectedSession}
                   />
-                  <EditSession session={selectedSession} />
+                  <EditSession
+                    session={selectedSession}
+                    startTimeCheck={startTimeCheck}
+                    endTimeTimeCheck={endTimeTimeCheck}
+                  />
                 </Box>
               </Box>
             )}

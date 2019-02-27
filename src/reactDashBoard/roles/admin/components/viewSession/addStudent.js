@@ -18,7 +18,13 @@ const ADD_STUDENT = gql`
 `;
 
 const AddStudent = props => {
-  const { data, eventTimer, setMessage } = props;
+  const {
+    data,
+    eventTimer,
+    setMessage,
+    startTimeCheck,
+    endTimeTimeCheck,
+  } = props;
   const students = [];
   const studentIds = [];
   data.students.map(student => {
@@ -35,7 +41,15 @@ const AddStudent = props => {
   };
   return (
     <Box>
-      <Button onClick={() => setOpen(true)} label="Add Student" />
+      {startTimeCheck && endTimeTimeCheck && (
+        <Button onClick={() => setOpen(true)} label="Add Student" disabled />
+      )}
+      {startTimeCheck && !endTimeTimeCheck && (
+        <Button onClick={() => setOpen(true)} label="Add Student" />
+      )}
+      {!startTimeCheck && !endTimeTimeCheck && (
+        <Button onClick={() => setOpen(true)} label="Add Student" />
+      )}
       {open && (
         <Layer
           position="right"
