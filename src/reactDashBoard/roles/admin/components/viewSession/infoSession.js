@@ -19,7 +19,7 @@ const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
 `;
 const InfoSession = props => {
-  const { selectedSession } = props;
+  const { selectedSession, eventTimer, setMessage } = props;
   const attendance =
     selectedSession.attendance === undefined ||
     selectedSession.attendance === null
@@ -84,6 +84,8 @@ const InfoSession = props => {
                   <QueryStudents
                     component={AddStudent}
                     session={selectedSession}
+                    eventTimer={eventTimer}
+                    setMessage={setMessage}
                   />
                 </Box>
               </Box>
@@ -181,6 +183,8 @@ const InfoSession = props => {
                   margin={{ vertical: "xsmall" }}
                 >
                   <QueryStudents
+                    eventTimer={eventTimer}
+                    setMessage={setMessage}
                     component={AddStudent}
                     session={selectedSession}
                   />

@@ -18,7 +18,7 @@ const ADD_STUDENT = gql`
 `;
 
 const AddStudent = props => {
-  const { data } = props;
+  const { data, eventTimer, setMessage } = props;
   const students = [];
   const studentIds = [];
   data.students.map(student => {
@@ -29,15 +29,12 @@ const AddStudent = props => {
   const [studentList, setList] = useState(students);
   const [selectStudent, setStudent] = useState("");
   const [open, setOpen] = useState(false);
-  const [success, setSuccess] = useState(false);
   const onSearch = searchText => {
     const regexp = new RegExp(searchText, "i");
     setList(students.filter(o => o.match(regexp)));
   };
   return (
     <Box>
-      {console.log(props.session)}
-      {/* {console.log(students, studentIds)} */}
       <Button onClick={() => setOpen(true)} label="Add Student" />
       {open && (
         <Layer
@@ -100,8 +97,10 @@ const AddStudent = props => {
                       students: fomatStudents,
                     },
                   });
+
                   setOpen(false);
-                  setSuccess(true);
+                  setMessage("Student or Students Added");
+                  eventTimer();
                 }}
               >
                 <Box
@@ -130,45 +129,6 @@ const AddStudent = props => {
               </Box>
             )}
           </Mutation>
-        </Layer>
-      )}
-      {success && (
-        <Layer
-          margin={{ bottom: "20px" }}
-          position="bottom"
-          // full="horizontal"
-          modal={false}
-          responsive={false}
-          onEsc={setSuccess(false)}
-        >
-          <Box
-            background="floralwhite"
-            align="start"
-            pad={{ vertical: "medium", horizontal: "small" }}
-          >
-            <Box
-              align="center"
-              direction="row"
-              gap="small"
-              round="medium"
-              elevation="medium"
-              pad={{ vertical: "xsmall", horizontal: "small" }}
-              background="status-ok"
-            >
-              <Box align="center" direction="row" gap="medium">
-                <StatusGood size="large" />
-                <Text size="xlarge" weight="bold">
-                  Student Added
-                </Text>
-              </Box>
-              <Button
-                icon={<FormClose size="large" />}
-                onClick={setSuccess(false)}
-                plain
-              />
-              {console.log("sefjwefoiw")}
-            </Box>
-          </Box>
         </Layer>
       )}
     </Box>

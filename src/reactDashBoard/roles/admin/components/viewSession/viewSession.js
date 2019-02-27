@@ -193,6 +193,7 @@ class ViewSessionTest extends React.Component {
       sessions,
       selectedSession,
     } = this.state;
+    const { eventTimer, setMessage } = this.props;
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
       <>
@@ -271,7 +272,11 @@ class ViewSessionTest extends React.Component {
             </TableBody>
           </Table>
         </Box>
-        <InfoSession selectedSession={selectedSession} />
+        <InfoSession
+          selectedSession={selectedSession}
+          eventTimer={eventTimer}
+          setMessage={setMessage}
+        />
       </>
     );
   }

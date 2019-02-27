@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Box, Calendar, DropButton, Heading } from "grommet";
 import { FormDown } from "grommet-icons";
-import CreateSession from "./components/createSession/createSession";
-import QueryTeacherCourse from "../../queryComponents/QueryTeacherCourse";
-import ViewSession from "./components/viewSession/viewSession";
+import CreateSession from "../src/reactDashBoard/roles/admin/components/createSession/createSession";
+import QueryTeacherCourse from "../src/reactDashBoard/queryComponents/QueryTeacherCourse";
+import ViewSession from "../src/reactDashBoard/roles/admin/components/viewSession/viewSession";
 
 const Header = styled.div`
   display: flex;

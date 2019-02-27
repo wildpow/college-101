@@ -3,16 +3,8 @@ import styled from "styled-components";
 // import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import {
-  Box,
-  Button,
-  Layer,
-  Heading,
-  RangeInput,
-  FormField,
-  Text,
-} from "grommet";
-import { Add, FormClose, FormSubtract, StatusGood } from "grommet-icons";
+import { Box, Button, Layer, Heading, RangeInput, FormField } from "grommet";
+import { Add, FormClose, FormSubtract } from "grommet-icons";
 // import { grommet } from "grommet/themes";
 import EndTime from "./endTime";
 import SelectCourse from "./selectCourse";
@@ -107,7 +99,6 @@ class CreateSession extends React.Component {
     startTimeError: false,
     endTime: "",
     endTimeError: false,
-    success: false,
   };
 
   componentDidMount() {
@@ -219,17 +210,6 @@ class CreateSession extends React.Component {
     return null;
   };
 
-  successClose = () => {
-    this.setState({ success: false });
-  };
-
-  successOpen = () => {
-    this.setState({ success: true });
-    setTimeout(() => {
-      this.setState({ success: false });
-    }, 4000);
-  };
-
   render() {
     const {
       LayerOpen,
@@ -246,7 +226,6 @@ class CreateSession extends React.Component {
       endTime,
       startTimeError,
       endTimeError,
-      success,
     } = this.state;
     const { data } = this.props;
     const teachersNamesCopy = [];
@@ -316,7 +295,6 @@ class CreateSession extends React.Component {
                   as="form"
                   fill
                   overflow="scroll"
-                  // width="large"
                   pad={{
                     left: "medium",
                     right: "medium",
@@ -325,6 +303,7 @@ class CreateSession extends React.Component {
                   }}
                   onSubmit={event => {
                     event.preventDefault();
+                    const { eventTimer, setMessage } = this.props;
                     if (
                       selectedCourse.length === 0 ||
                       selectedTeacher.length === 0 ||
@@ -355,9 +334,8 @@ class CreateSession extends React.Component {
                         },
                       });
                       this.onClose();
-                      // this.successOpen();
-                      this.props.setEvent(true);
-                      this.props.setMessage("A new session was added");
+                      eventTimer(true);
+                      setMessage("A new session was added");
                       return null;
                     }
                     return null;
@@ -431,11 +409,7 @@ class CreateSession extends React.Component {
                       </FormField>
                     </MaxStudentWrapper>
                   </Box>
-                  <Box
-                    direction="row"
-                    justify="between"
-                    // margin={{ bottom: "small" }}
-                  >
+                  <Box direction="row" justify="between">
                     <Button
                       icon={<FormSubtract />}
                       label="Clear"
@@ -458,44 +432,6 @@ class CreateSession extends React.Component {
                 </Box>
               )}
             </Mutation>
-          </Layer>
-        )}
-        {success && (
-          <Layer
-            margin={{ bottom: "20px" }}
-            position="bottom"
-            // full="horizontal"
-            modal={false}
-            responsive={false}
-            onEsc={this.successClose}
-          >
-            <Box
-              background="floralwhite"
-              align="start"
-              pad={{ vertical: "medium", horizontal: "small" }}
-            >
-              <Box
-                align="center"
-                direction="row"
-                gap="small"
-                round="medium"
-                elevation="medium"
-                pad={{ vertical: "xsmall", horizontal: "small" }}
-                background="status-ok"
-              >
-                <Box align="center" direction="row" gap="medium">
-                  <StatusGood size="large" />
-                  <Text size="xlarge" weight="bold">
-                    A new session was added
-                  </Text>
-                </Box>
-                <Button
-                  icon={<FormClose size="large" />}
-                  onClick={this.successClose}
-                  plain
-                />
-              </Box>
-            </Box>
           </Layer>
         )}
       </Box>
