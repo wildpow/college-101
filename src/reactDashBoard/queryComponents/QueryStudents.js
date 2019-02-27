@@ -17,7 +17,7 @@ const QueryStudents = props => (
     {({ loading, error, data }) => {
       if (loading) return null;
       if (error) return <h1>Error{console.log(error)}</h1>;
-      if (data) return <props.component data={data} />;
+      if (data) return <props.component data={data} {...props} />;
       return null;
     }}
   </Query>

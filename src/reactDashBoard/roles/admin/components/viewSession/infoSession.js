@@ -68,7 +68,10 @@ const InfoSession = props => {
                   Session has no current enrolled students
                 </Text>
                 <Box alignSelf="center">
-                  <QueryStudents component={AddStudent} />
+                  <QueryStudents
+                    component={AddStudent}
+                    session={selectedSession}
+                  />
                 </Box>
               </Box>
             ) : (
@@ -164,7 +167,10 @@ const InfoSession = props => {
                   pad={{ vertical: "small" }}
                   margin={{ vertical: "xsmall" }}
                 >
-                  <QueryStudents component={AddStudent} />
+                  <QueryStudents
+                    component={AddStudent}
+                    session={selectedSession}
+                  />
                   <EditSession session={selectedSession} />
                 </Box>
               </Box>

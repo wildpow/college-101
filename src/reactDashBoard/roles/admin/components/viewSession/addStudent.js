@@ -1,15 +1,30 @@
 import React, { useState } from "react";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import { Button, Layer, Heading, Box, Text } from "grommet";
+import { Button, Layer, Heading, Box, Text, Select } from "grommet";
 import { FormClose } from "grommet-icons";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
 
 const AddStudent = props => {
   const { data } = props;
+  const students = [];
+  const studentIds = [];
+  data.students.map(student => {
+    students.push(`${student.firstName} ${student.lastName}`);
+    studentIds.push(student.id);
+    return null;
+  });
+  const [studentList, setList] = useState(students);
+  const [selectStudent, setStudent] = useState("");
   const [open, setOpen] = useState(false);
+  const onSearch = searchText => {
+    const regexp = new RegExp(searchText, "i");
+    setList(students.filter(o => o.match(regexp)));
+  };
   return (
     <>
+      {console.log(studentIds, props.session.id)}
+      {/* {console.log(students, studentIds)} */}
       <Button onClick={() => setOpen(true)} label="Add Student" />
       {open && (
         <Layer
@@ -64,7 +79,20 @@ const AddStudent = props => {
               pad={{ vertical: "small" }}
               gap="medium"
             >
-              add student
+              <Box>
+                <Heading level={4}>Add existing student</Heading>
+                <Select
+                  multiple
+                  searchPlaceholder="Search Student"
+                  placeholder="Select One or Multiple Students"
+                  value={selectStudent}
+                  onChange={({ value: nextValue }) => setStudent(nextValue)}
+                  // onChange={event => setStudent(event.value)}
+                  options={studentList}
+                  onSearch={searchText => onSearch(searchText)}
+                  // multiple
+                />
+              </Box>
             </Box>
           </Box>
         </Layer>
