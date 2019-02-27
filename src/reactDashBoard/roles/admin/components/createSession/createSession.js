@@ -460,13 +460,15 @@ class CreateSession extends React.Component {
         )}
         {success && (
           <Layer
+            margin={{ bottom: "20px" }}
             position="bottom"
-            full="horizontal"
+            // full="horizontal"
             modal={false}
             responsive={false}
             onEsc={this.successClose}
           >
             <Box
+              background="floralwhite"
               align="start"
               pad={{ vertical: "medium", horizontal: "small" }}
             >
@@ -479,12 +481,14 @@ class CreateSession extends React.Component {
                 pad={{ vertical: "xsmall", horizontal: "small" }}
                 background="status-ok"
               >
-                <Box align="center" direction="row" gap="xsmall">
-                  <StatusGood />
-                  <Text>A new session was added</Text>
+                <Box align="center" direction="row" gap="medium">
+                  <StatusGood size="large" />
+                  <Text size="xlarge" weight="bold">
+                    A new session was added
+                  </Text>
                 </Box>
                 <Button
-                  icon={<FormClose />}
+                  icon={<FormClose size="large" />}
                   onClick={this.successClose}
                   plain
                 />
