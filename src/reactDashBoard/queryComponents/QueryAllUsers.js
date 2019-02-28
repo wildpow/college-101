@@ -6,6 +6,7 @@ import Spinner from "../Global_components/loading";
 const ALL_USERS = gql`
   query userCheck {
     userloggins {
+      id
       username
       status
       firstName
@@ -28,9 +29,11 @@ const ALL_USERS = gql`
           startTime
           endTime
           course {
+            id
             name
           }
           sessionPackage {
+            id
             numberOfSessions
           }
           maxSizeOfClass
@@ -42,10 +45,11 @@ const ALL_USERS = gql`
 
 const QueryAllUsers = props => (
   <>
+    {console.log(props)}
     <Query query={ALL_USERS}>
       {({ loading, error, data }) => {
         if (loading) return <Spinner />;
-        if (error) return <h1>Error</h1>;
+        if (error) return <h1>Error{console.log(error)}</h1>;
         if (data) return <props.component data={data} {...props} />;
         return null;
       }}

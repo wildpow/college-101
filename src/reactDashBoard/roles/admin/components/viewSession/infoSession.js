@@ -137,6 +137,18 @@ const InfoSession = props => {
                     This session is in progress right now.
                   </Text>
                 )}
+                {/* Need to delete this state once the create Session is working correctly */}
+                {!startTimeCheck && endTimeTimeCheck && (
+                  <Text
+                    color="status-critical"
+                    textAlign="center"
+                    size="large"
+                    weight="bold"
+                  >
+                    Start time is in the future and the end time is in the past
+                    !?!
+                  </Text>
+                )}
                 <TableBB
                   caption="Students enrolled in session"
                   margin={{ vertical: "xsmall" }}

@@ -29,11 +29,7 @@ const SingleClass = props => {
         <td>{timeFormat(startTime)}</td>
         <td>{timeFormat(endTime)}</td>
 
-        <Query
-          query={getFreshSession}
-          variables={{ uri: id }}
-          pollInterval={500}
-        >
+        <Query query={getFreshSession} variables={{ uri: id }}>
           {({ loading, error, data }) => {
             if (loading)
               return (
@@ -75,9 +71,8 @@ const SingleClass = props => {
                     {data.session.enrolled === data.session.maxSizeOfClass ? (
                       <>FULL</>
                     ) : (
-                      {
-                        /* <Enroll enrolled={data.session.enrolled} id={id} /> */
-                      }
+                      <>enroll</>
+                      /* <Enroll enrolled={data.session.enrolled} id={id} /> */
                     )}
                   </td>
                 </>

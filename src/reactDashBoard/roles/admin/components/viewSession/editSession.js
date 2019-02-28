@@ -17,6 +17,10 @@ const EditSession = props => {
       {!startTimeCheck && !endTimeTimeCheck && (
         <Button onClick={() => setOpen(true)} label="Edit Session" />
       )}
+      {/* Need to delete this state once the create Session is working correctly */}
+      {!startTimeCheck && endTimeTimeCheck && (
+        <Button onClick={() => setOpen(true)} label="Not possible" disabled />
+      )}
       {open && (
         <Layer
           position="right"

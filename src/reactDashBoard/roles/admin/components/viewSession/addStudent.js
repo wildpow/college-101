@@ -41,14 +41,22 @@ const AddStudent = props => {
   };
   return (
     <Box>
+      {console.log(startTimeCheck, endTimeTimeCheck)}
       {startTimeCheck && endTimeTimeCheck && (
         <Button onClick={() => setOpen(true)} label="Add Student" disabled />
       )}
       {startTimeCheck && !endTimeTimeCheck && (
-        <Button onClick={() => setOpen(true)} label="Add Student" />
+        <>
+          {console.log("true false")}
+          <Button onClick={() => setOpen(true)} label="Add Student" />
+        </>
       )}
       {!startTimeCheck && !endTimeTimeCheck && (
         <Button onClick={() => setOpen(true)} label="Add Student" />
+      )}
+      {/* Need to delete this state once the create Session is working correctly */}
+      {!startTimeCheck && endTimeTimeCheck && (
+        <Button onClick={() => setOpen(true)} label="Not possible" disabled />
       )}
       {open && (
         <Layer

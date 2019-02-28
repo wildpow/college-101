@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import {
   Box,
   Button,
@@ -15,6 +16,15 @@ import { FormUp, FormDown } from "grommet-icons";
 import SingleSession from "./singleSession";
 import InfoSession from "./infoSession";
 
+const ScrollBox = styled(Box)`
+  overflow-y: scroll !important;
+  overflow: scroll;
+  max-height: 317px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.33);
+`;
+const Tables = styled(Table)`
+  /* min-height: 101%; */
+`;
 const COLUMNS = [
   {
     property: "name",
@@ -253,13 +263,16 @@ class ViewSessionTest extends React.Component {
           </Table>
         </Box>
 
-        <Box
-          overflow="scroll"
-          basis="medium"
-          flex={false}
-          // pad={{ horizontal: "xsmall" }}
+        <ScrollBox
+        // overflow="scroll"
+        // basis="medium"
+        // flex={false}
+        // height="350px"
+        // overflow-y="scroll"
+
+        // pad={{ horizontal: "xsmall" }}
         >
-          <Table caption="list of session for current date">
+          <Tables caption="list of session for current date">
             <TableBody>
               {sessions.map(session => {
                 let background;
@@ -282,8 +295,8 @@ class ViewSessionTest extends React.Component {
                 );
               })}
             </TableBody>
-          </Table>
-        </Box>
+          </Tables>
+        </ScrollBox>
         <InfoSession
           selectedEnd={selectedEnd}
           selectedStart={selectedStart}

@@ -12,7 +12,7 @@ export const client = new ApolloClient({
       headers: {
         // mode: `Access-Control-Allow-Origin`,
         // crossdomain: true,
-        Origin: "http://localhost",
+        // Origin: "http://localhost",
         "Access-Control-Request-Headers": "content-type",
         // "content-type": "application/x-www-form-urlencoded",
         authorization: `Bearer ${process.env.GATSBY_APOLLO_AUTH}`,
