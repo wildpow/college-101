@@ -87,8 +87,10 @@ class CreateSession extends React.Component {
     selectedTeacher: "",
     teacherOptions: [],
     teachersNamesCopy: [],
+    teacherIDs: [],
     courseOptions: [],
     courseNamesCopy: [],
+    courseIDs: [],
     selectedCourse: "",
     teacherError: false,
     courseError: false,
@@ -105,14 +107,25 @@ class CreateSession extends React.Component {
     const { data } = this.props;
     const teachersNames = [];
     const courseNames = [];
+    const teacherIDs = [];
+    const courseIDs = [];
+
     const date = new Date();
-    data.teachers.map(teacher =>
-      teachersNames.push(`${teacher.firstName} ${teacher.lastName}`),
-    );
-    data.courses.map(course => courseNames.push(course.name));
+    data.teachers.map(teacher => {
+      teachersNames.push(`${teacher.firstName} ${teacher.lastName}`);
+      teacherIDs.push(teacher.id);
+      return null;
+    });
+    data.courses.map(course => {
+      courseNames.push(course.name);
+      courseIDs.push(course.id);
+      return null;
+    });
     this.setState({
       teacherOptions: teachersNames,
       teachersNamesCopy: teachersNames,
+      teacherIDs,
+      courseIDs,
       courseOptions: courseNames,
       courseNamesCopy: courseNames,
       startDate: date.toISOString(),
@@ -161,7 +174,7 @@ class CreateSession extends React.Component {
 
   onClose = () =>
     this.setState({
-      LayerOpen: undefined,
+      LayerOpen: false,
       startTime: "",
       endTime: "",
       selectedCourse: "",
@@ -226,24 +239,14 @@ class CreateSession extends React.Component {
       endTime,
       startTimeError,
       endTimeError,
+      teachersNamesCopy,
+      courseNamesCopy,
+      teacherIDs,
+      courseIDs,
     } = this.state;
-    const { data } = this.props;
-    const teachersNamesCopy = [];
-    const teacherIDs = [];
-    data.teachers.map(teacher => {
-      teachersNamesCopy.push(`${teacher.firstName} ${teacher.lastName}`);
-      teacherIDs.push(teacher.id);
-      return null;
-    });
-    const courseNamesCopy = [];
-    const courseIDs = [];
-    data.courses.map(course => {
-      courseNamesCopy.push(course.name);
-      courseIDs.push(course.id);
-      return null;
-    });
     return (
       <Box fill align="end" justify="end">
+        {console.log(this.props)}
         <Button
           icon={<Add />}
           label="Add Session"
@@ -304,6 +307,7 @@ class CreateSession extends React.Component {
                   onSubmit={event => {
                     event.preventDefault();
                     const { eventTimer, setMessage } = this.props;
+
                     if (
                       selectedCourse.length === 0 ||
                       selectedTeacher.length === 0 ||

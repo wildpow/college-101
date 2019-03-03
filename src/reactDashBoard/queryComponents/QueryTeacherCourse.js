@@ -16,6 +16,7 @@ const ALL_TEACHERS_COURSES = gql`
       id
     }
     timeAndPrices {
+      id
       name
       time
       price
