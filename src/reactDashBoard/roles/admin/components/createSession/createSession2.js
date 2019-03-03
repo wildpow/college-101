@@ -22,6 +22,7 @@ const HoverContainer = styled(Box)`
     }
   }
   div div button {
+    transition: all 250ms ease-in-out;
     border: 1px solid transparent;
     :hover {
       border: 1px solid #6aac5c;
@@ -124,6 +125,16 @@ class CreateSession extends React.Component {
     });
   }
 
+  errorCheck = (value, errorState) => {
+    if (value.length === 0) {
+      this.setState({
+        [`${errorState}`]: true,
+      });
+      return null;
+    }
+    return null;
+  };
+
   onOpen = () => this.setState({ layerOpen: true });
 
   onClose = () =>
@@ -135,16 +146,65 @@ class CreateSession extends React.Component {
       selectedTeacher: "",
       maxSizeOfClass: 8,
       moneySelect: "",
+      moneyError: false,
+      courseError: false,
+      teacherError: false,
     });
 
   onMoneyChange = event => {
     this.setState({
       moneySelect: event.value,
+      moneyError: false,
+    });
+  };
+
+  courseSelectChange = event => {
+    const { courseNamesCopy } = this.state;
+    this.setState({
+      selectedCourse: event.value,
+      courseOptions: courseNamesCopy,
+      courseError: false,
+    });
+  };
+
+  teacherSelectChange = event => {
+    const { teachersNamesCopy } = this.state;
+    this.setState({
+      selectedTeacher: event.value,
+      teacherOptions: teachersNamesCopy,
+      teacherError: false,
+    });
+  };
+
+  onSearchTeachers = searchText => {
+    const { teachersNamesCopy } = this.state;
+    const regexp = new RegExp(searchText, "i");
+    this.setState({
+      teacherOptions: teachersNamesCopy.filter(o => o.match(regexp)),
+    });
+  };
+
+  onSearchCourses = searchText => {
+    const { courseNamesCopy } = this.state;
+    const regexp = new RegExp(searchText, "i");
+    this.setState({
+      courseOptions: courseNamesCopy.filter(o => o.match(regexp)),
     });
   };
 
   render() {
-    const { layerOpen, moneyOptions, moneySelect, moneyError } = this.state;
+    const {
+      layerOpen,
+      moneyOptions,
+      moneySelect,
+      moneyError,
+      selectedCourse,
+      selectedTeacher,
+      courseError,
+      courseOptions,
+      teacherOptions,
+      teacherError,
+    } = this.state;
     return (
       <Box fill align="end" justify="end">
         <Button
@@ -202,7 +262,16 @@ class CreateSession extends React.Component {
                   as="form"
                   onSubmit={event => {
                     event.preventDefault();
-                    console.log("submitted");
+
+                    if (
+                      moneySelect.length === 0 ||
+                      selectedCourse.length === 0 ||
+                      selectedTeacher.length === 0
+                    ) {
+                      this.errorCheck(selectedCourse, "courseError");
+                      this.errorCheck(selectedTeacher, "teacherError");
+                      this.errorCheck(moneySelect, "moneyError");
+                    }
                   }}
                 >
                   <Box
@@ -210,15 +279,36 @@ class CreateSession extends React.Component {
                     overflow="scroll"
                     pad={{ vertical: "small" }}
                     gap="small"
+                    justify="between"
                   >
-                    <HoverContainer>
-                      <SelectNonAP
-                        moneySelect={moneySelect}
-                        moneyOptions={moneyOptions}
-                        moneyError={moneyError}
-                        onMoneyChange={this.onMoneyChange}
-                      />
-                    </HoverContainer>
+                    <Box>
+                      <HoverContainer>
+                        <SelectNonAP
+                          moneySelect={moneySelect}
+                          moneyOptions={moneyOptions}
+                          moneyError={moneyError}
+                          onMoneyChange={this.onMoneyChange}
+                        />
+                      </HoverContainer>
+                      <HoverContainer>
+                        <SelectCourse
+                          selectedCourse={selectedCourse}
+                          courseSelectChange={this.courseSelectChange}
+                          onSearchCourses={this.onSearchCourses}
+                          courseOptions={courseOptions}
+                          courseError={courseError}
+                        />
+                      </HoverContainer>
+                      <HoverContainer>
+                        <SelectTeacher
+                          selectedTeacher={selectedTeacher}
+                          teacherSelectChange={this.teacherSelectChange}
+                          onSearchTeachers={this.onSearchTeachers}
+                          teacherOptions={teacherOptions}
+                          teacherError={teacherError}
+                        />
+                      </HoverContainer>
+                    </Box>
                     <Button type="submit" label="Add" primary icon={<Add />} />
                   </Box>
                 </Box>
