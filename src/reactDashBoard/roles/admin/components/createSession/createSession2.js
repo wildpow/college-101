@@ -13,6 +13,7 @@ import StartTimePicker from "./startTimePicker";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 import SelectNonAP from "./selectNonAP";
+import MaxStudents from "./maxStudents";
 
 const HoverContainer = styled(Box)`
   div div button div div svg {
@@ -29,16 +30,16 @@ const HoverContainer = styled(Box)`
     }
   }
 `;
-const HoverBorder = styled(Box)`
-  transition: all 250ms ease-in-out;
-  div {
-    :nth-of-type(2) {
-      :hover {
-        border-bottom: 1px solid #6aac5c !important;
-      }
-    }
-  }
-`;
+// const HoverBorder = styled(Box)`
+//   transition: all 250ms ease-in-out;
+//   div {
+//     :nth-of-type(2) {
+//       :hover {
+//         border-bottom: 1px solid #6aac5c !important;
+//       }
+//     }
+//   }
+// `;
 
 const ADD_SESSION = gql`
   mutation(
@@ -83,15 +84,16 @@ class CreateSession extends React.Component {
       courseError: false,
       startDateOpen: false,
       startDate: new Date().toISOString(),
-      maxSizeOfClass: 8,
+      maxSizeOfClass: 0,
       startTime: "",
       startTimeError: false,
       endTime: "",
       endTimeError: false,
-
+      moneySelectIndex: null,
       moneySelect: "",
       moneyOptions: [],
       moneyError: false,
+      money: [],
     };
   }
 
@@ -101,7 +103,12 @@ class CreateSession extends React.Component {
     const courseNames = [];
     const teacherIDs = [];
     const courseIDs = [];
-    const moneyOptions = data.timeAndPrices.map(t => t.name);
+    const moneyOptions = [];
+    const money = [];
+    data.timeAndPrices.map(t => {
+      moneyOptions.push(t.name);
+      money.push(t);
+    });
     const date = new Date();
     data.teachers.map(teacher => {
       teachersNames.push(`${teacher.firstName} ${teacher.lastName}`);
@@ -119,6 +126,7 @@ class CreateSession extends React.Component {
       teacherIDs,
       courseIDs,
       moneyOptions,
+      money,
       courseOptions: courseNames,
       courseNamesCopy: courseNames,
       startDate: date.toISOString(),
@@ -135,6 +143,17 @@ class CreateSession extends React.Component {
     return null;
   };
 
+  startOnOpen = () => this.setState({ startDateOpen: true });
+
+  startOnClose = () => this.setState({ startDateOpen: false });
+
+  onChangeStartTime = event =>
+    this.setState({ startTime: event.target.value, startTimeError: false });
+
+  startDateSelect = date => {
+    this.setState({ startDate: date, startDateOpen: false });
+  };
+
   onOpen = () => this.setState({ layerOpen: true });
 
   onClose = () =>
@@ -144,17 +163,25 @@ class CreateSession extends React.Component {
       endTime: "",
       selectedCourse: "",
       selectedTeacher: "",
-      maxSizeOfClass: 8,
+      maxSizeOfClass: 0,
       moneySelect: "",
       moneyError: false,
       courseError: false,
       teacherError: false,
+      moneySelectIndex: null,
     });
 
   onMoneyChange = event => {
+    const { money, moneyOptions } = this.state;
+    const moneySelectIndex = moneyOptions.indexOf(event.value);
+    console.log("event", event.value);
+    console.log("moneyIndex", moneySelectIndex);
+
     this.setState({
       moneySelect: event.value,
       moneyError: false,
+      moneySelectIndex,
+      maxSizeOfClass: money[moneySelectIndex].maxStudents,
     });
   };
 
@@ -192,6 +219,51 @@ class CreateSession extends React.Component {
     });
   };
 
+  onMaxChange = event => {
+    this.setState({ maxSizeOfClass: Number(event.target.value) });
+  };
+
+  convertDateTime = (date, time, add = null) => {
+    const finalStart = new Date(date);
+    let hour = 0;
+    let minutes = 0;
+    if (time.indexOf("a") === -1) {
+      hour += 12;
+    }
+    if (Number(time[0]) === 1) {
+      hour += Number(`${time[0]}${time[1]}`);
+      minutes += Number(`${time[3]}${time[4]}`);
+    } else {
+      hour += Number(time[0]);
+      minutes += Number(`${time[2]}${time[3]}`);
+    }
+    console.log(minutes, "min");
+    console.log(hour, "hour");
+    if (add === null) {
+      finalStart.setHours(hour);
+      finalStart.setMinutes(minutes);
+      finalStart.setSeconds(0);
+    }
+    if (this.state.money[this.state.moneySelectIndex].time === 60) {
+      finalStart.setHours(hour + 1);
+      finalStart.setMinutes(minutes);
+      finalStart.setSeconds(0);
+    }
+    if (
+      this.state.money[this.state.moneySelectIndex].time === 90 ||
+      this.state.money[this.state.moneySelectIndex].time === 120
+    ) {
+      const newMin =
+        minutes + this.state.money[this.state.moneySelectIndex].time;
+      const newHours = Math.floor(newMin / 60);
+      const remander = newMin % 60;
+      finalStart.setHours(hour + newHours);
+      finalStart.setMinutes(remander);
+      finalStart.setSeconds(0);
+    }
+    return finalStart;
+  };
+
   render() {
     const {
       layerOpen,
@@ -204,9 +276,17 @@ class CreateSession extends React.Component {
       courseOptions,
       teacherOptions,
       teacherError,
+      startDate,
+      startDateOpen,
+      moneySelectIndex,
+      maxSizeOfClass,
+      startTimeError,
+      startTime,
+      money,
     } = this.state;
     return (
       <Box fill align="end" justify="end">
+        {console.log(this.state)}
         <Button
           icon={<Add />}
           label="Add Session"
@@ -272,6 +352,13 @@ class CreateSession extends React.Component {
                       this.errorCheck(selectedTeacher, "teacherError");
                       this.errorCheck(moneySelect, "moneyError");
                     }
+                    console.log(
+                      this.convertDateTime(
+                        startDate,
+                        startTime,
+                        money[moneySelectIndex].time,
+                      ),
+                    );
                   }}
                 >
                   <Box
@@ -308,6 +395,36 @@ class CreateSession extends React.Component {
                           teacherError={teacherError}
                         />
                       </HoverContainer>
+                      <StartTimePicker
+                        startTime={startTime}
+                        onChangeStartTime={this.onChangeStartTime}
+                        startTimeError={startTimeError}
+                      />
+                      {/* <HoverBorder> */}
+                      <StartDate
+                        startDateOpen={startDateOpen}
+                        startOnOpen={this.startOnOpen}
+                        startOnClose={this.startOnClose}
+                        startDate={startDate}
+                        startDateSelect={this.startDateSelect}
+                      />
+                      {/* </HoverBorder> */}
+                      {/* <HoverBorder> */}
+
+                      {/* </HoverBorder> */}
+                      {/* {moneySelectIndex && (
+                        <MaxStudents
+                          onMaxChange={this.onMaxChange}
+                          maxSizeOfClass={maxSizeOfClass}
+                        />
+                      )} */}
+                      {moneySelect && (
+                        <> {`Max number of students ${maxSizeOfClass}`}</>
+                      )}
+                      {moneySelect && (
+                        <> {`Session length ${money[moneySelectIndex].time}`}</>
+                      )}
+                      {startTime && <>poop</>}
                     </Box>
                     <Button type="submit" label="Add" primary icon={<Add />} />
                   </Box>
