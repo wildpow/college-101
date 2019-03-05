@@ -11,6 +11,13 @@ export const ALL_FOR_ADMIN = gql`
       id
       userName
     }
+    privateTutorings {
+      id
+      maxSizeOfClass
+      name
+      time
+      pricePerHour
+    }
     courses {
       name
       id

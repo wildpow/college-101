@@ -71,7 +71,13 @@ const Admin = props => {
             </DropButton>
           </Heading>
           <Box direction="row" gap="small" fill justify="end">
-            <PrivateTutoring />
+            <PrivateTutoring
+              teachers={data.teachers}
+              courses={data.courses}
+              privateTutorings={data.privateTutorings}
+              eventTimer={eventTimer}
+              setMessage={setMessage}
+            />
             <CreateSession
               eventTimer={eventTimer}
               setMessage={setMessage}

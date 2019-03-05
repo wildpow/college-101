@@ -3,10 +3,11 @@ import { Button, Layer, Box } from "grommet";
 import { Add } from "grommet-icons";
 import LayerHeader from "../../layerHeader";
 
-const PrivateTutoring = () => {
+const PrivateTutoring = props => {
   const [open, setOpen] = useState(false);
   return (
     <Box>
+      {console.log(props)}
       <Button
         icon={<Add />}
         label="Private Tutoring"
