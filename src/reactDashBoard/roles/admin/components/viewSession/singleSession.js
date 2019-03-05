@@ -27,7 +27,7 @@ const SingleSession = props => {
   } = props;
   return (
     <TableRow key={session.id}>
-      <TableCell scope="row" size="small" plain>
+      <TableCell scope="row" size="xsmall" plain>
         <Button
           fill
           plain
@@ -50,6 +50,36 @@ const SingleSession = props => {
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
             <Text truncate>{session.course.name}</Text>
+          </ExtraPad>
+        </Button>
+      </TableCell>
+      <TableCell scope="row" size="small" plain>
+        <Button
+          fill
+          plain
+          focusIndicator={false}
+          hoverIndicator={false}
+          onMouseOver={() => sessionMouseOver(session.id)}
+          onMouseOut={() => sessionMouseOut}
+          onFocus={() => sessionOnFocus(session.id)}
+          onBlur={() => sessionOnBlur}
+          onClick={() => sessionOnClick(session.id, session)}
+        >
+          <ExtraPad
+            animation={{
+              type: "fadeIn",
+              delay: 0,
+              duration: 250,
+              size: "xsmall",
+            }}
+            background={background}
+            pad={{ horizontal: "small", vertical: "xsmall" }}
+          >
+            {session.timeAndPrice === null ? (
+              <Text truncate>No group</Text>
+            ) : (
+              <Text truncate>{session.timeAndPrice.name}</Text>
+            )}
           </ExtraPad>
         </Button>
       </TableCell>
@@ -164,17 +194,6 @@ const SingleSession = props => {
         </Button>
       </TableCell>
       <TableCell scope="row" size="small" plain>
-        {/* <Button
-          fill
-          plain
-          focusIndicator={false}
-          hoverIndicator={false}
-          onMouseOver={() => sessionMouseOver(session.id)}
-          onMouseOut={() => sessionMouseOut}
-          onFocus={() => sessionOnFocus(session.id)}
-          onBlur={() => sessionOnBlur}
-          onClick={() => sessionOnClick(session.id, session)}
-        > */}
         <Box
           animation={{
             type: "fadeIn",
@@ -195,9 +214,7 @@ const SingleSession = props => {
               Not Taken
             </ExtraPadText>
           )}
-          {/* </Text> */}
         </Box>
-        {/* </Button> */}
       </TableCell>
     </TableRow>
   );
