@@ -62,8 +62,8 @@ class CreateSession extends React.Component {
     setMessage: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
+  constructor(...args) {
+    super(...args);
     this.state = {
       layerOpen: false,
       selectedTeacher: "",
@@ -93,25 +93,25 @@ class CreateSession extends React.Component {
   }
 
   componentDidMount() {
-    const { data } = this.props;
+    const { courses, teachers, timeAndPrices } = this.props;
     const teachersNames = [];
     const courseNames = [];
     const teacherIDs = [];
     const courseIDs = [];
     const moneyOptions = [];
     const money = [];
-    data.timeAndPrices.map(t => {
+    timeAndPrices.map(t => {
       moneyOptions.push(t.name);
       money.push(t);
       return null;
     });
     const date = new Date();
-    data.teachers.map(teacher => {
+    teachers.map(teacher => {
       teachersNames.push(`${teacher.firstName} ${teacher.lastName}`);
       teacherIDs.push(teacher.id);
       return null;
     });
-    data.courses.map(course => {
+    courses.map(course => {
       courseNames.push(course.name);
       courseIDs.push(course.id);
       return null;
@@ -139,9 +139,9 @@ class CreateSession extends React.Component {
     return null;
   };
 
-  startOnOpen = () => this.setState({ startDateOpen: true });
+  startDateToggle = bool => this.setState({ startDateOpen: bool });
 
-  startOnClose = () => this.setState({ startDateOpen: false });
+  // startOnClose = () => this.setState({ startDateOpen: false });
 
   onChangeStartTime = event => {
     this.setState({
@@ -230,6 +230,7 @@ class CreateSession extends React.Component {
   };
 
   convertDateTime = (date, time, add = null) => {
+    console.log("date", date, "time", time);
     const { money, moneySelectIndex } = this.state;
     const finalStart = new Date(date);
     let hour = 0;
@@ -297,7 +298,7 @@ class CreateSession extends React.Component {
     const { eventTimer, setMessage } = this.props;
     return (
       <Box>
-        {/* align="end" justify="end" fill */}
+        {/* {console.log(this.state)} */}
         <Button
           icon={<Add />}
           label="Sm. Group NonAP"
@@ -426,8 +427,7 @@ class CreateSession extends React.Component {
 
                       <StartDate
                         startDateOpen={startDateOpen}
-                        startOnOpen={this.startOnOpen}
-                        startOnClose={this.startOnClose}
+                        startDateToggle={this.startDateToggle}
                         startDate={startDate}
                         startDateSelect={this.startDateSelect}
                       />
@@ -443,7 +443,7 @@ class CreateSession extends React.Component {
                             } minutes`}
                           </Text>
                         )}
-                        {startTime && (
+                        {startTime && moneySelect && (
                           <Text size="large">
                             {`
                             Session end time: ${this.convertEndTimeToString(
@@ -455,16 +455,20 @@ class CreateSession extends React.Component {
                         )}
                       </Box>
                     </Box>
-                    <Box direction="row" justify="between">
+                    <Box
+                      direction="row"
+                      justify="between"
+                      pad={{ horizontal: "xsmall", vertical: "xsmall" }}
+                    >
                       <Button
                         type="submit"
-                        label="Add"
+                        label="ADD"
                         primary
                         icon={<Add />}
                       />
                       <Button
                         icon={<FormSubtract />}
-                        label="Clear"
+                        label="CLEAR"
                         onClick={() =>
                           this.setState({
                             selectedCourse: "",

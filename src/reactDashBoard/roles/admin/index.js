@@ -28,7 +28,7 @@ const BottomBorder = styled(Box)`
 `;
 
 const Admin = props => {
-  const { sessions } = props;
+  const { data } = props;
   const [openCal, setOpenCal] = useState(false);
   const [date, setDate] = useState(new Date().toISOString());
   const [event, setEvent] = useState(false);
@@ -72,16 +72,23 @@ const Admin = props => {
           </Heading>
           <Box direction="row" gap="small" fill justify="end">
             <PrivateTutoring />
-            <QueryTeacherCourse
+            <CreateSession
+              eventTimer={eventTimer}
+              setMessage={setMessage}
+              teachers={data.teachers}
+              courses={data.courses}
+              timeAndPrices={data.timeAndPrices}
+            />
+            {/* <QueryTeacherCourse
               component={CreateSession}
               eventTimer={eventTimer}
               setMessage={setMessage}
-            />
+            /> */}
           </Box>
         </Header>
         <div>
           <ViewSession
-            sessions={sessions}
+            sessions={data.sessions}
             date={date}
             eventTimer={eventTimer}
             setMessage={setMessage}

@@ -17,7 +17,7 @@ const TitleWrapper = styled(Box)`
     fill: black;
   }
 `;
-
+// modelFunc can be a hook or function from class component
 const LayerHeader = props => {
   const { headingText, modelFunc } = props;
   return (
