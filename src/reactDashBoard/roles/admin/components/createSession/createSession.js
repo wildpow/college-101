@@ -1,57 +1,27 @@
 import React from "react";
 import styled from "styled-components";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import { Box, Button, Layer, Heading, RangeInput, FormField } from "grommet";
+import {
+  Box,
+  Button,
+  Layer,
+  Heading,
+  // RangeInput,
+  // FormField,
+  Text,
+} from "grommet";
 import { Add, FormClose, FormSubtract } from "grommet-icons";
-// import { grommet } from "grommet/themes";
-import EndTime from "./endTime";
+// import EndTime from "./endTime";
 import SelectCourse from "./selectCourse";
 import SelectTeacher from "./selectTeacher";
 import StartDate from "./startDate";
 import StartTimePicker from "./startTimePicker";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
-
-const ADD_SESSION = gql`
-  mutation(
-    $startTime: DateTime!
-    $endTime: DateTime!
-    $maxSizeOfClass: Int!
-    $courseId: ID
-    $teacherId: ID
-  ) {
-    createSession(
-      data: {
-        startTime: $startTime
-        endTime: $endTime
-        maxSizeOfClass: $maxSizeOfClass
-        status: PUBLISHED
-        teacher: { connect: { id: $teacherId } }
-        course: { connect: { id: $courseId } }
-      }
-    ) {
-      startTime
-      endTime
-    }
-  }
-`;
-
-const MaxStudentWrapper = styled(Box)`
-  div {
-    border-bottom: 0px solid black !important;
-    border: none !important;
-    margin-bottom: 0; // PPPP
-  }
-  h1 {
-    margin-bottom: 5px;
-    margin-top: 5px;
-  }
-  div div {
-    margin-bottom: 6px;
-  }
-`;
+import SelectNonAP from "./selectNonAP";
+// import ExtraInfo from "./extraInfo";
 
 const HoverContainer = styled(Box)`
   div div button div div svg {
@@ -61,47 +31,85 @@ const HoverContainer = styled(Box)`
     }
   }
   div div button {
+    transition: all 250ms ease-in-out;
+    border: 1px solid transparent;
     :hover {
       border: 1px solid #6aac5c;
     }
   }
 `;
-const HoverBorder = styled(Box)`
-  transition: all 250ms ease-in-out;
-  div {
-    :nth-of-type(2) {
-      :hover {
-        border-bottom: 1px solid #6aac5c !important;
+// const HoverBorder = styled(Box)`
+//   transition: all 250ms ease-in-out;
+//   div {
+//     :nth-of-type(2) {
+//       :hover {
+//         border-bottom: 1px solid #6aac5c !important;
+//       }
+//     }
+//   }
+// `;
+
+const ADD_SESSION = gql`
+  mutation(
+    $startTime: DateTime!
+    $endTime: DateTime!
+    $maxSizeOfClass: Int!
+    $courseId: ID
+    $teacherId: ID
+    $timeAndPrice: String
+  ) {
+    createSession(
+      data: {
+        startTime: $startTime
+        endTime: $endTime
+        maxSizeOfClass: $maxSizeOfClass
+        status: PUBLISHED
+        teacher: { connect: { id: $teacherId } }
+        course: { connect: { id: $courseId } }
+        timeAndPrice: { connect: { name: $timeAndPrice } }
       }
+    ) {
+      startTime
+      endTime
     }
   }
 `;
 
 class CreateSession extends React.Component {
-  // static propTypes = {
-  //   data: PropTypes.instanceOf(Object).isRequired,
-  // };
-
-  state = {
-    LayerOpen: false,
-    selectedTeacher: "",
-    teacherOptions: [],
-    teachersNamesCopy: [],
-    teacherIDs: [],
-    courseOptions: [],
-    courseNamesCopy: [],
-    courseIDs: [],
-    selectedCourse: "",
-    teacherError: false,
-    courseError: false,
-    startDateOpen: false,
-    startDate: new Date().toISOString(),
-    maxSizeOfClass: 1,
-    startTime: "",
-    startTimeError: false,
-    endTime: "",
-    endTimeError: false,
+  static propTypes = {
+    eventTimer: PropTypes.func.isRequired,
+    setMessage: PropTypes.func.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      layerOpen: false,
+      selectedTeacher: "",
+      teacherOptions: [],
+      teachersNamesCopy: [],
+      teacherIDs: [],
+      courseOptions: [],
+      courseNamesCopy: [],
+      courseIDs: [],
+      selectedCourse: "",
+      teacherError: false,
+      courseError: false,
+      startDateOpen: false,
+      startDate: new Date().toISOString(),
+      maxSizeOfClass: 0,
+      startTime: "",
+      startTimeError: false,
+      startTimeMessage: "Please enter start time",
+      // endTime: "",
+      // endTimeError: false,
+      moneySelectIndex: null,
+      moneySelect: "",
+      moneyOptions: [],
+      moneyError: false,
+      money: [],
+    };
+  }
 
   componentDidMount() {
     const { data } = this.props;
@@ -109,7 +117,13 @@ class CreateSession extends React.Component {
     const courseNames = [];
     const teacherIDs = [];
     const courseIDs = [];
-
+    const moneyOptions = [];
+    const money = [];
+    data.timeAndPrices.map(t => {
+      moneyOptions.push(t.name);
+      money.push(t);
+      return null;
+    });
     const date = new Date();
     data.teachers.map(teacher => {
       teachersNames.push(`${teacher.firstName} ${teacher.lastName}`);
@@ -126,11 +140,70 @@ class CreateSession extends React.Component {
       teachersNamesCopy: teachersNames,
       teacherIDs,
       courseIDs,
+      moneyOptions,
+      money,
       courseOptions: courseNames,
       courseNamesCopy: courseNames,
       startDate: date.toISOString(),
     });
   }
+
+  errorCheck = (value, errorState) => {
+    if (value.length === 0) {
+      this.setState({
+        [`${errorState}`]: true,
+      });
+      return null;
+    }
+    return null;
+  };
+
+  startOnOpen = () => this.setState({ startDateOpen: true });
+
+  startOnClose = () => this.setState({ startDateOpen: false });
+
+  onChangeStartTime = event => {
+    this.setState({
+      startTime: event.target.value,
+      startTimeError: false,
+      startTimeMessage: "Please enter start time",
+    });
+  };
+
+  startDateSelect = date => {
+    this.setState({ startDate: date, startDateOpen: false });
+  };
+
+  onOpen = () => this.setState({ layerOpen: true });
+
+  onClose = () =>
+    this.setState({
+      layerOpen: false,
+      startTime: "",
+      // endTime: "",
+      selectedCourse: "",
+      selectedTeacher: "",
+      maxSizeOfClass: 0,
+      moneySelect: "",
+      moneyError: false,
+      courseError: false,
+      teacherError: false,
+      startTimeError: false,
+      moneySelectIndex: null,
+      startDate: new Date().toISOString(),
+      startDateOpen: false,
+    });
+
+  onMoneyChange = event => {
+    const { money, moneyOptions } = this.state;
+    const moneySelectIndex = moneyOptions.indexOf(event.value);
+    this.setState({
+      moneySelect: event.value,
+      moneyError: false,
+      moneySelectIndex,
+      maxSizeOfClass: money[moneySelectIndex].maxStudents,
+    });
+  };
 
   courseSelectChange = event => {
     const { courseNamesCopy } = this.state;
@@ -166,33 +239,17 @@ class CreateSession extends React.Component {
     });
   };
 
-  startDateSelect = date => {
-    this.setState({ startDate: date, startDateOpen: false });
+  onMaxChange = event => {
+    this.setState({ maxSizeOfClass: Number(event.target.value) });
   };
 
-  onOpen = () => this.setState({ LayerOpen: true });
+  convertEndTimeToString = (date, time, add) => {
+    const endDateTime = this.convertDateTime(date, time, add);
+    return endDateTime.toLocaleTimeString();
+  };
 
-  onClose = () =>
-    this.setState({
-      LayerOpen: false,
-      startTime: "",
-      endTime: "",
-      selectedCourse: "",
-      selectedTeacher: "",
-      maxSizeOfClass: 1,
-    });
-
-  startOnOpen = () => this.setState({ startDateOpen: true });
-
-  startOnClose = () => this.setState({ startDateOpen: false });
-
-  onChangeStartTime = event =>
-    this.setState({ startTime: event.target.value, startTimeError: false });
-
-  onChangeEndTime = event =>
-    this.setState({ endTime: event.target.value, endTimeError: false });
-
-  convertDateTime = (date, time) => {
+  convertDateTime = (date, time, add = null) => {
+    const { money, moneySelectIndex } = this.state;
     const finalStart = new Date(date);
     let hour = 0;
     let minutes = 0;
@@ -206,54 +263,66 @@ class CreateSession extends React.Component {
       hour += Number(time[0]);
       minutes += Number(`${time[2]}${time[3]}`);
     }
-    finalStart.setHours(hour);
-    finalStart.setMinutes(minutes);
-    finalStart.setSeconds(0);
-
-    return finalStart;
-  };
-
-  errorCheck = (value, errorState) => {
-    if (value.length === 0) {
-      this.setState({
-        [`${errorState}`]: true,
-      });
-      return null;
+    if (add === null) {
+      finalStart.setHours(hour);
+      finalStart.setMinutes(minutes);
+      finalStart.setSeconds(0);
+    } else {
+      if (money[moneySelectIndex].time === 60) {
+        finalStart.setHours(hour + 1);
+        finalStart.setMinutes(minutes);
+        finalStart.setSeconds(0);
+      }
+      if (
+        money[moneySelectIndex].time === 90 ||
+        money[moneySelectIndex].time === 120
+      ) {
+        const newMin = minutes + money[moneySelectIndex].time;
+        const newHours = Math.floor(newMin / 60);
+        const remander = newMin % 60;
+        finalStart.setHours(hour + newHours);
+        finalStart.setMinutes(remander);
+        finalStart.setSeconds(0);
+      }
     }
-    return null;
+    return finalStart;
   };
 
   render() {
     const {
-      LayerOpen,
-      teacherOptions,
-      selectedTeacher,
-      courseOptions,
+      layerOpen,
+      moneyOptions,
+      moneySelect,
+      moneyError,
       selectedCourse,
-      teacherError,
+      selectedTeacher,
       courseError,
-      startDateOpen,
+      courseOptions,
+      teacherOptions,
+      teacherError,
       startDate,
+      startDateOpen,
+      moneySelectIndex,
       maxSizeOfClass,
-      startTime,
-      endTime,
       startTimeError,
-      endTimeError,
+      startTime,
+      money,
+      startTimeMessage,
       teachersNamesCopy,
-      courseNamesCopy,
-      teacherIDs,
       courseIDs,
+      teacherIDs,
+      courseNamesCopy,
     } = this.state;
+    const { eventTimer, setMessage } = this.props;
     return (
       <Box fill align="end" justify="end">
-        {console.log(this.props)}
         <Button
           icon={<Add />}
-          label="Add Session"
+          label="Sm. Group NonAP"
           onClick={this.onOpen}
           primary
         />
-        {LayerOpen && (
+        {layerOpen && (
           <Layer
             position="right"
             full="vertical"
@@ -295,81 +364,110 @@ class CreateSession extends React.Component {
               {createSession => (
                 <Box
                   gap="small"
+                  fill="vertical"
+                  overflow="auto"
+                  width="medium"
+                  pad="medium"
                   as="form"
-                  fill
-                  overflow="scroll"
-                  pad={{
-                    left: "medium",
-                    right: "medium",
-                    top: "small",
-                    bottom: "medium",
-                  }}
                   onSubmit={event => {
                     event.preventDefault();
-                    const { eventTimer, setMessage } = this.props;
 
                     if (
+                      moneySelect.length === 0 ||
                       selectedCourse.length === 0 ||
                       selectedTeacher.length === 0 ||
-                      startTime.length === 0 ||
-                      endTime.length === 0
+                      startTime.length === 0
                     ) {
-                      this.errorCheck(startTime, "startTimeError");
-                      this.errorCheck(endTime, "endTimeError");
                       this.errorCheck(selectedCourse, "courseError");
                       this.errorCheck(selectedTeacher, "teacherError");
+                      this.errorCheck(moneySelect, "moneyError");
+                      this.errorCheck(startTime, "startTimeError");
                     } else {
-                      const teacherId =
-                        teacherIDs[teachersNamesCopy.indexOf(selectedTeacher)];
-                      const courseId =
-                        courseIDs[courseNamesCopy.indexOf(selectedCourse)];
+                      const date = new Date();
+
                       const finalStart = this.convertDateTime(
                         startDate,
                         startTime,
                       );
-                      const FinalEnd = this.convertDateTime(startDate, endTime);
-                      createSession({
-                        variables: {
-                          startTime: finalStart,
-                          endTime: FinalEnd,
-                          teacherId,
-                          courseId,
-                          maxSizeOfClass,
-                        },
-                      });
-                      this.onClose();
-                      eventTimer(true);
-                      setMessage("A new session was added");
-                      return null;
+                      const finalEnd = this.convertDateTime(
+                        startDate,
+                        startTime,
+                        money[moneySelectIndex].time,
+                      );
+                      if (date > finalStart) {
+                        this.setState({
+                          startTimeMessage:
+                            "Can not create a class in the past",
+                          startTimeError: true,
+                        });
+                      } else {
+                        const teacherId =
+                          teacherIDs[
+                            teachersNamesCopy.indexOf(selectedTeacher)
+                          ];
+                        const courseId =
+                          courseIDs[courseNamesCopy.indexOf(selectedCourse)];
+                        createSession({
+                          variables: {
+                            startTime: finalStart,
+                            endTime: finalEnd,
+                            teacherId,
+                            courseId,
+                            maxSizeOfClass,
+                            timeAndPrice: moneySelect,
+                          },
+                        });
+                        this.onClose();
+                        eventTimer(true);
+                        setMessage("A new session was added");
+                        return null;
+                      }
                     }
+
                     return null;
                   }}
                 >
                   <Box
                     fill
                     overflow="scroll"
-                    pad={{ vertical: "small" }}
-                    gap="small"
+                    // pad={{ vertical: "xsmall" }}
+                    // gap="xsmall"
+                    justify="between"
                   >
-                    <HoverContainer>
-                      <SelectCourse
-                        selectedCourse={selectedCourse}
-                        courseSelectChange={this.courseSelectChange}
-                        onSearchCourses={this.onSearchCourses}
-                        courseOptions={courseOptions}
-                        courseError={courseError}
+                    <Box>
+                      <HoverContainer>
+                        <SelectNonAP
+                          moneySelect={moneySelect}
+                          moneyOptions={moneyOptions}
+                          moneyError={moneyError}
+                          onMoneyChange={this.onMoneyChange}
+                        />
+                      </HoverContainer>
+                      <HoverContainer>
+                        <SelectCourse
+                          selectedCourse={selectedCourse}
+                          courseSelectChange={this.courseSelectChange}
+                          onSearchCourses={this.onSearchCourses}
+                          courseOptions={courseOptions}
+                          courseError={courseError}
+                        />
+                      </HoverContainer>
+                      <HoverContainer>
+                        <SelectTeacher
+                          selectedTeacher={selectedTeacher}
+                          teacherSelectChange={this.teacherSelectChange}
+                          onSearchTeachers={this.onSearchTeachers}
+                          teacherOptions={teacherOptions}
+                          teacherError={teacherError}
+                        />
+                      </HoverContainer>
+                      <StartTimePicker
+                        startTime={startTime}
+                        onChangeStartTime={this.onChangeStartTime}
+                        startTimeError={startTimeError}
+                        startTimeMessage={startTimeMessage}
                       />
-                    </HoverContainer>
-                    <HoverContainer>
-                      <SelectTeacher
-                        selectedTeacher={selectedTeacher}
-                        teacherSelectChange={this.teacherSelectChange}
-                        onSearchTeachers={this.onSearchTeachers}
-                        teacherOptions={teacherOptions}
-                        teacherError={teacherError}
-                      />
-                    </HoverContainer>
-                    <HoverBorder>
+                      {/* <HoverBorder> */}
                       <StartDate
                         startDateOpen={startDateOpen}
                         startOnOpen={this.startOnOpen}
@@ -377,61 +475,60 @@ class CreateSession extends React.Component {
                         startDate={startDate}
                         startDateSelect={this.startDateSelect}
                       />
-                    </HoverBorder>
-                    <HoverBorder>
-                      <StartTimePicker
-                        startTime={startTime}
-                        onChangeStartTime={this.onChangeStartTime}
-                        startTimeError={startTimeError}
+                      {/* </HoverBorder> */}
+                      {/* <HoverBorder> */}
+
+                      {/* </HoverBorder> */}
+                      <Box direction="column" gap="small">
+                        {moneySelect && (
+                          <Text size="large">{`Default Max number of students: ${maxSizeOfClass}`}</Text>
+                        )}
+                        {moneySelect && (
+                          <Text size="large">
+                            {`Session length: ${
+                              money[moneySelectIndex].time
+                            } minutes`}
+                          </Text>
+                        )}
+                        {startTime && (
+                          <Text size="large">
+                            {`
+                            Session end time: ${this.convertEndTimeToString(
+                              startDate,
+                              startTime,
+                              money[moneySelectIndex].time,
+                            )}`}
+                          </Text>
+                        )}
+                      </Box>
+                    </Box>
+                    <Box direction="row" justify="between">
+                      <Button
+                        type="submit"
+                        label="Add"
+                        primary
+                        icon={<Add />}
                       />
-                    </HoverBorder>
-                    <HoverBorder>
-                      <EndTime
-                        endTime={endTime}
-                        onChangeEndTime={this.onChangeEndTime}
-                        endTimeError={endTimeError}
+                      <Button
+                        icon={<FormSubtract />}
+                        label="Clear"
+                        onClick={() =>
+                          this.setState({
+                            selectedCourse: "",
+                            selectedTeacher: "",
+                            startDate: undefined,
+                            startTime: "",
+                            // endTime: "",
+                            // endTimeError: false,
+                            startTimeError: false,
+                            courseError: false,
+                            teacherError: false,
+                            moneyError: false,
+                            moneySelect: "",
+                          })
+                        }
                       />
-                    </HoverBorder>
-                    <MaxStudentWrapper>
-                      <FormField
-                        name="max"
-                        label="Max Number of student in this session?"
-                      >
-                        <RangeInput
-                          onChange={event =>
-                            this.setState({
-                              maxSizeOfClass: Number(event.target.value),
-                            })
-                          }
-                          min={1}
-                          max={25}
-                          value={maxSizeOfClass}
-                        />
-                        <Box direction="row" align="center" alignSelf="center">
-                          <Heading level={1}>{maxSizeOfClass}</Heading>
-                        </Box>
-                      </FormField>
-                    </MaxStudentWrapper>
-                  </Box>
-                  <Box direction="row" justify="between">
-                    <Button
-                      icon={<FormSubtract />}
-                      label="Clear"
-                      onClick={() =>
-                        this.setState({
-                          selectedCourse: "",
-                          selectedTeacher: "",
-                          startDate: undefined,
-                          startTime: "",
-                          endTime: "",
-                          endTimeError: false,
-                          startTimeError: false,
-                          courseError: false,
-                          teacherError: false,
-                        })
-                      }
-                    />
-                    <Button type="submit" label="Add" primary icon={<Add />} />
+                    </Box>
                   </Box>
                 </Box>
               )}

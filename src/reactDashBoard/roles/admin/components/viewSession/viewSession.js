@@ -22,13 +22,16 @@ const ScrollBox = styled(Box)`
   max-height: 317px;
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
 `;
-const Tables = styled(Table)`
-  /* min-height: 101%; */
-`;
+
 const COLUMNS = [
   {
     property: "name",
-    label: "Class Name",
+    label: "Class",
+    size: "xsmall",
+  },
+  {
+    property: "Group",
+    label: "Group",
     size: "small",
   },
   {
@@ -62,6 +65,8 @@ class ViewSessionTest extends React.Component {
   static propTypes = {
     date: PropTypes.string.isRequired,
     sessions: PropTypes.instanceOf(Object).isRequired,
+    eventTimer: PropTypes.func.isRequired,
+    setMessage: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -219,7 +224,7 @@ class ViewSessionTest extends React.Component {
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
       <>
-        <Box flex={false}>
+        <Box>
           <Table caption="Session table header">
             <TableHeader>
               <TableRow>
@@ -263,16 +268,8 @@ class ViewSessionTest extends React.Component {
           </Table>
         </Box>
 
-        <ScrollBox
-        // overflow="scroll"
-        // basis="medium"
-        // flex={false}
-        // height="350px"
-        // overflow-y="scroll"
-
-        // pad={{ horizontal: "xsmall" }}
-        >
-          <Tables caption="list of session for current date">
+        <ScrollBox>
+          <Table caption="list of session for current date">
             <TableBody>
               {sessions.map(session => {
                 let background;
@@ -295,7 +292,7 @@ class ViewSessionTest extends React.Component {
                 );
               })}
             </TableBody>
-          </Tables>
+          </Table>
         </ScrollBox>
         <InfoSession
           selectedEnd={selectedEnd}

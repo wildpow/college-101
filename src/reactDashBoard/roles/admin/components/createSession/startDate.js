@@ -30,7 +30,7 @@ const StartDate = props => {
       date={startDate}
       onSelect={startDateSelect}
       size="medium"
-      bounds={[todayString, futureString]}
+      bounds={bounds}
     />
   );
   return (
@@ -39,15 +39,8 @@ const StartDate = props => {
         open={startDateOpen}
         onClose={startOnClose}
         onOpen={startOnOpen}
-        dropContent={
-          <Calendar
-            date={startDate}
-            onSelect={startDateSelect}
-            size="medium"
-            bounds={bounds}
-          />
-        }
         dropContent={Cal}
+        dropAlign={{ left: "left" }}
       >
         <Box
           direction="row"
