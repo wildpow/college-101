@@ -3,9 +3,17 @@ import styled from "styled-components";
 // import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import { Box, Button, Layer, Heading, RangeInput, FormField } from "grommet";
+import {
+  Box,
+  Button,
+  Layer,
+  Heading,
+  // RangeInput,
+  // FormField,
+  Text,
+} from "grommet";
 import { Add, FormClose, FormSubtract } from "grommet-icons";
-import EndTime from "./endTime";
+// import EndTime from "./endTime";
 import SelectCourse from "./selectCourse";
 import SelectTeacher from "./selectTeacher";
 import StartDate from "./startDate";
@@ -13,7 +21,7 @@ import StartTimePicker from "./startTimePicker";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 import SelectNonAP from "./selectNonAP";
-import MaxStudents from "./maxStudents";
+// import ExtraInfo from "./extraInfo";
 
 const HoverContainer = styled(Box)`
   div div button div div svg {
@@ -87,8 +95,9 @@ class CreateSession extends React.Component {
       maxSizeOfClass: 0,
       startTime: "",
       startTimeError: false,
-      endTime: "",
-      endTimeError: false,
+      startTimeMessage: "Please enter start time",
+      // endTime: "",
+      // endTimeError: false,
       moneySelectIndex: null,
       moneySelect: "",
       moneyOptions: [],
@@ -108,6 +117,7 @@ class CreateSession extends React.Component {
     data.timeAndPrices.map(t => {
       moneyOptions.push(t.name);
       money.push(t);
+      return null;
     });
     const date = new Date();
     data.teachers.map(teacher => {
@@ -147,8 +157,13 @@ class CreateSession extends React.Component {
 
   startOnClose = () => this.setState({ startDateOpen: false });
 
-  onChangeStartTime = event =>
-    this.setState({ startTime: event.target.value, startTimeError: false });
+  onChangeStartTime = event => {
+    this.setState({
+      startTime: event.target.value,
+      startTimeError: false,
+      startTimeMessage: "Please enter start time",
+    });
+  };
 
   startDateSelect = date => {
     this.setState({ startDate: date, startDateOpen: false });
@@ -160,7 +175,7 @@ class CreateSession extends React.Component {
     this.setState({
       layerOpen: false,
       startTime: "",
-      endTime: "",
+      // endTime: "",
       selectedCourse: "",
       selectedTeacher: "",
       maxSizeOfClass: 0,
@@ -168,15 +183,14 @@ class CreateSession extends React.Component {
       moneyError: false,
       courseError: false,
       teacherError: false,
+      startTimeError: false,
       moneySelectIndex: null,
+      startDate: new Date().toISOString(),
     });
 
   onMoneyChange = event => {
     const { money, moneyOptions } = this.state;
     const moneySelectIndex = moneyOptions.indexOf(event.value);
-    console.log("event", event.value);
-    console.log("moneyIndex", moneySelectIndex);
-
     this.setState({
       moneySelect: event.value,
       moneyError: false,
@@ -223,7 +237,13 @@ class CreateSession extends React.Component {
     this.setState({ maxSizeOfClass: Number(event.target.value) });
   };
 
+  convertEndTimeToString = (date, time, add) => {
+    const endDateTime = this.convertDateTime(date, time, add);
+    return endDateTime.toLocaleTimeString();
+  };
+
   convertDateTime = (date, time, add = null) => {
+    const { money, moneySelectIndex } = this.state;
     const finalStart = new Date(date);
     let hour = 0;
     let minutes = 0;
@@ -237,29 +257,27 @@ class CreateSession extends React.Component {
       hour += Number(time[0]);
       minutes += Number(`${time[2]}${time[3]}`);
     }
-    console.log(minutes, "min");
-    console.log(hour, "hour");
     if (add === null) {
       finalStart.setHours(hour);
       finalStart.setMinutes(minutes);
       finalStart.setSeconds(0);
-    }
-    if (this.state.money[this.state.moneySelectIndex].time === 60) {
-      finalStart.setHours(hour + 1);
-      finalStart.setMinutes(minutes);
-      finalStart.setSeconds(0);
-    }
-    if (
-      this.state.money[this.state.moneySelectIndex].time === 90 ||
-      this.state.money[this.state.moneySelectIndex].time === 120
-    ) {
-      const newMin =
-        minutes + this.state.money[this.state.moneySelectIndex].time;
-      const newHours = Math.floor(newMin / 60);
-      const remander = newMin % 60;
-      finalStart.setHours(hour + newHours);
-      finalStart.setMinutes(remander);
-      finalStart.setSeconds(0);
+    } else {
+      if (money[moneySelectIndex].time === 60) {
+        finalStart.setHours(hour + 1);
+        finalStart.setMinutes(minutes);
+        finalStart.setSeconds(0);
+      }
+      if (
+        money[moneySelectIndex].time === 90 ||
+        money[moneySelectIndex].time === 120
+      ) {
+        const newMin = minutes + money[moneySelectIndex].time;
+        const newHours = Math.floor(newMin / 60);
+        const remander = newMin % 60;
+        finalStart.setHours(hour + newHours);
+        finalStart.setMinutes(remander);
+        finalStart.setSeconds(0);
+      }
     }
     return finalStart;
   };
@@ -283,13 +301,18 @@ class CreateSession extends React.Component {
       startTimeError,
       startTime,
       money,
+      startTimeMessage,
+      teachersNamesCopy,
+      courseIDs,
+      teacherIDs,
+      courseNamesCopy,
     } = this.state;
+    const { eventTimer, setMessage } = this.props;
     return (
       <Box fill align="end" justify="end">
-        {console.log(this.state)}
         <Button
           icon={<Add />}
-          label="Add Session"
+          label="Sm. Group NonAP"
           onClick={this.onOpen}
           primary
         />
@@ -346,26 +369,63 @@ class CreateSession extends React.Component {
                     if (
                       moneySelect.length === 0 ||
                       selectedCourse.length === 0 ||
-                      selectedTeacher.length === 0
+                      selectedTeacher.length === 0 ||
+                      startTime.length === 0
                     ) {
                       this.errorCheck(selectedCourse, "courseError");
                       this.errorCheck(selectedTeacher, "teacherError");
                       this.errorCheck(moneySelect, "moneyError");
-                    }
-                    console.log(
-                      this.convertDateTime(
+                      this.errorCheck(startTime, "startTimeError");
+                    } else {
+                      const date = new Date();
+
+                      const finalStart = this.convertDateTime(
+                        startDate,
+                        startTime,
+                      );
+                      const finalEnd = this.convertDateTime(
                         startDate,
                         startTime,
                         money[moneySelectIndex].time,
-                      ),
-                    );
+                      );
+                      if (date > finalStart) {
+                        this.setState({
+                          startTimeMessage:
+                            "Can not create a class in the past",
+                          startTimeError: true,
+                        });
+                      } else {
+                        const teacherId =
+                          teacherIDs[
+                            teachersNamesCopy.indexOf(selectedTeacher)
+                          ];
+                        const courseId =
+                          courseIDs[courseNamesCopy.indexOf(selectedCourse)];
+                        createSession({
+                          variables: {
+                            startTime: finalStart,
+                            endTime: finalEnd,
+                            teacherId,
+                            courseId,
+                            maxSizeOfClass,
+                            timeAndPrice: moneySelect,
+                          },
+                        });
+                        this.onClose();
+                        eventTimer(true);
+                        setMessage("A new session was added");
+                        return null;
+                      }
+                    }
+
+                    return null;
                   }}
                 >
                   <Box
                     fill
                     overflow="scroll"
-                    pad={{ vertical: "small" }}
-                    gap="small"
+                    // pad={{ vertical: "xsmall" }}
+                    // gap="xsmall"
                     justify="between"
                   >
                     <Box>
@@ -399,6 +459,7 @@ class CreateSession extends React.Component {
                         startTime={startTime}
                         onChangeStartTime={this.onChangeStartTime}
                         startTimeError={startTimeError}
+                        startTimeMessage={startTimeMessage}
                       />
                       {/* <HoverBorder> */}
                       <StartDate
@@ -412,21 +473,56 @@ class CreateSession extends React.Component {
                       {/* <HoverBorder> */}
 
                       {/* </HoverBorder> */}
-                      {/* {moneySelectIndex && (
-                        <MaxStudents
-                          onMaxChange={this.onMaxChange}
-                          maxSizeOfClass={maxSizeOfClass}
-                        />
-                      )} */}
-                      {moneySelect && (
-                        <> {`Max number of students ${maxSizeOfClass}`}</>
-                      )}
-                      {moneySelect && (
-                        <> {`Session length ${money[moneySelectIndex].time}`}</>
-                      )}
-                      {startTime && <>poop</>}
+                      <Box direction="column" gap="small">
+                        {moneySelect && (
+                          <Text size="large">{`Default Max number of students: ${maxSizeOfClass}`}</Text>
+                        )}
+                        {moneySelect && (
+                          <Text size="large">
+                            {`Session length: ${
+                              money[moneySelectIndex].time
+                            } minutes`}
+                          </Text>
+                        )}
+                        {startTime && (
+                          <Text size="large">
+                            {`
+                            Session end time: ${this.convertEndTimeToString(
+                              startDate,
+                              startTime,
+                              money[moneySelectIndex].time,
+                            )}`}
+                          </Text>
+                        )}
+                      </Box>
                     </Box>
-                    <Button type="submit" label="Add" primary icon={<Add />} />
+                    <Box direction="row" justify="between">
+                      <Button
+                        type="submit"
+                        label="Add"
+                        primary
+                        icon={<Add />}
+                      />
+                      <Button
+                        icon={<FormSubtract />}
+                        label="Clear"
+                        onClick={() =>
+                          this.setState({
+                            selectedCourse: "",
+                            selectedTeacher: "",
+                            startDate: undefined,
+                            startTime: "",
+                            // endTime: "",
+                            // endTimeError: false,
+                            startTimeError: false,
+                            courseError: false,
+                            teacherError: false,
+                            moneyError: false,
+                            moneySelect: "",
+                          })
+                        }
+                      />
+                    </Box>
                   </Box>
                 </Box>
               )}

@@ -74,7 +74,6 @@ const Admin = props => {
             eventTimer={eventTimer}
             setMessage={setMessage}
           />
-          {console.log(props)}
         </Header>
         <div>
           <ViewSession

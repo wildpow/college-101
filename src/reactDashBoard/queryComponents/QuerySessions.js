@@ -11,7 +11,14 @@ export const ALL_SESSIONS = gql`
       endTime
       maxSizeOfClass
       enrolled
+      timeAndPrice {
+        id
 
+        name
+        time
+        price
+        maxStudents
+      }
       attendance {
         status
         id
