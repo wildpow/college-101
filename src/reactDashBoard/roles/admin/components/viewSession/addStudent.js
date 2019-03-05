@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import { Button, Layer, Heading, Box, Text, Select } from "grommet";
-import { FormClose, StatusGood } from "grommet-icons";
+import { Button, Layer, Heading, Box, Select } from "grommet";
+import { FormClose } from "grommet-icons";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 
@@ -41,13 +41,11 @@ const AddStudent = props => {
   };
   return (
     <Box>
-      {console.log(startTimeCheck, endTimeTimeCheck)}
       {startTimeCheck && endTimeTimeCheck && (
         <Button onClick={() => setOpen(true)} label="Add Student" disabled />
       )}
       {startTimeCheck && !endTimeTimeCheck && (
         <>
-          {console.log("true false")}
           <Button onClick={() => setOpen(true)} label="Add Student" />
         </>
       )}
@@ -106,7 +104,6 @@ const AddStudent = props => {
                 as="form"
                 onSubmit={event => {
                   event.preventDefault();
-                  console.log("heloo");
                   const fomatStudents = [];
                   selectStudent.map((item, index) => {
                     const itemObj = { id: studentIds[index] };
