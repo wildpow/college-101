@@ -6,6 +6,7 @@ import CreateSession from "./components/createSession/createSession";
 import QueryTeacherCourse from "../../queryComponents/QueryTeacherCourse";
 import ViewSession from "./components/viewSession/viewSession";
 import Messages from "./messages";
+import PrivateTutoring from "./components/CreatePrivateTutoring";
 
 const Header = styled.div`
   display: flex;
@@ -69,11 +70,14 @@ const Admin = props => {
               </BottomBorder>
             </DropButton>
           </Heading>
-          <QueryTeacherCourse
-            component={CreateSession}
-            eventTimer={eventTimer}
-            setMessage={setMessage}
-          />
+          <Box direction="row" gap="small" fill justify="end">
+            <PrivateTutoring />
+            <QueryTeacherCourse
+              component={CreateSession}
+              eventTimer={eventTimer}
+              setMessage={setMessage}
+            />
+          </Box>
         </Header>
         <div>
           <ViewSession

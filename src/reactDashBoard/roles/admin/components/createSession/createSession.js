@@ -3,25 +3,16 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import {
-  Box,
-  Button,
-  Layer,
-  Heading,
-  // RangeInput,
-  // FormField,
-  Text,
-} from "grommet";
-import { Add, FormClose, FormSubtract } from "grommet-icons";
+import { Box, Button, Layer, Text } from "grommet";
+import { Add, FormSubtract } from "grommet-icons";
 // import EndTime from "./endTime";
 import SelectCourse from "./selectCourse";
 import SelectTeacher from "./selectTeacher";
 import StartDate from "./startDate";
 import StartTimePicker from "./startTimePicker";
-import { TitleWrapper } from "../../sharedStyles/slideLayer";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 import SelectNonAP from "./selectNonAP";
-// import ExtraInfo from "./extraInfo";
+import LayerHeader from "../../layerHeader";
 
 const HoverContainer = styled(Box)`
   div div button div div svg {
@@ -38,16 +29,6 @@ const HoverContainer = styled(Box)`
     }
   }
 `;
-// const HoverBorder = styled(Box)`
-//   transition: all 250ms ease-in-out;
-//   div {
-//     :nth-of-type(2) {
-//       :hover {
-//         border-bottom: 1px solid #6aac5c !important;
-//       }
-//     }
-//   }
-// `;
 
 const ADD_SESSION = gql`
   mutation(
@@ -315,7 +296,8 @@ class CreateSession extends React.Component {
     } = this.state;
     const { eventTimer, setMessage } = this.props;
     return (
-      <Box fill align="end" justify="end">
+      <Box>
+        {/* align="end" justify="end" fill */}
         <Button
           icon={<Add />}
           label="Sm. Group NonAP"
@@ -330,27 +312,7 @@ class CreateSession extends React.Component {
             onClickOutside={this.onClose}
             onEsc={this.onClose}
           >
-            <TitleWrapper
-              background="#61a785"
-              flex={false}
-              direction="row"
-              justify="between"
-              elevation="xlarge"
-              pad={{
-                left: "medium",
-                right: "medium",
-                top: "xsmall",
-                bottom: "xsmall",
-              }}
-            >
-              <Heading level={2} margin="none" color="floralwhite">
-                Add Session
-              </Heading>
-              <Button
-                icon={<FormClose color="floralwhite" size="large" />}
-                onClick={this.onClose}
-              />
-            </TitleWrapper>
+            <LayerHeader headingText="Add Session" modelFunc={this.onClose} />
             <Mutation
               mutation={ADD_SESSION}
               refetchQueries={() => {
@@ -427,13 +389,7 @@ class CreateSession extends React.Component {
                     return null;
                   }}
                 >
-                  <Box
-                    fill
-                    overflow="scroll"
-                    // pad={{ vertical: "xsmall" }}
-                    // gap="xsmall"
-                    justify="between"
-                  >
+                  <Box fill overflow="scroll" justify="between">
                     <Box>
                       <HoverContainer>
                         <SelectNonAP
@@ -467,7 +423,7 @@ class CreateSession extends React.Component {
                         startTimeError={startTimeError}
                         startTimeMessage={startTimeMessage}
                       />
-                      {/* <HoverBorder> */}
+
                       <StartDate
                         startDateOpen={startDateOpen}
                         startOnOpen={this.startOnOpen}
@@ -475,10 +431,7 @@ class CreateSession extends React.Component {
                         startDate={startDate}
                         startDateSelect={this.startDateSelect}
                       />
-                      {/* </HoverBorder> */}
-                      {/* <HoverBorder> */}
 
-                      {/* </HoverBorder> */}
                       <Box direction="column" gap="small">
                         {moneySelect && (
                           <Text size="large">{`Default Max number of students: ${maxSizeOfClass}`}</Text>

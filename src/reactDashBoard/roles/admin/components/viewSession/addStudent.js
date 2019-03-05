@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
+import PropTypes from "prop-types";
 import { Button, Layer, Heading, Box, Select } from "grommet";
-import { FormClose } from "grommet-icons";
-import { TitleWrapper } from "../../sharedStyles/slideLayer";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
+import LayerHeader from "../../layerHeader";
 
 const ADD_STUDENT = gql`
   mutation($students: [StudentWhereUniqueInput!], $sessionId: ID) {
@@ -64,27 +64,7 @@ const AddStudent = props => {
           onClickOutside={() => setOpen(false)}
           onEsc={() => setOpen(false)}
         >
-          <TitleWrapper
-            background="#61a785"
-            flex={false}
-            direction="row"
-            justify="between"
-            elevation="xlarge"
-            pad={{
-              left: "medium",
-              right: "medium",
-              top: "xsmall",
-              bottom: "xsmall",
-            }}
-          >
-            <Heading level={2} margin="none" color="floralwhite">
-              Add Student
-            </Heading>
-            <Button
-              icon={<FormClose color="floralwhite" size="large" />}
-              onClick={() => setOpen(false)}
-            />
-          </TitleWrapper>
+          <LayerHeader headingText="Add Student" modelFunc={setOpen} />
           <Mutation
             mutation={ADD_STUDENT}
             refetchQueries={() => {
@@ -137,10 +117,8 @@ const AddStudent = props => {
                       placeholder="Select One or Multiple Students"
                       value={selectStudent}
                       onChange={({ value: nextValue }) => setStudent(nextValue)}
-                      // onChange={event => setStudent(event.value)}
                       options={studentList}
                       onSearch={searchText => onSearch(searchText)}
-                      // multiple
                     />
                     <Button label="Add Student" type="submit" />
                   </Box>
@@ -154,4 +132,10 @@ const AddStudent = props => {
   );
 };
 
+AddStudent.propTypes = {
+  eventTimer: PropTypes.func.isRequired,
+  setMessage: PropTypes.func.isRequired,
+  // startTimeCheck:
+  // endTimeTimeCheck:
+};
 export default AddStudent;
