@@ -1,6 +1,6 @@
 import React from "react";
 import TeacherCal from "./components/teacherCal";
-
+import ViewSessionTeacher from "./viewSessionTeacher/viewSessionTeacher";
 const Employee = props => {
   const { data } = props;
   if (data.teacher === null)
@@ -13,6 +13,7 @@ const Employee = props => {
         sessions={data.teacher.sessions}
         teacher={data.teacher.userName}
       />
+      <ViewSessionTeacher />
       <h1>{`Welcome ${data.teacher.firstName} ${data.teacher.lastName}`}</h1>
     </>
   );
