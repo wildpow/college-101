@@ -10,6 +10,7 @@ import SelectTeacher from "../sharedComponents/selectTeacher";
 import StartDate from "../sharedComponents/startDate";
 import StartTimePicker from "../sharedComponents/startTimePicker";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
+import convertDateTime from "../../sharedFunctions/convertDateTime";
 
 const ADD_PRIVATE_TUT = gql`
   mutation(
@@ -38,7 +39,7 @@ const ADD_PRIVATE_TUT = gql`
 class PrivateTutoring extends React.Component {
   constructor(...args) {
     super(...args);
-    const { courses, teachers } = this.props;
+    const { courses, teachers, privateTutorings } = this.props;
     this.state = {
       layer: false,
       typeSelect: "",
@@ -58,6 +59,9 @@ class PrivateTutoring extends React.Component {
       startTime: "",
       startTimeError: false,
       startTimeMessage: "Please enter start time",
+      maxSizeOfClass: 0,
+      privateIndex: null,
+      typeList: privateTutorings.map(i => i.name),
     };
   }
 
@@ -77,12 +81,23 @@ class PrivateTutoring extends React.Component {
         startDate: new Date().toISOString(),
         startTimeError: false,
         startTime: "",
+        privateIndex: null,
+        maxSizeOfClass: 0,
       });
     }
   };
 
   setSessionType = event => {
-    this.setState({ typeSelect: event.value, sessionTypeError: false });
+    const { privateTutorings } = this.props;
+    const { typeList } = this.state;
+    const privateIndex = typeList.indexOf(event.value);
+
+    this.setState({
+      typeSelect: event.value,
+      sessionTypeError: false,
+      privateIndex,
+      maxSizeOfClass: privateTutorings[privateIndex].maxSizeOfClass,
+    });
   };
 
   courseSelectChange = event => {
@@ -143,6 +158,22 @@ class PrivateTutoring extends React.Component {
     return null;
   };
 
+  clearButton = () => {
+    this.setState({
+      selectedCourse: "",
+      selectedTeacher: "",
+      startDate: new Date().toISOString(),
+      startTime: "",
+      startTimeError: false,
+      courseError: false,
+      teacherError: false,
+      sessionTypeError: false,
+      typeSelect: "",
+      privateIndex: null,
+      maxSizeOfClass: 0,
+    });
+  };
+
   render() {
     const {
       typeSelect,
@@ -159,11 +190,13 @@ class PrivateTutoring extends React.Component {
       startTimeError,
       startTime,
       startTimeMessage,
+      typeList,
+      privateIndex,
     } = this.state;
     const { privateTutorings } = this.props;
     return (
       <Box>
-        {console.log(this.props)}
+        {console.log(this.state)}
         <Button
           icon={<Add />}
           label="Private Tutoring"
@@ -212,6 +245,17 @@ class PrivateTutoring extends React.Component {
                       this.errorCheck(selectedTeacher, "teacherError");
                       this.errorCheck(typeSelect, "sessionTypeError");
                       this.errorCheck(startTime, "startTimeError");
+                    } else {
+                      // date, time, (index = 0), (add = null);
+                      const finalStart = convertDateTime(startDate, startTime);
+                      const finalEnd = convertDateTime(
+                        startDate,
+                        startTime,
+                        privateIndex,
+                        privateTutorings,
+                      );
+                      console.log(finalStart);
+                      console.log(finalEnd);
                     }
                   }}
                 >
@@ -222,6 +266,7 @@ class PrivateTutoring extends React.Component {
                         privateTutorings={privateTutorings}
                         setSessionType={this.setSessionType}
                         sessionTypeError={sessionTypeError}
+                        typeList={typeList}
                       />
                       <SelectCourse
                         selectedCourse={selectedCourse}
@@ -264,19 +309,7 @@ class PrivateTutoring extends React.Component {
                       <Button
                         icon={<FormSubtract />}
                         label="CLEAR"
-                        onClick={() =>
-                          this.setState({
-                            selectedCourse: "",
-                            selectedTeacher: "",
-                            startDate: new Date().toISOString(),
-                            startTime: "",
-                            startTimeError: false,
-                            courseError: false,
-                            teacherError: false,
-                            sessionTypeError: false,
-                            typeSelect: "",
-                          })
-                        }
+                        onClick={this.clearButton}
                       />
                     </Box>
                   </Box>

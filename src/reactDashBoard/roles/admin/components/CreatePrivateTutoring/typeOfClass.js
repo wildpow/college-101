@@ -4,13 +4,7 @@ import { FormField, Select } from "grommet";
 import { ErrorText, HoverContainer } from "../../sharedStyles/sharedStyles";
 
 const TypeOfClass = props => {
-  const {
-    typeSelect,
-    privateTutorings,
-    setSessionType,
-    sessionTypeError,
-  } = props;
-  const typeList = privateTutorings.map(i => i.name);
+  const { typeSelect, setSessionType, sessionTypeError, typeList } = props;
 
   return (
     <HoverContainer>
@@ -36,12 +30,12 @@ const TypeOfClass = props => {
 TypeOfClass.defaultProps = {
   typeSelect: "",
   sessionTypeError: false,
-  privateTutorings: [{ name: "option1" }, { name: "option2" }],
+  typeList: ["option1", "option2"],
 };
 TypeOfClass.propTypes = {
   typeSelect: PropTypes.string,
   setSessionType: PropTypes.func.isRequired,
   sessionTypeError: PropTypes.bool,
-  privateTutorings: PropTypes.instanceOf(Object),
+  typeList: PropTypes.instanceOf(Object),
 };
 export default TypeOfClass;
