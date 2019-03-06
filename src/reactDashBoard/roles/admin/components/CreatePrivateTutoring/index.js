@@ -1,7 +1,7 @@
 import React from "react";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import { Button, Layer, Box } from "grommet";
+import { Button, Layer, Box, Text } from "grommet";
 import { Add, FormSubtract } from "grommet-icons";
 import LayerHeader from "../../layerHeader";
 import TypeOfClass from "./typeOfClass";
@@ -174,6 +174,11 @@ class PrivateTutoring extends React.Component {
     });
   };
 
+  convertEndTimeToString = (date, time, index, arr) => {
+    const endDateTime = convertDateTime(date, time, index, arr);
+    return endDateTime.toLocaleTimeString();
+  };
+
   render() {
     const {
       typeSelect,
@@ -294,6 +299,19 @@ class PrivateTutoring extends React.Component {
                         startTimeMessage={startTimeMessage}
                         onChangeStartTime={this.onChangeStartTime}
                       />
+                      <Box direction="column" gap="small">
+                        {startTime && typeSelect && (
+                          <Text size="large">
+                            {`
+                            Session end time: ${this.convertEndTimeToString(
+                              startDate,
+                              startTime,
+                              privateIndex,
+                              privateTutorings,
+                            )}`}
+                          </Text>
+                        )}
+                      </Box>
                     </Box>
                     <Box
                       direction="row"
