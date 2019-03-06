@@ -1,11 +1,9 @@
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { Box, Button, Layer, Text } from "grommet";
 import { Add, FormSubtract } from "grommet-icons";
-// import EndTime from "./endTime";
 import SelectCourse from "./selectCourse";
 import SelectTeacher from "./selectTeacher";
 import StartDate from "./startDate";
@@ -13,22 +11,6 @@ import StartTimePicker from "./startTimePicker";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 import SelectNonAP from "./selectNonAP";
 import LayerHeader from "../../layerHeader";
-
-const HoverContainer = styled(Box)`
-  div div button div div svg {
-    transition: all 250ms ease-in-out;
-    :hover {
-      stroke: black;
-    }
-  }
-  div div button {
-    transition: all 250ms ease-in-out;
-    border: 1px solid transparent;
-    :hover {
-      border: 1px solid #6aac5c;
-    }
-  }
-`;
 
 const ADD_SESSION = gql`
   mutation(
@@ -230,7 +212,6 @@ class CreateSession extends React.Component {
   };
 
   convertDateTime = (date, time, add = null) => {
-    console.log("date", date, "time", time);
     const { money, moneySelectIndex } = this.state;
     const finalStart = new Date(date);
     let hour = 0;
@@ -298,7 +279,6 @@ class CreateSession extends React.Component {
     const { eventTimer, setMessage } = this.props;
     return (
       <Box>
-        {/* {console.log(this.state)} */}
         <Button
           icon={<Add />}
           label="Sm. Group NonAP"
@@ -392,32 +372,27 @@ class CreateSession extends React.Component {
                 >
                   <Box fill overflow="scroll" justify="between">
                     <Box>
-                      <HoverContainer>
-                        <SelectNonAP
-                          moneySelect={moneySelect}
-                          moneyOptions={moneyOptions}
-                          moneyError={moneyError}
-                          onMoneyChange={this.onMoneyChange}
-                        />
-                      </HoverContainer>
-                      <HoverContainer>
-                        <SelectCourse
-                          selectedCourse={selectedCourse}
-                          courseSelectChange={this.courseSelectChange}
-                          onSearchCourses={this.onSearchCourses}
-                          courseOptions={courseOptions}
-                          courseError={courseError}
-                        />
-                      </HoverContainer>
-                      <HoverContainer>
-                        <SelectTeacher
-                          selectedTeacher={selectedTeacher}
-                          teacherSelectChange={this.teacherSelectChange}
-                          onSearchTeachers={this.onSearchTeachers}
-                          teacherOptions={teacherOptions}
-                          teacherError={teacherError}
-                        />
-                      </HoverContainer>
+                      <SelectNonAP
+                        moneySelect={moneySelect}
+                        moneyOptions={moneyOptions}
+                        moneyError={moneyError}
+                        onMoneyChange={this.onMoneyChange}
+                      />
+                      <SelectCourse
+                        selectedCourse={selectedCourse}
+                        courseSelectChange={this.courseSelectChange}
+                        onSearchCourses={this.onSearchCourses}
+                        courseOptions={courseOptions}
+                        courseError={courseError}
+                      />
+
+                      <SelectTeacher
+                        selectedTeacher={selectedTeacher}
+                        teacherSelectChange={this.teacherSelectChange}
+                        onSearchTeachers={this.onSearchTeachers}
+                        teacherOptions={teacherOptions}
+                        teacherError={teacherError}
+                      />
                       <StartTimePicker
                         startTime={startTime}
                         onChangeStartTime={this.onChangeStartTime}

@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FormField, DropButton, Calendar, Box, Text } from "grommet";
 import { FormDown } from "grommet-icons";
-import StartTimePicker from "./startTimePicker";
 
 const StartDate = props => {
   const today = new Date();
@@ -12,11 +11,6 @@ const StartDate = props => {
   const todayString = `${today.getFullYear()}-${month}-${day}`;
   const futureString = `${today.getFullYear() + 1}-${month}-${day}`;
   const bounds = [todayString, futureString];
-
-  // const day = `${today.getDate()}`;
-  // const month = `${today.getMonth()}`;
-  // const todayString = `${today.getFullYear()}-${month + 1}-${day}`;
-  // const futureString = `${today.getFullYear() + 1}-${month + 1}-${day}`;
 
   const { startDateOpen, startDateToggle, startDate, startDateSelect } = props;
   const Cal = (

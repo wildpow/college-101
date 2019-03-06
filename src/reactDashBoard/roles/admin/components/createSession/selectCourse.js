@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormField, Select } from "grommet";
-import ErrorText from "./sharedStyles";
+import { ErrorText, HoverContainer } from "../../sharedStyles/sharedStyles";
 
 const SelectCourse = props => {
   const {
@@ -12,24 +12,26 @@ const SelectCourse = props => {
     courseError,
   } = props;
   return (
-    <FormField label="Course">
-      <Select
-        searchPlaceholder="Search Courses"
-        placeholder="Select a Course"
-        value={selectedCourse}
-        onSearch={searchText => onSearchCourses(searchText)}
-        onChange={event => courseSelectChange(event)}
-        options={courseOptions}
-      />
-      <ErrorText
-        alignSelf="center"
-        margin="xsmall"
-        size="medium"
-        color="status-critical"
-      >
-        {courseError && `Please select a Course`}
-      </ErrorText>
-    </FormField>
+    <HoverContainer>
+      <FormField label="Course">
+        <Select
+          searchPlaceholder="Search Courses"
+          placeholder="Select a Course"
+          value={selectedCourse}
+          onSearch={searchText => onSearchCourses(searchText)}
+          onChange={event => courseSelectChange(event)}
+          options={courseOptions}
+        />
+        <ErrorText
+          alignSelf="center"
+          margin="xsmall"
+          size="medium"
+          color="status-critical"
+        >
+          {courseError && `Please select a Course`}
+        </ErrorText>
+      </FormField>
+    </HoverContainer>
   );
 };
 
