@@ -123,8 +123,6 @@ class CreateSession extends React.Component {
 
   startDateToggle = bool => this.setState({ startDateOpen: bool });
 
-  // startOnClose = () => this.setState({ startDateOpen: false });
-
   onChangeStartTime = event => {
     this.setState({
       startTime: event.target.value,
