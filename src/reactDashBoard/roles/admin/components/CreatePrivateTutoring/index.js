@@ -10,6 +10,30 @@ import SelectTeacher from "../createSession/selectTeacher";
 import StartDate from "../createSession/startDate";
 import StartTimePicker from "../createSession/startTimePicker";
 
+const ADD_PRIVATE_TUT = gql`
+  mutation(
+    $startTime: DateTime!
+    $endTime: DateTime!
+    $maxSizeOfClass: Int!
+    $courseId: ID
+    $teacherId: ID
+    $private: String
+  ) {
+    createSession(
+      data: {
+        startTime: $startTime
+        endTime: $endTime
+        maxSizeOfClass: $maxSizeOfClass
+        status: PUBLISHED
+        teacher: { connect: { id: $teacherId } }
+        course: { connect: { id: $courseId } }
+        privateTutoring: { connect: { name: $private } }
+      }
+    ) {
+      id
+    }
+  }
+`;
 class PrivateTutoring extends React.Component {
   constructor(...args) {
     super(...args);
@@ -152,6 +176,9 @@ class PrivateTutoring extends React.Component {
               width="medium"
               pad="medium"
               as="form"
+              onSubmit={event => {
+                event.preventDefault();
+              }}
             >
               <Box fill overflow="scroll" justify="between">
                 <Box>
