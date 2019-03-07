@@ -108,6 +108,7 @@ class PrivateTutoring extends React.Component {
         privateIndex: null,
         maxSizeOfClass: 0,
         courseBool: true,
+        extraTime: false,
       });
     }
   };

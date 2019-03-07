@@ -354,20 +354,20 @@ class CreateSession extends React.Component {
                         const courseId =
                           courseIDs[courseNamesCopy.indexOf(selectedCourse)];
 
-                        // createSession({
-                        //   variables: {
-                        //     startTime: finalStart,
-                        //     endTime: finalEnd,
-                        //     teacherId,
-                        //     courseId,
-                        //     maxSizeOfClass,
-                        //     timeAndPrice: moneySelect,
-                        //   },
-                        // });
-                        // this.onClose();
-                        // eventTimer(true);
-                        // setMessage("A new session was added");
-                        // return null;
+                        createSession({
+                          variables: {
+                            startTime: finalStart,
+                            endTime: finalEnd,
+                            teacherId,
+                            courseId,
+                            maxSizeOfClass,
+                            timeAndPrice: moneySelect,
+                          },
+                        });
+                        this.onClose();
+                        eventTimer(true);
+                        setMessage("A new session was added");
+                        return null;
                       }
                     }
 
