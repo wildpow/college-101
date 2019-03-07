@@ -75,9 +75,7 @@ const SingleSession = props => {
             background={background}
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
-            {session.timeAndPrice === null ? (
-              <Text truncate>No group</Text>
-            ) : (
+            {session.timeAndPrice && (
               <Text truncate>{session.timeAndPrice.name}</Text>
             )}
           </ExtraPad>

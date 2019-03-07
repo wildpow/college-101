@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Box, Button, Heading, Form, FormField, TextInput } from "grommet";
 import { PaymentContext } from "./setup/context";
-import ErrorText from "../createSession/sharedStyles";
+import { ErrorText } from "../../sharedStyles/sharedStyles";
 
 const BottomBoardHover = styled(Box)`
   div :nth-child(2) {

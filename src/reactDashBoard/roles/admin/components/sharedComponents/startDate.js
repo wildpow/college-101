@@ -5,7 +5,6 @@ import { FormDown } from "grommet-icons";
 
 const StartDate = props => {
   const today = new Date();
-
   const day =
     today.getDate() >= 9 ? `0${today.getDate()}` : `${today.getDate()}`;
   const month = `${today.getMonth() + 1}`;
@@ -13,18 +12,7 @@ const StartDate = props => {
   const futureString = `${today.getFullYear() + 1}-${month}-${day}`;
   const bounds = [todayString, futureString];
 
-  // const day = `${today.getDate()}`;
-  // const month = `${today.getMonth()}`;
-  // const todayString = `${today.getFullYear()}-${month + 1}-${day}`;
-  // const futureString = `${today.getFullYear() + 1}-${month + 1}-${day}`;
-
-  const {
-    startDateOpen,
-    startOnOpen,
-    startOnClose,
-    startDate,
-    startDateSelect,
-  } = props;
+  const { startDateOpen, startDateToggle, startDate, startDateSelect } = props;
   const Cal = (
     <Calendar
       date={startDate}
@@ -37,17 +25,12 @@ const StartDate = props => {
     <FormField label="Date">
       <DropButton
         open={startDateOpen}
-        onClose={startOnClose}
-        onOpen={startOnOpen}
+        onClose={() => startDateToggle(false)}
+        onOpen={() => startDateToggle(true)}
         dropContent={Cal}
         dropAlign={{ left: "left" }}
       >
-        <Box
-          direction="row"
-          // gap="medium"
-          align="center"
-          pad="small"
-        >
+        <Box direction="row" align="center" pad="small">
           <Text>
             {startDate
               ? new Date(startDate).toLocaleDateString()
@@ -59,13 +42,14 @@ const StartDate = props => {
     </FormField>
   );
 };
-
+StartDate.defaultProps = {
+  startDate: new Date().toISOString(),
+};
 StartDate.propTypes = {
   startDateSelect: PropTypes.func.isRequired,
   startDateOpen: PropTypes.bool.isRequired,
-  startDate: PropTypes.string.isRequired,
-  startOnOpen: PropTypes.func.isRequired,
-  startOnClose: PropTypes.func.isRequired,
+  startDate: PropTypes.string,
+  startDateToggle: PropTypes.func.isRequired,
 };
 
 export default StartDate;

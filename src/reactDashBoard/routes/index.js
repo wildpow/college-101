@@ -7,7 +7,8 @@ import Admin from "../roles/admin";
 import Customer from "../roles/customer";
 import QueryUserNames from "../queryComponents/QueryUserNames";
 import QueryTeacher from "../queryComponents/QueryTeacher";
-import QuerySessions from "../queryComponents/QuerySessions";
+// import QuerySessions from "../queryComponents/QuerySessions";
+import QueryAdminViewAll from "../queryComponents/QueryAdminViewAll";
 
 const Container = styled.div`
   margin-top: 10px;
@@ -26,7 +27,7 @@ const Main = () => {
   if (user.app_metadata.roles[0] === "admin") {
     return (
       <Container>
-        <QuerySessions component={Admin} userName={user.email} />
+        <QueryAdminViewAll component={Admin} userName={user.email} />
       </Container>
     );
   }

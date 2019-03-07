@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { MaskedInput, FormField } from "grommet";
-import ErrorText from "./sharedStyles";
+import { ErrorText } from "../../sharedStyles/sharedStyles";
 
 const StartTimePicker = props => {
   const {
@@ -60,6 +61,19 @@ const StartTimePicker = props => {
       </ErrorText>
     </FormField>
   );
+};
+
+StartTimePicker.defaultProps = {
+  startTimeError: false,
+  startTimeMessage: "Default Error",
+  startTime: new Date().toISOString(),
+};
+
+StartTimePicker.propTypes = {
+  onChangeStartTime: PropTypes.func.isRequired,
+  startTimeError: PropTypes.bool,
+  startTimeMessage: PropTypes.string,
+  startTime: PropTypes.string,
 };
 
 export default StartTimePicker;

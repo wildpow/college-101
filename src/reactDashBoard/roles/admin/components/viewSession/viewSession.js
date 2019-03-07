@@ -30,7 +30,7 @@ const COLUMNS = [
     size: "xsmall",
   },
   {
-    property: "Group",
+    property: "timeAndPrice",
     label: "Group",
     size: "small",
   },
@@ -152,6 +152,7 @@ class ViewSessionTest extends React.Component {
   };
 
   onSort = property => {
+    console.log(property);
     const { sortProperty, sortDirection, sessions } = this.state;
     let nextSortDirection;
     if (sortProperty === property) {
@@ -166,6 +167,18 @@ class ViewSessionTest extends React.Component {
           ? new Date(d1[property]) - new Date(d2[property])
           : new Date(d2[property]) - new Date(d1[property]);
       }
+      if (property === "timeAndPrice") {
+        const v1 = d1.timeAndPrice.name.toUpperCase();
+        const v2 = d2.timeAndPrice.name.toUpperCase();
+        if (v1 < v2) {
+          return nextSortDirection === "asc" ? -1 : 1;
+        }
+        if (v1 > v2) {
+          return nextSortDirection === "asc" ? 1 : -1;
+        }
+        return 0;
+      }
+
       if (property === "name") {
         const v1 = d1.course.name.toUpperCase();
         const v2 = d2.course.name.toUpperCase();

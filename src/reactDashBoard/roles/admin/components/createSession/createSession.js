@@ -1,53 +1,17 @@
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import {
-  Box,
-  Button,
-  Layer,
-  Heading,
-  // RangeInput,
-  // FormField,
-  Text,
-} from "grommet";
-import { Add, FormClose, FormSubtract } from "grommet-icons";
-// import EndTime from "./endTime";
-import SelectCourse from "./selectCourse";
-import SelectTeacher from "./selectTeacher";
-import StartDate from "./startDate";
-import StartTimePicker from "./startTimePicker";
-import { TitleWrapper } from "../../sharedStyles/slideLayer";
-import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
+import { Box, Button, Layer, Text } from "grommet";
+import { Add, FormSubtract } from "grommet-icons";
+import SelectCourse from "../sharedComponents/selectCourse";
+import SelectTeacher from "../sharedComponents/selectTeacher";
+import StartDate from "../sharedComponents/startDate";
+import StartTimePicker from "../sharedComponents/startTimePicker";
+// import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 import SelectNonAP from "./selectNonAP";
-// import ExtraInfo from "./extraInfo";
-
-const HoverContainer = styled(Box)`
-  div div button div div svg {
-    transition: all 250ms ease-in-out;
-    :hover {
-      stroke: black;
-    }
-  }
-  div div button {
-    transition: all 250ms ease-in-out;
-    border: 1px solid transparent;
-    :hover {
-      border: 1px solid #6aac5c;
-    }
-  }
-`;
-// const HoverBorder = styled(Box)`
-//   transition: all 250ms ease-in-out;
-//   div {
-//     :nth-of-type(2) {
-//       :hover {
-//         border-bottom: 1px solid #6aac5c !important;
-//       }
-//     }
-//   }
-// `;
+import LayerHeader from "../../layerHeader";
+import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
 
 const ADD_SESSION = gql`
   mutation(
@@ -81,8 +45,8 @@ class CreateSession extends React.Component {
     setMessage: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
+  constructor(...args) {
+    super(...args);
     this.state = {
       layerOpen: false,
       selectedTeacher: "",
@@ -112,27 +76,31 @@ class CreateSession extends React.Component {
   }
 
   componentDidMount() {
-    const { data } = this.props;
+    const { courses, teachers, timeAndPrices } = this.props;
     const teachersNames = [];
     const courseNames = [];
     const teacherIDs = [];
     const courseIDs = [];
     const moneyOptions = [];
     const money = [];
-    data.timeAndPrices.map(t => {
-      moneyOptions.push(t.name);
-      money.push(t);
+    timeAndPrices.map(t => {
+      if (t.groupVsPrivate === "Group") {
+        moneyOptions.push(t.name);
+        money.push(t);
+      }
       return null;
     });
     const date = new Date();
-    data.teachers.map(teacher => {
+    teachers.map(teacher => {
       teachersNames.push(`${teacher.firstName} ${teacher.lastName}`);
       teacherIDs.push(teacher.id);
       return null;
     });
-    data.courses.map(course => {
-      courseNames.push(course.name);
-      courseIDs.push(course.id);
+    courses.map(course => {
+      if (course.apNonAp === "Reg") {
+        courseNames.push(course.name);
+        courseIDs.push(course.id);
+      }
       return null;
     });
     this.setState({
@@ -158,9 +126,7 @@ class CreateSession extends React.Component {
     return null;
   };
 
-  startOnOpen = () => this.setState({ startDateOpen: true });
-
-  startOnClose = () => this.setState({ startDateOpen: false });
+  startDateToggle = bool => this.setState({ startDateOpen: bool });
 
   onChangeStartTime = event => {
     this.setState({
@@ -315,7 +281,7 @@ class CreateSession extends React.Component {
     } = this.state;
     const { eventTimer, setMessage } = this.props;
     return (
-      <Box fill align="end" justify="end">
+      <Box>
         <Button
           icon={<Add />}
           label="Sm. Group NonAP"
@@ -330,33 +296,13 @@ class CreateSession extends React.Component {
             onClickOutside={this.onClose}
             onEsc={this.onClose}
           >
-            <TitleWrapper
-              background="#61a785"
-              flex={false}
-              direction="row"
-              justify="between"
-              elevation="xlarge"
-              pad={{
-                left: "medium",
-                right: "medium",
-                top: "xsmall",
-                bottom: "xsmall",
-              }}
-            >
-              <Heading level={2} margin="none" color="floralwhite">
-                Add Session
-              </Heading>
-              <Button
-                icon={<FormClose color="floralwhite" size="large" />}
-                onClick={this.onClose}
-              />
-            </TitleWrapper>
+            <LayerHeader headingText="Add Session" modelFunc={this.onClose} />
             <Mutation
               mutation={ADD_SESSION}
               refetchQueries={() => {
                 return [
                   {
-                    query: ALL_SESSIONS,
+                    query: ALL_FOR_ADMIN,
                   },
                 ];
               }}
@@ -407,6 +353,7 @@ class CreateSession extends React.Component {
                           ];
                         const courseId =
                           courseIDs[courseNamesCopy.indexOf(selectedCourse)];
+
                         createSession({
                           variables: {
                             startTime: finalStart,
@@ -427,58 +374,43 @@ class CreateSession extends React.Component {
                     return null;
                   }}
                 >
-                  <Box
-                    fill
-                    overflow="scroll"
-                    // pad={{ vertical: "xsmall" }}
-                    // gap="xsmall"
-                    justify="between"
-                  >
+                  <Box fill overflow="scroll" justify="between">
                     <Box>
-                      <HoverContainer>
-                        <SelectNonAP
-                          moneySelect={moneySelect}
-                          moneyOptions={moneyOptions}
-                          moneyError={moneyError}
-                          onMoneyChange={this.onMoneyChange}
-                        />
-                      </HoverContainer>
-                      <HoverContainer>
-                        <SelectCourse
-                          selectedCourse={selectedCourse}
-                          courseSelectChange={this.courseSelectChange}
-                          onSearchCourses={this.onSearchCourses}
-                          courseOptions={courseOptions}
-                          courseError={courseError}
-                        />
-                      </HoverContainer>
-                      <HoverContainer>
-                        <SelectTeacher
-                          selectedTeacher={selectedTeacher}
-                          teacherSelectChange={this.teacherSelectChange}
-                          onSearchTeachers={this.onSearchTeachers}
-                          teacherOptions={teacherOptions}
-                          teacherError={teacherError}
-                        />
-                      </HoverContainer>
+                      <SelectNonAP
+                        moneySelect={moneySelect}
+                        moneyOptions={moneyOptions}
+                        moneyError={moneyError}
+                        onMoneyChange={this.onMoneyChange}
+                      />
+                      <SelectCourse
+                        selectedCourse={selectedCourse}
+                        courseSelectChange={this.courseSelectChange}
+                        onSearchCourses={this.onSearchCourses}
+                        courseOptions={courseOptions}
+                        courseError={courseError}
+                      />
+
+                      <SelectTeacher
+                        selectedTeacher={selectedTeacher}
+                        teacherSelectChange={this.teacherSelectChange}
+                        onSearchTeachers={this.onSearchTeachers}
+                        teacherOptions={teacherOptions}
+                        teacherError={teacherError}
+                      />
                       <StartTimePicker
                         startTime={startTime}
                         onChangeStartTime={this.onChangeStartTime}
                         startTimeError={startTimeError}
                         startTimeMessage={startTimeMessage}
                       />
-                      {/* <HoverBorder> */}
+
                       <StartDate
                         startDateOpen={startDateOpen}
-                        startOnOpen={this.startOnOpen}
-                        startOnClose={this.startOnClose}
+                        startDateToggle={this.startDateToggle}
                         startDate={startDate}
                         startDateSelect={this.startDateSelect}
                       />
-                      {/* </HoverBorder> */}
-                      {/* <HoverBorder> */}
 
-                      {/* </HoverBorder> */}
                       <Box direction="column" gap="small">
                         {moneySelect && (
                           <Text size="large">{`Default Max number of students: ${maxSizeOfClass}`}</Text>
@@ -490,7 +422,7 @@ class CreateSession extends React.Component {
                             } minutes`}
                           </Text>
                         )}
-                        {startTime && (
+                        {startTime && moneySelect && (
                           <Text size="large">
                             {`
                             Session end time: ${this.convertEndTimeToString(
@@ -502,16 +434,20 @@ class CreateSession extends React.Component {
                         )}
                       </Box>
                     </Box>
-                    <Box direction="row" justify="between">
+                    <Box
+                      direction="row"
+                      justify="between"
+                      pad={{ horizontal: "xsmall", vertical: "xsmall" }}
+                    >
                       <Button
                         type="submit"
-                        label="Add"
+                        label="ADD"
                         primary
                         icon={<Add />}
                       />
                       <Button
                         icon={<FormSubtract />}
-                        label="Clear"
+                        label="CLEAR"
                         onClick={() =>
                           this.setState({
                             selectedCourse: "",
