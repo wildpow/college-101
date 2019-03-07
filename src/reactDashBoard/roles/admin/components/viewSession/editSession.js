@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Button, Layer, Heading, Box } from "grommet";
-import { FormClose } from "grommet-icons";
-import { TitleWrapper } from "../../sharedStyles/slideLayer";
+import { Button, Layer, Box } from "grommet";
+import LayerHeader from "../../layerHeader";
 
 const EditSession = props => {
-  const { startTimeCheck, endTimeTimeCheck } = props;
+  const { startTimeCheck, endTimeTimeCheck, session } = props;
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -29,43 +28,13 @@ const EditSession = props => {
           onClickOutside={() => setOpen(false)}
           onEsc={() => setOpen(false)}
         >
-          <TitleWrapper
-            background="#61a785"
-            flex={false}
-            direction="row"
-            justify="between"
-            elevation="xlarge"
-            pad={{
-              left: "medium",
-              right: "medium",
-              top: "xsmall",
-              bottom: "xsmall",
-            }}
-          >
-            <Heading level={2} margin="none" color="floralwhite">
-              Edit Session
-            </Heading>
-            <Button
-              icon={<FormClose color="floralwhite" size="large" />}
-              onClick={() => setOpen(false)}
-            />
-          </TitleWrapper>
+          <LayerHeader headingText="Edit Session" modelFunc={setOpen} />
           <Box
             fill="vertical"
             overflow="auto"
             width="medium"
             pad="medium"
             as="form"
-            // gap="small"
-            // fill
-            // overflow="scroll"
-            // width="large"
-            // pad={{
-            //   left: "medium",
-            //   right: "medium",
-            //   top: "small",
-            //   bottom: "medium",
-            // }}
           >
             <Box
               fill
@@ -76,7 +45,7 @@ const EditSession = props => {
             >
               Edit Session
               {`props of session passed down from parent gives everything to populate this component. Example:\n ${
-                props.session.id
+                session.id
               }`}
             </Box>
           </Box>

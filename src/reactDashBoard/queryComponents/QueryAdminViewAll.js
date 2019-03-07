@@ -3,8 +3,28 @@ import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 import Spinner from "../Global_components/loading";
 
-export const ALL_SESSIONS = gql`
-  query allSessions {
+export const ALL_FOR_ADMIN = gql`
+  query all_for_admin {
+    teachers(where: { teachersStatus: Active }, orderBy: firstName_ASC) {
+      firstName
+      lastName
+      id
+      userName
+    }
+
+    courses {
+      name
+      id
+      apNonAp
+    }
+    timeAndPrices {
+      id
+      name
+      time
+      price
+      maxStudents
+      groupVsPrivate
+    }
     sessions(orderBy: startTime_ASC) {
       id
       startTime
@@ -13,11 +33,11 @@ export const ALL_SESSIONS = gql`
       enrolled
       timeAndPrice {
         id
+        groupVsPrivate
         name
         time
         price
         maxStudents
-        groupVsPrivate
       }
       attendance {
         status
@@ -48,7 +68,6 @@ export const ALL_SESSIONS = gql`
       course {
         name
         id
-        apNonAp
       }
       teacher {
         firstName
@@ -70,15 +89,16 @@ export const ALL_SESSIONS = gql`
     }
   }
 `;
-const QuerySessions = props => (
-  <Query query={ALL_SESSIONS}>
-    {({ loading, error, data: { sessions } }) => {
+
+const QueryAdminViewAll = props => (
+  <Query query={ALL_FOR_ADMIN}>
+    {({ loading, error, data }) => {
       if (loading) return <Spinner />;
       if (error) return <h1>Error</h1>;
-      if (sessions) return <props.component sessions={sessions} {...props} />;
+      if (data) return <props.component data={data} {...props} />;
       return null;
     }}
   </Query>
 );
 
-export default QuerySessions;
+export default QueryAdminViewAll;

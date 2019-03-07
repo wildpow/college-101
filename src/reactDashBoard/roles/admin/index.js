@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { Box, Calendar, DropButton, Heading } from "grommet";
 import { FormDown } from "grommet-icons";
 import CreateSession from "./components/createSession/createSession";
-import QueryTeacherCourse from "../../queryComponents/QueryTeacherCourse";
+// import QueryTeacherCourse from "../../queryComponents/QueryTeacherCourse";
 import ViewSession from "./components/viewSession/viewSession";
 import Messages from "./messages";
+import PrivateTutoring from "./components/CreatePrivateTutoring";
 
 const Header = styled.div`
   display: flex;
@@ -27,7 +28,7 @@ const BottomBorder = styled(Box)`
 `;
 
 const Admin = props => {
-  const { sessions } = props;
+  const { data } = props;
   const [openCal, setOpenCal] = useState(false);
   const [date, setDate] = useState(new Date().toISOString());
   const [event, setEvent] = useState(false);
@@ -69,15 +70,31 @@ const Admin = props => {
               </BottomBorder>
             </DropButton>
           </Heading>
-          <QueryTeacherCourse
-            component={CreateSession}
-            eventTimer={eventTimer}
-            setMessage={setMessage}
-          />
+          <Box direction="row" gap="small" fill justify="end">
+            <PrivateTutoring
+              teachers={data.teachers}
+              courses={data.courses}
+              timeAndPrices={data.timeAndPrices}
+              eventTimer={eventTimer}
+              setMessage={setMessage}
+            />
+            <CreateSession
+              eventTimer={eventTimer}
+              setMessage={setMessage}
+              teachers={data.teachers}
+              courses={data.courses}
+              timeAndPrices={data.timeAndPrices}
+            />
+            {/* <QueryTeacherCourse
+              component={CreateSession}
+              eventTimer={eventTimer}
+              setMessage={setMessage}
+            /> */}
+          </Box>
         </Header>
         <div>
           <ViewSession
-            sessions={sessions}
+            sessions={data.sessions}
             date={date}
             eventTimer={eventTimer}
             setMessage={setMessage}

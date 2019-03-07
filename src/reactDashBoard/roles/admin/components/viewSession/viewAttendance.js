@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Layer, Heading, Box, Text } from "grommet";
+import { Button, Layer, Heading, Box } from "grommet";
 import { FormClose } from "grommet-icons";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
 
@@ -38,23 +38,7 @@ const ViewAttendance = props => {
               onClick={() => setOpen(false)}
             />
           </TitleWrapper>
-          <Box
-            fill="vertical"
-            overflow="auto"
-            width="medium"
-            pad="medium"
-            as="form"
-            // gap="small"
-            // fill
-            // overflow="scroll"
-            // width="large"
-            // pad={{
-            //   left: "medium",
-            //   right: "medium",
-            //   top: "small",
-            //   bottom: "medium",
-            // }}
-          >
+          <Box fill="vertical" overflow="auto" width="medium" pad="medium">
             <Box
               fill
               justify="start"

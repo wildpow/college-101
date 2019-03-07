@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { MaskedInput, FormField } from "grommet";
-import ErrorText from "./sharedStyles";
+import { ErrorText } from "../src/reactDashBoard/roles/admin/components/sharedStyles";
 
 const EndTime = props => {
   const { endTime, onChangeEndTime, endTimeError } = props;
