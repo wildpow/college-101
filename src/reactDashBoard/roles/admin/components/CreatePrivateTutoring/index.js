@@ -10,8 +10,9 @@ import SelectCourse from "../sharedComponents/selectCourse";
 import SelectTeacher from "../sharedComponents/selectTeacher";
 import StartDate from "../sharedComponents/startDate";
 import StartTimePicker from "../sharedComponents/startTimePicker";
-import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
+// import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 import convertDateTime from "../../sharedFunctions/convertDateTime";
+import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
 
 const ADD_PRIVATE_TUT = gql`
   mutation(
@@ -20,7 +21,7 @@ const ADD_PRIVATE_TUT = gql`
     $maxSizeOfClass: Int!
     $courseId: ID
     $teacherId: ID
-    $private: String
+    $timeAndPrice: String
   ) {
     createSession(
       data: {
@@ -30,7 +31,7 @@ const ADD_PRIVATE_TUT = gql`
         status: PUBLISHED
         teacher: { connect: { id: $teacherId } }
         course: { connect: { id: $courseId } }
-        privateTutoring: { connect: { name: $private } }
+        timeAndPrice: { connect: { name: $timeAndPrice } }
       }
     ) {
       id
@@ -45,7 +46,7 @@ class PrivateTutoring extends React.Component {
 
   constructor(...args) {
     super(...args);
-    const { teachers, privateTutorings } = this.props;
+    const { teachers } = this.props;
     this.state = {
       layer: false,
       typeSelect: "",
@@ -67,10 +68,25 @@ class PrivateTutoring extends React.Component {
       startTimeMessage: "Please enter start time",
       maxSizeOfClass: 0,
       privateIndex: null,
-      typeList: privateTutorings.map(i => i.name),
+      typeList: [],
+      typeListObj: [],
       extraTime: false,
       courseBool: true,
     };
+  }
+
+  componentDidMount() {
+    const { timeAndPrices } = this.props;
+    const typeList = [];
+    const typeListObj = [];
+    timeAndPrices.map(p => {
+      if (p.groupVsPrivate === "Private") {
+        typeList.push(p.name);
+        typeListObj.push(p);
+      }
+      return null;
+    });
+    this.setState({ typeList, typeListObj });
   }
 
   layerToggle = changeAction => {
@@ -97,21 +113,21 @@ class PrivateTutoring extends React.Component {
   };
 
   setSessionType = event => {
-    const { privateTutorings, courses } = this.props;
-    const { typeList } = this.state;
+    const { typeList, typeListObj } = this.state;
+    const { courses } = this.props;
     const privateIndex = typeList.indexOf(event.value);
     const courseOptions = [];
     const courseNamesCopy = [];
     const courseIDs = [];
     courses.map(course => {
-      if (event.value === "Non AP") {
+      if (event.value === "Private Tutoring") {
         if (course.apNonAp === "Reg") {
           courseIDs.push(course.id);
           courseOptions.push(course.name);
           courseNamesCopy.push(course.name);
         }
       }
-      if (event.value === "AP") {
+      if (event.value === "Private Collage Prep") {
         if (course.apNonAp === "Prep") {
           courseIDs.push(course.id);
           courseOptions.push(course.name);
@@ -128,7 +144,7 @@ class PrivateTutoring extends React.Component {
       sessionTypeError: false,
       privateIndex,
       courseBool: false,
-      maxSizeOfClass: privateTutorings[privateIndex].maxSizeOfClass,
+      maxSizeOfClass: typeListObj[privateIndex].maxStudents,
     });
   };
 
@@ -242,8 +258,9 @@ class PrivateTutoring extends React.Component {
       teachersNamesCopy,
       courseNamesCopy,
       maxSizeOfClass,
+      typeListObj,
     } = this.state;
-    const { privateTutorings, eventTimer, setMessage } = this.props;
+    const { eventTimer, setMessage } = this.props;
     return (
       <Box>
         <Button
@@ -269,7 +286,7 @@ class PrivateTutoring extends React.Component {
               refetchQueries={() => {
                 return [
                   {
-                    query: ALL_SESSIONS,
+                    query: ALL_FOR_ADMIN,
                   },
                 ];
               }}
@@ -301,7 +318,7 @@ class PrivateTutoring extends React.Component {
                         startDate,
                         startTime,
                         privateIndex,
-                        privateTutorings,
+                        typeListObj,
                         extraTime ? 30 : undefined,
                       );
                       if (date > finalStart) {
@@ -317,22 +334,6 @@ class PrivateTutoring extends React.Component {
                           ];
                         const courseId =
                           courseIDs[courseNamesCopy.indexOf(selectedCourse)];
-                        console.log(
-                          "!!!",
-                          "start",
-                          finalStart,
-                          "end",
-                          finalEnd,
-                          "teacherid",
-                          teacherId,
-                          "courseid",
-                          courseId,
-                          "max",
-                          maxSizeOfClass,
-                          "type",
-                          typeSelect,
-                        );
-                        console.log(typeof typeSelect);
                         createSession({
                           variables: {
                             startTime: finalStart,
@@ -340,12 +341,12 @@ class PrivateTutoring extends React.Component {
                             teacherId,
                             courseId,
                             maxSizeOfClass,
-                            private: typeSelect,
+                            timeAndPrice: typeSelect,
                           },
                         });
-                        // this.layerToggle(false);
-                        // eventTimer(true);
-                        // setMessage("A new private session was added");
+                        this.layerToggle(false);
+                        eventTimer(true);
+                        setMessage("A new private session was added");
                         return null;
                       }
                     }
@@ -356,7 +357,6 @@ class PrivateTutoring extends React.Component {
                     <Box>
                       <TypeOfClass
                         typeSelect={typeSelect}
-                        privateTutorings={privateTutorings}
                         setSessionType={this.setSessionType}
                         sessionTypeError={sessionTypeError}
                         typeList={typeList}
@@ -404,7 +404,7 @@ class PrivateTutoring extends React.Component {
                               startDate,
                               startTime,
                               privateIndex,
-                              privateTutorings,
+                              typeListObj,
                             )}`}
                                 </Text>
                               </>
@@ -420,7 +420,7 @@ class PrivateTutoring extends React.Component {
                               startDate,
                               startTime,
                               privateIndex,
-                              privateTutorings,
+                              typeListObj,
                               30,
                             )}`}
                                 </Text>

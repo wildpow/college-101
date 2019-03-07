@@ -75,14 +75,9 @@ const SingleSession = props => {
             background={background}
             pad={{ horizontal: "small", vertical: "xsmall" }}
           >
-            {session.timeAndPrice !== null ? (
+            {session.timeAndPrice && (
               <Text truncate>{session.timeAndPrice.name}</Text>
-            ) : null}
-            {session.privateTutoring !== null ? (
-              <Text truncate>
-                {`Private Tutoring ${session.privateTutoring.name}`}
-              </Text>
-            ) : null}
+            )}
           </ExtraPad>
         </Button>
       </TableCell>

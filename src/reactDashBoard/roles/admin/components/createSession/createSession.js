@@ -8,9 +8,10 @@ import SelectCourse from "../sharedComponents/selectCourse";
 import SelectTeacher from "../sharedComponents/selectTeacher";
 import StartDate from "../sharedComponents/startDate";
 import StartTimePicker from "../sharedComponents/startTimePicker";
-import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
+// import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 import SelectNonAP from "./selectNonAP";
 import LayerHeader from "../../layerHeader";
+import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
 
 const ADD_SESSION = gql`
   mutation(
@@ -83,8 +84,10 @@ class CreateSession extends React.Component {
     const moneyOptions = [];
     const money = [];
     timeAndPrices.map(t => {
-      moneyOptions.push(t.name);
-      money.push(t);
+      if (t.groupVsPrivate === "Group") {
+        moneyOptions.push(t.name);
+        money.push(t);
+      }
       return null;
     });
     const date = new Date();
@@ -299,7 +302,7 @@ class CreateSession extends React.Component {
               refetchQueries={() => {
                 return [
                   {
-                    query: ALL_SESSIONS,
+                    query: ALL_FOR_ADMIN,
                   },
                 ];
               }}
@@ -350,20 +353,21 @@ class CreateSession extends React.Component {
                           ];
                         const courseId =
                           courseIDs[courseNamesCopy.indexOf(selectedCourse)];
-                        createSession({
-                          variables: {
-                            startTime: finalStart,
-                            endTime: finalEnd,
-                            teacherId,
-                            courseId,
-                            maxSizeOfClass,
-                            timeAndPrice: moneySelect,
-                          },
-                        });
-                        this.onClose();
-                        eventTimer(true);
-                        setMessage("A new session was added");
-                        return null;
+
+                        // createSession({
+                        //   variables: {
+                        //     startTime: finalStart,
+                        //     endTime: finalEnd,
+                        //     teacherId,
+                        //     courseId,
+                        //     maxSizeOfClass,
+                        //     timeAndPrice: moneySelect,
+                        //   },
+                        // });
+                        // this.onClose();
+                        // eventTimer(true);
+                        // setMessage("A new session was added");
+                        // return null;
                       }
                     }
 

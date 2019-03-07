@@ -11,13 +11,7 @@ export const ALL_FOR_ADMIN = gql`
       id
       userName
     }
-    privateTutorings {
-      id
-      maxSizeOfClass
-      name
-      time
-      pricePerHour
-    }
+
     courses {
       name
       id
@@ -29,20 +23,17 @@ export const ALL_FOR_ADMIN = gql`
       time
       price
       maxStudents
+      groupVsPrivate
     }
     sessions(orderBy: startTime_ASC) {
       id
-      privateTutoring {
-        id
-        name
-      }
       startTime
       endTime
       maxSizeOfClass
       enrolled
       timeAndPrice {
         id
-
+        groupVsPrivate
         name
         time
         price

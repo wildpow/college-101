@@ -17,6 +17,7 @@ export const ALL_SESSIONS = gql`
         time
         price
         maxStudents
+        groupVsPrivate
       }
       attendance {
         status

@@ -74,7 +74,7 @@ const Admin = props => {
             <PrivateTutoring
               teachers={data.teachers}
               courses={data.courses}
-              privateTutorings={data.privateTutorings}
+              timeAndPrices={data.timeAndPrices}
               eventTimer={eventTimer}
               setMessage={setMessage}
             />
