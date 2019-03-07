@@ -94,8 +94,10 @@ class CreateSession extends React.Component {
       return null;
     });
     courses.map(course => {
-      courseNames.push(course.name);
-      courseIDs.push(course.id);
+      if (course.apNonAp === "Reg") {
+        courseNames.push(course.name);
+        courseIDs.push(course.id);
+      }
       return null;
     });
     this.setState({

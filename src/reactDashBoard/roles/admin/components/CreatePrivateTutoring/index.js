@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import { Button, Layer, Box, Text } from "grommet";
+import { Button, Layer, Box, Text, CheckBox } from "grommet";
 import { Add, FormSubtract } from "grommet-icons";
 import LayerHeader from "../../layerHeader";
 import TypeOfClass from "./typeOfClass";
@@ -37,18 +38,23 @@ const ADD_PRIVATE_TUT = gql`
   }
 `;
 class PrivateTutoring extends React.Component {
+  static propTypes = {
+    eventTimer: PropTypes.func.isRequired,
+    setMessage: PropTypes.func.isRequired,
+  };
+
   constructor(...args) {
     super(...args);
-    const { courses, teachers, privateTutorings } = this.props;
+    const { teachers, privateTutorings } = this.props;
     this.state = {
       layer: false,
       typeSelect: "",
       sessionTypeError: false,
       selectedCourse: "",
       courseError: false,
-      courseOptions: courses.map(i => i.name),
-      courseNamesCopy: courses.map(i => i.name),
-      courseIDs: courses.map(i => i.id),
+      courseOptions: [],
+      courseNamesCopy: [],
+      courseIDs: [],
       selectedTeacher: "",
       teacherOptions: teachers.map(t => `${t.firstName} ${t.lastName}`),
       teachersNamesCopy: teachers.map(t => `${t.firstName} ${t.lastName}`),
@@ -62,6 +68,8 @@ class PrivateTutoring extends React.Component {
       maxSizeOfClass: 0,
       privateIndex: null,
       typeList: privateTutorings.map(i => i.name),
+      extraTime: false,
+      courseBool: true,
     };
   }
 
@@ -83,19 +91,43 @@ class PrivateTutoring extends React.Component {
         startTime: "",
         privateIndex: null,
         maxSizeOfClass: 0,
+        courseBool: true,
       });
     }
   };
 
   setSessionType = event => {
-    const { privateTutorings } = this.props;
+    const { privateTutorings, courses } = this.props;
     const { typeList } = this.state;
     const privateIndex = typeList.indexOf(event.value);
-
+    const courseOptions = [];
+    const courseNamesCopy = [];
+    const courseIDs = [];
+    courses.map(course => {
+      if (event.value === "Non AP") {
+        if (course.apNonAp === "Reg") {
+          courseIDs.push(course.id);
+          courseOptions.push(course.name);
+          courseNamesCopy.push(course.name);
+        }
+      }
+      if (event.value === "AP") {
+        if (course.apNonAp === "Prep") {
+          courseIDs.push(course.id);
+          courseOptions.push(course.name);
+          courseNamesCopy.push(course.name);
+        }
+      }
+      return null;
+    });
     this.setState({
+      courseOptions,
+      courseNamesCopy,
+      courseIDs,
       typeSelect: event.value,
       sessionTypeError: false,
       privateIndex,
+      courseBool: false,
       maxSizeOfClass: privateTutorings[privateIndex].maxSizeOfClass,
     });
   };
@@ -171,16 +203,23 @@ class PrivateTutoring extends React.Component {
       typeSelect: "",
       privateIndex: null,
       maxSizeOfClass: 0,
+      courseBool: true,
+      extraTime: false,
     });
   };
 
-  convertEndTimeToString = (date, time, index, arr) => {
-    const endDateTime = convertDateTime(date, time, index, arr);
+  extra30Mintutes = event => {
+    this.setState({ extraTime: event.target.checked });
+  };
+
+  convertEndTimeToString = (date, time, index, arr, extra) => {
+    const endDateTime = convertDateTime(date, time, index, arr, extra);
     return endDateTime.toLocaleTimeString();
   };
 
   render() {
     const {
+      courseBool,
       typeSelect,
       layer,
       sessionTypeError,
@@ -197,11 +236,16 @@ class PrivateTutoring extends React.Component {
       startTimeMessage,
       typeList,
       privateIndex,
+      extraTime,
+      teacherIDs,
+      courseIDs,
+      teachersNamesCopy,
+      courseNamesCopy,
+      maxSizeOfClass,
     } = this.state;
-    const { privateTutorings } = this.props;
+    const { privateTutorings, eventTimer, setMessage } = this.props;
     return (
       <Box>
-        {console.log(this.state)}
         <Button
           icon={<Add />}
           label="Private Tutoring"
@@ -251,17 +295,61 @@ class PrivateTutoring extends React.Component {
                       this.errorCheck(typeSelect, "sessionTypeError");
                       this.errorCheck(startTime, "startTimeError");
                     } else {
-                      // date, time, (index = 0), (add = null);
+                      const date = new Date();
                       const finalStart = convertDateTime(startDate, startTime);
                       const finalEnd = convertDateTime(
                         startDate,
                         startTime,
                         privateIndex,
                         privateTutorings,
+                        extraTime ? 30 : undefined,
                       );
-                      console.log(finalStart);
-                      console.log(finalEnd);
+                      if (date > finalStart) {
+                        this.setState({
+                          startTimeMessage:
+                            "Can not create a class in the past",
+                          startTimeError: true,
+                        });
+                      } else {
+                        const teacherId =
+                          teacherIDs[
+                            teachersNamesCopy.indexOf(selectedTeacher)
+                          ];
+                        const courseId =
+                          courseIDs[courseNamesCopy.indexOf(selectedCourse)];
+                        console.log(
+                          "!!!",
+                          "start",
+                          finalStart,
+                          "end",
+                          finalEnd,
+                          "teacherid",
+                          teacherId,
+                          "courseid",
+                          courseId,
+                          "max",
+                          maxSizeOfClass,
+                          "type",
+                          typeSelect,
+                        );
+                        console.log(typeof typeSelect);
+                        createSession({
+                          variables: {
+                            startTime: finalStart,
+                            endTime: finalEnd,
+                            teacherId,
+                            courseId,
+                            maxSizeOfClass,
+                            private: typeSelect,
+                          },
+                        });
+                        // this.layerToggle(false);
+                        // eventTimer(true);
+                        // setMessage("A new private session was added");
+                        return null;
+                      }
                     }
+                    return null;
                   }}
                 >
                   <Box fill overflow="scroll" justify="between">
@@ -274,6 +362,7 @@ class PrivateTutoring extends React.Component {
                         typeList={typeList}
                       />
                       <SelectCourse
+                        courseBool={courseBool}
                         selectedCourse={selectedCourse}
                         courseError={courseError}
                         courseOptions={courseOptions}
@@ -300,16 +389,44 @@ class PrivateTutoring extends React.Component {
                         onChangeStartTime={this.onChangeStartTime}
                       />
                       <Box direction="column" gap="small">
-                        {startTime && typeSelect && (
-                          <Text size="large">
-                            {`
+                        <CheckBox
+                          checked={extraTime}
+                          label="Add extra 30 minutes?"
+                          onChange={event => this.extra30Mintutes(event)}
+                        />
+                        {extraTime !== true ? (
+                          <>
+                            {startTime && typeSelect && (
+                              <>
+                                <Text size="large">
+                                  {`
                             Session end time: ${this.convertEndTimeToString(
                               startDate,
                               startTime,
                               privateIndex,
                               privateTutorings,
                             )}`}
-                          </Text>
+                                </Text>
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {startTime && typeSelect && (
+                              <>
+                                <Text size="large">
+                                  {`
+                            Session end time: ${this.convertEndTimeToString(
+                              startDate,
+                              startTime,
+                              privateIndex,
+                              privateTutorings,
+                              30,
+                            )}`}
+                                </Text>
+                              </>
+                            )}
+                          </>
                         )}
                       </Box>
                     </Box>

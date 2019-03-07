@@ -21,6 +21,7 @@ export const ALL_FOR_ADMIN = gql`
     courses {
       name
       id
+      apNonAp
     }
     timeAndPrices {
       id
@@ -31,6 +32,10 @@ export const ALL_FOR_ADMIN = gql`
     }
     sessions(orderBy: startTime_ASC) {
       id
+      privateTutoring {
+        id
+        name
+      }
       startTime
       endTime
       maxSizeOfClass

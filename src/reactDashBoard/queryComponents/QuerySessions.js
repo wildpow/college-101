@@ -13,7 +13,6 @@ export const ALL_SESSIONS = gql`
       enrolled
       timeAndPrice {
         id
-
         name
         time
         price
@@ -48,6 +47,7 @@ export const ALL_SESSIONS = gql`
       course {
         name
         id
+        apNonAp
       }
       teacher {
         firstName

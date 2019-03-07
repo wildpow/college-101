@@ -2,7 +2,7 @@
 // time = string '10:00 pm'
 // index = number
 // arr = [{time: 60}, {time: 90}]
-const convertDateTime = (date, time, index, arr) => {
+const convertDateTime = (date, time, index, arr, extra) => {
   const finalStart = new Date(date);
   let hour = 0;
   let minutes = 0;
@@ -21,6 +21,9 @@ const convertDateTime = (date, time, index, arr) => {
     finalStart.setMinutes(minutes);
     finalStart.setSeconds(0);
   } else {
+    if (extra !== undefined) {
+      minutes += extra;
+    }
     if (arr[index].time === 60) {
       finalStart.setHours(hour + 1);
       finalStart.setMinutes(minutes);
