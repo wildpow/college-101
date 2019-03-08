@@ -123,6 +123,10 @@ class EditSession extends React.Component {
       startTimeError,
       startTime,
       startTimeMessage,
+      courseBool,
+      selectedCourse,
+      courseError,
+      courseOptions,
     } = this.state;
     const { groupVSPrivate, session } = this.props;
     return (
@@ -159,20 +163,39 @@ class EditSession extends React.Component {
               <Box fill overflow="scroll" justify="between">
                 <Box>
                   {groupVSPrivate === "Private" && (
-                    <TypeOfClass
-                      typeSelect={privateSelect}
-                      setSessionType={this.setSessionType}
-                      sessionTypeError={sessionTypeError}
-                      typeList={privateList}
-                    />
+                    <>
+                      <TypeOfClass
+                        typeSelect={privateSelect}
+                        setSessionType={this.setSessionType}
+                        sessionTypeError={sessionTypeError}
+                        typeList={privateList}
+                      />
+                      <SelectCourse
+                        courseBool={courseBool}
+                        selectedCourse={selectedCourse}
+                        courseError={courseError}
+                        courseOptions={courseOptions}
+                        courseSelectChange={this.courseSelectChange}
+                        onSearchCourses={this.onSearchCourses}
+                      />
+                    </>
                   )}
                   {groupVSPrivate === "Group" && (
-                    <SelectNonAP
-                      moneySelect={groupSelect}
-                      moneyOptions={groupList}
-                      moneyError={groupError}
-                      onMoneyChange={this.onGroupChange}
-                    />
+                    <>
+                      <SelectNonAP
+                        moneySelect={groupSelect}
+                        moneyOptions={groupList}
+                        moneyError={groupError}
+                        onMoneyChange={this.onGroupChange}
+                      />
+                      <SelectCourse
+                        selectedCourse={selectedCourse}
+                        courseSelectChange={this.courseSelectChange}
+                        onSearchCourses={this.onSearchCourses}
+                        courseOptions={courseOptions}
+                        courseError={courseError}
+                      />
+                    </>
                   )}
                   <SelectTeacher
                     selectedTeacher={selectedTeacher}
