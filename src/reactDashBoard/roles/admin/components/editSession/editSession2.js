@@ -43,7 +43,7 @@ class EditSession extends React.Component {
     const startDate = new Date(session.startTime);
     const currentTeacher = `${session.teacher.firstName} ${
       session.teacher.lastName
-    } `;
+    }`;
     this.setState({
       startDate: startDate.toISOString(),
       teacherIDs,
@@ -55,9 +55,11 @@ class EditSession extends React.Component {
 
   layerToggle = changeAction => {
     const { session } = this.props;
+    const startDate = new Date(session.startTime);
+    // eslint-disable-next-line prettier/prettier
     const currentTeacher = `${session.teacher.firstName} ${
       session.teacher.lastName
-    } `;
+    }`;
     if (changeAction) {
       this.setState({ layer: true });
     } else {
@@ -70,7 +72,7 @@ class EditSession extends React.Component {
         // teacherError: false,
         selectedTeacher: currentTeacher,
         // startDateOpen: false,
-        // startDate: new Date().toISOString(),
+        startDate: startDate.toISOString(),
         // startTimeError: false,
         // startTime: "",
         // privateIndex: null,
@@ -98,6 +100,12 @@ class EditSession extends React.Component {
     });
   };
 
+  startDateToggle = bool => this.setState({ startDateOpen: bool });
+
+  startDateSelect = date => {
+    this.setState({ startDate: date, startDateOpen: false });
+  };
+
   render() {
     const {
       layer,
@@ -119,7 +127,6 @@ class EditSession extends React.Component {
     const { groupVSPrivate, session } = this.props;
     return (
       <Box>
-        {console.log(teacherOptions.indexOf(selectedTeacher))}
         <Button
           icon={<Add />}
           label="Edit"
@@ -137,7 +144,7 @@ class EditSession extends React.Component {
               headingText={`Edit ${groupVSPrivate} Session`}
               modelFunc={this.layerToggle}
             />
-            {console.log("!!!! props in edit", this.props)}
+            {/* {console.log("!!!! props in edit", this.props)} */}
             <Box
               gap="small"
               fill="vertical"
