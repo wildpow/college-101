@@ -23,43 +23,103 @@ class EditSession extends React.Component {
       selectedTeacher: "",
       teacherOptions: [],
       teacherOptionsCopy: [],
+      // privateSelect: "",
+      selectedGroup: "",
+      groupOptions: [],
+      groupOptionsObj: [],
+      selectedCourse: "",
+      courseOptions: [],
+      courseOptionsCopy: [],
+      courseIDs: [],
     };
   }
 
   componentDidMount() {
-    const { session, teachers } = this.props;
+    const {
+      teachers,
+      selectedTeacher,
+      selectedGroup,
+      startDate,
+      groupVSPrivate,
+      timeAndPrices,
+      courses,
+      selectedCourse,
+    } = this.props;
+
     const teacherOptions = [];
-    // const courseNames = [];
     const teacherIDs = [];
-    // const courseIDs = [];
-    // const moneyOptions = [];
-    // const money = [];
     teachers.map(teacher => {
       teacherOptions.push(`${teacher.firstName} ${teacher.lastName}`);
       teacherIDs.push(teacher.id);
       return null;
     });
 
-    const startDate = new Date(session.startTime);
-    const currentTeacher = `${session.teacher.firstName} ${
-      session.teacher.lastName
-    }`;
+    const courseOptions = [];
+    const courseIDs = [];
+    const groupOptions = [];
+    const groupOptionsObj = [];
+    if (groupVSPrivate === "Group") {
+      timeAndPrices.map(t => {
+        if (t.groupVsPrivate === "Group") {
+          groupOptions.push(t.name);
+          groupOptionsObj.push(t);
+        }
+        return null;
+      });
+      courses.map(course => {
+        if (course.apNonAp === "Reg") {
+          courseOptions.push(course.name);
+          courseIDs.push(course.id);
+        }
+        return null;
+      });
+    } else {
+      timeAndPrices.map(t => {
+        if (t.groupVsPrivate === "Private") {
+          groupOptions.push(t.name);
+          groupOptionsObj.push(t);
+        }
+        return null;
+      });
+      courses.map(course => {
+        if (selectedGroup === "Private Tutoring") {
+          if (course.apNonAp === "Reg") {
+            courseIDs.push(course.id);
+            courseOptions.push(course.name);
+          }
+        }
+        if (selectedGroup === "Private Collage Prep") {
+          if (course.apNonAp === "Prep") {
+            courseIDs.push(course.id);
+            courseOptions.push(course.name);
+          }
+        }
+        return null;
+      });
+    }
+
     this.setState({
-      startDate: startDate.toISOString(),
+      startDate,
       teacherIDs,
       teacherOptions,
       teacherOptionsCopy: teacherOptions,
-      selectedTeacher: currentTeacher,
+      selectedTeacher,
+      selectedGroup,
+      groupOptions,
+      groupOptionsObj,
+      selectedCourse,
+      courseOptions,
+      courseOptionsCopy: courseOptions,
     });
   }
 
   layerToggle = changeAction => {
-    const { session } = this.props;
-    const startDate = new Date(session.startTime);
+    const { selectedTeacher, selectedGroup, startDate } = this.props;
+    // const startDate = new Date(session.startTime);
     // eslint-disable-next-line prettier/prettier
-    const currentTeacher = `${session.teacher.firstName} ${
-      session.teacher.lastName
-    }`;
+    // const currentTeacher = `${session.teacher.firstName} ${
+    //   session.teacher.lastName
+    // }`;
     if (changeAction) {
       this.setState({ layer: true });
     } else {
@@ -70,15 +130,17 @@ class EditSession extends React.Component {
         // selectedCourse: "",
         // courseError: false,
         // teacherError: false,
-        selectedTeacher: currentTeacher,
+        selectedTeacher,
         // startDateOpen: false,
-        startDate: startDate.toISOString(),
+        startDate,
         // startTimeError: false,
         // startTime: "",
         // privateIndex: null,
         // maxSizeOfClass: 0,
         // courseBool: true,
         // extraTime: false,
+
+        selectedGroup,
       });
     }
   };
@@ -112,8 +174,8 @@ class EditSession extends React.Component {
       privateSelect,
       sessionTypeError,
       privateList,
-      groupSelect,
-      groupList,
+      selectedGroup,
+      groupOptions,
       groupError,
       selectedTeacher,
       teacherOptions,
@@ -131,9 +193,10 @@ class EditSession extends React.Component {
     const { groupVSPrivate, session } = this.props;
     return (
       <Box>
+        {console.log(this.props)}
         <Button
           icon={<Add />}
-          label="Edit"
+          label="Edit Session"
           onClick={() => this.layerToggle(true)}
         />
         {layer && (
@@ -160,14 +223,15 @@ class EditSession extends React.Component {
               }}
             >
               <Box fill overflow="scroll" justify="between">
+                {console.log("STATE!!!", this.state)}
                 <Box>
                   {groupVSPrivate === "Private" && (
                     <>
                       <TypeOfClass
-                        typeSelect={privateSelect}
+                        typeSelect={selectedGroup}
                         setSessionType={this.setSessionType}
                         sessionTypeError={sessionTypeError}
-                        typeList={privateList}
+                        typeList={groupOptions}
                       />
                       <SelectCourse
                         courseBool={courseBool}
@@ -182,8 +246,8 @@ class EditSession extends React.Component {
                   {groupVSPrivate === "Group" && (
                     <>
                       <SelectNonAP
-                        moneySelect={groupSelect}
-                        moneyOptions={groupList}
+                        moneySelect={selectedGroup}
+                        moneyOptions={groupOptions}
                         moneyError={groupError}
                         onMoneyChange={this.onGroupChange}
                       />

@@ -8,6 +8,7 @@ const TypeOfClass = props => {
 
   return (
     <HoverContainer>
+      {console.log(props)}
       <FormField label="Type of class">
         <Select
           placeholder="Select Session Type"

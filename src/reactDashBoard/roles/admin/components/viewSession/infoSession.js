@@ -27,6 +27,21 @@ const InfoSession = props => {
     courses,
     timeAndPrices,
   } = props;
+
+  const selectedCourse =
+    selectedSession.length !== 0 ? selectedSession.course.name : "default test";
+  const selectedGroup =
+    selectedSession.length !== 0
+      ? selectedSession.timeAndPrice.name
+      : "default test";
+  const startDate = new Date(selectedSession.startTime);
+
+  const selectedTeacher =
+    selectedSession.length !== 0
+      ? `${selectedSession.teacher.firstName} ${
+          selectedSession.teacher.lastName
+        }`
+      : "default test";
   const attendance =
     selectedSession.attendance === undefined ||
     selectedSession.attendance === null
@@ -77,6 +92,7 @@ const InfoSession = props => {
   };
   return (
     <Box>
+      {console.log("info", props)}
       {selectedSession.length !== 0 ? (
         <Box
           fill
@@ -111,7 +127,7 @@ const InfoSession = props => {
                   </Text>
                 )}
 
-                <Box alignSelf="center">
+                <Box alignSelf="center" direction="row" gap="large">
                   <QueryStudents
                     component={AddStudent}
                     session={selectedSession}
@@ -119,6 +135,17 @@ const InfoSession = props => {
                     setMessage={setMessage}
                     startTimeCheck={startTimeCheck}
                     endTimeTimeCheck={endTimeTimeCheck}
+                  />
+                  <EditSession
+                    courses={courses}
+                    teachers={teachers}
+                    timeAndPrices={timeAndPrices}
+                    groupVSPrivate={selectedSession.timeAndPrice.groupVsPrivate}
+                    session={selectedSession}
+                    selectedTeacher={selectedTeacher}
+                    selectedGroup={selectedGroup}
+                    startDate={startDate.toISOString()}
+                    selectedCourse={selectedCourse}
                   />
                 </Box>
               </Box>
@@ -259,6 +286,10 @@ const InfoSession = props => {
                     timeAndPrices={timeAndPrices}
                     groupVSPrivate={selectedSession.timeAndPrice.groupVsPrivate}
                     session={selectedSession}
+                    selectedTeacher={selectedTeacher}
+                    selectedGroup={selectedGroup}
+                    selectedCourse={selectedCourse}
+                    startDate={startDate.toISOString()}
                   />
                 </Box>
               </Box>

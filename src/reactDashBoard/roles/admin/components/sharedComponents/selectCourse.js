@@ -32,6 +32,7 @@ const SelectCourse = props => {
   return (
     <NewHoverContainer courseBool={courseBool}>
       <FormField label="Course">
+        {console.log("COURSE SELECT!!!!", props)}
         <Select
           disabled={courseBool}
           searchPlaceholder="Search Courses"
