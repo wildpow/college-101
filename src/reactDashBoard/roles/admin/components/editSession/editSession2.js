@@ -148,7 +148,6 @@ class EditSession extends React.Component {
               headingText={`Edit ${groupVSPrivate} Session`}
               modelFunc={this.layerToggle}
             />
-            {/* {console.log("!!!! props in edit", this.props)} */}
             <Box
               gap="small"
               fill="vertical"

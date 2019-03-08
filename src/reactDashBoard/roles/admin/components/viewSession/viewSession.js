@@ -152,7 +152,6 @@ class ViewSessionTest extends React.Component {
   };
 
   onSort = property => {
-    console.log(property);
     const { sortProperty, sortDirection, sessions } = this.state;
     let nextSortDirection;
     if (sortProperty === property) {
