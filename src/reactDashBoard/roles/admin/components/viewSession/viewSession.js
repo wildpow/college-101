@@ -233,7 +233,13 @@ class ViewSessionTest extends React.Component {
       selectedStart,
       selectedEnd,
     } = this.state;
-    const { eventTimer, setMessage } = this.props;
+    const {
+      eventTimer,
+      setMessage,
+      courses,
+      teachers,
+      timeAndPrices,
+    } = this.props;
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
       <>
@@ -308,6 +314,9 @@ class ViewSessionTest extends React.Component {
           </Table>
         </ScrollBox>
         <InfoSession
+          courses={courses}
+          teachers={teachers}
+          timeAndPrices={timeAndPrices}
           selectedEnd={selectedEnd}
           selectedStart={selectedStart}
           selectedSession={selectedSession}

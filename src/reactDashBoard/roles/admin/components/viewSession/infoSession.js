@@ -13,13 +13,20 @@ import ViewReceipt from "./viewReceipt";
 import QueryReceipt from "../../../../queryComponents/QueryReceipt";
 import QueryStudents from "../../../../queryComponents/QueryStudents";
 import AddStudent from "./addStudent";
-import EditSession from "./editSession";
+import EditSession from "../editSession/editSession2";
 
 const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
 `;
 const InfoSession = props => {
-  const { selectedSession, eventTimer, setMessage } = props;
+  const {
+    selectedSession,
+    eventTimer,
+    setMessage,
+    teachers,
+    courses,
+    timeAndPrices,
+  } = props;
   const attendance =
     selectedSession.attendance === undefined ||
     selectedSession.attendance === null
@@ -70,6 +77,7 @@ const InfoSession = props => {
   };
   return (
     <Box>
+      {console.log("props in info", props)}
       {selectedSession.length !== 0 ? (
         <Box
           fill
@@ -241,17 +249,17 @@ const InfoSession = props => {
                   margin={{ vertical: "xsmall" }}
                 >
                   <QueryStudents
-                    startTimeCheck={startTimeCheck}
-                    endTimeTimeCheck={endTimeTimeCheck}
                     eventTimer={eventTimer}
                     setMessage={setMessage}
                     component={AddStudent}
                     session={selectedSession}
                   />
                   <EditSession
+                    courses={courses}
+                    teachers={teachers}
+                    timeAndPrices={timeAndPrices}
+                    groupVSPrivate={selectedSession.timeAndPrice.groupVsPrivate}
                     session={selectedSession}
-                    startTimeCheck={startTimeCheck}
-                    endTimeTimeCheck={endTimeTimeCheck}
                   />
                 </Box>
               </Box>

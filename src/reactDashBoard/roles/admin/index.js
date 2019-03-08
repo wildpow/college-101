@@ -94,6 +94,9 @@ const Admin = props => {
         </Header>
         <div>
           <ViewSession
+            timeAndPrices={data.timeAndPrices}
+            courses={data.courses}
+            teachers={data.teachers}
             sessions={data.sessions}
             date={date}
             eventTimer={eventTimer}
