@@ -25,8 +25,8 @@ class EditSession extends React.Component {
       teacherOptionsCopy: [],
       // privateSelect: "",
       selectedGroup: "",
-      groupOptions: [],
-      groupOptionsObj: [],
+      typeOptions: [],
+      typeOptionsObj: [],
       selectedCourse: "",
       courseOptions: [],
       courseOptionsCopy: [],
@@ -38,7 +38,7 @@ class EditSession extends React.Component {
     const {
       teachers,
       selectedTeacher,
-      selectedGroup,
+      selectedType,
       startDate,
       groupVSPrivate,
       timeAndPrices,
@@ -56,13 +56,13 @@ class EditSession extends React.Component {
 
     const courseOptions = [];
     const courseIDs = [];
-    const groupOptions = [];
-    const groupOptionsObj = [];
+    const typeOptions = [];
+    const typeOptionsObj = [];
     if (groupVSPrivate === "Group") {
       timeAndPrices.map(t => {
         if (t.groupVsPrivate === "Group") {
-          groupOptions.push(t.name);
-          groupOptionsObj.push(t);
+          typeOptions.push(t.name);
+          typeOptionsObj.push(t);
         }
         return null;
       });
@@ -76,19 +76,19 @@ class EditSession extends React.Component {
     } else {
       timeAndPrices.map(t => {
         if (t.groupVsPrivate === "Private") {
-          groupOptions.push(t.name);
-          groupOptionsObj.push(t);
+          typeOptions.push(t.name);
+          typeOptionsObj.push(t);
         }
         return null;
       });
       courses.map(course => {
-        if (selectedGroup === "Private Tutoring") {
+        if (selectedType === "Private Tutoring") {
           if (course.apNonAp === "Reg") {
             courseIDs.push(course.id);
             courseOptions.push(course.name);
           }
         }
-        if (selectedGroup === "Private Collage Prep") {
+        if (selectedType === "Private Collage Prep") {
           if (course.apNonAp === "Prep") {
             courseIDs.push(course.id);
             courseOptions.push(course.name);
@@ -104,9 +104,9 @@ class EditSession extends React.Component {
       teacherOptions,
       teacherOptionsCopy: teacherOptions,
       selectedTeacher,
-      selectedGroup,
-      groupOptions,
-      groupOptionsObj,
+      selectedType,
+      typeOptions,
+      typeOptionsObj,
       selectedCourse,
       courseOptions,
       courseOptionsCopy: courseOptions,
@@ -114,7 +114,7 @@ class EditSession extends React.Component {
   }
 
   layerToggle = changeAction => {
-    const { selectedTeacher, selectedGroup, startDate } = this.props;
+    const { selectedTeacher, selectedType, startDate } = this.props;
     // const startDate = new Date(session.startTime);
     // eslint-disable-next-line prettier/prettier
     // const currentTeacher = `${session.teacher.firstName} ${
@@ -140,7 +140,7 @@ class EditSession extends React.Component {
         // courseBool: true,
         // extraTime: false,
 
-        selectedGroup,
+        selectedType,
       });
     }
   };
@@ -174,9 +174,9 @@ class EditSession extends React.Component {
       privateSelect,
       sessionTypeError,
       privateList,
-      selectedGroup,
-      groupOptions,
-      groupError,
+      selectedType,
+      typeOptions,
+      typeError,
       selectedTeacher,
       teacherOptions,
       teacherError,
@@ -228,10 +228,10 @@ class EditSession extends React.Component {
                   {groupVSPrivate === "Private" && (
                     <>
                       <TypeOfClass
-                        typeSelect={selectedGroup}
+                        selectedType={selectedType}
                         setSessionType={this.setSessionType}
                         sessionTypeError={sessionTypeError}
-                        typeList={groupOptions}
+                        typeOptions={typeOptions}
                       />
                       <SelectCourse
                         courseBool={courseBool}
@@ -246,10 +246,10 @@ class EditSession extends React.Component {
                   {groupVSPrivate === "Group" && (
                     <>
                       <SelectNonAP
-                        moneySelect={selectedGroup}
-                        moneyOptions={groupOptions}
-                        moneyError={groupError}
-                        onMoneyChange={this.onGroupChange}
+                        selectedType={selectedType}
+                        typeOptions={typeOptions}
+                        typeError={typeError}
+                        onTypeChange={this.onTypeChange}
                       />
                       <SelectCourse
                         selectedCourse={selectedCourse}

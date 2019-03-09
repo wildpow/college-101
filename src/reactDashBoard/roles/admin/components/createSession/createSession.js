@@ -68,9 +68,9 @@ class CreateSession extends React.Component {
       // endTime: "",
       // endTimeError: false,
       moneySelectIndex: null,
-      moneySelect: "",
-      moneyOptions: [],
-      moneyError: false,
+      selectedType: "",
+      typeOptions: [],
+      typeError: false,
       money: [],
     };
   }
@@ -81,11 +81,11 @@ class CreateSession extends React.Component {
     const courseNames = [];
     const teacherIDs = [];
     const courseIDs = [];
-    const moneyOptions = [];
+    const typeOptions = [];
     const money = [];
     timeAndPrices.map(t => {
       if (t.groupVsPrivate === "Group") {
-        moneyOptions.push(t.name);
+        typeOptions.push(t.name);
         money.push(t);
       }
       return null;
@@ -108,7 +108,7 @@ class CreateSession extends React.Component {
       teachersNamesCopy: teachersNames,
       teacherIDs,
       courseIDs,
-      moneyOptions,
+      typeOptions,
       money,
       courseOptions: courseNames,
       courseNamesCopy: courseNames,
@@ -150,8 +150,8 @@ class CreateSession extends React.Component {
       selectedCourse: "",
       selectedTeacher: "",
       maxSizeOfClass: 0,
-      moneySelect: "",
-      moneyError: false,
+      selectedType: "",
+      typeError: false,
       courseError: false,
       teacherError: false,
       startTimeError: false,
@@ -160,12 +160,12 @@ class CreateSession extends React.Component {
       startDateOpen: false,
     });
 
-  onMoneyChange = event => {
-    const { money, moneyOptions } = this.state;
-    const moneySelectIndex = moneyOptions.indexOf(event.value);
+  onTypeChange = event => {
+    const { money, typeOptions } = this.state;
+    const moneySelectIndex = typeOptions.indexOf(event.value);
     this.setState({
-      moneySelect: event.value,
-      moneyError: false,
+      selectedType: event.value,
+      typeError: false,
       moneySelectIndex,
       maxSizeOfClass: money[moneySelectIndex].maxStudents,
     });
@@ -257,9 +257,9 @@ class CreateSession extends React.Component {
   render() {
     const {
       layerOpen,
-      moneyOptions,
-      moneySelect,
-      moneyError,
+      typeOptions,
+      selectedType,
+      typeError,
       selectedCourse,
       selectedTeacher,
       courseError,
@@ -319,14 +319,14 @@ class CreateSession extends React.Component {
                     event.preventDefault();
 
                     if (
-                      moneySelect.length === 0 ||
+                      selectedType.length === 0 ||
                       selectedCourse.length === 0 ||
                       selectedTeacher.length === 0 ||
                       startTime.length === 0
                     ) {
                       this.errorCheck(selectedCourse, "courseError");
                       this.errorCheck(selectedTeacher, "teacherError");
-                      this.errorCheck(moneySelect, "moneyError");
+                      this.errorCheck(selectedType, "typeError");
                       this.errorCheck(startTime, "startTimeError");
                     } else {
                       const date = new Date();
@@ -361,7 +361,7 @@ class CreateSession extends React.Component {
                             teacherId,
                             courseId,
                             maxSizeOfClass,
-                            timeAndPrice: moneySelect,
+                            timeAndPrice: selectedType,
                           },
                         });
                         this.onClose();
@@ -377,10 +377,10 @@ class CreateSession extends React.Component {
                   <Box fill overflow="scroll" justify="between">
                     <Box>
                       <SelectNonAP
-                        moneySelect={moneySelect}
-                        moneyOptions={moneyOptions}
-                        moneyError={moneyError}
-                        onMoneyChange={this.onMoneyChange}
+                        selectedType={selectedType}
+                        typeOptions={typeOptions}
+                        typeError={typeError}
+                        onTypeChange={this.onTypeChange}
                       />
                       <SelectCourse
                         selectedCourse={selectedCourse}
@@ -412,17 +412,17 @@ class CreateSession extends React.Component {
                       />
 
                       <Box direction="column" gap="small">
-                        {moneySelect && (
+                        {selectedType && (
                           <Text size="large">{`Default Max number of students: ${maxSizeOfClass}`}</Text>
                         )}
-                        {moneySelect && (
+                        {selectedType && (
                           <Text size="large">
                             {`Session length: ${
                               money[moneySelectIndex].time
                             } minutes`}
                           </Text>
                         )}
-                        {startTime && moneySelect && (
+                        {startTime && selectedType && (
                           <Text size="large">
                             {`
                             Session end time: ${this.convertEndTimeToString(
@@ -459,8 +459,8 @@ class CreateSession extends React.Component {
                             startTimeError: false,
                             courseError: false,
                             teacherError: false,
-                            moneyError: false,
-                            moneySelect: "",
+                            typeError: false,
+                            selectedType: "",
                           })
                         }
                       />

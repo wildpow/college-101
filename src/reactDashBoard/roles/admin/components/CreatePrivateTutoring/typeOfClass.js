@@ -4,7 +4,7 @@ import { FormField, Select } from "grommet";
 import { ErrorText, HoverContainer } from "../../sharedStyles/sharedStyles";
 
 const TypeOfClass = props => {
-  const { typeSelect, setSessionType, sessionTypeError, typeList } = props;
+  const { selectedType, setSessionType, sessionTypeError, typeOptions } = props;
 
   return (
     <HoverContainer>
@@ -12,8 +12,8 @@ const TypeOfClass = props => {
       <FormField label="Type of class">
         <Select
           placeholder="Select Session Type"
-          value={typeSelect}
-          options={typeList}
+          value={selectedType}
+          options={typeOptions}
           onChange={event => setSessionType(event)}
         />
         <ErrorText
@@ -29,14 +29,14 @@ const TypeOfClass = props => {
   );
 };
 TypeOfClass.defaultProps = {
-  typeSelect: "",
+  selectedType: "",
   sessionTypeError: false,
-  typeList: ["option1", "option2"],
+  typeOptions: ["option1", "option2"],
 };
 TypeOfClass.propTypes = {
-  typeSelect: PropTypes.string,
+  selectedType: PropTypes.string,
   setSessionType: PropTypes.func.isRequired,
   sessionTypeError: PropTypes.bool,
-  typeList: PropTypes.instanceOf(Object),
+  typeOptions: PropTypes.instanceOf(Object),
 };
 export default TypeOfClass;

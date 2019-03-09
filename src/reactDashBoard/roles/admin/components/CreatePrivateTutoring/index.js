@@ -49,7 +49,7 @@ class PrivateTutoring extends React.Component {
     const { teachers } = this.props;
     this.state = {
       layer: false,
-      typeSelect: "",
+      selectedType: "",
       sessionTypeError: false,
       selectedCourse: "",
       courseError: false,
@@ -68,8 +68,8 @@ class PrivateTutoring extends React.Component {
       startTimeMessage: "Please enter start time",
       maxSizeOfClass: 0,
       privateIndex: null,
-      typeList: [],
-      typeListObj: [],
+      typeOptions: [],
+      typeOptionsObj: [],
       extraTime: false,
       courseBool: true,
     };
@@ -77,16 +77,16 @@ class PrivateTutoring extends React.Component {
 
   componentDidMount() {
     const { timeAndPrices } = this.props;
-    const typeList = [];
-    const typeListObj = [];
+    const typeOptions = [];
+    const typeOptionsObj = [];
     timeAndPrices.map(p => {
       if (p.groupVsPrivate === "Private") {
-        typeList.push(p.name);
-        typeListObj.push(p);
+        typeOptions.push(p.name);
+        typeOptionsObj.push(p);
       }
       return null;
     });
-    this.setState({ typeList, typeListObj });
+    this.setState({ typeOptions, typeOptionsObj });
   }
 
   layerToggle = changeAction => {
@@ -95,7 +95,7 @@ class PrivateTutoring extends React.Component {
     } else {
       this.setState({
         layer: false,
-        typeSelect: "",
+        selectedType: "",
         sessionTypeError: false,
         selectedCourse: "",
         courseError: false,
@@ -114,9 +114,9 @@ class PrivateTutoring extends React.Component {
   };
 
   setSessionType = event => {
-    const { typeList, typeListObj } = this.state;
+    const { typeOptions, typeOptionsObj } = this.state;
     const { courses } = this.props;
-    const privateIndex = typeList.indexOf(event.value);
+    const privateIndex = typeOptions.indexOf(event.value);
     const courseOptions = [];
     const courseNamesCopy = [];
     const courseIDs = [];
@@ -141,11 +141,11 @@ class PrivateTutoring extends React.Component {
       courseOptions,
       courseNamesCopy,
       courseIDs,
-      typeSelect: event.value,
+      selectedType: event.value,
       sessionTypeError: false,
       privateIndex,
       courseBool: false,
-      maxSizeOfClass: typeListObj[privateIndex].maxStudents,
+      maxSizeOfClass: typeOptionsObj[privateIndex].maxStudents,
     });
   };
 
@@ -217,7 +217,7 @@ class PrivateTutoring extends React.Component {
       courseError: false,
       teacherError: false,
       sessionTypeError: false,
-      typeSelect: "",
+      selectedType: "",
       privateIndex: null,
       maxSizeOfClass: 0,
       courseBool: true,
@@ -237,7 +237,7 @@ class PrivateTutoring extends React.Component {
   render() {
     const {
       courseBool,
-      typeSelect,
+      selectedType,
       layer,
       sessionTypeError,
       selectedCourse,
@@ -251,7 +251,7 @@ class PrivateTutoring extends React.Component {
       startTimeError,
       startTime,
       startTimeMessage,
-      typeList,
+      typeOptions,
       privateIndex,
       extraTime,
       teacherIDs,
@@ -259,7 +259,7 @@ class PrivateTutoring extends React.Component {
       teachersNamesCopy,
       courseNamesCopy,
       maxSizeOfClass,
-      typeListObj,
+      typeOptionsObj,
     } = this.state;
     const { eventTimer, setMessage } = this.props;
     return (
@@ -303,14 +303,14 @@ class PrivateTutoring extends React.Component {
                   onSubmit={event => {
                     event.preventDefault();
                     if (
-                      typeSelect.length === 0 ||
+                      selectedType.length === 0 ||
                       selectedCourse.length === 0 ||
                       selectedTeacher.length === 0 ||
                       startTime.length === 0
                     ) {
                       this.errorCheck(selectedCourse, "courseError");
                       this.errorCheck(selectedTeacher, "teacherError");
-                      this.errorCheck(typeSelect, "sessionTypeError");
+                      this.errorCheck(selectedType, "sessionTypeError");
                       this.errorCheck(startTime, "startTimeError");
                     } else {
                       const date = new Date();
@@ -319,7 +319,7 @@ class PrivateTutoring extends React.Component {
                         startDate,
                         startTime,
                         privateIndex,
-                        typeListObj,
+                        typeOptionsObj,
                         extraTime ? 30 : undefined,
                       );
                       if (date > finalStart) {
@@ -342,7 +342,7 @@ class PrivateTutoring extends React.Component {
                             teacherId,
                             courseId,
                             maxSizeOfClass,
-                            timeAndPrice: typeSelect,
+                            timeAndPrice: selectedType,
                           },
                         });
                         this.layerToggle(false);
@@ -357,10 +357,10 @@ class PrivateTutoring extends React.Component {
                   <Box fill overflow="scroll" justify="between">
                     <Box>
                       <TypeOfClass
-                        typeSelect={typeSelect}
+                        selectedType={selectedType}
                         setSessionType={this.setSessionType}
                         sessionTypeError={sessionTypeError}
-                        typeList={typeList}
+                        typeOptions={typeOptions}
                       />
                       <SelectCourse
                         courseBool={courseBool}
@@ -397,7 +397,7 @@ class PrivateTutoring extends React.Component {
                         />
                         {extraTime !== true ? (
                           <>
-                            {startTime && typeSelect && (
+                            {startTime && selectedType && (
                               <>
                                 <Text size="large">
                                   {`
@@ -405,7 +405,7 @@ class PrivateTutoring extends React.Component {
                               startDate,
                               startTime,
                               privateIndex,
-                              typeListObj,
+                              typeOptionsObj,
                             )}`}
                                 </Text>
                               </>
@@ -413,7 +413,7 @@ class PrivateTutoring extends React.Component {
                           </>
                         ) : (
                           <>
-                            {startTime && typeSelect && (
+                            {startTime && selectedType && (
                               <>
                                 <Text size="large">
                                   {`
@@ -421,7 +421,7 @@ class PrivateTutoring extends React.Component {
                               startDate,
                               startTime,
                               privateIndex,
-                              typeListObj,
+                              typeOptionsObj,
                               30,
                             )}`}
                                 </Text>

@@ -30,7 +30,7 @@ const InfoSession = props => {
 
   const selectedCourse =
     selectedSession.length !== 0 ? selectedSession.course.name : "default test";
-  const selectedGroup =
+  const selectedType =
     selectedSession.length !== 0
       ? selectedSession.timeAndPrice.name
       : "default test";
@@ -143,7 +143,7 @@ const InfoSession = props => {
                     groupVSPrivate={selectedSession.timeAndPrice.groupVsPrivate}
                     session={selectedSession}
                     selectedTeacher={selectedTeacher}
-                    selectedGroup={selectedGroup}
+                    selectedType={selectedType}
                     startDate={startDate.toISOString()}
                     selectedCourse={selectedCourse}
                   />
@@ -287,7 +287,7 @@ const InfoSession = props => {
                     groupVSPrivate={selectedSession.timeAndPrice.groupVsPrivate}
                     session={selectedSession}
                     selectedTeacher={selectedTeacher}
-                    selectedGroup={selectedGroup}
+                    selectedType={selectedType}
                     selectedCourse={selectedCourse}
                     startDate={startDate.toISOString()}
                   />
