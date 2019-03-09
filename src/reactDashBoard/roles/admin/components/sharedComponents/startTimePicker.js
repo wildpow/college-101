@@ -43,9 +43,10 @@ const StartTimePicker = props => {
           { fixed: " " },
           {
             length: 2,
-            options: ["am", "pm"],
-            regexp: /^[ap]m$|^[AP]M$|^[aApP]$/,
-            placeholder: "am/pm",
+            options: ["AM", "PM"],
+            // /^[ap]m$|^[AP]M$|^[aApP]$/
+            regexp: /\s*([AaPp][Mm])/,
+            placeholder: "AM/PM",
           },
         ]}
         value={startTime}
