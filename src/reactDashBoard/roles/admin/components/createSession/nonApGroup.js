@@ -3,7 +3,13 @@ import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { Box, Button, Layer, Text } from "grommet";
-import { Add, FormSubtract } from "grommet-icons";
+import {
+  Add,
+  FormSubtract,
+  AddCircle,
+  ScheduleNew,
+  Trash,
+} from "grommet-icons";
 import SelectCourse from "../sharedComponents/selectCourse";
 import SelectTeacher from "../sharedComponents/selectTeacher";
 import StartDate from "../sharedComponents/startDate";
@@ -284,7 +290,7 @@ class NonApGroup extends React.Component {
     return (
       <Box>
         <Button
-          icon={<Add />}
+          icon={<AddCircle />}
           label="Sm. Group NonAP"
           onClick={this.onOpen}
           primary
@@ -445,10 +451,10 @@ class NonApGroup extends React.Component {
                         type="submit"
                         label="ADD"
                         primary
-                        icon={<Add />}
+                        icon={<ScheduleNew />}
                       />
                       <Button
-                        icon={<FormSubtract />}
+                        icon={<Trash />}
                         label="CLEAR"
                         onClick={() =>
                           this.setState({

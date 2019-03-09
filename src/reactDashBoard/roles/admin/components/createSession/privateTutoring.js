@@ -3,7 +3,13 @@ import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { Button, Layer, Box, Text, CheckBox } from "grommet";
-import { Add, FormSubtract } from "grommet-icons";
+import {
+  Add,
+  FormSubtract,
+  AddCircle,
+  ScheduleNew,
+  Trash,
+} from "grommet-icons";
 import LayerHeader from "../../layerHeader";
 import TypeOfClass from "../sharedComponents/typeOfClass";
 import SelectCourse from "../sharedComponents/selectCourse";
@@ -265,7 +271,7 @@ class PrivateTutoring extends React.Component {
     return (
       <Box>
         <Button
-          icon={<Add />}
+          icon={<AddCircle />}
           label="Private Tutoring"
           onClick={() => this.layerToggle(true)}
           primary
@@ -441,10 +447,10 @@ class PrivateTutoring extends React.Component {
                         type="submit"
                         label="ADD"
                         primary
-                        icon={<Add />}
+                        icon={<ScheduleNew />}
                       />
                       <Button
-                        icon={<FormSubtract />}
+                        icon={<Trash />}
                         label="CLEAR"
                         onClick={this.clearButton}
                       />

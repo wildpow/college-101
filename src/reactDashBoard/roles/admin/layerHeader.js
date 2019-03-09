@@ -26,7 +26,7 @@ const LayerHeader = props => {
       flex={false}
       direction="row"
       justify="between"
-      elevation="xlarge"
+      elevation="medium"
       pad={{
         left: "medium",
         right: "medium",

@@ -15,6 +15,7 @@ import QueryReceipt from "../../../../queryComponents/QueryReceipt";
 import QueryStudents from "../../../../queryComponents/QueryStudents";
 import AddStudent from "./addStudent";
 import EditSession from "../editSession/editSession2";
+import { timeFormat } from "../../../../../utils/globalFunctions";
 
 const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
@@ -36,7 +37,7 @@ const InfoSession = props => {
       ? selectedSession.timeAndPrice.name
       : "default test";
   const startDate = new Date(selectedSession.startTime);
-
+  const startTime = timeFormat(selectedSession.startTime);
   const selectedTeacher =
     selectedSession.length !== 0
       ? `${selectedSession.teacher.firstName} ${
@@ -93,6 +94,8 @@ const InfoSession = props => {
   };
   return (
     <Box>
+      {console.log(props)}
+
       {selectedSession.length !== 0 ? (
         <Box
           fill
@@ -146,6 +149,7 @@ const InfoSession = props => {
                     selectedType={selectedType}
                     startDate={startDate.toISOString()}
                     selectedCourse={selectedCourse}
+                    startTime={startTime}
                   />
                 </Box>
               </Box>
@@ -290,6 +294,7 @@ const InfoSession = props => {
                     selectedType={selectedType}
                     selectedCourse={selectedCourse}
                     startDate={startDate.toISOString()}
+                    startTime={startTime}
                   />
                 </Box>
               </Box>

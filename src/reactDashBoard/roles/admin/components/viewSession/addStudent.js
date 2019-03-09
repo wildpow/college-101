@@ -3,6 +3,15 @@ import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import PropTypes from "prop-types";
 import { Button, Layer, Heading, Box, Select } from "grommet";
+import {
+  Add,
+  FormSubtract,
+  Edit,
+  ClearOption,
+  Clear,
+  Trash,
+  UserAdd,
+} from "grommet-icons";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 import LayerHeader from "../../layerHeader";
 
@@ -42,19 +51,37 @@ const AddStudent = props => {
   return (
     <Box>
       {startTimeCheck && endTimeTimeCheck && (
-        <Button onClick={() => setOpen(true)} label="Add Student" disabled />
+        <Button
+          onClick={() => setOpen(true)}
+          label="Add Student"
+          disabled
+          icon={<UserAdd />}
+        />
       )}
       {startTimeCheck && !endTimeTimeCheck && (
         <>
-          <Button onClick={() => setOpen(true)} label="Add Student" />
+          <Button
+            onClick={() => setOpen(true)}
+            label="Add Student"
+            icon={<UserAdd />}
+          />
         </>
       )}
       {!startTimeCheck && !endTimeTimeCheck && (
-        <Button onClick={() => setOpen(true)} label="Add Student" />
+        <Button
+          onClick={() => setOpen(true)}
+          label="Add Student"
+          icon={<UserAdd />}
+        />
       )}
       {/* Need to delete this state once the create Session is working correctly */}
       {!startTimeCheck && endTimeTimeCheck && (
-        <Button onClick={() => setOpen(true)} label="Not possible" disabled />
+        <Button
+          onClick={() => setOpen(true)}
+          label="Not possible"
+          disabled
+          icon={<UserAdd />}
+        />
       )}
       {open && (
         <Layer
