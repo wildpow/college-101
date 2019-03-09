@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Box,
   Text,
@@ -92,7 +93,6 @@ const InfoSession = props => {
   };
   return (
     <Box>
-      {console.log("info", props)}
       {selectedSession.length !== 0 ? (
         <Box
           fill
@@ -299,6 +299,11 @@ const InfoSession = props => {
       ) : null}
     </Box>
   );
+};
+
+InfoSession.propTypes = {
+  setMessage: PropTypes.func.isRequired,
+  eventTimer: PropTypes.func.isRequired,
 };
 
 export default InfoSession;

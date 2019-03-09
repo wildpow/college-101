@@ -54,12 +54,18 @@ const SelectCourse = props => {
   );
 };
 
+SelectCourse.defaultProps = {
+  selectedCourse: "",
+  courseBool: false,
+};
+
 SelectCourse.propTypes = {
-  selectedCourse: PropTypes.string.isRequired,
+  selectedCourse: PropTypes.string,
   onSearchCourses: PropTypes.func.isRequired,
   courseError: PropTypes.bool.isRequired,
   courseSelectChange: PropTypes.func.isRequired,
   courseOptions: PropTypes.instanceOf(Object).isRequired,
+  courseBool: PropTypes.bool,
 };
 
 export default SelectCourse;

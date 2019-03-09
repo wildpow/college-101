@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Box, Calendar, DropButton, Heading } from "grommet";
 import { FormDown } from "grommet-icons";
-import CreateSession from "./components/createSession/createSession";
+import NonApGroup from "./components/createSession/nonApGroup";
 // import QueryTeacherCourse from "../../queryComponents/QueryTeacherCourse";
 import ViewSession from "./components/viewSession/viewSession";
 import Messages from "./messages";
-import PrivateTutoring from "./components/CreatePrivateTutoring";
+import PrivateTutoring from "./components/createSession/privateTutoring";
 
 const Header = styled.div`
   display: flex;
@@ -78,7 +78,7 @@ const Admin = props => {
               eventTimer={eventTimer}
               setMessage={setMessage}
             />
-            <CreateSession
+            <NonApGroup
               eventTimer={eventTimer}
               setMessage={setMessage}
               teachers={data.teachers}

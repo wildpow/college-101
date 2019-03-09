@@ -2,18 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
-import { Box, Button, Layer, Text } from "grommet";
+import { Button, Layer, Box, Text, CheckBox } from "grommet";
 import { Add, FormSubtract } from "grommet-icons";
+import LayerHeader from "../../layerHeader";
+import TypeOfClass from "../sharedComponents/typeOfClass";
 import SelectCourse from "../sharedComponents/selectCourse";
 import SelectTeacher from "../sharedComponents/selectTeacher";
 import StartDate from "../sharedComponents/startDate";
 import StartTimePicker from "../sharedComponents/startTimePicker";
 // import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
-import SelectNonAP from "./selectNonAP";
-import LayerHeader from "../../layerHeader";
+import convertDateTime from "../../sharedFunctions/convertDateTime";
 import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
 
-const ADD_SESSION = gql`
+const ADD_PRIVATE_TUT = gql`
   mutation(
     $startTime: DateTime!
     $endTime: DateTime!
@@ -33,13 +34,11 @@ const ADD_SESSION = gql`
         timeAndPrice: { connect: { name: $timeAndPrice } }
       }
     ) {
-      startTime
-      endTime
+      id
     }
   }
 `;
-
-class CreateSession extends React.Component {
+class PrivateTutoring extends React.Component {
   static propTypes = {
     eventTimer: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
@@ -47,127 +46,106 @@ class CreateSession extends React.Component {
 
   constructor(...args) {
     super(...args);
+    const { teachers } = this.props;
     this.state = {
-      layerOpen: false,
-      selectedTeacher: "",
-      teacherOptions: [],
-      teachersNamesCopy: [],
-      teacherIDs: [],
+      layer: false,
+      selectedType: "",
+      typeError: false,
+      selectedCourse: "",
+      courseError: false,
       courseOptions: [],
       courseNamesCopy: [],
       courseIDs: [],
-      selectedCourse: "",
+      selectedTeacher: "",
+      teacherOptions: teachers.map(t => `${t.firstName} ${t.lastName}`),
+      teachersNamesCopy: teachers.map(t => `${t.firstName} ${t.lastName}`),
+      teacherIDs: teachers.map(t => t.id),
       teacherError: false,
-      courseError: false,
-      startDateOpen: false,
       startDate: new Date().toISOString(),
-      maxSizeOfClass: 0,
+      startDateOpen: false,
       startTime: "",
       startTimeError: false,
       startTimeMessage: "Please enter start time",
-      // endTime: "",
-      // endTimeError: false,
-      moneySelectIndex: null,
-      selectedType: "",
+      maxSizeOfClass: 0,
+      privateIndex: null,
       typeOptions: [],
-      typeError: false,
-      money: [],
+      typeOptionsObj: [],
+      extraTime: false,
+      courseBool: true,
     };
   }
 
   componentDidMount() {
-    const { courses, teachers, timeAndPrices } = this.props;
-    const teachersNames = [];
-    const courseNames = [];
-    const teacherIDs = [];
-    const courseIDs = [];
+    const { timeAndPrices } = this.props;
     const typeOptions = [];
-    const money = [];
-    timeAndPrices.map(t => {
-      if (t.groupVsPrivate === "Group") {
-        typeOptions.push(t.name);
-        money.push(t);
+    const typeOptionsObj = [];
+    timeAndPrices.map(p => {
+      if (p.groupVsPrivate === "Private") {
+        typeOptions.push(p.name);
+        typeOptionsObj.push(p);
       }
       return null;
     });
-    const date = new Date();
-    teachers.map(teacher => {
-      teachersNames.push(`${teacher.firstName} ${teacher.lastName}`);
-      teacherIDs.push(teacher.id);
-      return null;
-    });
-    courses.map(course => {
-      if (course.apNonAp === "Reg") {
-        courseNames.push(course.name);
-        courseIDs.push(course.id);
-      }
-      return null;
-    });
-    this.setState({
-      teacherOptions: teachersNames,
-      teachersNamesCopy: teachersNames,
-      teacherIDs,
-      courseIDs,
-      typeOptions,
-      money,
-      courseOptions: courseNames,
-      courseNamesCopy: courseNames,
-      startDate: date.toISOString(),
-    });
+    this.setState({ typeOptions, typeOptionsObj });
   }
 
-  errorCheck = (value, errorState) => {
-    if (value.length === 0) {
+  layerToggle = changeAction => {
+    if (changeAction) {
+      this.setState({ layer: true });
+    } else {
       this.setState({
-        [`${errorState}`]: true,
+        layer: false,
+        selectedType: "",
+        typeError: false,
+        selectedCourse: "",
+        courseError: false,
+        teacherError: false,
+        selectedTeacher: "",
+        startDateOpen: false,
+        startDate: new Date().toISOString(),
+        startTimeError: false,
+        startTime: "",
+        privateIndex: null,
+        maxSizeOfClass: 0,
+        courseBool: true,
+        extraTime: false,
       });
-      return null;
     }
-    return null;
   };
 
-  startDateToggle = bool => this.setState({ startDateOpen: bool });
-
-  onChangeStartTime = event => {
-    this.setState({
-      startTime: event.target.value,
-      startTimeError: false,
-      startTimeMessage: "Please enter start time",
+  typeSelectChange = event => {
+    const { typeOptions, typeOptionsObj } = this.state;
+    const { courses } = this.props;
+    const privateIndex = typeOptions.indexOf(event.value);
+    const courseOptions = [];
+    const courseNamesCopy = [];
+    const courseIDs = [];
+    courses.map(course => {
+      if (event.value === "Private Tutoring") {
+        if (course.apNonAp === "Reg") {
+          courseIDs.push(course.id);
+          courseOptions.push(course.name);
+          courseNamesCopy.push(course.name);
+        }
+      }
+      if (event.value === "Private Collage Prep") {
+        if (course.apNonAp === "Prep") {
+          courseIDs.push(course.id);
+          courseOptions.push(course.name);
+          courseNamesCopy.push(course.name);
+        }
+      }
+      return null;
     });
-  };
-
-  startDateSelect = date => {
-    this.setState({ startDate: date, startDateOpen: false });
-  };
-
-  onOpen = () => this.setState({ layerOpen: true });
-
-  onClose = () =>
     this.setState({
-      layerOpen: false,
-      startTime: "",
-      // endTime: "",
-      selectedCourse: "",
-      selectedTeacher: "",
-      maxSizeOfClass: 0,
-      selectedType: "",
-      typeError: false,
-      courseError: false,
-      teacherError: false,
-      startTimeError: false,
-      moneySelectIndex: null,
-      startDate: new Date().toISOString(),
-      startDateOpen: false,
-    });
-
-  onTypeChange = event => {
-    const { money, typeOptions } = this.state;
-    const moneySelectIndex = typeOptions.indexOf(event.value);
-    this.setState({
+      courseOptions,
+      courseNamesCopy,
+      courseIDs,
       selectedType: event.value,
       typeError: false,
-      moneySelectIndex,
-      maxSizeOfClass: money[moneySelectIndex].maxStudents,
+      privateIndex,
+      courseBool: false,
+      maxSizeOfClass: typeOptionsObj[privateIndex].maxStudents,
     });
   };
 
@@ -177,6 +155,14 @@ class CreateSession extends React.Component {
       selectedCourse: event.value,
       courseOptions: courseNamesCopy,
       courseError: false,
+    });
+  };
+
+  onSearchCourses = searchText => {
+    const { courseNamesCopy } = this.state;
+    const regexp = new RegExp(searchText, "i");
+    this.setState({
+      courseOptions: courseNamesCopy.filter(o => o.match(regexp)),
     });
   };
 
@@ -197,108 +183,107 @@ class CreateSession extends React.Component {
     });
   };
 
-  onSearchCourses = searchText => {
-    const { courseNamesCopy } = this.state;
-    const regexp = new RegExp(searchText, "i");
+  startDateToggle = bool => this.setState({ startDateOpen: bool });
+
+  startDateSelect = date => {
+    this.setState({ startDate: date, startDateOpen: false });
+  };
+
+  onChangeStartTime = event => {
     this.setState({
-      courseOptions: courseNamesCopy.filter(o => o.match(regexp)),
+      startTime: event.target.value,
+      startTimeError: false,
+      startTimeMessage: "Please enter start time",
     });
   };
 
-  onMaxChange = event => {
-    this.setState({ maxSizeOfClass: Number(event.target.value) });
+  errorCheck = (value, errorState) => {
+    if (value.length === 0) {
+      this.setState({
+        [`${errorState}`]: true,
+      });
+      return null;
+    }
+    return null;
   };
 
-  convertEndTimeToString = (date, time, add) => {
-    const endDateTime = this.convertDateTime(date, time, add);
+  clearButton = () => {
+    this.setState({
+      selectedCourse: "",
+      selectedTeacher: "",
+      startDate: new Date().toISOString(),
+      startTime: "",
+      startTimeError: false,
+      courseError: false,
+      teacherError: false,
+      typeError: false,
+      selectedType: "",
+      privateIndex: null,
+      maxSizeOfClass: 0,
+      courseBool: true,
+      extraTime: false,
+    });
+  };
+
+  extra30Mintutes = event => {
+    this.setState({ extraTime: event.target.checked });
+  };
+
+  convertEndTimeToString = (date, time, index, arr, extra) => {
+    const endDateTime = convertDateTime(date, time, index, arr, extra);
     return endDateTime.toLocaleTimeString();
-  };
-
-  convertDateTime = (date, time, add = null) => {
-    const { money, moneySelectIndex } = this.state;
-    const finalStart = new Date(date);
-    let hour = 0;
-    let minutes = 0;
-    if (time.indexOf("a") === -1) {
-      hour += 12;
-    }
-    if (Number(time[0]) === 1) {
-      hour += Number(`${time[0]}${time[1]}`);
-      minutes += Number(`${time[3]}${time[4]}`);
-    } else {
-      hour += Number(time[0]);
-      minutes += Number(`${time[2]}${time[3]}`);
-    }
-    if (add === null) {
-      finalStart.setHours(hour);
-      finalStart.setMinutes(minutes);
-      finalStart.setSeconds(0);
-    } else {
-      if (money[moneySelectIndex].time === 60) {
-        finalStart.setHours(hour + 1);
-        finalStart.setMinutes(minutes);
-        finalStart.setSeconds(0);
-      }
-      if (
-        money[moneySelectIndex].time === 90 ||
-        money[moneySelectIndex].time === 120
-      ) {
-        const newMin = minutes + money[moneySelectIndex].time;
-        const newHours = Math.floor(newMin / 60);
-        const remander = newMin % 60;
-        finalStart.setHours(hour + newHours);
-        finalStart.setMinutes(remander);
-        finalStart.setSeconds(0);
-      }
-    }
-    return finalStart;
   };
 
   render() {
     const {
-      layerOpen,
-      typeOptions,
+      courseBool,
       selectedType,
+      layer,
       typeError,
       selectedCourse,
-      selectedTeacher,
       courseError,
       courseOptions,
       teacherOptions,
+      selectedTeacher,
       teacherError,
       startDate,
       startDateOpen,
-      moneySelectIndex,
-      maxSizeOfClass,
       startTimeError,
       startTime,
-      money,
       startTimeMessage,
-      teachersNamesCopy,
-      courseIDs,
+      typeOptions,
+      privateIndex,
+      extraTime,
       teacherIDs,
+      courseIDs,
+      teachersNamesCopy,
       courseNamesCopy,
+      maxSizeOfClass,
+      typeOptionsObj,
     } = this.state;
     const { eventTimer, setMessage } = this.props;
     return (
       <Box>
         <Button
           icon={<Add />}
-          label="Sm. Group NonAP"
-          onClick={this.onOpen}
+          label="Private Tutoring"
+          onClick={() => this.layerToggle(true)}
           primary
         />
-        {layerOpen && (
+        {layer && (
           <Layer
             position="right"
             full="vertical"
             modal
-            onClickOutside={this.onClose}
-            onEsc={this.onClose}
+            onClickOutside={() => this.layerToggle(false)}
+            onEsc={() => this.layerToggle(false)}
           >
-            <LayerHeader headingText="Add Session" modelFunc={this.onClose} />
+            <LayerHeader
+              headingText="Private Tutoring"
+              modelFunc={this.layerToggle}
+            />
             <Mutation
-              mutation={ADD_SESSION}
+              mutation={ADD_PRIVATE_TUT}
               refetchQueries={() => {
                 return [
                   {
@@ -317,7 +302,6 @@ class CreateSession extends React.Component {
                   as="form"
                   onSubmit={event => {
                     event.preventDefault();
-
                     if (
                       selectedType.length === 0 ||
                       selectedCourse.length === 0 ||
@@ -330,15 +314,13 @@ class CreateSession extends React.Component {
                       this.errorCheck(startTime, "startTimeError");
                     } else {
                       const date = new Date();
-
-                      const finalStart = this.convertDateTime(
+                      const finalStart = convertDateTime(startDate, startTime);
+                      const finalEnd = convertDateTime(
                         startDate,
                         startTime,
-                      );
-                      const finalEnd = this.convertDateTime(
-                        startDate,
-                        startTime,
-                        money[moneySelectIndex].time,
+                        privateIndex,
+                        typeOptionsObj,
+                        extraTime ? 30 : undefined,
                       );
                       if (date > finalStart) {
                         this.setState({
@@ -353,7 +335,6 @@ class CreateSession extends React.Component {
                           ];
                         const courseId =
                           courseIDs[courseNamesCopy.indexOf(selectedCourse)];
-
                         createSession({
                           variables: {
                             startTime: finalStart,
@@ -364,73 +345,90 @@ class CreateSession extends React.Component {
                             timeAndPrice: selectedType,
                           },
                         });
-                        this.onClose();
+                        this.layerToggle(false);
                         eventTimer(true);
-                        setMessage("A new session was added");
+                        setMessage("A new private session was added");
                         return null;
                       }
                     }
-
                     return null;
                   }}
                 >
                   <Box fill overflow="scroll" justify="between">
                     <Box>
-                      <SelectNonAP
+                      <TypeOfClass
                         selectedType={selectedType}
-                        typeOptions={typeOptions}
+                        typeSelectChange={this.typeSelectChange}
                         typeError={typeError}
-                        onTypeChange={this.onTypeChange}
+                        typeOptions={typeOptions}
+                        typeLabel="Type of class"
                       />
                       <SelectCourse
+                        courseBool={courseBool}
                         selectedCourse={selectedCourse}
+                        courseError={courseError}
+                        courseOptions={courseOptions}
                         courseSelectChange={this.courseSelectChange}
                         onSearchCourses={this.onSearchCourses}
-                        courseOptions={courseOptions}
-                        courseError={courseError}
                       />
-
                       <SelectTeacher
                         selectedTeacher={selectedTeacher}
-                        teacherSelectChange={this.teacherSelectChange}
                         onSearchTeachers={this.onSearchTeachers}
                         teacherOptions={teacherOptions}
                         teacherError={teacherError}
+                        teacherSelectChange={this.teacherSelectChange}
                       />
-                      <StartTimePicker
-                        startTime={startTime}
-                        onChangeStartTime={this.onChangeStartTime}
-                        startTimeError={startTimeError}
-                        startTimeMessage={startTimeMessage}
-                      />
-
                       <StartDate
-                        startDateOpen={startDateOpen}
                         startDateToggle={this.startDateToggle}
                         startDate={startDate}
                         startDateSelect={this.startDateSelect}
+                        startDateOpen={startDateOpen}
                       />
-
+                      <StartTimePicker
+                        startTimeError={startTimeError}
+                        startTime={startTime}
+                        startTimeMessage={startTimeMessage}
+                        onChangeStartTime={this.onChangeStartTime}
+                      />
                       <Box direction="column" gap="small">
-                        {selectedType && (
-                          <Text size="large">{`Default Max number of students: ${maxSizeOfClass}`}</Text>
-                        )}
-                        {selectedType && (
-                          <Text size="large">
-                            {`Session length: ${
-                              money[moneySelectIndex].time
-                            } minutes`}
-                          </Text>
-                        )}
-                        {startTime && selectedType && (
-                          <Text size="large">
-                            {`
+                        <CheckBox
+                          checked={extraTime}
+                          label="Add extra 30 minutes?"
+                          onChange={event => this.extra30Mintutes(event)}
+                        />
+                        {extraTime !== true ? (
+                          <>
+                            {startTime && selectedType && (
+                              <>
+                                <Text size="large">
+                                  {`
                             Session end time: ${this.convertEndTimeToString(
                               startDate,
                               startTime,
-                              money[moneySelectIndex].time,
+                              privateIndex,
+                              typeOptionsObj,
                             )}`}
-                          </Text>
+                                </Text>
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {startTime && selectedType && (
+                              <>
+                                <Text size="large">
+                                  {`
+                            Session end time: ${this.convertEndTimeToString(
+                              startDate,
+                              startTime,
+                              privateIndex,
+                              typeOptionsObj,
+                              30,
+                            )}`}
+                                </Text>
+                              </>
+                            )}
+                          </>
                         )}
                       </Box>
                     </Box>
@@ -448,21 +446,7 @@ class CreateSession extends React.Component {
                       <Button
                         icon={<FormSubtract />}
                         label="CLEAR"
-                        onClick={() =>
-                          this.setState({
-                            selectedCourse: "",
-                            selectedTeacher: "",
-                            startDate: undefined,
-                            startTime: "",
-                            // endTime: "",
-                            // endTimeError: false,
-                            startTimeError: false,
-                            courseError: false,
-                            teacherError: false,
-                            typeError: false,
-                            selectedType: "",
-                          })
-                        }
+                        onClick={this.clearButton}
                       />
                     </Box>
                   </Box>
@@ -476,4 +460,4 @@ class CreateSession extends React.Component {
   }
 }
 
-export default CreateSession;
+export default PrivateTutoring;

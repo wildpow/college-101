@@ -4,7 +4,7 @@ import { FormField, Select } from "grommet";
 import { ErrorText, HoverContainer } from "../../sharedStyles/sharedStyles";
 
 const SelectNonAP = props => {
-  const { selectedType, typeOptions, typeError, onTypeChange } = props;
+  const { selectedType, typeOptions, typeError, typeSelectChange } = props;
   return (
     <HoverContainer>
       <FormField label="Non AP Time">
@@ -12,7 +12,7 @@ const SelectNonAP = props => {
           placeholder="Select Session Type"
           value={selectedType}
           options={typeOptions}
-          onChange={event => onTypeChange(event)}
+          onChange={event => typeSelectChange(event)}
         />
         <ErrorText
           alignSelf="center"
@@ -36,6 +36,6 @@ SelectNonAP.propTypes = {
   selectedType: PropTypes.string,
   typeOptions: PropTypes.instanceOf(Object),
   typeError: PropTypes.bool,
-  onTypeChange: PropTypes.func.isRequired,
+  typeSelectChange: PropTypes.func.isRequired,
 };
 export default SelectNonAP;

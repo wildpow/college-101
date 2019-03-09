@@ -5,8 +5,8 @@ import { gql } from "apollo-boost";
 import { Button, Layer, Box, Text, CheckBox } from "grommet";
 import { Add, FormSubtract } from "grommet-icons";
 import LayerHeader from "../../layerHeader";
-import TypeOfClass from "../CreatePrivateTutoring/typeOfClass";
-import SelectNonAP from "../createSession/selectNonAP";
+import TypeOfClass from "../sharedComponents/typeOfClass";
+// import SelectNonAP from "../createSession/selectNonAP";
 import SelectCourse from "../sharedComponents/selectCourse";
 import SelectTeacher from "../sharedComponents/selectTeacher";
 import StartDate from "../sharedComponents/startDate";
@@ -15,6 +15,19 @@ import convertDateTime from "../../sharedFunctions/convertDateTime";
 import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
 
 class EditSession extends React.Component {
+  static propTypes = {
+    selectedCourse: PropTypes.string,
+    selectedTeacher: PropTypes.string,
+    selectedType: PropTypes.string,
+    // setMessage: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    selectedCourse: "Didn't pass selectedCourse props",
+    selectedTeacher: "Didn't pass selectedTeacher prop",
+    selectedType: "Didn't pass selectedType prop",
+  };
+
   constructor(...args) {
     super(...args);
     this.state = {
@@ -162,6 +175,23 @@ class EditSession extends React.Component {
     });
   };
 
+  courseSelectChange = event => {
+    const { courseOptionsCopy } = this.state;
+    this.setState({
+      selectedCourse: event.value,
+      courseOptions: courseOptionsCopy,
+      courseError: false,
+    });
+  };
+
+  onSearchCourses = searchText => {
+    const { courseOptionsCopy } = this.state;
+    const regexp = new RegExp(searchText, "i");
+    this.setState({
+      courseOptions: courseOptionsCopy.filter(o => o.match(regexp)),
+    });
+  };
+
   startDateToggle = bool => this.setState({ startDateOpen: bool });
 
   startDateSelect = date => {
@@ -171,9 +201,6 @@ class EditSession extends React.Component {
   render() {
     const {
       layer,
-      privateSelect,
-      sessionTypeError,
-      privateList,
       selectedType,
       typeOptions,
       typeError,
@@ -190,7 +217,7 @@ class EditSession extends React.Component {
       courseError,
       courseOptions,
     } = this.state;
-    const { groupVSPrivate, session } = this.props;
+    const { groupVSPrivate } = this.props;
     return (
       <Box>
         {console.log(this.props)}
@@ -229,9 +256,10 @@ class EditSession extends React.Component {
                     <>
                       <TypeOfClass
                         selectedType={selectedType}
-                        setSessionType={this.setSessionType}
-                        sessionTypeError={sessionTypeError}
+                        typeSelectChange={this.typeSelectChange}
+                        typeError={typeError}
                         typeOptions={typeOptions}
+                        typeLabel="Type of class"
                       />
                       <SelectCourse
                         courseBool={courseBool}
@@ -245,11 +273,12 @@ class EditSession extends React.Component {
                   )}
                   {groupVSPrivate === "Group" && (
                     <>
-                      <SelectNonAP
+                      <TypeOfClass
                         selectedType={selectedType}
                         typeOptions={typeOptions}
                         typeError={typeError}
                         onTypeChange={this.onTypeChange}
+                        typeLabel="Non AP Time"
                       />
                       <SelectCourse
                         selectedCourse={selectedCourse}
