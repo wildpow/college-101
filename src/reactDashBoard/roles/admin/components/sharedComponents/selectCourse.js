@@ -57,12 +57,13 @@ const SelectCourse = props => {
 SelectCourse.defaultProps = {
   selectedCourse: "",
   courseBool: false,
+  courseError: false,
 };
 
 SelectCourse.propTypes = {
   selectedCourse: PropTypes.string,
   onSearchCourses: PropTypes.func.isRequired,
-  courseError: PropTypes.bool.isRequired,
+  courseError: PropTypes.bool,
   courseSelectChange: PropTypes.func.isRequired,
   courseOptions: PropTypes.instanceOf(Object).isRequired,
   courseBool: PropTypes.bool,

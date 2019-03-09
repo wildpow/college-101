@@ -94,8 +94,6 @@ const InfoSession = props => {
   };
   return (
     <Box>
-      {console.log(props)}
-
       {selectedSession.length !== 0 ? (
         <Box
           fill
@@ -295,6 +293,7 @@ const InfoSession = props => {
                     selectedCourse={selectedCourse}
                     startDate={startDate.toISOString()}
                     startTime={startTime}
+                    maxSizeOfClass={selectedSession.maxSizeOfClass}
                   />
                 </Box>
               </Box>

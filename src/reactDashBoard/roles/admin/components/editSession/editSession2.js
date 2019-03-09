@@ -3,25 +3,15 @@ import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { Button, Layer, Box, Text, CheckBox } from "grommet";
-import {
-  Add,
-  FormSubtract,
-  Edit,
-  ClearOption,
-  Clear,
-  Trash,
-  UserAdd,
-} from "grommet-icons";
+import { Edit, ClearOption } from "grommet-icons";
 import LayerHeader from "../../layerHeader";
 import TypeOfClass from "../sharedComponents/typeOfClass";
-// import SelectNonAP from "../createSession/selectNonAP";
 import SelectCourse from "../sharedComponents/selectCourse";
 import SelectTeacher from "../sharedComponents/selectTeacher";
 import StartDate from "../sharedComponents/startDate";
 import StartTimePicker from "../sharedComponents/startTimePicker";
 import convertDateTime from "../../sharedFunctions/convertDateTime";
 import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
-import { timeFormat } from "../../../../../utils/globalFunctions";
 
 const UPDATE_SESSION = gql`
   mutation(
@@ -71,7 +61,7 @@ class EditSession extends React.Component {
       selectedTeacher: "",
       teacherOptions: [],
       teacherOptionsCopy: [],
-      // privateSelect: "",
+      maxSizeOfClass: 0,
       selectedGroup: "",
       typeIndex: null,
       typeOptions: [],
@@ -96,6 +86,7 @@ class EditSession extends React.Component {
       startDate,
       selectedCourse,
       startTime,
+      maxSizeOfClass,
     } = this.props;
 
     const teacherOptions = [];
@@ -149,7 +140,7 @@ class EditSession extends React.Component {
         return null;
       });
     }
-
+    const typeIndex = typeOptions.indexOf(selectedType);
     this.setState({
       startDate,
       startTime,
@@ -157,12 +148,14 @@ class EditSession extends React.Component {
       teacherOptions,
       teacherOptionsCopy: teacherOptions,
       selectedTeacher,
+      typeIndex,
       selectedType,
       typeOptions,
       typeOptionsObj,
       selectedCourse,
       courseOptions,
       courseOptionsCopy: courseOptions,
+      maxSizeOfClass,
     });
   }
 
@@ -304,6 +297,11 @@ class EditSession extends React.Component {
     });
   };
 
+  convertEndTimeToString = (date, time, index, arr, extra) => {
+    const endDateTime = convertDateTime(date, time, index, arr, extra);
+    return endDateTime.toLocaleTimeString();
+  };
+
   render() {
     const {
       layer,
@@ -322,6 +320,10 @@ class EditSession extends React.Component {
       selectedCourse,
       courseError,
       courseOptions,
+      typeOptionsObj,
+      typeIndex,
+      maxSizeOfClass,
+      extraTime,
     } = this.state;
     const {
       selectedTeacher: selectedTeachProps,
@@ -385,42 +387,30 @@ class EditSession extends React.Component {
                     {console.log("STATE!!!", this.state)}
                     <Box>
                       {groupVSPrivate === "Private" && (
-                        <>
-                          <TypeOfClass
-                            selectedType={selectedType}
-                            typeSelectChange={this.typeSelectChange}
-                            typeError={typeError}
-                            typeOptions={typeOptions}
-                            typeLabel="Type of class"
-                          />
-                          <SelectCourse
-                            courseBool={courseBool}
-                            selectedCourse={selectedCourse}
-                            courseError={courseError}
-                            courseOptions={courseOptions}
-                            courseSelectChange={this.courseSelectChange}
-                            onSearchCourses={this.onSearchCourses}
-                          />
-                        </>
+                        <TypeOfClass
+                          selectedType={selectedType}
+                          typeSelectChange={this.typeSelectChange}
+                          typeError={typeError}
+                          typeOptions={typeOptions}
+                          typeLabel="Type of class"
+                        />
                       )}
                       {groupVSPrivate === "Group" && (
-                        <>
-                          <TypeOfClass
-                            selectedType={selectedType}
-                            typeOptions={typeOptions}
-                            typeError={typeError}
-                            onTypeChange={this.onTypeChange}
-                            typeLabel="Non AP Time"
-                          />
-                          <SelectCourse
-                            selectedCourse={selectedCourse}
-                            courseSelectChange={this.courseSelectChange}
-                            onSearchCourses={this.onSearchCourses}
-                            courseOptions={courseOptions}
-                            courseError={courseError}
-                          />
-                        </>
+                        <TypeOfClass
+                          selectedType={selectedType}
+                          typeOptions={typeOptions}
+                          typeError={typeError}
+                          typeSelectChange={this.typeSelectChange}
+                          typeLabel="Non AP Time"
+                        />
                       )}
+                      <SelectCourse
+                        selectedCourse={selectedCourse}
+                        courseSelectChange={this.courseSelectChange}
+                        onSearchCourses={this.onSearchCourses}
+                        courseOptions={courseOptions}
+                        courseError={courseError}
+                      />
                       <SelectTeacher
                         selectedTeacher={selectedTeacher}
                         onSearchTeachers={this.onSearchTeachers}
@@ -440,6 +430,87 @@ class EditSession extends React.Component {
                         startTimeMessage={startTimeMessage}
                         onChangeStartTime={this.onChangeStartTime}
                       />
+                      {console.log(
+                        "start!",
+                        startDate,
+                        "startTime!",
+                        startTime,
+                        "index",
+                        typeIndex,
+                        "typeOptionsObj",
+                        typeOptionsObj,
+                        typeOptionsObj[typeIndex].time,
+                      )}
+                      {groupVSPrivate === "Group" && (
+                        <Box direction="column" gap="small">
+                          {selectedType && (
+                            <Text size="large">{`Default Max number of students: ${maxSizeOfClass}`}</Text>
+                          )}
+                          {selectedType && (
+                            <Text size="large">
+                              {`Session length: ${
+                                typeOptionsObj[typeIndex].time
+                              } minutes`}
+                            </Text>
+                          )}
+                          {/* (date, time, index, arr, extra) */}
+                          {startTime && selectedType && (
+                            <Text size="large">
+                              {`
+                            Session end time: ${this.convertEndTimeToString(
+                              startDate,
+                              startTime,
+                              typeIndex,
+                              typeOptionsObj,
+                              typeOptionsObj[typeIndex].time,
+                            )}`}
+                            </Text>
+                          )}
+                        </Box>
+                      )}
+                      {groupVSPrivate === "Private" && (
+                        <Box direction="column" gap="small">
+                          <CheckBox
+                            checked={extraTime}
+                            label="Add extra 30 minutes?"
+                            onChange={event => this.extra30Mintutes(event)}
+                          />
+                          {extraTime !== true ? (
+                            <>
+                              {startTime && selectedType && (
+                                <>
+                                  <Text size="large">
+                                    {`
+                            Session end time: ${this.convertEndTimeToString(
+                              startDate,
+                              startTime,
+                              typeIndex,
+                              typeOptionsObj,
+                            )}`}
+                                  </Text>
+                                </>
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              {startTime && selectedType && (
+                                <>
+                                  <Text size="large">
+                                    {`
+                            Session end time: ${this.convertEndTimeToString(
+                              startDate,
+                              startTime,
+                              typeIndex,
+                              typeOptionsObj,
+                              30,
+                            )}`}
+                                  </Text>
+                                </>
+                              )}
+                            </>
+                          )}
+                        </Box>
+                      )}
                     </Box>
                   </Box>
                   <Box

@@ -35,8 +35,12 @@ const SelectTeacher = props => {
   );
 };
 
+SelectTeacher.defaultProps = {
+  teacherError: false,
+};
+
 SelectTeacher.propTypes = {
-  teacherError: PropTypes.bool.isRequired,
+  teacherError: PropTypes.bool,
   onSearchTeachers: PropTypes.func.isRequired,
   selectedTeacher: PropTypes.string.isRequired,
   teacherOptions: PropTypes.instanceOf(Object).isRequired,
