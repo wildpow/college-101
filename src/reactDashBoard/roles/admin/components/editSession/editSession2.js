@@ -13,7 +13,7 @@ import StartDate from "../sharedComponents/startDate";
 import StartTimePicker from "../sharedComponents/startTimePicker";
 import convertDateTime from "../../sharedFunctions/convertDateTime";
 import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
-
+import { timeFormat } from "../../../../../utils/globalFunctions";
 class EditSession extends React.Component {
   static propTypes = {
     selectedCourse: PropTypes.string,
@@ -44,6 +44,7 @@ class EditSession extends React.Component {
       courseOptions: [],
       courseOptionsCopy: [],
       courseIDs: [],
+      startTime: "",
     };
   }
 
@@ -113,6 +114,7 @@ class EditSession extends React.Component {
 
     this.setState({
       startDate,
+      startTime: timeFormat(startDate),
       teacherIDs,
       teacherOptions,
       teacherOptionsCopy: teacherOptions,
@@ -128,11 +130,6 @@ class EditSession extends React.Component {
 
   layerToggle = changeAction => {
     const { selectedTeacher, selectedType, startDate } = this.props;
-    // const startDate = new Date(session.startTime);
-    // eslint-disable-next-line prettier/prettier
-    // const currentTeacher = `${session.teacher.firstName} ${
-    //   session.teacher.lastName
-    // }`;
     if (changeAction) {
       this.setState({ layer: true });
     } else {
@@ -198,6 +195,14 @@ class EditSession extends React.Component {
     this.setState({ startDate: date, startDateOpen: false });
   };
 
+  onChangeStartTime = event => {
+    this.setState({
+      startTime: event.target.value,
+      startTimeError: false,
+      startTimeMessage: "Please enter start time",
+    });
+  };
+
   render() {
     const {
       layer,
@@ -217,10 +222,10 @@ class EditSession extends React.Component {
       courseError,
       courseOptions,
     } = this.state;
+
     const { groupVSPrivate } = this.props;
     return (
       <Box>
-        {console.log(this.props)}
         <Button
           icon={<Add />}
           label="Edit Session"

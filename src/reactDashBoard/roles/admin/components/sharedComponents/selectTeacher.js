@@ -15,6 +15,7 @@ const SelectTeacher = props => {
     <HoverContainer>
       <FormField label="Teacher">
         <Select
+          searchPlaceholder="Search Teachers"
           placeholder="Select a Teacher"
           value={selectedTeacher}
           onSearch={searchText => onSearchTeachers(searchText)}
