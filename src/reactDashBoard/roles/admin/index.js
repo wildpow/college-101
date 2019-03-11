@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Box, Calendar, DropButton, Heading } from "grommet";
 import { FormDown } from "grommet-icons";
-import NonApGroup from "./components/createSession/nonApGroup";
-// import QueryTeacherCourse from "../../queryComponents/QueryTeacherCourse";
+import NonApGroup from "./components/createNonApGroup";
 import ViewSession from "./components/viewSession/viewSession";
-import Messages from "./messages";
-import PrivateTutoring from "./components/createSession/privateTutoring";
+import Messages from "./components/sharedComponents/messages";
+import PrivateTutoring from "./components/createPrivateTutoring";
+import QueryAdminViewAll from "../../queryComponents/QueryAdminViewAll";
 
 const Header = styled.div`
   display: flex;
@@ -107,6 +108,11 @@ const Admin = props => {
       <Messages message={message} setEvent={setEvent} event={event} />
     </>
   );
+};
+
+Admin.propTypes = {
+  data: PropTypes.shape({ type: PropTypes.oneOf([QueryAdminViewAll]) })
+    .isRequired,
 };
 
 export default Admin;

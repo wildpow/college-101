@@ -1,6 +1,6 @@
 import React from "react";
 import { navigate, Link } from "gatsby";
-import { logout } from "../../services/auth";
+import { logout } from "../../../../services/auth";
 
 const AdminNav = () => {
   return (

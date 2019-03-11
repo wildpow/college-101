@@ -4,14 +4,14 @@ import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { Button, Layer, Box, Text, CheckBox } from "grommet";
 import { Edit, ClearOption } from "grommet-icons";
-import LayerHeader from "../../layerHeader";
-import TypeOfClass from "../sharedComponents/typeOfClass";
-import SelectCourse from "../sharedComponents/selectCourse";
-import SelectTeacher from "../sharedComponents/selectTeacher";
-import StartDate from "../sharedComponents/startDate";
-import StartTimePicker from "../sharedComponents/startTimePicker";
-import convertDateTime from "../../sharedFunctions/convertDateTime";
-import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
+import LayerHeader from "./sharedComponents/layerHeader";
+import TypeOfClass from "./sharedComponents/typeOfClass";
+import SelectCourse from "./sharedComponents/selectCourse";
+import SelectTeacher from "./sharedComponents/selectTeacher";
+import StartDate from "./sharedComponents/startDate";
+import StartTimePicker from "./sharedComponents/startTimePicker";
+import convertDateTime from "../sharedFunctions/convertDateTime";
+import { ALL_FOR_ADMIN } from "../../../queryComponents/QueryAdminViewAll";
 
 const UPDATE_SESSION = gql`
   mutation(
@@ -22,6 +22,7 @@ const UPDATE_SESSION = gql`
     $teacherId: ID
     $timeAndPrice: String
     $sessionId: ID
+    $extraTime: Int
   ) {
     updateSession(
       where: { id: $sessionId }
@@ -29,6 +30,7 @@ const UPDATE_SESSION = gql`
         startTime: $startTime
         endTime: $endTime
         maxSizeOfClass: $maxSizeOfClass
+        extraTime: $extraTime
         status: PUBLISHED
         teacher: { connect: { id: $teacherId } }
         course: { connect: { id: $courseId } }
@@ -44,6 +46,13 @@ class EditSession extends React.Component {
     selectedCourse: PropTypes.string,
     selectedTeacher: PropTypes.string,
     selectedType: PropTypes.string,
+    startTime: PropTypes.string.isRequired,
+    teachers: PropTypes.instanceOf(Object).isRequired,
+    timeAndPrices: PropTypes.instanceOf(Object).isRequired,
+    courses: PropTypes.instanceOf(Object).isRequired,
+    maxSizeOfClass: PropTypes.number.isRequired,
+    groupVSPrivate: PropTypes.string.isRequired,
+
     // setMessage: PropTypes.func.isRequired,
   };
 
@@ -62,7 +71,7 @@ class EditSession extends React.Component {
       teacherOptions: [],
       teacherOptionsCopy: [],
       maxSizeOfClass: 0,
-      selectedGroup: "",
+      selectedType: "",
       typeIndex: null,
       typeOptions: [],
       typeOptionsObj: [],
@@ -72,6 +81,8 @@ class EditSession extends React.Component {
       courseIDs: [],
       startTime: "",
       startDateOpen: false,
+      extraTime: 0,
+      extraTimeBool: false,
     };
   }
 
@@ -87,6 +98,7 @@ class EditSession extends React.Component {
       selectedCourse,
       startTime,
       maxSizeOfClass,
+      session,
     } = this.props;
 
     const teacherOptions = [];
@@ -156,6 +168,9 @@ class EditSession extends React.Component {
       courseOptions,
       courseOptionsCopy: courseOptions,
       maxSizeOfClass,
+      groupVSPrivate,
+      extraTime: session.extraTime,
+      extraTimeBool: session.extraTime > 0 && true,
     });
   }
 
@@ -225,12 +240,15 @@ class EditSession extends React.Component {
       }
       this.setState({
         maxSizeOfClass: nextProps.maxSizeOfClass,
-        groupVSPrivate: nextProps.maxSizeOfClass,
+        groupVSPrivate: nextProps.groupVSPrivate,
         selectedTeacher: nextProps.selectedTeacher,
         selectedType: nextProps.selectedType,
         startDate: nextProps.startDate,
         selectedCourse: nextProps.selectedCourse,
         startTime: nextProps.startTime,
+        extraTime:
+          nextProps.session.extraTime > 0 && nextProps.session.extraTime,
+        extraTimeBool: nextProps.session.extraTime > 0 && true,
         courseOptions,
         courseOptionsCopy: courseOptions,
         courseIDs,
@@ -266,7 +284,7 @@ class EditSession extends React.Component {
         // privateIndex: null,
         maxSizeOfClass,
         // courseBool: true,
-        // extraTime: false,
+        extraTime: false,
         startTime,
         selectedType,
       });
@@ -399,7 +417,7 @@ class EditSession extends React.Component {
       startTimeError,
       startTime,
       startTimeMessage,
-      courseBool,
+      extraTimeBool,
       selectedCourse,
       courseError,
       courseOptions,
@@ -407,17 +425,19 @@ class EditSession extends React.Component {
       typeIndex,
       maxSizeOfClass,
       extraTime,
+      groupVSPrivate,
     } = this.state;
     const {
-      selectedTeacher: selectedTeachProps,
-      selectedType: selectedTypeProps,
-      startDate: startDateProps,
-      selectedCourse: selectedCourseProps,
-      startTime: startTimeProps,
+      maxSizeOfClass: propsMaxSizeOfClass,
+      selectedTeacher: propsSelectedTeach,
+      selectedType: propsSelectedType,
+      startDate: propsStartDate,
+      selectedCourse: propsSelectedCourse,
+      startTime: propsStartTime,
     } = this.props;
-    const { groupVSPrivate } = this.props;
     return (
       <Box>
+        {console.log(this.props.session)}
         <Button
           icon={<Edit />}
           label="Edit Session"
@@ -456,11 +476,12 @@ class EditSession extends React.Component {
                   onSubmit={event => {
                     event.preventDefault();
                     if (
-                      selectedTypeProps === selectedType &&
-                      selectedCourseProps === selectedCourse &&
-                      selectedTeachProps === selectedTeacher &&
-                      startDateProps === startDate &&
-                      startTimeProps === startTime
+                      propsMaxSizeOfClass === maxSizeOfClass &&
+                      propsSelectedType === selectedType &&
+                      propsSelectedCourse === selectedCourse &&
+                      propsSelectedTeach === selectedTeacher &&
+                      propsStartDate === startDate &&
+                      propsStartTime === startTime
                     ) {
                       console.log("POOP");
                     }
@@ -540,7 +561,7 @@ class EditSession extends React.Component {
                       {groupVSPrivate === "Private" && (
                         <Box direction="column" gap="small">
                           <CheckBox
-                            checked={extraTime}
+                            checked={extraTimeBool}
                             label="Add extra 30 minutes?"
                             onChange={event => this.extra30Mintutes(event)}
                           />
@@ -554,6 +575,7 @@ class EditSession extends React.Component {
                               startDate,
                               startTime,
                               typeOptionsObj[typeIndex].time,
+                              extraTime,
                             ).toLocaleTimeString()}`}
                                   </Text>
                                 </>
@@ -568,7 +590,8 @@ class EditSession extends React.Component {
                             Session end time: ${convertDateTime(
                               startDate,
                               startTime,
-                              30,
+                              typeOptionsObj[typeIndex].time,
+                              extraTime,
                             ).toLocaleTimeString()}`}
                                   </Text>
                                 </>

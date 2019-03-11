@@ -7,7 +7,7 @@ import {
 } from "../../reactDashBoard/services/auth";
 import CustomerNav from "../../reactDashBoard/roles/customer/customerNav";
 import TeacherNav from "../../reactDashBoard/roles/teacher/teacherNav";
-import AdminNav from "../../reactDashBoard/roles/admin/adminNav";
+import AdminNav from "../../reactDashBoard/roles/admin/components/sharedComponents/adminNav";
 
 const NavSwitch = () => {
   const user = getUser();
@@ -46,7 +46,7 @@ const NavSwitch = () => {
           href="/app"
           onClick={event => {
             event.preventDefault();
-            handleLogin(user => navigate("/dashboard"));
+            handleLogin(() => navigate("/dashboard"));
           }}
         >
           login

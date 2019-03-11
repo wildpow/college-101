@@ -3,17 +3,10 @@ import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import PropTypes from "prop-types";
 import { Button, Layer, Heading, Box, Select } from "grommet";
-import {
-  Add,
-  FormSubtract,
-  Edit,
-  ClearOption,
-  Clear,
-  Trash,
-  UserAdd,
-} from "grommet-icons";
+import { UserAdd } from "grommet-icons";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
-import LayerHeader from "../../layerHeader";
+import LayerHeader from "../sharedComponents/layerHeader";
+import QueryStudents from "../../../../queryComponents/QueryStudents";
 
 const ADD_STUDENT = gql`
   mutation($students: [StudentWhereUniqueInput!], $sessionId: ID) {
@@ -159,10 +152,17 @@ const AddStudent = props => {
   );
 };
 
+AddStudent.defaultProps = {
+  startTimeCheck: false,
+  endTimeTimeCheck: false,
+};
 AddStudent.propTypes = {
   eventTimer: PropTypes.func.isRequired,
   setMessage: PropTypes.func.isRequired,
-  // startTimeCheck:
-  // endTimeTimeCheck:
+  session: PropTypes.instanceOf(Object).isRequired,
+  data: PropTypes.shape({ type: PropTypes.oneOf([QueryStudents]) }).isRequired,
+  startTimeCheck: PropTypes.bool,
+  endTimeTimeCheck: PropTypes.bool,
 };
+
 export default AddStudent;

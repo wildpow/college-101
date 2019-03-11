@@ -3,22 +3,14 @@ import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { Box, Button, Layer, Text } from "grommet";
-import {
-  Add,
-  FormSubtract,
-  AddCircle,
-  ScheduleNew,
-  Trash,
-} from "grommet-icons";
-import SelectCourse from "../sharedComponents/selectCourse";
-import SelectTeacher from "../sharedComponents/selectTeacher";
-import StartDate from "../sharedComponents/startDate";
-import StartTimePicker from "../sharedComponents/startTimePicker";
-// import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
-// import SelectNonAP from "./selectNonAP";
-import LayerHeader from "../../layerHeader";
-import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
-import TypeOfClass from "../sharedComponents/typeOfClass";
+import { AddCircle, ScheduleNew, Trash } from "grommet-icons";
+import SelectCourse from "./sharedComponents/selectCourse";
+import SelectTeacher from "./sharedComponents/selectTeacher";
+import StartDate from "./sharedComponents/startDate";
+import StartTimePicker from "./sharedComponents/startTimePicker";
+import LayerHeader from "./sharedComponents/layerHeader";
+import { ALL_FOR_ADMIN } from "../../../queryComponents/QueryAdminViewAll";
+import TypeOfClass from "./sharedComponents/typeOfClass";
 
 const ADD_SESSION = gql`
   mutation(
@@ -50,6 +42,9 @@ class NonApGroup extends React.Component {
   static propTypes = {
     eventTimer: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
+    courses: PropTypes.instanceOf(Object).isRequired,
+    teachers: PropTypes.instanceOf(Object).isRequired,
+    timeAndPrices: PropTypes.instanceOf(Object).isRequired,
   };
 
   constructor(...args) {

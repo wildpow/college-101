@@ -14,7 +14,7 @@ import ViewReceipt from "./viewReceipt";
 import QueryReceipt from "../../../../queryComponents/QueryReceipt";
 import QueryStudents from "../../../../queryComponents/QueryStudents";
 import AddStudent from "./addStudent";
-import EditSession from "../editSession/editSession2";
+import EditSession from "../editSession";
 import { timeFormat } from "../../../../../utils/globalFunctions";
 
 const TableBB = styled(Table)`
@@ -28,6 +28,8 @@ const InfoSession = props => {
     teachers,
     courses,
     timeAndPrices,
+    selectedStart,
+    selectedEnd,
   } = props;
 
   const selectedCourse =
@@ -76,8 +78,8 @@ const InfoSession = props => {
     if (res === 2) message = "Absent";
     if (res === 3) message = "Present";
   };
-  const startTimeCheck = new Date(props.selectedStart) < new Date() && true;
-  const endTimeTimeCheck = new Date(props.selectedEnd) < new Date() && true;
+  const startTimeCheck = new Date(selectedStart) < new Date() && true;
+  const endTimeTimeCheck = new Date(selectedEnd) < new Date() && true;
 
   const attendanceCheck = (att, object) => {
     if (object.length === 0 || att === null) {
@@ -309,6 +311,12 @@ const InfoSession = props => {
 InfoSession.propTypes = {
   setMessage: PropTypes.func.isRequired,
   eventTimer: PropTypes.func.isRequired,
+  selectedEnd: PropTypes.string.isRequired,
+  teachers: PropTypes.instanceOf(Object).isRequired,
+  courses: PropTypes.instanceOf(Object).isRequired,
+  selectedSession: PropTypes.instanceOf(Object).isRequired,
+  timeAndPrices: PropTypes.instanceOf(Object).isRequired,
+  selectedStart: PropTypes.string.isRequired,
 };
 
 export default InfoSession;

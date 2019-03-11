@@ -3,22 +3,16 @@ import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { Button, Layer, Box, Text, CheckBox } from "grommet";
-import {
-  Add,
-  FormSubtract,
-  AddCircle,
-  ScheduleNew,
-  Trash,
-} from "grommet-icons";
-import LayerHeader from "../../layerHeader";
-import TypeOfClass from "../sharedComponents/typeOfClass";
-import SelectCourse from "../sharedComponents/selectCourse";
-import SelectTeacher from "../sharedComponents/selectTeacher";
-import StartDate from "../sharedComponents/startDate";
-import StartTimePicker from "../sharedComponents/startTimePicker";
+import { AddCircle, ScheduleNew, Trash } from "grommet-icons";
+import LayerHeader from "./sharedComponents/layerHeader";
+import TypeOfClass from "./sharedComponents/typeOfClass";
+import SelectCourse from "./sharedComponents/selectCourse";
+import SelectTeacher from "./sharedComponents/selectTeacher";
+import StartDate from "./sharedComponents/startDate";
+import StartTimePicker from "./sharedComponents/startTimePicker";
 // import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
-import convertDateTime from "../../sharedFunctions/convertDateTime";
-import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
+import convertDateTime from "../sharedFunctions/convertDateTime";
+import { ALL_FOR_ADMIN } from "../../../queryComponents/QueryAdminViewAll";
 
 const ADD_PRIVATE_TUT = gql`
   mutation(
@@ -28,6 +22,7 @@ const ADD_PRIVATE_TUT = gql`
     $courseId: ID
     $teacherId: ID
     $timeAndPrice: String
+    $extraTime: Int
   ) {
     createSession(
       data: {
@@ -35,6 +30,7 @@ const ADD_PRIVATE_TUT = gql`
         endTime: $endTime
         maxSizeOfClass: $maxSizeOfClass
         status: PUBLISHED
+        extraTime: $extraTime
         teacher: { connect: { id: $teacherId } }
         course: { connect: { id: $courseId } }
         timeAndPrice: { connect: { name: $timeAndPrice } }
@@ -48,6 +44,9 @@ class PrivateTutoring extends React.Component {
   static propTypes = {
     eventTimer: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
+    timeAndPrices: PropTypes.instanceOf(Object).isRequired,
+    teachers: PropTypes.instanceOf(Object).isRequired,
+    courses: PropTypes.instanceOf(Object).isRequired,
   };
 
   constructor(...args) {
@@ -344,6 +343,7 @@ class PrivateTutoring extends React.Component {
                             courseId,
                             maxSizeOfClass,
                             timeAndPrice: selectedType,
+                            extraTime: extraTime ? 30 : 0,
                           },
                         });
                         this.layerToggle(false);

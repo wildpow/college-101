@@ -67,6 +67,9 @@ class ViewSessionTest extends React.Component {
     sessions: PropTypes.instanceOf(Object).isRequired,
     eventTimer: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
+    timeAndPrices: PropTypes.instanceOf(Object).isRequired,
+    courses: PropTypes.instanceOf(Object).isRequired,
+    teachers: PropTypes.instanceOf(Object).isRequired,
   };
 
   constructor(props) {
