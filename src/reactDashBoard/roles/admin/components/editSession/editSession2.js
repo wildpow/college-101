@@ -334,7 +334,7 @@ class EditSession extends React.Component {
       });
     } else {
       const courseOptions = [];
-      const courseNamesCopy = [];
+      const courseOptionsCopy = [];
       const courseIDs = [];
 
       courses.map(course => {
@@ -342,22 +342,23 @@ class EditSession extends React.Component {
           if (course.apNonAp === "Reg") {
             courseIDs.push(course.id);
             courseOptions.push(course.name);
-            courseNamesCopy.push(course.name);
+            courseOptionsCopy.push(course.name);
           }
         }
         if (event.value === "Private Collage Prep") {
           if (course.apNonAp === "Prep") {
             courseIDs.push(course.id);
             courseOptions.push(course.name);
-            courseNamesCopy.push(course.name);
+            courseOptionsCopy.push(course.name);
           }
         }
         return null;
       });
       this.setState({
         courseOptions,
-        courseNamesCopy,
+        courseOptionsCopy,
         courseIDs,
+        selectedCourse: "",
         selectedType: event.value,
         typeError: false,
         typeIndex,

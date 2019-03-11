@@ -148,6 +148,7 @@ class PrivateTutoring extends React.Component {
       courseNamesCopy,
       courseIDs,
       selectedType: event.value,
+      selectedCourse: "",
       typeError: false,
       typeIndex,
       courseBool: false,
