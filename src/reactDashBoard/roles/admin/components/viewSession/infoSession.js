@@ -148,6 +148,7 @@ const InfoSession = props => {
                     startDate={startDate.toISOString()}
                     selectedCourse={selectedCourse}
                     startTime={startTime}
+                    maxSizeOfClass={selectedSession.maxSizeOfClass}
                   />
                 </Box>
               </Box>

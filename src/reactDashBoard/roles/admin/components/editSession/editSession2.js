@@ -78,9 +78,9 @@ class EditSession extends React.Component {
   componentDidMount() {
     const {
       teachers,
-      groupVSPrivate,
       timeAndPrices,
       courses,
+      groupVSPrivate,
       selectedTeacher,
       selectedType,
       startDate,
@@ -159,8 +159,95 @@ class EditSession extends React.Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    const courseOptions = [];
+    const courseIDs = [];
+    const typeOptions = [];
+    const typeOptionsObj = [];
+    const {
+      maxSizeOfClass,
+      groupVSPrivate,
+      selectedTeacher,
+      selectedType,
+      startDate,
+      selectedCourse,
+      startTime,
+      timeAndPrices,
+      courses,
+    } = this.props;
+    if (
+      nextProps.maxSizeOfClass !== maxSizeOfClass ||
+      nextProps.groupVSPrivate !== groupVSPrivate ||
+      nextProps.selectedTeacher !== selectedTeacher ||
+      nextProps.selectedType !== selectedType ||
+      nextProps.startDate !== startDate ||
+      nextProps.selectedCourse !== selectedCourse ||
+      nextProps.startTime !== startTime
+    ) {
+      if (nextProps.groupVSPrivate === "Group") {
+        timeAndPrices.map(t => {
+          if (t.groupVsPrivate === "Group") {
+            typeOptions.push(t.name);
+            typeOptionsObj.push(t);
+          }
+          return null;
+        });
+        courses.map(course => {
+          if (course.apNonAp === "Reg") {
+            courseOptions.push(course.name);
+            courseIDs.push(course.id);
+          }
+          return null;
+        });
+      } else {
+        timeAndPrices.map(t => {
+          if (t.groupVsPrivate === "Private") {
+            typeOptions.push(t.name);
+            typeOptionsObj.push(t);
+          }
+          return null;
+        });
+        courses.map(course => {
+          if (nextProps.selectedType === "Private Tutoring") {
+            if (course.apNonAp === "Reg") {
+              courseIDs.push(course.id);
+              courseOptions.push(course.name);
+            }
+          }
+          if (nextProps.selectedType === "Private Collage Prep") {
+            if (course.apNonAp === "Prep") {
+              courseIDs.push(course.id);
+              courseOptions.push(course.name);
+            }
+          }
+          return null;
+        });
+      }
+      this.setState({
+        maxSizeOfClass: nextProps.maxSizeOfClass,
+        groupVSPrivate: nextProps.maxSizeOfClass,
+        selectedTeacher: nextProps.selectedTeacher,
+        selectedType: nextProps.selectedType,
+        startDate: nextProps.startDate,
+        selectedCourse: nextProps.selectedCourse,
+        startTime: nextProps.startTime,
+        courseOptions,
+        courseOptionsCopy: courseOptions,
+        courseIDs,
+        typeOptions,
+        typeOptionsObj,
+      });
+    }
+  }
+
   layerToggle = changeAction => {
-    const { selectedTeacher, selectedType, startDate } = this.props;
+    const {
+      selectedTeacher,
+      selectedType,
+      startDate,
+      maxSizeOfClass,
+      startTime,
+    } = this.props;
     if (changeAction) {
       this.setState({ layer: true });
     } else {
@@ -177,10 +264,10 @@ class EditSession extends React.Component {
         // startTimeError: false,
         // startTime: "",
         // privateIndex: null,
-        // maxSizeOfClass: 0,
+        maxSizeOfClass,
         // courseBool: true,
         // extraTime: false,
-
+        startTime,
         selectedType,
       });
     }
@@ -297,11 +384,6 @@ class EditSession extends React.Component {
     });
   };
 
-  convertEndTimeToString = (date, time, index, arr, extra) => {
-    const endDateTime = convertDateTime(date, time, index, arr, extra);
-    return endDateTime.toLocaleTimeString();
-  };
-
   render() {
     const {
       layer,
@@ -384,7 +466,6 @@ class EditSession extends React.Component {
                   }}
                 >
                   <Box fill overflow="scroll" justify="between">
-                    {console.log("STATE!!!", this.state)}
                     <Box>
                       {groupVSPrivate === "Private" && (
                         <TypeOfClass
@@ -430,17 +511,6 @@ class EditSession extends React.Component {
                         startTimeMessage={startTimeMessage}
                         onChangeStartTime={this.onChangeStartTime}
                       />
-                      {console.log(
-                        "start!",
-                        startDate,
-                        "startTime!",
-                        startTime,
-                        "index",
-                        typeIndex,
-                        "typeOptionsObj",
-                        typeOptionsObj,
-                        typeOptionsObj[typeIndex].time,
-                      )}
                       {groupVSPrivate === "Group" && (
                         <Box direction="column" gap="small">
                           {selectedType && (
@@ -457,13 +527,11 @@ class EditSession extends React.Component {
                           {startTime && selectedType && (
                             <Text size="large">
                               {`
-                            Session end time: ${this.convertEndTimeToString(
+                            Session end time: ${convertDateTime(
                               startDate,
                               startTime,
-                              typeIndex,
-                              typeOptionsObj,
                               typeOptionsObj[typeIndex].time,
-                            )}`}
+                            ).toLocaleTimeString()}`}
                             </Text>
                           )}
                         </Box>
@@ -481,12 +549,11 @@ class EditSession extends React.Component {
                                 <>
                                   <Text size="large">
                                     {`
-                            Session end time: ${this.convertEndTimeToString(
+                            Session end time: ${convertDateTime(
                               startDate,
                               startTime,
-                              typeIndex,
-                              typeOptionsObj,
-                            )}`}
+                              typeOptionsObj[typeIndex].time,
+                            ).toLocaleTimeString()}`}
                                   </Text>
                                 </>
                               )}
@@ -497,13 +564,11 @@ class EditSession extends React.Component {
                                 <>
                                   <Text size="large">
                                     {`
-                            Session end time: ${this.convertEndTimeToString(
+                            Session end time: ${convertDateTime(
                               startDate,
                               startTime,
-                              typeIndex,
-                              typeOptionsObj,
                               30,
-                            )}`}
+                            ).toLocaleTimeString()}`}
                                   </Text>
                                 </>
                               )}

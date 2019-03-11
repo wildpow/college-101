@@ -73,7 +73,7 @@ class PrivateTutoring extends React.Component {
       startTimeError: false,
       startTimeMessage: "Please enter start time",
       maxSizeOfClass: 0,
-      privateIndex: null,
+      typeIndex: null,
       typeOptions: [],
       typeOptionsObj: [],
       extraTime: false,
@@ -111,7 +111,7 @@ class PrivateTutoring extends React.Component {
         startDate: new Date().toISOString(),
         startTimeError: false,
         startTime: "",
-        privateIndex: null,
+        typeIndex: null,
         maxSizeOfClass: 0,
         courseBool: true,
         extraTime: false,
@@ -122,7 +122,7 @@ class PrivateTutoring extends React.Component {
   typeSelectChange = event => {
     const { typeOptions, typeOptionsObj } = this.state;
     const { courses } = this.props;
-    const privateIndex = typeOptions.indexOf(event.value);
+    const typeIndex = typeOptions.indexOf(event.value);
     const courseOptions = [];
     const courseNamesCopy = [];
     const courseIDs = [];
@@ -149,9 +149,9 @@ class PrivateTutoring extends React.Component {
       courseIDs,
       selectedType: event.value,
       typeError: false,
-      privateIndex,
+      typeIndex,
       courseBool: false,
-      maxSizeOfClass: typeOptionsObj[privateIndex].maxStudents,
+      maxSizeOfClass: typeOptionsObj[typeIndex].maxStudents,
     });
   };
 
@@ -224,7 +224,7 @@ class PrivateTutoring extends React.Component {
       teacherError: false,
       typeError: false,
       selectedType: "",
-      privateIndex: null,
+      typeIndex: null,
       maxSizeOfClass: 0,
       courseBool: true,
       extraTime: false,
@@ -233,11 +233,6 @@ class PrivateTutoring extends React.Component {
 
   extra30Mintutes = event => {
     this.setState({ extraTime: event.target.checked });
-  };
-
-  convertEndTimeToString = (date, time, index, arr, extra) => {
-    const endDateTime = convertDateTime(date, time, index, arr, extra);
-    return endDateTime.toLocaleTimeString();
   };
 
   render() {
@@ -258,7 +253,7 @@ class PrivateTutoring extends React.Component {
       startTime,
       startTimeMessage,
       typeOptions,
-      privateIndex,
+      typeIndex,
       extraTime,
       teacherIDs,
       courseIDs,
@@ -324,8 +319,7 @@ class PrivateTutoring extends React.Component {
                       const finalEnd = convertDateTime(
                         startDate,
                         startTime,
-                        privateIndex,
-                        typeOptionsObj,
+                        typeOptionsObj[typeIndex].time,
                         extraTime ? 30 : undefined,
                       );
                       if (date > finalStart) {
@@ -408,12 +402,11 @@ class PrivateTutoring extends React.Component {
                               <>
                                 <Text size="large">
                                   {`
-                            Session end time: ${this.convertEndTimeToString(
+                            Session end time: ${convertDateTime(
                               startDate,
                               startTime,
-                              privateIndex,
-                              typeOptionsObj,
-                            )}`}
+                              typeOptionsObj[typeIndex].time,
+                            ).toLocaleTimeString()}`}
                                 </Text>
                               </>
                             )}
@@ -424,13 +417,12 @@ class PrivateTutoring extends React.Component {
                               <>
                                 <Text size="large">
                                   {`
-                            Session end time: ${this.convertEndTimeToString(
+                            Session end time: ${convertDateTime(
                               startDate,
                               startTime,
-                              privateIndex,
-                              typeOptionsObj,
+                              typeOptionsObj[typeIndex].time,
                               30,
-                            )}`}
+                            ).toLocaleTimeString()}`}
                                 </Text>
                               </>
                             )}
