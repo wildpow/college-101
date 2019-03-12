@@ -14,7 +14,6 @@ const InputStatusMessage = props => {
       gap="xsmall"
       margin={{ horizontal: "small" }}
     >
-      {console.log(bottomMessage)}
       <ErrorText
         newHeight={size === "large" ? "80px" : "24px"}
         bottomMessage={bottomMessage}

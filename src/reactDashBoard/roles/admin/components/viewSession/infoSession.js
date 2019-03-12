@@ -151,6 +151,8 @@ const InfoSession = props => {
                     selectedCourse={selectedCourse}
                     startTime={startTime}
                     maxSizeOfClass={selectedSession.maxSizeOfClass}
+                    eventTimer={eventTimer}
+                    setMessage={setMessage}
                   />
                 </Box>
               </Box>
@@ -297,6 +299,8 @@ const InfoSession = props => {
                     startDate={startDate.toISOString()}
                     startTime={startTime}
                     maxSizeOfClass={selectedSession.maxSizeOfClass}
+                    eventTimer={eventTimer}
+                    setMessage={setMessage}
                   />
                 </Box>
               </Box>

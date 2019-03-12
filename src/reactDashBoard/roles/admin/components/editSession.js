@@ -55,7 +55,8 @@ class EditSession extends React.Component {
     groupVSPrivate: PropTypes.string.isRequired,
     session: PropTypes.instanceOf(Object).isRequired,
     startDate: PropTypes.string.isRequired,
-    // setMessage: PropTypes.func.isRequired,
+    eventTimer: PropTypes.func.isRequired,
+    setMessage: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -72,6 +73,7 @@ class EditSession extends React.Component {
       selectedTeacher: "",
       teacherOptions: [],
       teacherOptionsCopy: [],
+      teacherIDs: [],
       maxSizeOfClass: 0,
       selectedType: "",
       typeIndex: null,
@@ -161,6 +163,7 @@ class EditSession extends React.Component {
     }
     const typeIndex = typeOptions.indexOf(selectedType);
     this.setState({
+      courseIDs,
       startDate,
       startTime,
       teacherIDs,
@@ -178,6 +181,7 @@ class EditSession extends React.Component {
       groupVSPrivate,
       extraTime: session.extraTime,
       extraTimeBool: session.extraTime > 0 && true,
+      success: true,
     });
   }
 
@@ -261,6 +265,7 @@ class EditSession extends React.Component {
         courseIDs,
         typeOptions,
         typeOptionsObj,
+        success: true,
       });
     }
   }
@@ -272,15 +277,18 @@ class EditSession extends React.Component {
       startDate,
       maxSizeOfClass,
       startTime,
+      selectedCourse,
     } = this.props;
     if (changeAction) {
       this.setState({ layer: true });
     } else {
       this.setState({
+        success: true,
+        startTimeMessageBool: false,
         layer: false,
         // typeSelect: "",
         typeMessageBool: false,
-        // selectedCourse: "",
+        selectedCourse,
         courseMessageBool: false,
         teacherMessageBool: false,
         selectedTeacher,
@@ -296,6 +304,7 @@ class EditSession extends React.Component {
         selectedType,
         nothingChanged: false,
         startDateMessageBool: false,
+        courseMessage: "Course updated",
       });
     }
   };
@@ -325,6 +334,8 @@ class EditSession extends React.Component {
       courseOptions: courseOptionsCopy,
       courseMessageBool: true,
       nothingChanged: false,
+      success: true,
+      courseMessage: "Course updated",
     });
   };
 
@@ -426,6 +437,8 @@ class EditSession extends React.Component {
       startTimeMessageBool: false,
       nothingChanged: false,
       startDateMessageBool: false,
+      success: true,
+      courseMessage: "Course Updated.",
     });
   };
 
@@ -454,18 +467,27 @@ class EditSession extends React.Component {
       typeMessageBool,
       nothingChanged,
       startDateMessageBool,
+      courseIDs,
+      teacherIDs,
+      teacherOptionsCopy,
+      courseOptionsCopy,
+      success,
+      courseMessage,
     } = this.state;
     const {
       maxSizeOfClass: propsMaxSizeOfClass,
-      selectedTeacher: propsSelectedTeach,
+      selectedTeacher: propsSelectedTeacher,
       selectedType: propsSelectedType,
       startDate: propsStartDate,
       selectedCourse: propsSelectedCourse,
       startTime: propsStartTime,
+      session,
+      eventTimer,
+      setMessage,
     } = this.props;
     return (
       <Box>
-        {console.log(this.props.session)}
+        {/* {console.log(session)} */}
         <Button
           icon={<Edit />}
           label="Edit Session"
@@ -503,15 +525,91 @@ class EditSession extends React.Component {
                   as="form"
                   onSubmit={event => {
                     event.preventDefault();
+                    // const finalStart = convertDateTime(startDate, startTime);
+                    const finalEnd = convertDateTime(
+                      startDate,
+                      startTime,
+                      typeOptionsObj[typeIndex].time,
+                      extraTime,
+                    );
                     if (
                       propsMaxSizeOfClass === maxSizeOfClass &&
                       propsSelectedType === selectedType &&
                       propsSelectedCourse === selectedCourse &&
-                      propsSelectedTeach === selectedTeacher &&
+                      propsSelectedTeacher === selectedTeacher &&
                       propsStartDate === startDate &&
                       propsStartTime === startTime
+                      // session.endTime === finalEnd
                     ) {
                       this.setState({ nothingChanged: true });
+                    } else {
+                      if (selectedCourse.length === 0) {
+                        this.setState({
+                          courseMessage: "Please select a course.",
+                          courseMessageBool: true,
+                          success: false,
+                        });
+                      }
+                      const teacherId =
+                        teacherIDs[teacherOptionsCopy.indexOf(selectedTeacher)];
+                      const courseId =
+                        courseIDs[courseOptionsCopy.indexOf(selectedCourse)];
+                      const finalStart = convertDateTime(startDate, startTime);
+
+                      // The Idea behind newData was to create a object with just the changed
+                      // data and in the future use it for a messaging service between the teachers
+                      // and the Admin but, the mutation requires "teacherId", "courseId",
+                      // and "timeAndPrice" to be passed in to be successful. Not sure where
+                      // my knowledge gap is. Either I'm not writting the mutation correctly
+                      // or I don't fundamentally understanding GraphQL. I'm keeping newData
+                      // in place to pickup the rest of the changed vars in hopes that I'll come
+                      // back to this with fresh eyes and figure it out.
+                      const newData = {
+                        startTime:
+                          propsStartDate !== startDate ? finalStart : false,
+                        extraTime:
+                          session.extraTime !== extraTime ? extraTime : false,
+                        endTime:
+                          new Date(session.endTime).toLocaleString() !==
+                          finalEnd.toLocaleString()
+                            ? finalEnd
+                            : false,
+                        maxSizeOfClass:
+                          propsMaxSizeOfClass !== maxSizeOfClass
+                            ? maxSizeOfClass
+                            : false,
+                        // I WANT TO KEEP THESE TO.
+                        // timeAndPrice:
+                        //   propsSelectedType !== selectedType
+                        //     ? selectedType
+                        //     : false,
+                        // course:
+                        //   propsSelectedCourse !== selectedCourse
+                        //     ? courseId
+                        //     : false,
+                        // teacherId:
+                        //   propsSelectedTeacher !== selectedTeacher
+                        //     ? teacherId
+                        //     : false,
+                      };
+
+                      Object.keys(newData).forEach(key => {
+                        if (!newData[key]) {
+                          delete newData[key];
+                        }
+                      });
+                      updateSession({
+                        variables: {
+                          courseId,
+                          teacherId,
+                          timeAndPrice: selectedType,
+                          sessionId: session.id,
+                          ...newData,
+                        },
+                      });
+                      this.layerToggle(false);
+                      eventTimer(true);
+                      setMessage("Session Updated");
                     }
                   }}
                 >
@@ -545,10 +643,9 @@ class EditSession extends React.Component {
                         selectedCourse={selectedCourse}
                         courseOptions={courseOptions}
                         courseError={courseMessageBool}
-                        courseMessage="Updated course type."
-                        success
+                        courseMessage={courseMessage}
+                        success={success}
                       />
-                      {console.log(courseMessageBool)}
                       <SelectTeacher
                         teacherSelectChange={this.teacherSelectChange}
                         onSearchTeachers={this.onSearchTeachers}
