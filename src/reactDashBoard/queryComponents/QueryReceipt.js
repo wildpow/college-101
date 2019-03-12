@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import Spinner from "../Global_components/loading";
+// import Spinner from "../Global_components/loading";
 
 const ONERECEIPT = gql`
   query SingleReceipt($receiptID: ID!) {
@@ -37,6 +38,11 @@ const QueryReceipt = ({ receiptID, component: Component }) => {
       }}
     </Query>
   );
+};
+
+QueryReceipt.propTypes = {
+  receiptID: PropTypes.string.isRequired,
+  component: PropTypes.element.isRequired,
 };
 
 export default QueryReceipt;
