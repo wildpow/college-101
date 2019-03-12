@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { Text, Box } from "grommet";
 
 export const ErrorText = styled(Text)`
-  height: 24px;
+  height: ${props => (props.bottomMessage ? "60px" : "24px")};
+  max-width: ${props => (props.bottomMessage ? "180px" : "")};
 `;
 
 export const HoverContainer = styled(Box)`

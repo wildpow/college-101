@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormField, Select } from "grommet";
-import { ErrorText, HoverContainer } from "../../sharedStyles/sharedStyles";
+import { HoverContainer } from "../../sharedStyles/sharedStyles";
+import InputStatusMessage from "./inputStatusMessage";
 
 const TypeOfClass = props => {
   const {
@@ -10,6 +11,8 @@ const TypeOfClass = props => {
     typeError,
     typeSelectChange,
     typeLabel,
+    typeMessage,
+    success,
   } = props;
 
   return (
@@ -21,14 +24,11 @@ const TypeOfClass = props => {
           options={typeOptions}
           onChange={event => typeSelectChange(event)}
         />
-        <ErrorText
-          alignSelf="center"
-          margin="xsmall"
-          size="medium"
-          color="status-critical"
-        >
-          {typeError && "Please choose an option."}
-        </ErrorText>
+        <InputStatusMessage
+          success={success}
+          toggle={typeError}
+          message={typeMessage}
+        />
       </FormField>
     </HoverContainer>
   );
@@ -38,12 +38,16 @@ TypeOfClass.defaultProps = {
   typeLabel: "default label",
   typeError: false,
   typeOptions: ["option1", "option2"],
+  typeMessage: "Please choose an option.",
+  success: false,
 };
 TypeOfClass.propTypes = {
+  typeMessage: PropTypes.string,
   selectedType: PropTypes.string,
   typeLabel: PropTypes.string,
   typeSelectChange: PropTypes.func.isRequired,
   typeError: PropTypes.bool,
   typeOptions: PropTypes.instanceOf(Object),
+  success: PropTypes.bool,
 };
 export default TypeOfClass;

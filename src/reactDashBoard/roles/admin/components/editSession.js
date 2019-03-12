@@ -12,6 +12,7 @@ import StartDate from "./sharedComponents/startDate";
 import StartTimePicker from "./sharedComponents/startTimePicker";
 import convertDateTime from "../sharedFunctions/convertDateTime";
 import { ALL_FOR_ADMIN } from "../../../queryComponents/QueryAdminViewAll";
+import InputStatusMessage from "./sharedComponents/inputStatusMessage";
 
 const UPDATE_SESSION = gql`
   mutation(
@@ -52,7 +53,8 @@ class EditSession extends React.Component {
     courses: PropTypes.instanceOf(Object).isRequired,
     maxSizeOfClass: PropTypes.number.isRequired,
     groupVSPrivate: PropTypes.string.isRequired,
-
+    session: PropTypes.instanceOf(Object).isRequired,
+    startDate: PropTypes.string.isRequired,
     // setMessage: PropTypes.func.isRequired,
   };
 
@@ -75,6 +77,7 @@ class EditSession extends React.Component {
       typeIndex: null,
       typeOptions: [],
       typeOptionsObj: [],
+      typeMessageBool: false,
       selectedCourse: "",
       courseOptions: [],
       courseOptionsCopy: [],
@@ -83,6 +86,10 @@ class EditSession extends React.Component {
       startDateOpen: false,
       extraTime: 0,
       extraTimeBool: false,
+      courseMessageBool: false,
+      nothingChanged: false,
+      startTimeMessageBool: false,
+      startDateMessageBool: false,
     };
   }
 
@@ -272,10 +279,10 @@ class EditSession extends React.Component {
       this.setState({
         layer: false,
         // typeSelect: "",
-        sessionTypeError: false,
+        typeMessageBool: false,
         // selectedCourse: "",
-        // courseError: false,
-        // teacherError: false,
+        courseMessageBool: false,
+        teacherMessageBool: false,
         selectedTeacher,
         startDateOpen: false,
         startDate,
@@ -287,6 +294,8 @@ class EditSession extends React.Component {
         extraTime: false,
         startTime,
         selectedType,
+        nothingChanged: false,
+        startDateMessageBool: false,
       });
     }
   };
@@ -296,7 +305,8 @@ class EditSession extends React.Component {
     this.setState({
       selectedTeacher: event.value,
       teacherOptions: teacherOptionsCopy,
-      teacherError: false,
+      teacherMessageBool: true,
+      nothingChanged: false,
     });
   };
 
@@ -313,7 +323,8 @@ class EditSession extends React.Component {
     this.setState({
       selectedCourse: event.value,
       courseOptions: courseOptionsCopy,
-      courseError: false,
+      courseMessageBool: true,
+      nothingChanged: false,
     });
   };
 
@@ -328,14 +339,20 @@ class EditSession extends React.Component {
   startDateToggle = bool => this.setState({ startDateOpen: bool });
 
   startDateSelect = date => {
-    this.setState({ startDate: date, startDateOpen: false });
+    this.setState({
+      startDate: date,
+      startDateOpen: false,
+      startDateMessageBool: true,
+      nothingChanged: false,
+    });
   };
 
   onChangeStartTime = event => {
     this.setState({
       startTime: event.target.value,
-      startTimeError: false,
-      startTimeMessage: "Please enter start time",
+      startTimeMessageBool: true,
+      startTimeMessage: "Start Time Updated.",
+      nothingChanged: false,
     });
   };
 
@@ -346,9 +363,10 @@ class EditSession extends React.Component {
     if (groupVSPrivate === "Group") {
       this.setState({
         selectedType: event.value,
-        typeError: false,
+        typeMessageBool: true,
         typeIndex,
         maxSizeOfClass: typeOptionsObj[typeIndex].maxStudents,
+        nothingChanged: false,
       });
     } else {
       const courseOptions = [];
@@ -378,16 +396,17 @@ class EditSession extends React.Component {
         courseIDs,
         selectedCourse: "",
         selectedType: event.value,
-        typeError: false,
         typeIndex,
-        courseBool: false,
         maxSizeOfClass: typeOptionsObj[typeIndex].maxStudents,
+        typeMessageBool: true,
+        nothingChanged: false,
       });
     }
   };
 
   resetButton = () => {
     const {
+      maxSizeOfClass,
       selectedTeacher,
       selectedType,
       startDate,
@@ -395,11 +414,18 @@ class EditSession extends React.Component {
       startTime,
     } = this.props;
     this.setState({
+      maxSizeOfClass,
       selectedTeacher,
       selectedType,
       startDate,
       selectedCourse,
       startTime,
+      courseMessageBool: false,
+      typeMessageBool: false,
+      teacherMessageBool: false,
+      startTimeMessageBool: false,
+      nothingChanged: false,
+      startDateMessageBool: false,
     });
   };
 
@@ -408,24 +434,26 @@ class EditSession extends React.Component {
       layer,
       selectedType,
       typeOptions,
-      typeError,
       selectedTeacher,
       teacherOptions,
-      teacherError,
+      teacherMessageBool,
       startDate,
       startDateOpen,
-      startTimeError,
+      startTimeMessageBool,
       startTime,
       startTimeMessage,
       extraTimeBool,
       selectedCourse,
-      courseError,
+      courseMessageBool,
       courseOptions,
       typeOptionsObj,
       typeIndex,
       maxSizeOfClass,
       extraTime,
       groupVSPrivate,
+      typeMessageBool,
+      nothingChanged,
+      startDateMessageBool,
     } = this.state;
     const {
       maxSizeOfClass: propsMaxSizeOfClass,
@@ -483,7 +511,7 @@ class EditSession extends React.Component {
                       propsStartDate === startDate &&
                       propsStartTime === startTime
                     ) {
-                      console.log("POOP");
+                      this.setState({ nothingChanged: true });
                     }
                   }}
                 >
@@ -493,45 +521,58 @@ class EditSession extends React.Component {
                         <TypeOfClass
                           selectedType={selectedType}
                           typeSelectChange={this.typeSelectChange}
-                          typeError={typeError}
+                          typeError={typeMessageBool}
                           typeOptions={typeOptions}
                           typeLabel="Type of class"
+                          typeMessage="Updated class type."
+                          success
                         />
                       )}
                       {groupVSPrivate === "Group" && (
                         <TypeOfClass
                           selectedType={selectedType}
                           typeOptions={typeOptions}
-                          typeError={typeError}
+                          typeError={typeMessageBool}
                           typeSelectChange={this.typeSelectChange}
                           typeLabel="Non AP Time"
+                          typeMessage="Updated class type."
+                          success
                         />
                       )}
                       <SelectCourse
-                        selectedCourse={selectedCourse}
                         courseSelectChange={this.courseSelectChange}
                         onSearchCourses={this.onSearchCourses}
+                        selectedCourse={selectedCourse}
                         courseOptions={courseOptions}
-                        courseError={courseError}
+                        courseError={courseMessageBool}
+                        courseMessage="Updated course type."
+                        success
                       />
+                      {console.log(courseMessageBool)}
                       <SelectTeacher
-                        selectedTeacher={selectedTeacher}
-                        onSearchTeachers={this.onSearchTeachers}
-                        teacherOptions={teacherOptions}
-                        teacherError={teacherError}
                         teacherSelectChange={this.teacherSelectChange}
+                        onSearchTeachers={this.onSearchTeachers}
+                        selectedTeacher={selectedTeacher}
+                        teacherOptions={teacherOptions}
+                        teacherError={teacherMessageBool}
+                        teacherMessage="Updated teacher."
+                        success
                       />
                       <StartDate
                         startDateToggle={this.startDateToggle}
-                        startDate={startDate}
                         startDateSelect={this.startDateSelect}
+                        startDate={startDate}
                         startDateOpen={startDateOpen}
+                        startDateMessage="Date Updated"
+                        startDateMessageBool={startDateMessageBool}
+                        success
                       />
                       <StartTimePicker
-                        startTimeError={startTimeError}
+                        onChangeStartTime={this.onChangeStartTime}
+                        startTimeError={startTimeMessageBool}
                         startTime={startTime}
                         startTimeMessage={startTimeMessage}
-                        onChangeStartTime={this.onChangeStartTime}
+                        success
                       />
                       {groupVSPrivate === "Group" && (
                         <Box direction="column" gap="small">
@@ -601,6 +642,14 @@ class EditSession extends React.Component {
                         </Box>
                       )}
                     </Box>
+                    {nothingChanged && (
+                      <InputStatusMessage
+                        toggle={nothingChanged}
+                        message="No fields have been modified."
+                        size="large"
+                        bottomMessage
+                      />
+                    )}
                   </Box>
                   <Box
                     direction="row"

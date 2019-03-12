@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { FormField, Select } from "grommet";
-import { ErrorText, HoverContainer } from "../../sharedStyles/sharedStyles";
+import { HoverContainer } from "../../sharedStyles/sharedStyles";
+import InputStatusMessage from "./inputStatusMessage";
 
 const NewHoverContainer = styled(HoverContainer)`
   div div button div div svg {
@@ -28,6 +29,8 @@ const SelectCourse = props => {
     courseOptions,
     courseError,
     courseBool,
+    courseMessage,
+    success,
   } = props;
   return (
     <NewHoverContainer courseBool={courseBool}>
@@ -41,32 +44,33 @@ const SelectCourse = props => {
           onChange={event => courseSelectChange(event)}
           options={courseOptions}
         />
-        <ErrorText
-          alignSelf="center"
-          margin="xsmall"
-          size="medium"
-          color="status-critical"
-        >
-          {courseError && `Please select a Course`}
-        </ErrorText>
+        <InputStatusMessage
+          success={success}
+          toggle={courseError}
+          message={courseMessage}
+        />
       </FormField>
     </NewHoverContainer>
   );
 };
 
 SelectCourse.defaultProps = {
+  courseMessage: "Please select a Course",
   selectedCourse: "",
   courseBool: false,
   courseError: false,
+  success: false,
 };
 
 SelectCourse.propTypes = {
+  courseMessage: PropTypes.string,
   selectedCourse: PropTypes.string,
-  onSearchCourses: PropTypes.func.isRequired,
+  courseBool: PropTypes.bool,
   courseError: PropTypes.bool,
+  success: PropTypes.bool,
+  onSearchCourses: PropTypes.func.isRequired,
   courseSelectChange: PropTypes.func.isRequired,
   courseOptions: PropTypes.instanceOf(Object).isRequired,
-  courseBool: PropTypes.bool,
 };
 
 export default SelectCourse;
