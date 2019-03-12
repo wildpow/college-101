@@ -153,6 +153,8 @@ const InfoSession = props => {
                     maxSizeOfClass={selectedSession.maxSizeOfClass}
                     eventTimer={eventTimer}
                     setMessage={setMessage}
+                    startTimeCheck={startTimeCheck}
+                    endTimeTimeCheck={endTimeTimeCheck}
                   />
                 </Box>
               </Box>
@@ -301,6 +303,8 @@ const InfoSession = props => {
                     maxSizeOfClass={selectedSession.maxSizeOfClass}
                     eventTimer={eventTimer}
                     setMessage={setMessage}
+                    startTimeCheck={startTimeCheck}
+                    endTimeTimeCheck={endTimeTimeCheck}
                   />
                 </Box>
               </Box>

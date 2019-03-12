@@ -57,6 +57,8 @@ class EditSession extends React.Component {
     startDate: PropTypes.string.isRequired,
     eventTimer: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
+    endTimeTimeCheck: PropTypes.bool.isRequired,
+    startTimeCheck: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -479,15 +481,42 @@ class EditSession extends React.Component {
       session,
       eventTimer,
       setMessage,
+      startTimeCheck,
+      endTimeTimeCheck,
     } = this.props;
     return (
       <Box>
-        {/* {console.log(session)} */}
-        <Button
-          icon={<Edit />}
-          label="Edit Session"
-          onClick={() => this.layerToggle(true)}
-        />
+        {startTimeCheck && endTimeTimeCheck && (
+          <Button
+            icon={<Edit />}
+            label="Edit Session"
+            onClick={() => this.layerToggle(true)}
+            disabled
+          />
+        )}
+        {startTimeCheck && !endTimeTimeCheck && (
+          <Button
+            icon={<Edit />}
+            label="Edit Session"
+            onClick={() => this.layerToggle(true)}
+          />
+        )}
+        {!startTimeCheck && !endTimeTimeCheck && (
+          <Button
+            icon={<Edit />}
+            label="Edit Session"
+            onClick={() => this.layerToggle(true)}
+          />
+        )}
+        {/* Need to delete this state once the create Session is working correctly */}
+        {!startTimeCheck && endTimeTimeCheck && (
+          <Button
+            onClick={() => this.layerToggle(true)}
+            label="Not possible"
+            disabled
+          />
+        )}
+
         {layer && (
           <Layer
             position="right"
