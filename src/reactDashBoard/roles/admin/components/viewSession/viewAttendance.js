@@ -3,8 +3,7 @@ import { Button, Layer, Heading, Box } from "grommet";
 import { FormClose } from "grommet-icons";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
 
-const ViewAttendance = props => {
-  // const { data } = props;
+const ViewAttendance = () => {
   const [open, setOpen] = useState(false);
   return (
     <>

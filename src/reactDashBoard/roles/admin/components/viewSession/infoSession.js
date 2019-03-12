@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Box,
   Text,
@@ -13,13 +14,38 @@ import ViewReceipt from "./viewReceipt";
 import QueryReceipt from "../../../../queryComponents/QueryReceipt";
 import QueryStudents from "../../../../queryComponents/QueryStudents";
 import AddStudent from "./addStudent";
-import EditSession from "./editSession";
+import EditSession from "../editSession";
+import { timeFormat } from "../../../../../utils/globalFunctions";
 
 const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
 `;
 const InfoSession = props => {
-  const { selectedSession, eventTimer, setMessage } = props;
+  const {
+    selectedSession,
+    eventTimer,
+    setMessage,
+    teachers,
+    courses,
+    timeAndPrices,
+    selectedStart,
+    selectedEnd,
+  } = props;
+
+  const selectedCourse =
+    selectedSession.length !== 0 ? selectedSession.course.name : "default test";
+  const selectedType =
+    selectedSession.length !== 0
+      ? selectedSession.timeAndPrice.name
+      : "default test";
+  const startDate = new Date(selectedSession.startTime);
+  const startTime = timeFormat(selectedSession.startTime);
+  const selectedTeacher =
+    selectedSession.length !== 0
+      ? `${selectedSession.teacher.firstName} ${
+          selectedSession.teacher.lastName
+        }`
+      : "default test";
   const attendance =
     selectedSession.attendance === undefined ||
     selectedSession.attendance === null
@@ -52,8 +78,8 @@ const InfoSession = props => {
     if (res === 2) message = "Absent";
     if (res === 3) message = "Present";
   };
-  const startTimeCheck = new Date(props.selectedStart) < new Date() && true;
-  const endTimeTimeCheck = new Date(props.selectedEnd) < new Date() && true;
+  const startTimeCheck = new Date(selectedStart) < new Date() && true;
+  const endTimeTimeCheck = new Date(selectedEnd) < new Date() && true;
 
   const attendanceCheck = (att, object) => {
     if (object.length === 0 || att === null) {
@@ -104,10 +130,27 @@ const InfoSession = props => {
                   </Text>
                 )}
 
-                <Box alignSelf="center">
+                <Box alignSelf="center" direction="row" gap="large">
                   <QueryStudents
                     component={AddStudent}
                     session={selectedSession}
+                    eventTimer={eventTimer}
+                    setMessage={setMessage}
+                    startTimeCheck={startTimeCheck}
+                    endTimeTimeCheck={endTimeTimeCheck}
+                  />
+                  <EditSession
+                    courses={courses}
+                    teachers={teachers}
+                    timeAndPrices={timeAndPrices}
+                    groupVSPrivate={selectedSession.timeAndPrice.groupVsPrivate}
+                    session={selectedSession}
+                    selectedTeacher={selectedTeacher}
+                    selectedType={selectedType}
+                    startDate={startDate.toISOString()}
+                    selectedCourse={selectedCourse}
+                    startTime={startTime}
+                    maxSizeOfClass={selectedSession.maxSizeOfClass}
                     eventTimer={eventTimer}
                     setMessage={setMessage}
                     startTimeCheck={startTimeCheck}
@@ -241,15 +284,25 @@ const InfoSession = props => {
                   margin={{ vertical: "xsmall" }}
                 >
                   <QueryStudents
-                    startTimeCheck={startTimeCheck}
-                    endTimeTimeCheck={endTimeTimeCheck}
                     eventTimer={eventTimer}
                     setMessage={setMessage}
                     component={AddStudent}
                     session={selectedSession}
                   />
                   <EditSession
+                    courses={courses}
+                    teachers={teachers}
+                    timeAndPrices={timeAndPrices}
+                    groupVSPrivate={selectedSession.timeAndPrice.groupVsPrivate}
                     session={selectedSession}
+                    selectedTeacher={selectedTeacher}
+                    selectedType={selectedType}
+                    selectedCourse={selectedCourse}
+                    startDate={startDate.toISOString()}
+                    startTime={startTime}
+                    maxSizeOfClass={selectedSession.maxSizeOfClass}
+                    eventTimer={eventTimer}
+                    setMessage={setMessage}
                     startTimeCheck={startTimeCheck}
                     endTimeTimeCheck={endTimeTimeCheck}
                   />
@@ -261,6 +314,17 @@ const InfoSession = props => {
       ) : null}
     </Box>
   );
+};
+
+InfoSession.propTypes = {
+  setMessage: PropTypes.func.isRequired,
+  eventTimer: PropTypes.func.isRequired,
+  selectedEnd: PropTypes.string.isRequired,
+  teachers: PropTypes.instanceOf(Object).isRequired,
+  courses: PropTypes.instanceOf(Object).isRequired,
+  selectedSession: PropTypes.instanceOf(Object).isRequired,
+  timeAndPrices: PropTypes.instanceOf(Object).isRequired,
+  selectedStart: PropTypes.string.isRequired,
 };
 
 export default InfoSession;

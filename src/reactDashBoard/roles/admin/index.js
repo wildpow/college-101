@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Box, Calendar, DropButton, Heading } from "grommet";
 import { FormDown } from "grommet-icons";
-import CreateSession from "./components/createSession/createSession";
-// import QueryTeacherCourse from "../../queryComponents/QueryTeacherCourse";
+import NonApGroup from "./components/createNonApGroup";
 import ViewSession from "./components/viewSession/viewSession";
-import Messages from "./messages";
-import PrivateTutoring from "./components/CreatePrivateTutoring";
+import Messages from "./components/sharedComponents/messages";
+import PrivateTutoring from "./components/createPrivateTutoring";
+import QueryAdminViewAll from "../../queryComponents/QueryAdminViewAll";
 
 const Header = styled.div`
   display: flex;
@@ -78,7 +79,7 @@ const Admin = props => {
               eventTimer={eventTimer}
               setMessage={setMessage}
             />
-            <CreateSession
+            <NonApGroup
               eventTimer={eventTimer}
               setMessage={setMessage}
               teachers={data.teachers}
@@ -94,6 +95,9 @@ const Admin = props => {
         </Header>
         <div>
           <ViewSession
+            timeAndPrices={data.timeAndPrices}
+            courses={data.courses}
+            teachers={data.teachers}
             sessions={data.sessions}
             date={date}
             eventTimer={eventTimer}
@@ -104,6 +108,11 @@ const Admin = props => {
       <Messages message={message} setEvent={setEvent} event={event} />
     </>
   );
+};
+
+Admin.propTypes = {
+  data: PropTypes.shape({ type: PropTypes.oneOf([QueryAdminViewAll]) })
+    .isRequired,
 };
 
 export default Admin;

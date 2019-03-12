@@ -46,7 +46,7 @@ class PickClass extends React.Component {
               date={startDate}
               onSelect={this.startDateSelect}
               size="medium"
-              // bounds={bounds}
+              bounds={bounds}
             />
           }
         >

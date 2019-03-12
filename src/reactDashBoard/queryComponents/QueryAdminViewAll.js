@@ -27,6 +27,7 @@ export const ALL_FOR_ADMIN = gql`
     }
     sessions(orderBy: startTime_ASC) {
       id
+      extraTime
       startTime
       endTime
       maxSizeOfClass
@@ -95,7 +96,7 @@ const QueryAdminViewAll = props => (
     {({ loading, error, data }) => {
       if (loading) return <Spinner />;
       if (error) return <h1>Error</h1>;
-      if (data) return <props.component data={data} {...props} />;
+      if (data) return <props.component data={data} />;
       return null;
     }}
   </Query>

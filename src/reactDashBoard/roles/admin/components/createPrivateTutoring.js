@@ -3,16 +3,16 @@ import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { Button, Layer, Box, Text, CheckBox } from "grommet";
-import { Add, FormSubtract } from "grommet-icons";
-import LayerHeader from "../../layerHeader";
-import TypeOfClass from "./typeOfClass";
-import SelectCourse from "../sharedComponents/selectCourse";
-import SelectTeacher from "../sharedComponents/selectTeacher";
-import StartDate from "../sharedComponents/startDate";
-import StartTimePicker from "../sharedComponents/startTimePicker";
+import { AddCircle, ScheduleNew, Trash } from "grommet-icons";
+import LayerHeader from "./sharedComponents/layerHeader";
+import TypeOfClass from "./sharedComponents/typeOfClass";
+import SelectCourse from "./sharedComponents/selectCourse";
+import SelectTeacher from "./sharedComponents/selectTeacher";
+import StartDate from "./sharedComponents/startDate";
+import StartTimePicker from "./sharedComponents/startTimePicker";
 // import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
-import convertDateTime from "../../sharedFunctions/convertDateTime";
-import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
+import convertDateTime from "../sharedFunctions/convertDateTime";
+import { ALL_FOR_ADMIN } from "../../../queryComponents/QueryAdminViewAll";
 
 const ADD_PRIVATE_TUT = gql`
   mutation(
@@ -22,6 +22,7 @@ const ADD_PRIVATE_TUT = gql`
     $courseId: ID
     $teacherId: ID
     $timeAndPrice: String
+    $extraTime: Int
   ) {
     createSession(
       data: {
@@ -29,6 +30,7 @@ const ADD_PRIVATE_TUT = gql`
         endTime: $endTime
         maxSizeOfClass: $maxSizeOfClass
         status: PUBLISHED
+        extraTime: $extraTime
         teacher: { connect: { id: $teacherId } }
         course: { connect: { id: $courseId } }
         timeAndPrice: { connect: { name: $timeAndPrice } }
@@ -42,6 +44,9 @@ class PrivateTutoring extends React.Component {
   static propTypes = {
     eventTimer: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
+    timeAndPrices: PropTypes.instanceOf(Object).isRequired,
+    teachers: PropTypes.instanceOf(Object).isRequired,
+    courses: PropTypes.instanceOf(Object).isRequired,
   };
 
   constructor(...args) {
@@ -49,8 +54,8 @@ class PrivateTutoring extends React.Component {
     const { teachers } = this.props;
     this.state = {
       layer: false,
-      typeSelect: "",
-      sessionTypeError: false,
+      selectedType: "",
+      typeError: false,
       selectedCourse: "",
       courseError: false,
       courseOptions: [],
@@ -67,9 +72,9 @@ class PrivateTutoring extends React.Component {
       startTimeError: false,
       startTimeMessage: "Please enter start time",
       maxSizeOfClass: 0,
-      privateIndex: null,
-      typeList: [],
-      typeListObj: [],
+      typeIndex: null,
+      typeOptions: [],
+      typeOptionsObj: [],
       extraTime: false,
       courseBool: true,
     };
@@ -77,16 +82,16 @@ class PrivateTutoring extends React.Component {
 
   componentDidMount() {
     const { timeAndPrices } = this.props;
-    const typeList = [];
-    const typeListObj = [];
+    const typeOptions = [];
+    const typeOptionsObj = [];
     timeAndPrices.map(p => {
       if (p.groupVsPrivate === "Private") {
-        typeList.push(p.name);
-        typeListObj.push(p);
+        typeOptions.push(p.name);
+        typeOptionsObj.push(p);
       }
       return null;
     });
-    this.setState({ typeList, typeListObj });
+    this.setState({ typeOptions, typeOptionsObj });
   }
 
   layerToggle = changeAction => {
@@ -95,8 +100,8 @@ class PrivateTutoring extends React.Component {
     } else {
       this.setState({
         layer: false,
-        typeSelect: "",
-        sessionTypeError: false,
+        selectedType: "",
+        typeError: false,
         selectedCourse: "",
         courseError: false,
         teacherError: false,
@@ -105,7 +110,7 @@ class PrivateTutoring extends React.Component {
         startDate: new Date().toISOString(),
         startTimeError: false,
         startTime: "",
-        privateIndex: null,
+        typeIndex: null,
         maxSizeOfClass: 0,
         courseBool: true,
         extraTime: false,
@@ -113,10 +118,10 @@ class PrivateTutoring extends React.Component {
     }
   };
 
-  setSessionType = event => {
-    const { typeList, typeListObj } = this.state;
+  typeSelectChange = event => {
+    const { typeOptions, typeOptionsObj } = this.state;
     const { courses } = this.props;
-    const privateIndex = typeList.indexOf(event.value);
+    const typeIndex = typeOptions.indexOf(event.value);
     const courseOptions = [];
     const courseNamesCopy = [];
     const courseIDs = [];
@@ -141,11 +146,12 @@ class PrivateTutoring extends React.Component {
       courseOptions,
       courseNamesCopy,
       courseIDs,
-      typeSelect: event.value,
-      sessionTypeError: false,
-      privateIndex,
+      selectedType: event.value,
+      selectedCourse: "",
+      typeError: false,
+      typeIndex,
       courseBool: false,
-      maxSizeOfClass: typeListObj[privateIndex].maxStudents,
+      maxSizeOfClass: typeOptionsObj[typeIndex].maxStudents,
     });
   };
 
@@ -216,9 +222,9 @@ class PrivateTutoring extends React.Component {
       startTimeError: false,
       courseError: false,
       teacherError: false,
-      sessionTypeError: false,
-      typeSelect: "",
-      privateIndex: null,
+      typeError: false,
+      selectedType: "",
+      typeIndex: null,
       maxSizeOfClass: 0,
       courseBool: true,
       extraTime: false,
@@ -229,17 +235,12 @@ class PrivateTutoring extends React.Component {
     this.setState({ extraTime: event.target.checked });
   };
 
-  convertEndTimeToString = (date, time, index, arr, extra) => {
-    const endDateTime = convertDateTime(date, time, index, arr, extra);
-    return endDateTime.toLocaleTimeString();
-  };
-
   render() {
     const {
       courseBool,
-      typeSelect,
+      selectedType,
       layer,
-      sessionTypeError,
+      typeError,
       selectedCourse,
       courseError,
       courseOptions,
@@ -251,21 +252,21 @@ class PrivateTutoring extends React.Component {
       startTimeError,
       startTime,
       startTimeMessage,
-      typeList,
-      privateIndex,
+      typeOptions,
+      typeIndex,
       extraTime,
       teacherIDs,
       courseIDs,
       teachersNamesCopy,
       courseNamesCopy,
       maxSizeOfClass,
-      typeListObj,
+      typeOptionsObj,
     } = this.state;
     const { eventTimer, setMessage } = this.props;
     return (
       <Box>
         <Button
-          icon={<Add />}
+          icon={<AddCircle />}
           label="Private Tutoring"
           onClick={() => this.layerToggle(true)}
           primary
@@ -303,14 +304,14 @@ class PrivateTutoring extends React.Component {
                   onSubmit={event => {
                     event.preventDefault();
                     if (
-                      typeSelect.length === 0 ||
+                      selectedType.length === 0 ||
                       selectedCourse.length === 0 ||
                       selectedTeacher.length === 0 ||
                       startTime.length === 0
                     ) {
                       this.errorCheck(selectedCourse, "courseError");
                       this.errorCheck(selectedTeacher, "teacherError");
-                      this.errorCheck(typeSelect, "sessionTypeError");
+                      this.errorCheck(selectedType, "typeError");
                       this.errorCheck(startTime, "startTimeError");
                     } else {
                       const date = new Date();
@@ -318,8 +319,7 @@ class PrivateTutoring extends React.Component {
                       const finalEnd = convertDateTime(
                         startDate,
                         startTime,
-                        privateIndex,
-                        typeListObj,
+                        typeOptionsObj[typeIndex].time,
                         extraTime ? 30 : undefined,
                       );
                       if (date > finalStart) {
@@ -342,7 +342,8 @@ class PrivateTutoring extends React.Component {
                             teacherId,
                             courseId,
                             maxSizeOfClass,
-                            timeAndPrice: typeSelect,
+                            timeAndPrice: selectedType,
+                            extraTime: extraTime ? 30 : 0,
                           },
                         });
                         this.layerToggle(false);
@@ -357,10 +358,11 @@ class PrivateTutoring extends React.Component {
                   <Box fill overflow="scroll" justify="between">
                     <Box>
                       <TypeOfClass
-                        typeSelect={typeSelect}
-                        setSessionType={this.setSessionType}
-                        sessionTypeError={sessionTypeError}
-                        typeList={typeList}
+                        selectedType={selectedType}
+                        typeSelectChange={this.typeSelectChange}
+                        typeError={typeError}
+                        typeOptions={typeOptions}
+                        typeLabel="Type of class"
                       />
                       <SelectCourse
                         courseBool={courseBool}
@@ -397,33 +399,31 @@ class PrivateTutoring extends React.Component {
                         />
                         {extraTime !== true ? (
                           <>
-                            {startTime && typeSelect && (
+                            {startTime && selectedType && (
                               <>
                                 <Text size="large">
                                   {`
-                            Session end time: ${this.convertEndTimeToString(
+                            Session end time: ${convertDateTime(
                               startDate,
                               startTime,
-                              privateIndex,
-                              typeListObj,
-                            )}`}
+                              typeOptionsObj[typeIndex].time,
+                            ).toLocaleTimeString()}`}
                                 </Text>
                               </>
                             )}
                           </>
                         ) : (
                           <>
-                            {startTime && typeSelect && (
+                            {startTime && selectedType && (
                               <>
                                 <Text size="large">
                                   {`
-                            Session end time: ${this.convertEndTimeToString(
+                            Session end time: ${convertDateTime(
                               startDate,
                               startTime,
-                              privateIndex,
-                              typeListObj,
+                              typeOptionsObj[typeIndex].time,
                               30,
-                            )}`}
+                            ).toLocaleTimeString()}`}
                                 </Text>
                               </>
                             )}
@@ -440,10 +440,10 @@ class PrivateTutoring extends React.Component {
                         type="submit"
                         label="ADD"
                         primary
-                        icon={<Add />}
+                        icon={<ScheduleNew />}
                       />
                       <Button
-                        icon={<FormSubtract />}
+                        icon={<Trash />}
                         label="CLEAR"
                         onClick={this.clearButton}
                       />

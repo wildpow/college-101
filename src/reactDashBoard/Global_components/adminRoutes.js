@@ -1,4 +1,5 @@
 import React from "react";
+// import PropTypes from "prop-types";
 import { navigate } from "gatsby";
 import { isLoggedIn, getUser } from "../services/auth";
 
@@ -26,4 +27,8 @@ class AdminRoutes extends React.Component {
     return null;
   }
 }
+
+// AdminRoutes.propTypes = {
+//   component: PropTypes.instanceOf(PropTypes.element).isRequired,
+// };
 export default AdminRoutes;

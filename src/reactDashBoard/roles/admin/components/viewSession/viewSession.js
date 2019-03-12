@@ -67,6 +67,9 @@ class ViewSessionTest extends React.Component {
     sessions: PropTypes.instanceOf(Object).isRequired,
     eventTimer: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
+    timeAndPrices: PropTypes.instanceOf(Object).isRequired,
+    courses: PropTypes.instanceOf(Object).isRequired,
+    teachers: PropTypes.instanceOf(Object).isRequired,
   };
 
   constructor(props) {
@@ -152,7 +155,6 @@ class ViewSessionTest extends React.Component {
   };
 
   onSort = property => {
-    console.log(property);
     const { sortProperty, sortDirection, sessions } = this.state;
     let nextSortDirection;
     if (sortProperty === property) {
@@ -233,7 +235,13 @@ class ViewSessionTest extends React.Component {
       selectedStart,
       selectedEnd,
     } = this.state;
-    const { eventTimer, setMessage } = this.props;
+    const {
+      eventTimer,
+      setMessage,
+      courses,
+      teachers,
+      timeAndPrices,
+    } = this.props;
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
       <>
@@ -308,6 +316,9 @@ class ViewSessionTest extends React.Component {
           </Table>
         </ScrollBox>
         <InfoSession
+          courses={courses}
+          teachers={teachers}
+          timeAndPrices={timeAndPrices}
           selectedEnd={selectedEnd}
           selectedStart={selectedStart}
           selectedSession={selectedSession}

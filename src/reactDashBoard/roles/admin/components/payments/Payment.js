@@ -92,7 +92,6 @@ const Payment = () => {
               context.state.user.mailingAddress[2]
             } ${context.state.user.mailingAddress[3]}`}
           </Box>
-          {console.log(context.state.user)}
           <Box>
             <Heading level={3}>Payment Type</Heading>
             <select>

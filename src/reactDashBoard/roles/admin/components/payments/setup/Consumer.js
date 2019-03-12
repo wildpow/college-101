@@ -1,6 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import PayWizardContext, { PaymentContext } from "./context";
 import UpdateState from "./UpdateState";
+import QueryAllUsers from "../../../../../queryComponents/QueryAllUsers";
 
 const Consumer = props => {
   const { data } = props;
@@ -17,6 +19,10 @@ const Consumer = props => {
       </PaymentContext.Consumer>
     </PayWizardContext>
   );
+};
+
+Consumer.propTypes = {
+  data: PropTypes.shape({ type: PropTypes.oneOf([QueryAllUsers]) }).isRequired,
 };
 
 export default Consumer;

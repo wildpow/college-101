@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FormField, Select } from "grommet";
-import { ErrorText, HoverContainer } from "../../sharedStyles/sharedStyles";
+import { HoverContainer } from "../../sharedStyles/sharedStyles";
+import InputStatusMessage from "./inputStatusMessage";
 
 const SelectTeacher = props => {
   const {
@@ -10,32 +11,40 @@ const SelectTeacher = props => {
     teacherOptions,
     teacherError,
     teacherSelectChange,
+    success,
+    teacherMessage,
   } = props;
   return (
     <HoverContainer>
       <FormField label="Teacher">
         <Select
+          searchPlaceholder="Search Teachers"
           placeholder="Select a Teacher"
           value={selectedTeacher}
           onSearch={searchText => onSearchTeachers(searchText)}
           onChange={event => teacherSelectChange(event)}
           options={teacherOptions}
         />
-        <ErrorText
-          alignSelf="center"
-          margin="xsmall"
-          size="medium"
-          color="status-critical"
-        >
-          {teacherError && `Please select a Teacher`}
-        </ErrorText>
+        <InputStatusMessage
+          success={success}
+          toggle={teacherError}
+          message={teacherMessage}
+        />
       </FormField>
     </HoverContainer>
   );
 };
 
+SelectTeacher.defaultProps = {
+  teacherError: false,
+  success: false,
+  teacherMessage: "Please select a Teacher.",
+};
+
 SelectTeacher.propTypes = {
-  teacherError: PropTypes.bool.isRequired,
+  success: PropTypes.bool,
+  teacherMessage: PropTypes.string,
+  teacherError: PropTypes.bool,
   onSearchTeachers: PropTypes.func.isRequired,
   selectedTeacher: PropTypes.string.isRequired,
   teacherOptions: PropTypes.instanceOf(Object).isRequired,

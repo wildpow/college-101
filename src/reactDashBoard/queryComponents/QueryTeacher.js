@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 import Spinner from "../Global_components/loading";
@@ -49,16 +50,15 @@ const QueryTeacher = props => {
       {({ loading, error, data }) => {
         if (loading) return <Spinner />;
         if (error) return <h1>Error</h1>;
-        if (data)
-          return (
-            <>
-              {console.log("QueryTeacher")}
-              <props.component data={data} {...props} />
-            </>
-          );
+        if (data) return <props.component data={data} {...props} />;
         return null;
       }}
     </Query>
   );
 };
+
+QueryTeacher.propTypes = {
+  userName: PropTypes.string.isRequired,
+};
+
 export default QueryTeacher;

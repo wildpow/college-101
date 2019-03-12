@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Button, Layer, Heading, Box, Text } from "grommet";
 import { FormClose } from "grommet-icons";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
@@ -110,4 +111,7 @@ const ViewReceipt = props => {
   );
 };
 
+ViewReceipt.propTypes = {
+  data: PropTypes.instanceOf(Object).isRequired,
+};
 export default ViewReceipt;

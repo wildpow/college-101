@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { MaskedInput, FormField } from "grommet";
-import { ErrorText } from "../../sharedStyles/sharedStyles";
+import InputStatusMessage from "./inputStatusMessage";
 
 const StartTimePicker = props => {
   const {
@@ -9,6 +9,7 @@ const StartTimePicker = props => {
     onChangeStartTime,
     startTimeError,
     startTimeMessage,
+    success,
   } = props;
   return (
     <FormField label="Start Time">
@@ -43,22 +44,20 @@ const StartTimePicker = props => {
           { fixed: " " },
           {
             length: 2,
-            options: ["am", "pm"],
-            regexp: /^[ap]m$|^[AP]M$|^[aApP]$/,
-            placeholder: "am/pm",
+            options: ["AM", "PM"],
+            // /^[ap]m$|^[AP]M$|^[aApP]$/
+            regexp: /\s*([AaPp][Mm])/,
+            placeholder: "AM/PM",
           },
         ]}
         value={startTime}
         onChange={onChangeStartTime}
       />
-      <ErrorText
-        alignSelf="center"
-        margin="xsmall"
-        size="medium"
-        color="status-critical"
-      >
-        {startTimeError && <>{startTimeMessage}</>}
-      </ErrorText>
+      <InputStatusMessage
+        success={success}
+        toggle={startTimeError}
+        message={startTimeMessage}
+      />
     </FormField>
   );
 };
@@ -67,9 +66,11 @@ StartTimePicker.defaultProps = {
   startTimeError: false,
   startTimeMessage: "Default Error",
   startTime: new Date().toISOString(),
+  success: false,
 };
 
 StartTimePicker.propTypes = {
+  success: PropTypes.bool,
   onChangeStartTime: PropTypes.func.isRequired,
   startTimeError: PropTypes.bool,
   startTimeMessage: PropTypes.string,

@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FormField, DropButton, Calendar, Box, Text } from "grommet";
 import { FormDown } from "grommet-icons";
+import InputStatusMessage from "./inputStatusMessage";
 
 const StartDate = props => {
   const today = new Date();
@@ -12,7 +13,15 @@ const StartDate = props => {
   const futureString = `${today.getFullYear() + 1}-${month}-${day}`;
   const bounds = [todayString, futureString];
 
-  const { startDateOpen, startDateToggle, startDate, startDateSelect } = props;
+  const {
+    startDateOpen,
+    startDateToggle,
+    startDate,
+    startDateSelect,
+    success,
+    startDateMessage,
+    startDateMessageBool,
+  } = props;
   const Cal = (
     <Calendar
       date={startDate}
@@ -39,17 +48,30 @@ const StartDate = props => {
           <FormDown color="brand" />
         </Box>
       </DropButton>
+      {success && (
+        <InputStatusMessage
+          success={success}
+          toggle={startDateMessageBool}
+          message={startDateMessage}
+        />
+      )}
     </FormField>
   );
 };
 StartDate.defaultProps = {
   startDate: new Date().toISOString(),
+  success: false,
+  startDateMessage: "Date Updated.",
+  startDateMessageBool: false,
 };
 StartDate.propTypes = {
   startDateSelect: PropTypes.func.isRequired,
   startDateOpen: PropTypes.bool.isRequired,
   startDate: PropTypes.string,
   startDateToggle: PropTypes.func.isRequired,
+  success: PropTypes.bool,
+  startDateMessage: PropTypes.string,
+  startDateMessageBool: PropTypes.bool,
 };
 
 export default StartDate;

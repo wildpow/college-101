@@ -3,15 +3,14 @@ import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import { gql } from "apollo-boost";
 import { Box, Button, Layer, Text } from "grommet";
-import { Add, FormSubtract } from "grommet-icons";
-import SelectCourse from "../sharedComponents/selectCourse";
-import SelectTeacher from "../sharedComponents/selectTeacher";
-import StartDate from "../sharedComponents/startDate";
-import StartTimePicker from "../sharedComponents/startTimePicker";
-// import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
-import SelectNonAP from "./selectNonAP";
-import LayerHeader from "../../layerHeader";
-import { ALL_FOR_ADMIN } from "../../../../queryComponents/QueryAdminViewAll";
+import { AddCircle, ScheduleNew, Trash } from "grommet-icons";
+import SelectCourse from "./sharedComponents/selectCourse";
+import SelectTeacher from "./sharedComponents/selectTeacher";
+import StartDate from "./sharedComponents/startDate";
+import StartTimePicker from "./sharedComponents/startTimePicker";
+import LayerHeader from "./sharedComponents/layerHeader";
+import { ALL_FOR_ADMIN } from "../../../queryComponents/QueryAdminViewAll";
+import TypeOfClass from "./sharedComponents/typeOfClass";
 
 const ADD_SESSION = gql`
   mutation(
@@ -39,10 +38,13 @@ const ADD_SESSION = gql`
   }
 `;
 
-class CreateSession extends React.Component {
+class NonApGroup extends React.Component {
   static propTypes = {
     eventTimer: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
+    courses: PropTypes.instanceOf(Object).isRequired,
+    teachers: PropTypes.instanceOf(Object).isRequired,
+    timeAndPrices: PropTypes.instanceOf(Object).isRequired,
   };
 
   constructor(...args) {
@@ -67,11 +69,11 @@ class CreateSession extends React.Component {
       startTimeMessage: "Please enter start time",
       // endTime: "",
       // endTimeError: false,
-      moneySelectIndex: null,
-      moneySelect: "",
-      moneyOptions: [],
-      moneyError: false,
-      money: [],
+      typeIndex: null,
+      selectedType: "",
+      typeOptions: [],
+      typeError: false,
+      typeOptionsObj: [],
     };
   }
 
@@ -81,12 +83,12 @@ class CreateSession extends React.Component {
     const courseNames = [];
     const teacherIDs = [];
     const courseIDs = [];
-    const moneyOptions = [];
-    const money = [];
+    const typeOptions = [];
+    const typeOptionsObj = [];
     timeAndPrices.map(t => {
       if (t.groupVsPrivate === "Group") {
-        moneyOptions.push(t.name);
-        money.push(t);
+        typeOptions.push(t.name);
+        typeOptionsObj.push(t);
       }
       return null;
     });
@@ -108,8 +110,8 @@ class CreateSession extends React.Component {
       teachersNamesCopy: teachersNames,
       teacherIDs,
       courseIDs,
-      moneyOptions,
-      money,
+      typeOptions,
+      typeOptionsObj,
       courseOptions: courseNames,
       courseNamesCopy: courseNames,
       startDate: date.toISOString(),
@@ -150,24 +152,24 @@ class CreateSession extends React.Component {
       selectedCourse: "",
       selectedTeacher: "",
       maxSizeOfClass: 0,
-      moneySelect: "",
-      moneyError: false,
+      selectedType: "",
+      typeError: false,
       courseError: false,
       teacherError: false,
       startTimeError: false,
-      moneySelectIndex: null,
+      typeIndex: null,
       startDate: new Date().toISOString(),
       startDateOpen: false,
     });
 
-  onMoneyChange = event => {
-    const { money, moneyOptions } = this.state;
-    const moneySelectIndex = moneyOptions.indexOf(event.value);
+  typeSelectChange = event => {
+    const { typeOptionsObj, typeOptions } = this.state;
+    const typeIndex = typeOptions.indexOf(event.value);
     this.setState({
-      moneySelect: event.value,
-      moneyError: false,
-      moneySelectIndex,
-      maxSizeOfClass: money[moneySelectIndex].maxStudents,
+      selectedType: event.value,
+      typeError: false,
+      typeIndex,
+      maxSizeOfClass: typeOptionsObj[typeIndex].maxStudents,
     });
   };
 
@@ -215,7 +217,7 @@ class CreateSession extends React.Component {
   };
 
   convertDateTime = (date, time, add = null) => {
-    const { money, moneySelectIndex } = this.state;
+    const { typeOptionsObj, typeIndex } = this.state;
     const finalStart = new Date(date);
     let hour = 0;
     let minutes = 0;
@@ -234,16 +236,16 @@ class CreateSession extends React.Component {
       finalStart.setMinutes(minutes);
       finalStart.setSeconds(0);
     } else {
-      if (money[moneySelectIndex].time === 60) {
+      if (typeOptionsObj[typeIndex].time === 60) {
         finalStart.setHours(hour + 1);
         finalStart.setMinutes(minutes);
         finalStart.setSeconds(0);
       }
       if (
-        money[moneySelectIndex].time === 90 ||
-        money[moneySelectIndex].time === 120
+        typeOptionsObj[typeIndex].time === 90 ||
+        typeOptionsObj[typeIndex].time === 120
       ) {
-        const newMin = minutes + money[moneySelectIndex].time;
+        const newMin = minutes + typeOptionsObj[typeIndex].time;
         const newHours = Math.floor(newMin / 60);
         const remander = newMin % 60;
         finalStart.setHours(hour + newHours);
@@ -257,9 +259,9 @@ class CreateSession extends React.Component {
   render() {
     const {
       layerOpen,
-      moneyOptions,
-      moneySelect,
-      moneyError,
+      typeOptions,
+      selectedType,
+      typeError,
       selectedCourse,
       selectedTeacher,
       courseError,
@@ -268,11 +270,11 @@ class CreateSession extends React.Component {
       teacherError,
       startDate,
       startDateOpen,
-      moneySelectIndex,
+      typeIndex,
       maxSizeOfClass,
       startTimeError,
       startTime,
-      money,
+      typeOptionsObj,
       startTimeMessage,
       teachersNamesCopy,
       courseIDs,
@@ -283,7 +285,7 @@ class CreateSession extends React.Component {
     return (
       <Box>
         <Button
-          icon={<Add />}
+          icon={<AddCircle />}
           label="Sm. Group NonAP"
           onClick={this.onOpen}
           primary
@@ -319,14 +321,14 @@ class CreateSession extends React.Component {
                     event.preventDefault();
 
                     if (
-                      moneySelect.length === 0 ||
+                      selectedType.length === 0 ||
                       selectedCourse.length === 0 ||
                       selectedTeacher.length === 0 ||
                       startTime.length === 0
                     ) {
                       this.errorCheck(selectedCourse, "courseError");
                       this.errorCheck(selectedTeacher, "teacherError");
-                      this.errorCheck(moneySelect, "moneyError");
+                      this.errorCheck(selectedType, "typeError");
                       this.errorCheck(startTime, "startTimeError");
                     } else {
                       const date = new Date();
@@ -338,7 +340,7 @@ class CreateSession extends React.Component {
                       const finalEnd = this.convertDateTime(
                         startDate,
                         startTime,
-                        money[moneySelectIndex].time,
+                        typeOptionsObj[typeIndex].time,
                       );
                       if (date > finalStart) {
                         this.setState({
@@ -361,7 +363,7 @@ class CreateSession extends React.Component {
                             teacherId,
                             courseId,
                             maxSizeOfClass,
-                            timeAndPrice: moneySelect,
+                            timeAndPrice: selectedType,
                           },
                         });
                         this.onClose();
@@ -376,11 +378,12 @@ class CreateSession extends React.Component {
                 >
                   <Box fill overflow="scroll" justify="between">
                     <Box>
-                      <SelectNonAP
-                        moneySelect={moneySelect}
-                        moneyOptions={moneyOptions}
-                        moneyError={moneyError}
-                        onMoneyChange={this.onMoneyChange}
+                      <TypeOfClass
+                        selectedType={selectedType}
+                        typeOptions={typeOptions}
+                        typeError={typeError}
+                        typeSelectChange={this.typeSelectChange}
+                        typeLabel="Non AP Time"
                       />
                       <SelectCourse
                         selectedCourse={selectedCourse}
@@ -412,23 +415,23 @@ class CreateSession extends React.Component {
                       />
 
                       <Box direction="column" gap="small">
-                        {moneySelect && (
+                        {selectedType && (
                           <Text size="large">{`Default Max number of students: ${maxSizeOfClass}`}</Text>
                         )}
-                        {moneySelect && (
+                        {selectedType && (
                           <Text size="large">
                             {`Session length: ${
-                              money[moneySelectIndex].time
+                              typeOptionsObj[typeIndex].time
                             } minutes`}
                           </Text>
                         )}
-                        {startTime && moneySelect && (
+                        {startTime && selectedType && (
                           <Text size="large">
                             {`
                             Session end time: ${this.convertEndTimeToString(
                               startDate,
                               startTime,
-                              money[moneySelectIndex].time,
+                              typeOptionsObj[typeIndex].time,
                             )}`}
                           </Text>
                         )}
@@ -443,10 +446,10 @@ class CreateSession extends React.Component {
                         type="submit"
                         label="ADD"
                         primary
-                        icon={<Add />}
+                        icon={<ScheduleNew />}
                       />
                       <Button
-                        icon={<FormSubtract />}
+                        icon={<Trash />}
                         label="CLEAR"
                         onClick={() =>
                           this.setState({
@@ -459,8 +462,8 @@ class CreateSession extends React.Component {
                             startTimeError: false,
                             courseError: false,
                             teacherError: false,
-                            moneyError: false,
-                            moneySelect: "",
+                            typeError: false,
+                            selectedType: "",
                           })
                         }
                       />
@@ -476,4 +479,4 @@ class CreateSession extends React.Component {
   }
 }
 
-export default CreateSession;
+export default NonApGroup;

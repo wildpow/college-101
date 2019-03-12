@@ -4,15 +4,15 @@ import { FormField, Select } from "grommet";
 import { ErrorText, HoverContainer } from "../../sharedStyles/sharedStyles";
 
 const SelectNonAP = props => {
-  const { moneySelect, moneyOptions, moneyError, onMoneyChange } = props;
+  const { selectedType, typeOptions, typeError, typeSelectChange } = props;
   return (
     <HoverContainer>
       <FormField label="Non AP Time">
         <Select
           placeholder="Select Session Type"
-          value={moneySelect}
-          options={moneyOptions}
-          onChange={event => onMoneyChange(event)}
+          value={selectedType}
+          options={typeOptions}
+          onChange={event => typeSelectChange(event)}
         />
         <ErrorText
           alignSelf="center"
@@ -20,7 +20,7 @@ const SelectNonAP = props => {
           size="medium"
           color="status-critical"
         >
-          {moneyError && `Please choose an option.`}
+          {typeError && `Please choose an option.`}
         </ErrorText>
       </FormField>
     </HoverContainer>
@@ -28,14 +28,14 @@ const SelectNonAP = props => {
 };
 
 SelectNonAP.defaultProps = {
-  moneySelect: "",
-  moneyOptions: [],
-  moneyError: false,
+  selectedType: "",
+  typeOptions: [],
+  typeError: false,
 };
 SelectNonAP.propTypes = {
-  moneySelect: PropTypes.string,
-  moneyOptions: PropTypes.instanceOf(Object),
-  moneyError: PropTypes.bool,
-  onMoneyChange: PropTypes.func.isRequired,
+  selectedType: PropTypes.string,
+  typeOptions: PropTypes.instanceOf(Object),
+  typeError: PropTypes.bool,
+  typeSelectChange: PropTypes.func.isRequired,
 };
 export default SelectNonAP;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Layer, Box } from "grommet";
-import LayerHeader from "../../layerHeader";
+import LayerHeader from "../src/reactDashBoard/roles/admin/components/sharedComponents/layerHeader";
 
 const EditSession = props => {
   const { startTimeCheck, endTimeTimeCheck, session } = props;
