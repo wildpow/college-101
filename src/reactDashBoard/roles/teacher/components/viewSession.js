@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import {
   Box,
@@ -11,7 +10,6 @@ import {
   TableRow,
   Text,
 } from "grommet";
-
 import { FormUp, FormDown } from "grommet-icons";
 import SingleSession from "./singleSession";
 import InfoSession from "./infoSession";
@@ -20,12 +18,6 @@ const InvisableIcon = styled(FormDown)`
   fill: transparent;
   stroke: transparent;
 `;
-// const ScrollBox = styled(Box)`
-//   overflow-y: scroll !important;
-//   overflow: scroll;
-//   max-height: 317px;
-//   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
-// `;
 
 const COLUMNS = [
   {
@@ -36,11 +28,6 @@ const COLUMNS = [
   {
     property: "timeAndPrice",
     label: "Group",
-    size: "small",
-  },
-  {
-    property: "teacherName",
-    label: "Teacher",
     size: "small",
   },
   {
@@ -65,18 +52,7 @@ const COLUMNS = [
   },
 ];
 
-class ViewSessionTest extends React.Component {
-  static propTypes = {
-    date: PropTypes.string.isRequired,
-    sessions: PropTypes.instanceOf(Object).isRequired,
-    students: PropTypes.instanceOf(Object).isRequired,
-    eventTimer: PropTypes.func.isRequired,
-    setMessage: PropTypes.func.isRequired,
-    timeAndPrices: PropTypes.instanceOf(Object).isRequired,
-    courses: PropTypes.instanceOf(Object).isRequired,
-    teachers: PropTypes.instanceOf(Object).isRequired,
-  };
-
+class ViewSession extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -236,8 +212,8 @@ class ViewSessionTest extends React.Component {
 
   render() {
     const {
-      sortProperty,
       sortDirection,
+      sortProperty,
       selected,
       over,
       sessions,
@@ -245,14 +221,7 @@ class ViewSessionTest extends React.Component {
       selectedStart,
       selectedEnd,
     } = this.state;
-    const {
-      eventTimer,
-      setMessage,
-      courses,
-      teachers,
-      timeAndPrices,
-      students,
-    } = this.props;
+    const { eventTimer, setMessage } = this.props;
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
       <>
@@ -302,11 +271,6 @@ class ViewSessionTest extends React.Component {
                 ))}
               </TableRow>
             </TableHeader>
-            {/* </Table>
-        </Box> */}
-
-            {/* <ScrollBox> */}
-            {/* <Table caption="list of session for current date"> */}
             <TableBody>
               {sessions.map(session => {
                 let background;
@@ -329,13 +293,8 @@ class ViewSessionTest extends React.Component {
                 );
               })}
             </TableBody>
-            {/* </ScrollBox> */}
           </Table>
           <InfoSession
-            students={students}
-            courses={courses}
-            teachers={teachers}
-            timeAndPrices={timeAndPrices}
             selectedEnd={selectedEnd}
             selectedStart={selectedStart}
             selectedSession={selectedSession}
@@ -348,4 +307,4 @@ class ViewSessionTest extends React.Component {
   }
 }
 
-export default ViewSessionTest;
+export default ViewSession;
