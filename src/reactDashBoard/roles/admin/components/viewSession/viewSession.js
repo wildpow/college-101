@@ -55,7 +55,7 @@ const COLUMNS = [
   },
   {
     property: "maxSizeOfClass",
-    label: "Enrollment",
+    label: "Enrolled",
     size: "small",
   },
   {

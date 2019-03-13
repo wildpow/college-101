@@ -309,7 +309,9 @@ const InfoSession = props => {
                     startTimeCheck={startTimeCheck}
                     endTimeTimeCheck={endTimeTimeCheck}
                   />
-                  <ViewAttendance />
+                  {selectedSession.attendance !== null && (
+                    <ViewAttendance session={selectedSession} />
+                  )}
                 </Box>
               </Box>
             )}

@@ -160,8 +160,8 @@ AddStudent.propTypes = {
   eventTimer: PropTypes.func.isRequired,
   setMessage: PropTypes.func.isRequired,
   session: PropTypes.instanceOf(Object).isRequired,
-  students: PropTypes.shape({ type: PropTypes.oneOf([QueryAdminViewAll]) })
-    .isRequired,
+  // students: PropTypes.instanceOf(Array).isRequired,
+  // shape({ type: PropTypes.oneOf([QueryAdminViewAll]) })
   startTimeCheck: PropTypes.bool,
   endTimeTimeCheck: PropTypes.bool,
 };

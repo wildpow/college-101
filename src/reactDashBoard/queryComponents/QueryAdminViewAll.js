@@ -53,6 +53,13 @@ export const ALL_FOR_ADMIN = gql`
         maxStudents
       }
       attendance {
+        createdAt
+        createdByUser {
+          userName
+          firstName
+          lastName
+          id
+        }
         status
         id
         extraStudents
