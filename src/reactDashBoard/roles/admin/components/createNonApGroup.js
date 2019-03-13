@@ -286,7 +286,7 @@ class NonApGroup extends React.Component {
       <Box>
         <Button
           icon={<AddCircle />}
-          label="Sm. Group NonAP"
+          label={<Text truncate>Sm. Group NonAP</Text>}
           onClick={this.onOpen}
           primary
         />

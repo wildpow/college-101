@@ -27,7 +27,7 @@ const COLUMNS = [
   {
     property: "name",
     label: "Class",
-    size: "xsmall",
+    size: "small",
   },
   {
     property: "timeAndPrice",
@@ -278,7 +278,9 @@ class ViewSessionTest extends React.Component {
                         border="bottom"
                         gap="xsmall"
                       >
-                        <Text size="large">{c.label}</Text>
+                        <Text size="large" truncate>
+                          {c.label}
+                        </Text>
                         {sortProperty === c.property ? sortIcon : null}
                       </Box>
                     )}

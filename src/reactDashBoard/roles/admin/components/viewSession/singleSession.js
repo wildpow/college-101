@@ -27,7 +27,7 @@ const SingleSession = props => {
   } = props;
   return (
     <TableRow key={session.id}>
-      <TableCell scope="row" size="xsmall" plain>
+      <TableCell scope="row" size="small" plain>
         <Button
           fill
           plain
@@ -208,7 +208,12 @@ const SingleSession = props => {
               <ViewAttendance />
             </Box>
           ) : (
-            <ExtraPadText color="status-critical" size="larger" weight="bold">
+            <ExtraPadText
+              color="status-critical"
+              size="medium"
+              weight="bold"
+              truncate
+            >
               Not Taken
             </ExtraPadText>
           )}
