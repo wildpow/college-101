@@ -80,9 +80,8 @@ const InfoSession = props => {
   };
   const startTimeCheck = new Date(selectedStart) < new Date() && true;
   const endTimeTimeCheck = new Date(selectedEnd) < new Date() && true;
-
   const attendanceCheck = (att, object) => {
-    if (object.length === 0 || att === null) {
+    if (att === null) {
       setMesage(1);
       return false;
     }
