@@ -15,6 +15,7 @@ import QueryReceipt from "../../../../queryComponents/QueryReceipt";
 import AddStudent from "./addStudent";
 import EditSession from "../editSession";
 import { timeFormat } from "../../../../../utils/globalFunctions";
+import ViewAttendance from "./viewAttendance";
 
 const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
@@ -308,6 +309,7 @@ const InfoSession = props => {
                     startTimeCheck={startTimeCheck}
                     endTimeTimeCheck={endTimeTimeCheck}
                   />
+                  <ViewAttendance />
                 </Box>
               </Box>
             )}

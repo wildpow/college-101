@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Button, Layer, Heading, Box } from "grommet";
-import { FormClose } from "grommet-icons";
+import { FormClose, View } from "grommet-icons";
 import { TitleWrapper } from "../../sharedStyles/slideLayer";
 
 const ViewAttendance = () => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button onClick={() => setOpen(true)} label="View" />
+      <Button
+        onClick={() => setOpen(true)}
+        label="Attendance"
+        icon={<View />}
+      />
       {open && (
         <Layer
           position="right"

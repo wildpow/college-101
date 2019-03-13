@@ -3,16 +3,15 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Box, Button, TableCell, TableRow, Text } from "grommet";
 import { timeFormat } from "../../../../../utils/globalFunctions";
-import ViewAttendance from "./viewAttendance";
 
 const ExtraPad = styled(Box)`
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 13px;
+  padding-bottom: 13px;
 `;
 
 const ExtraPadText = styled(Text)`
-  padding-top: 5px;
-  padding-bottom: 6px;
+  padding-top: 7px;
+  padding-bottom: 7px;
 `;
 
 const SingleSession = props => {
@@ -204,9 +203,9 @@ const SingleSession = props => {
         >
           {/* <Text> */}
           {session.attendance ? (
-            <Box alignSelf="start">
-              <ViewAttendance />
-            </Box>
+            <ExtraPadText size="medium" weight="bold" truncate>
+              Taken
+            </ExtraPadText>
           ) : (
             <ExtraPadText
               color="status-critical"

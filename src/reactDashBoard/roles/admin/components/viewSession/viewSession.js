@@ -16,6 +16,10 @@ import { FormUp, FormDown } from "grommet-icons";
 import SingleSession from "./singleSession";
 import InfoSession from "./infoSession";
 
+const InvisableIcon = styled(FormDown)`
+  fill: transparent;
+  stroke: transparent;
+`;
 const ScrollBox = styled(Box)`
   overflow-y: scroll !important;
   overflow: scroll;
@@ -41,12 +45,12 @@ const COLUMNS = [
   },
   {
     property: "startTime",
-    label: "Start Time",
+    label: "Start",
     size: "small",
   },
   {
     property: "endTime",
-    label: "End Time",
+    label: "End",
     size: "small",
   },
   {
@@ -271,10 +275,14 @@ class ViewSessionTest extends React.Component {
                           border="bottom"
                           gap="xsmall"
                         >
-                          <Text size="large" truncate>
+                          <Text size="large" truncate weight="bold">
                             {c.label}
                           </Text>
-                          {sortProperty === c.property ? sortIcon : null}
+                          {sortProperty === c.property ? (
+                            sortIcon
+                          ) : (
+                            <InvisableIcon />
+                          )}
                         </Box>
                       </Button>
                     ) : (
@@ -285,21 +293,20 @@ class ViewSessionTest extends React.Component {
                         border="bottom"
                         gap="xsmall"
                       >
-                        <Text size="large" truncate>
+                        <Text size="large" truncate weight="bold">
                           {c.label}
                         </Text>
-                        {sortProperty === c.property ? sortIcon : null}
                       </Box>
                     )}
                   </TableCell>
                 ))}
               </TableRow>
             </TableHeader>
-          </Table>
-        </Box>
+            {/* </Table>
+        </Box> */}
 
-        <ScrollBox>
-          <Table caption="list of session for current date">
+            {/* <ScrollBox> */}
+            {/* <Table caption="list of session for current date"> */}
             <TableBody>
               {sessions.map(session => {
                 let background;
@@ -322,19 +329,20 @@ class ViewSessionTest extends React.Component {
                 );
               })}
             </TableBody>
+            {/* </ScrollBox> */}
           </Table>
-        </ScrollBox>
-        <InfoSession
-          students={students}
-          courses={courses}
-          teachers={teachers}
-          timeAndPrices={timeAndPrices}
-          selectedEnd={selectedEnd}
-          selectedStart={selectedStart}
-          selectedSession={selectedSession}
-          eventTimer={eventTimer}
-          setMessage={setMessage}
-        />
+          <InfoSession
+            students={students}
+            courses={courses}
+            teachers={teachers}
+            timeAndPrices={timeAndPrices}
+            selectedEnd={selectedEnd}
+            selectedStart={selectedStart}
+            selectedSession={selectedSession}
+            eventTimer={eventTimer}
+            setMessage={setMessage}
+          />
+        </Box>
       </>
     );
   }
