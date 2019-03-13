@@ -99,6 +99,7 @@ const Admin = props => {
             courses={data.courses}
             teachers={data.teachers}
             sessions={data.sessions}
+            students={data.students}
             date={date}
             eventTimer={eventTimer}
             setMessage={setMessage}

@@ -6,7 +6,7 @@ import { Button, Layer, Heading, Box, Select } from "grommet";
 import { UserAdd } from "grommet-icons";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 import LayerHeader from "../sharedComponents/layerHeader";
-import QueryStudents from "../../../../queryComponents/QueryStudents";
+import QueryAdminViewAll from "../../../../queryComponents/QueryAdminViewAll";
 
 const ADD_STUDENT = gql`
   mutation($students: [StudentWhereUniqueInput!], $sessionId: ID) {
@@ -21,15 +21,15 @@ const ADD_STUDENT = gql`
 
 const AddStudent = props => {
   const {
-    data,
     eventTimer,
     setMessage,
     startTimeCheck,
     endTimeTimeCheck,
+    students: propStudents,
   } = props;
   const students = [];
   const studentIds = [];
-  data.students.map(student => {
+  propStudents.map(student => {
     students.push(`${student.firstName} ${student.lastName}`);
     studentIds.push(student.id);
     return null;
@@ -160,7 +160,8 @@ AddStudent.propTypes = {
   eventTimer: PropTypes.func.isRequired,
   setMessage: PropTypes.func.isRequired,
   session: PropTypes.instanceOf(Object).isRequired,
-  data: PropTypes.shape({ type: PropTypes.oneOf([QueryStudents]) }).isRequired,
+  students: PropTypes.shape({ type: PropTypes.oneOf([QueryAdminViewAll]) })
+    .isRequired,
   startTimeCheck: PropTypes.bool,
   endTimeTimeCheck: PropTypes.bool,
 };

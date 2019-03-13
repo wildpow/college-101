@@ -12,6 +12,18 @@ export const ALL_FOR_ADMIN = gql`
       userName
     }
 
+    students {
+      firstName
+      lastName
+      id
+      receipts {
+        id
+      }
+      attendance {
+        id
+      }
+    }
+
     courses {
       name
       id

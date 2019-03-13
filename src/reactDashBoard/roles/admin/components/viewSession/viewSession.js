@@ -65,6 +65,7 @@ class ViewSessionTest extends React.Component {
   static propTypes = {
     date: PropTypes.string.isRequired,
     sessions: PropTypes.instanceOf(Object).isRequired,
+    students: PropTypes.instanceOf(Object).isRequired,
     eventTimer: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
     timeAndPrices: PropTypes.instanceOf(Object).isRequired,
@@ -125,7 +126,12 @@ class ViewSessionTest extends React.Component {
         return null;
       });
 
-      this.setState({ sessions: currentSessions, selectedSession: [] });
+      this.setState({
+        sessions: currentSessions,
+        selectedSession: [],
+        over: undefined,
+        selected: undefined,
+      });
     }
     return null;
   }
@@ -241,6 +247,7 @@ class ViewSessionTest extends React.Component {
       courses,
       teachers,
       timeAndPrices,
+      students,
     } = this.props;
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
@@ -318,6 +325,7 @@ class ViewSessionTest extends React.Component {
           </Table>
         </ScrollBox>
         <InfoSession
+          students={students}
           courses={courses}
           teachers={teachers}
           timeAndPrices={timeAndPrices}

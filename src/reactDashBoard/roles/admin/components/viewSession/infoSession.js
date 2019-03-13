@@ -12,7 +12,6 @@ import {
 import styled from "styled-components";
 import ViewReceipt from "./viewReceipt";
 import QueryReceipt from "../../../../queryComponents/QueryReceipt";
-import QueryStudents from "../../../../queryComponents/QueryStudents";
 import AddStudent from "./addStudent";
 import EditSession from "../editSession";
 import { timeFormat } from "../../../../../utils/globalFunctions";
@@ -22,6 +21,7 @@ const TableBB = styled(Table)`
 `;
 const InfoSession = props => {
   const {
+    students,
     selectedSession,
     eventTimer,
     setMessage,
@@ -100,6 +100,7 @@ const InfoSession = props => {
           fill
           alignSelf="center"
           pad={{ vertical: "medium", horizontal: "large" }}
+          animation="fadeIn"
         >
           <Box elevation="small" background="white" pad="medium">
             {selectedSession.students.length === 0 ? (
@@ -130,8 +131,8 @@ const InfoSession = props => {
                 )}
 
                 <Box alignSelf="center" direction="row" gap="large">
-                  <QueryStudents
-                    component={AddStudent}
+                  <AddStudent
+                    students={students}
                     session={selectedSession}
                     eventTimer={eventTimer}
                     setMessage={setMessage}
@@ -282,11 +283,13 @@ const InfoSession = props => {
                   pad={{ vertical: "small" }}
                   margin={{ vertical: "xsmall" }}
                 >
-                  <QueryStudents
+                  <AddStudent
                     eventTimer={eventTimer}
                     setMessage={setMessage}
-                    component={AddStudent}
+                    students={students}
                     session={selectedSession}
+                    startTimeCheck={startTimeCheck}
+                    endTimeTimeCheck={endTimeTimeCheck}
                   />
                   <EditSession
                     courses={courses}
@@ -320,6 +323,7 @@ InfoSession.propTypes = {
   eventTimer: PropTypes.func.isRequired,
   selectedEnd: PropTypes.string.isRequired,
   teachers: PropTypes.instanceOf(Object).isRequired,
+  students: PropTypes.instanceOf(Object).isRequired,
   courses: PropTypes.instanceOf(Object).isRequired,
   selectedSession: PropTypes.instanceOf(Object).isRequired,
   timeAndPrices: PropTypes.instanceOf(Object).isRequired,
