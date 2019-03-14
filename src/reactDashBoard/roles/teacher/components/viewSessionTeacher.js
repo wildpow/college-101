@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Box, Table, TableBody } from "grommet";
 import SingleSession from "./singleSession";
 import InfoSession from "./infoSessionTeacher";
-import ViewTableHeader from "../../../Global_components/viewSessionTableHeader";
+import ViewTableHeader from "../../../Global_components/tableHeader";
 
 const COLUMNS = [
   {
@@ -221,6 +221,7 @@ class ViewSession extends React.Component {
         <Box>
           <Table caption="Session table header">
             <ViewTableHeader
+              onSort={this.onSort}
               columns={COLUMNS}
               sortDirection={sortDirection}
               sortProperty={sortProperty}
@@ -248,14 +249,16 @@ class ViewSession extends React.Component {
               })}
             </TableBody>
           </Table>
-          <InfoSession
-            teacher={teacher}
-            selectedEnd={selectedEnd}
-            selectedStart={selectedStart}
-            selectedSession={selectedSession}
-            eventTimer={eventTimer}
-            setMessage={setMessage}
-          />
+          {selectedSession.length !== 0 && (
+            <InfoSession
+              teacher={teacher}
+              selectedEnd={selectedEnd}
+              selectedStart={selectedStart}
+              selectedSession={selectedSession}
+              eventTimer={eventTimer}
+              setMessage={setMessage}
+            />
+          )}
         </Box>
       </>
     );

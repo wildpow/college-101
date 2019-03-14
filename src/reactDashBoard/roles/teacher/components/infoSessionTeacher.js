@@ -10,7 +10,6 @@ import {
   TableRow,
 } from "grommet";
 import styled from "styled-components";
-// import { timeFormat } from "../../../../utils/globalFunctions";
 import TakeAttendance from "./takeAttendanceNew";
 
 const TableBB = styled(Table)`
@@ -58,150 +57,148 @@ const InfoSession = props => {
 
   return (
     <Box>
-      {selectedSession.length !== 0 ? (
-        <Box
-          fill
-          alignSelf="center"
-          pad={{ vertical: "medium", horizontal: "large" }}
-          animation="fadeIn"
-        >
-          <Box elevation="small" background="white" pad="medium">
-            {selectedSession.students.length === 0 ? (
-              <Box justify="center" alignContent="center" gap="large">
-                <Text alignSelf="center" size="large">
-                  Session has no current enrolled students
-                </Text>
-                {startTimeCheck && endTimeTimeCheck && (
-                  <Text
-                    color="status-critical"
-                    textAlign="center"
-                    size="large"
-                    weight="bold"
-                  >
-                    This session is in the past and can not be edited.
-                  </Text>
-                )}
-                {startTimeCheck && !endTimeTimeCheck && (
-                  <Text
-                    color="status-critical"
-                    textAlign="center"
-                    size="large"
-                    weight="bold"
-                  >
-                    This session is in progress right now.
-                  </Text>
-                )}
-              </Box>
-            ) : (
-              <Box>
-                {startTimeCheck && endTimeTimeCheck && (
-                  <Text
-                    color="status-critical"
-                    textAlign="center"
-                    size="large"
-                    weight="bold"
-                  >
-                    This session is in the past and can not be edited.
-                  </Text>
-                )}
-                {startTimeCheck && !endTimeTimeCheck && (
-                  <Text
-                    color="status-critical"
-                    textAlign="center"
-                    size="large"
-                    weight="bold"
-                  >
-                    This session is in progress right now.
-                  </Text>
-                )}
-                {/* Need to delete this state once the create Session is working correctly */}
-                {!startTimeCheck && endTimeTimeCheck && (
-                  <Text
-                    color="status-critical"
-                    textAlign="center"
-                    size="large"
-                    weight="bold"
-                  >
-                    Start time is in the future and the end time is in the past
-                    !?!
-                  </Text>
-                )}
-                <TableBB
-                  caption="Students enrolled in session"
-                  margin={{ vertical: "xsmall" }}
+      <Box
+        fill
+        alignSelf="center"
+        pad={{ vertical: "medium", horizontal: "large" }}
+        animation="fadeIn"
+      >
+        <Box elevation="small" background="white" pad="medium">
+          {selectedSession.students.length === 0 ? (
+            <Box justify="center" alignContent="center" gap="large">
+              <Text alignSelf="center" size="large">
+                Session has no current enrolled students
+              </Text>
+              {startTimeCheck && endTimeTimeCheck && (
+                <Text
+                  color="status-critical"
+                  textAlign="center"
+                  size="large"
+                  weight="bold"
                 >
-                  <TableHeader>
-                    <TableRow>
+                  This session is in the past and can not be edited.
+                </Text>
+              )}
+              {startTimeCheck && !endTimeTimeCheck && (
+                <Text
+                  color="status-critical"
+                  textAlign="center"
+                  size="large"
+                  weight="bold"
+                >
+                  This session is in progress right now.
+                </Text>
+              )}
+            </Box>
+          ) : (
+            <Box>
+              {startTimeCheck && endTimeTimeCheck && (
+                <Text
+                  color="status-critical"
+                  textAlign="center"
+                  size="large"
+                  weight="bold"
+                >
+                  This session is in the past and can not be edited.
+                </Text>
+              )}
+              {startTimeCheck && !endTimeTimeCheck && (
+                <Text
+                  color="status-critical"
+                  textAlign="center"
+                  size="large"
+                  weight="bold"
+                >
+                  This session is in progress right now.
+                </Text>
+              )}
+              {/* Need to delete this state once the create Session is working correctly */}
+              {!startTimeCheck && endTimeTimeCheck && (
+                <Text
+                  color="status-critical"
+                  textAlign="center"
+                  size="large"
+                  weight="bold"
+                >
+                  Start time is in the future and the end time is in the past
+                  !?!
+                </Text>
+              )}
+              <TableBB
+                caption="Students enrolled in session"
+                margin={{ vertical: "xsmall" }}
+              >
+                <TableHeader>
+                  <TableRow>
+                    <TableCell plain size="xsmall">
+                      <Box
+                        direction="row"
+                        pad={{ horizontal: "xsmall", vertical: "xsmall" }}
+                        justify="start"
+                        border="bottom"
+                        gap="xsmall"
+                      >
+                        <Text size="large">Name</Text>
+                      </Box>
+                    </TableCell>
+                    <TableCell plain size="xsmall">
+                      <Box
+                        direction="row"
+                        pad={{ horizontal: "xsmall", vertical: "xsmall" }}
+                        justify="start"
+                        border="bottom"
+                        gap="xsmall"
+                      >
+                        <Text size="large">Attendance</Text>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {enrolledStudent.map(student => (
+                    <TableRow key={student.id}>
                       <TableCell plain size="xsmall">
-                        <Box
-                          direction="row"
-                          pad={{ horizontal: "xsmall", vertical: "xsmall" }}
-                          justify="start"
-                          border="bottom"
-                          gap="xsmall"
-                        >
-                          <Text size="large">Name</Text>
-                        </Box>
+                        {`${student.firstName} ${student.lastName}`}
                       </TableCell>
-                      <TableCell plain size="xsmall">
-                        <Box
-                          direction="row"
-                          pad={{ horizontal: "xsmall", vertical: "xsmall" }}
-                          justify="start"
-                          border="bottom"
-                          gap="xsmall"
-                        >
-                          <Text size="large">Attendance</Text>
-                        </Box>
+                      <TableCell>
+                        {attendanceCheck(attendance, student.attendance) ? (
+                          <Text weight="bold" size="large" color="brand">
+                            {message}
+                          </Text>
+                        ) : (
+                          <Text
+                            weight="bold"
+                            size="large"
+                            color="status-warning"
+                          >
+                            {message}
+                          </Text>
+                        )}
                       </TableCell>
                     </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {enrolledStudent.map(student => (
-                      <TableRow key={student.id}>
-                        <TableCell plain size="xsmall">
-                          {`${student.firstName} ${student.lastName}`}
-                        </TableCell>
-                        <TableCell>
-                          {attendanceCheck(attendance, student.attendance) ? (
-                            <Text weight="bold" size="large" color="brand">
-                              {message}
-                            </Text>
-                          ) : (
-                            <Text
-                              weight="bold"
-                              size="large"
-                              color="status-warning"
-                            >
-                              {message}
-                            </Text>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </TableBB>
+                  ))}
+                </TableBody>
+              </TableBB>
 
-                <Box
-                  direction="row"
-                  justify="evenly"
-                  pad={{ vertical: "small" }}
-                  margin={{ vertical: "xsmall" }}
-                >
-                  {selectedSession.attendance === null && (
-                    <TakeAttendance
-                      teacher={teacher}
-                      eventTimer={eventTimer}
-                      setMessage={setMessage}
-                      session={selectedSession}
-                    />
-                  )}
-                </Box>
+              <Box
+                direction="row"
+                justify="evenly"
+                pad={{ vertical: "small" }}
+                margin={{ vertical: "xsmall" }}
+              >
+                {selectedSession.attendance === null && (
+                  <TakeAttendance
+                    teacher={teacher}
+                    eventTimer={eventTimer}
+                    setMessage={setMessage}
+                    session={selectedSession}
+                  />
+                )}
               </Box>
-            )}
-          </Box>
+            </Box>
+          )}
         </Box>
-      ) : null}
+      </Box>
     </Box>
   );
 };

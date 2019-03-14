@@ -9,7 +9,7 @@ const InvisableIcon = styled(FormDown)`
   stroke: transparent;
 `;
 
-const ViewTableHeader = ({ columns, sortProperty, sortDirection }) => {
+const ViewTableHeader = ({ columns, sortProperty, sortDirection, onSort }) => {
   const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
 
   return (
@@ -18,11 +18,7 @@ const ViewTableHeader = ({ columns, sortProperty, sortDirection }) => {
         {columns.map(c => (
           <TableCell key={c.property} scope="col" size={c.size} plain>
             {c.property !== "attendence" && c.property !== "actions" ? (
-              <Button
-                fill
-                hoverIndicator
-                onClick={() => this.onSort(c.property)}
-              >
+              <Button fill hoverIndicator onClick={() => onSort(c.property)}>
                 <Box
                   direction="row"
                   pad={{ horizontal: "small", vertical: "xsmall" }}
@@ -65,5 +61,6 @@ ViewTableHeader.propTypes = {
   sortDirection: PropTypes.string.isRequired,
   columns: PropTypes.instanceOf(Object),
   sortProperty: PropTypes.string.isRequired,
+  onSort: PropTypes.func.isRequired,
 };
 export default ViewTableHeader;

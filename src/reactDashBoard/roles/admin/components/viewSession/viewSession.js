@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Box, Table, TableBody } from "grommet";
 import SingleSession from "./singleSession";
 import InfoSession from "./infoSession";
-import ViewTableHeader from "../../../../Global_components/viewSessionTableHeader";
+import ViewTableHeader from "../../../../Global_components/tableHeader";
 
 // const ScrollBox = styled(Box)`
 //   overflow-y: scroll !important;
@@ -246,6 +246,7 @@ class ViewSessionTest extends React.Component {
               columns={COLUMNS}
               sortDirection={sortDirection}
               sortProperty={sortProperty}
+              onSort={this.onSort}
             />
             <TableBody>
               {sessions.map(session => {
@@ -271,17 +272,19 @@ class ViewSessionTest extends React.Component {
             </TableBody>
             {/* </ScrollBox> */}
           </Table>
-          <InfoSession
-            students={students}
-            courses={courses}
-            teachers={teachers}
-            timeAndPrices={timeAndPrices}
-            selectedEnd={selectedEnd}
-            selectedStart={selectedStart}
-            selectedSession={selectedSession}
-            eventTimer={eventTimer}
-            setMessage={setMessage}
-          />
+          {selectedSession.length !== 0 && (
+            <InfoSession
+              students={students}
+              courses={courses}
+              teachers={teachers}
+              timeAndPrices={timeAndPrices}
+              selectedEnd={selectedEnd}
+              selectedStart={selectedStart}
+              selectedSession={selectedSession}
+              eventTimer={eventTimer}
+              setMessage={setMessage}
+            />
+          )}
         </Box>
       </>
     );
