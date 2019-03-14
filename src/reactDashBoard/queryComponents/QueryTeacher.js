@@ -4,39 +4,80 @@ import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 import Spinner from "../Global_components/loading";
 
-const TEACHER = gql`
+export const TEACHER = gql`
   query findTeacher($userName: String!) {
     teacher(where: { userName: $userName }) {
       userName
       firstName
       lastName
-      sessions {
-        course {
-          name
-          id
-        }
+      sessions(orderBy: startTime_ASC) {
         id
+        extraTime
+        startTime
+        endTime
+        maxSizeOfClass
+        enrolled
+        timeAndPrice {
+          id
+          groupVsPrivate
+          name
+          time
+          price
+          maxStudents
+        }
         attendance {
-          notes
-          status
-          extraStudents
-          students {
+          createdAt
+          createdByUser {
+            userName
             firstName
             lastName
             id
           }
-          id
           status
-        }
-        status
-        startTime
-        endTime
-        enrolled
-        maxSizeOfClass
-        students {
           id
+          extraStudents
+          notes
+          students {
+            firstName
+            lastName
+          }
+        }
+
+        receipts {
+          student {
+            firstName
+            lastName
+            id
+            receipts {
+              id
+            }
+            attendance {
+              id
+            }
+          }
+          id
+          email
+        }
+        course {
+          name
+          id
+        }
+        teacher {
           firstName
           lastName
+          id
+        }
+
+        students {
+          firstName
+          lastName
+          id
+          receipts {
+            id
+          }
+          attendance {
+            id
+          }
         }
       }
     }

@@ -10,69 +10,25 @@ import {
   TableRow,
 } from "grommet";
 import styled from "styled-components";
-import ViewReceipt from "./viewReceipt";
-import QueryReceipt from "../../../../queryComponents/QueryReceipt";
-import AddStudent from "./addStudent";
-import EditSession from "../editSession";
-import { timeFormat } from "../../../../../utils/globalFunctions";
-import ViewAttendance from "./viewAttendance";
+// import { timeFormat } from "../../../../utils/globalFunctions";
+import TakeAttendance from "./takeAttendanceNew";
 
 const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
 `;
 const InfoSession = props => {
   const {
-    students,
     selectedSession,
     eventTimer,
     setMessage,
-    teachers,
-    courses,
-    timeAndPrices,
     selectedStart,
     selectedEnd,
+    teacher,
   } = props;
-
-  const selectedCourse =
-    selectedSession.length !== 0 ? selectedSession.course.name : "default test";
-  const selectedType =
-    selectedSession.length !== 0
-      ? selectedSession.timeAndPrice.name
-      : "default test";
-  const startDate = new Date(selectedSession.startTime);
-  const startTime = timeFormat(selectedSession.startTime);
-  const selectedTeacher =
-    selectedSession.length !== 0
-      ? `${selectedSession.teacher.firstName} ${
-          selectedSession.teacher.lastName
-        }`
-      : "default test";
-  const attendance =
-    selectedSession.attendance === undefined ||
-    selectedSession.attendance === null
-      ? null
-      : selectedSession.attendance.id;
-  const receipts =
-    selectedSession.length !== 0 && selectedSession.receipts.length !== 0
-      ? selectedSession.receipts.map(receipt => receipt.id)
-      : [];
   const enrolledStudent =
     selectedSession.length !== 0 && selectedSession.students.length !== 0
       ? selectedSession.students.map(student => student)
       : [];
-  const receiptCheck = (sessionReceipts, studentReceipts) => {
-    if (studentReceipts.length === 0 || sessionReceipts.length === 0)
-      return false;
-    let result = "";
-    studentReceipts.forEach(val => {
-      if (sessionReceipts.includes(val.id)) {
-        result = val.id;
-      } else {
-        result = false;
-      }
-    });
-    return result;
-  };
   let message = "";
   const setMesage = res => {
     if (res === 1) message = "None Provided";
@@ -94,6 +50,12 @@ const InfoSession = props => {
     setMesage(3);
     return true;
   };
+  const attendance =
+    selectedSession.attendance === undefined ||
+    selectedSession.attendance === null
+      ? null
+      : selectedSession.attendance.id;
+
   return (
     <Box>
       {selectedSession.length !== 0 ? (
@@ -109,7 +71,6 @@ const InfoSession = props => {
                 <Text alignSelf="center" size="large">
                   Session has no current enrolled students
                 </Text>
-
                 {startTimeCheck && endTimeTimeCheck && (
                   <Text
                     color="status-critical"
@@ -130,34 +91,6 @@ const InfoSession = props => {
                     This session is in progress right now.
                   </Text>
                 )}
-
-                <Box alignSelf="center" direction="row" gap="large">
-                  <AddStudent
-                    students={students}
-                    session={selectedSession}
-                    eventTimer={eventTimer}
-                    setMessage={setMessage}
-                    startTimeCheck={startTimeCheck}
-                    endTimeTimeCheck={endTimeTimeCheck}
-                  />
-                  <EditSession
-                    courses={courses}
-                    teachers={teachers}
-                    timeAndPrices={timeAndPrices}
-                    groupVSPrivate={selectedSession.timeAndPrice.groupVsPrivate}
-                    session={selectedSession}
-                    selectedTeacher={selectedTeacher}
-                    selectedType={selectedType}
-                    startDate={startDate.toISOString()}
-                    selectedCourse={selectedCourse}
-                    startTime={startTime}
-                    maxSizeOfClass={selectedSession.maxSizeOfClass}
-                    eventTimer={eventTimer}
-                    setMessage={setMessage}
-                    startTimeCheck={startTimeCheck}
-                    endTimeTimeCheck={endTimeTimeCheck}
-                  />
-                </Box>
               </Box>
             ) : (
               <Box>
@@ -218,17 +151,6 @@ const InfoSession = props => {
                           border="bottom"
                           gap="xsmall"
                         >
-                          <Text size="large">Paid</Text>
-                        </Box>
-                      </TableCell>
-                      <TableCell plain size="xsmall">
-                        <Box
-                          direction="row"
-                          pad={{ horizontal: "xsmall", vertical: "xsmall" }}
-                          justify="start"
-                          border="bottom"
-                          gap="xsmall"
-                        >
                           <Text size="large">Attendance</Text>
                         </Box>
                       </TableCell>
@@ -239,25 +161,6 @@ const InfoSession = props => {
                       <TableRow key={student.id}>
                         <TableCell plain size="xsmall">
                           {`${student.firstName} ${student.lastName}`}
-                        </TableCell>
-                        <TableCell>
-                          {receiptCheck(receipts, student.receipts) ? (
-                            <QueryReceipt
-                              component={ViewReceipt}
-                              receiptID={receiptCheck(
-                                receipts,
-                                student.receipts,
-                              )}
-                            />
-                          ) : (
-                            <Text
-                              color="status-critical"
-                              weight="bold"
-                              size="large"
-                            >
-                              No Receipt
-                            </Text>
-                          )}
                         </TableCell>
                         <TableCell>
                           {attendanceCheck(attendance, student.attendance) ? (
@@ -278,39 +181,20 @@ const InfoSession = props => {
                     ))}
                   </TableBody>
                 </TableBB>
+
                 <Box
                   direction="row"
                   justify="evenly"
                   pad={{ vertical: "small" }}
                   margin={{ vertical: "xsmall" }}
                 >
-                  <AddStudent
-                    eventTimer={eventTimer}
-                    setMessage={setMessage}
-                    students={students}
-                    session={selectedSession}
-                    startTimeCheck={startTimeCheck}
-                    endTimeTimeCheck={endTimeTimeCheck}
-                  />
-                  <EditSession
-                    courses={courses}
-                    teachers={teachers}
-                    timeAndPrices={timeAndPrices}
-                    groupVSPrivate={selectedSession.timeAndPrice.groupVsPrivate}
-                    session={selectedSession}
-                    selectedTeacher={selectedTeacher}
-                    selectedType={selectedType}
-                    selectedCourse={selectedCourse}
-                    startDate={startDate.toISOString()}
-                    startTime={startTime}
-                    maxSizeOfClass={selectedSession.maxSizeOfClass}
-                    eventTimer={eventTimer}
-                    setMessage={setMessage}
-                    startTimeCheck={startTimeCheck}
-                    endTimeTimeCheck={endTimeTimeCheck}
-                  />
-                  {selectedSession.attendance !== null && (
-                    <ViewAttendance session={selectedSession} />
+                  {selectedSession.attendance === null && (
+                    <TakeAttendance
+                      teacher={teacher}
+                      eventTimer={eventTimer}
+                      setMessage={setMessage}
+                      session={selectedSession}
+                    />
                   )}
                 </Box>
               </Box>
@@ -322,15 +206,15 @@ const InfoSession = props => {
   );
 };
 
+InfoSession.defaultProps = {
+  selectedSession: [],
+};
+
 InfoSession.propTypes = {
   setMessage: PropTypes.func.isRequired,
   eventTimer: PropTypes.func.isRequired,
   selectedEnd: PropTypes.string.isRequired,
-  teachers: PropTypes.instanceOf(Object).isRequired,
-  students: PropTypes.instanceOf(Object).isRequired,
-  courses: PropTypes.instanceOf(Object).isRequired,
-  selectedSession: PropTypes.instanceOf(Object).isRequired,
-  timeAndPrices: PropTypes.instanceOf(Object).isRequired,
+  selectedSession: PropTypes.instanceOf(Object),
   selectedStart: PropTypes.string.isRequired,
 };
 

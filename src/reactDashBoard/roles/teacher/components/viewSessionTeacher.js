@@ -2,15 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, Table, TableBody } from "grommet";
 import SingleSession from "./singleSession";
-import InfoSession from "./infoSession";
-import ViewTableHeader from "../../../../Global_components/viewSessionTableHeader";
-
-// const ScrollBox = styled(Box)`
-//   overflow-y: scroll !important;
-//   overflow: scroll;
-//   max-height: 317px;
-//   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
-// `;
+import InfoSession from "./infoSessionTeacher";
+import ViewTableHeader from "../../../Global_components/viewSessionTableHeader";
 
 const COLUMNS = [
   {
@@ -21,11 +14,6 @@ const COLUMNS = [
   {
     property: "timeAndPrice",
     label: "Group",
-    size: "small",
-  },
-  {
-    property: "teacherName",
-    label: "Teacher",
     size: "small",
   },
   {
@@ -50,16 +38,13 @@ const COLUMNS = [
   },
 ];
 
-class ViewSessionTest extends React.Component {
+class ViewSession extends React.Component {
   static propTypes = {
     date: PropTypes.string.isRequired,
     sessions: PropTypes.instanceOf(Object).isRequired,
-    students: PropTypes.instanceOf(Object).isRequired,
     eventTimer: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
-    timeAndPrices: PropTypes.instanceOf(Object).isRequired,
-    courses: PropTypes.instanceOf(Object).isRequired,
-    teachers: PropTypes.instanceOf(Object).isRequired,
+    teacher: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -221,8 +206,8 @@ class ViewSessionTest extends React.Component {
 
   render() {
     const {
-      sortProperty,
       sortDirection,
+      sortProperty,
       selected,
       over,
       sessions,
@@ -230,14 +215,7 @@ class ViewSessionTest extends React.Component {
       selectedStart,
       selectedEnd,
     } = this.state;
-    const {
-      eventTimer,
-      setMessage,
-      courses,
-      teachers,
-      timeAndPrices,
-      students,
-    } = this.props;
+    const { eventTimer, setMessage, teacher } = this.props;
     return (
       <>
         <Box>
@@ -269,13 +247,9 @@ class ViewSessionTest extends React.Component {
                 );
               })}
             </TableBody>
-            {/* </ScrollBox> */}
           </Table>
           <InfoSession
-            students={students}
-            courses={courses}
-            teachers={teachers}
-            timeAndPrices={timeAndPrices}
+            teacher={teacher}
             selectedEnd={selectedEnd}
             selectedStart={selectedStart}
             selectedSession={selectedSession}
@@ -288,4 +262,4 @@ class ViewSessionTest extends React.Component {
   }
 }
 
-export default ViewSessionTest;
+export default ViewSession;

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Box, Button, TableCell, TableRow, Text } from "grommet";
-import { timeFormat } from "../../../../../utils/globalFunctions";
+import { timeFormat } from "../../../../utils/globalFunctions";
 
 const ExtraPad = styled(Box)`
   padding-top: 13px;
@@ -77,34 +77,6 @@ const SingleSession = props => {
             {session.timeAndPrice && (
               <Text truncate>{session.timeAndPrice.name}</Text>
             )}
-          </ExtraPad>
-        </Button>
-      </TableCell>
-      <TableCell scope="row" size="small" plain>
-        <Button
-          fill
-          plain
-          focusIndicator={false}
-          hoverIndicator={false}
-          onMouseOver={() => sessionMouseOver(session.id)}
-          onMouseOut={() => sessionMouseOut}
-          onFocus={() => sessionOnFocus(session.id)}
-          onBlur={() => sessionOnBlur}
-          onClick={() => sessionOnClick(session.id, session)}
-        >
-          <ExtraPad
-            animation={{
-              type: "fadeIn",
-              delay: 0,
-              duration: 250,
-              size: "xsmall",
-            }}
-            background={background}
-            pad={{ horizontal: "small", vertical: "xsmall" }}
-          >
-            <Text truncate>
-              {`${session.teacher.firstName} ${session.teacher.lastName}`}
-            </Text>
           </ExtraPad>
         </Button>
       </TableCell>

@@ -46,7 +46,6 @@ const ClassView = ({ sessions, date, teacher }) => {
   });
   return (
     <div>
-      <h1>{`Current Classes for ${date.toDateString()}`}</h1>
       <div>
         {currentSessions.length === 0 ? (
           <h2>No classes for the day</h2>

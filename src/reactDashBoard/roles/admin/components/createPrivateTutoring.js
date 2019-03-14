@@ -267,10 +267,11 @@ class PrivateTutoring extends React.Component {
       <Box>
         <Button
           icon={<AddCircle />}
-          label="Private Tutoring"
+          label={<Text truncate>Private Tutoring</Text>}
           onClick={() => this.layerToggle(true)}
           primary
         />
+
         {layer && (
           <Layer
             position="right"
