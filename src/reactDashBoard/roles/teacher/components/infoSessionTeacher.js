@@ -58,7 +58,6 @@ const InfoSession = props => {
 
   return (
     <Box>
-      {console.log(props, "!!!!")}
       {selectedSession.length !== 0 ? (
         <Box
           fill
