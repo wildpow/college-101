@@ -4,7 +4,7 @@ import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
 import Spinner from "../Global_components/loading";
 
-const TEACHER = gql`
+export const TEACHER = gql`
   query findTeacher($userName: String!) {
     teacher(where: { userName: $userName }) {
       userName

@@ -221,7 +221,7 @@ class ViewSession extends React.Component {
       selectedStart,
       selectedEnd,
     } = this.state;
-    const { eventTimer, setMessage } = this.props;
+    const { eventTimer, setMessage, teacher } = this.props;
     const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
       <>
@@ -295,6 +295,7 @@ class ViewSession extends React.Component {
             </TableBody>
           </Table>
           <InfoSession
+            teacher={teacher}
             selectedEnd={selectedEnd}
             selectedStart={selectedStart}
             selectedSession={selectedSession}

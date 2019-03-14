@@ -23,6 +23,7 @@ const InfoSession = props => {
     setMessage,
     selectedStart,
     selectedEnd,
+    teacher,
   } = props;
   const enrolledStudent =
     selectedSession.length !== 0 && selectedSession.students.length !== 0
@@ -57,6 +58,7 @@ const InfoSession = props => {
 
   return (
     <Box>
+      {console.log(props, "!!!!")}
       {selectedSession.length !== 0 ? (
         <Box
           fill
@@ -187,11 +189,12 @@ const InfoSession = props => {
                   pad={{ vertical: "small" }}
                   margin={{ vertical: "xsmall" }}
                 >
-                  {console.log(selectedSession.attendance)}
                   {selectedSession.attendance === null && (
                     <TakeAttendance
+                      teacher={teacher}
                       eventTimer={eventTimer}
                       setMessage={setMessage}
+                      session={selectedSession}
                     />
                   )}
                 </Box>
