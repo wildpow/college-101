@@ -1,23 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import {
-  Box,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableRow,
-  Text,
-} from "grommet";
-import { FormUp, FormDown } from "grommet-icons";
+import PropTypes from "prop-types";
+import { Box, Table, TableBody } from "grommet";
 import SingleSession from "./singleSession";
 import InfoSession from "./infoSessionTeacher";
-
-const InvisableIcon = styled(FormDown)`
-  fill: transparent;
-  stroke: transparent;
-`;
+import ViewTableHeader from "../../../Global_components/viewSessionTableHeader";
 
 const COLUMNS = [
   {
@@ -53,6 +39,14 @@ const COLUMNS = [
 ];
 
 class ViewSession extends React.Component {
+  static propTypes = {
+    date: PropTypes.string.isRequired,
+    sessions: PropTypes.instanceOf(Object).isRequired,
+    eventTimer: PropTypes.func.isRequired,
+    setMessage: PropTypes.func.isRequired,
+    teacher: PropTypes.string.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -222,55 +216,15 @@ class ViewSession extends React.Component {
       selectedEnd,
     } = this.state;
     const { eventTimer, setMessage, teacher } = this.props;
-    const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
     return (
       <>
         <Box>
           <Table caption="Session table header">
-            <TableHeader>
-              <TableRow>
-                {COLUMNS.map(c => (
-                  <TableCell key={c.property} scope="col" size={c.size} plain>
-                    {c.property !== "attendence" && c.property !== "actions" ? (
-                      <Button
-                        fill
-                        hoverIndicator
-                        onClick={() => this.onSort(c.property)}
-                      >
-                        <Box
-                          direction="row"
-                          pad={{ horizontal: "small", vertical: "xsmall" }}
-                          justify="start"
-                          border="bottom"
-                          gap="xsmall"
-                        >
-                          <Text size="large" truncate weight="bold">
-                            {c.label}
-                          </Text>
-                          {sortProperty === c.property ? (
-                            sortIcon
-                          ) : (
-                            <InvisableIcon />
-                          )}
-                        </Box>
-                      </Button>
-                    ) : (
-                      <Box
-                        direction="row"
-                        pad={{ horizontal: "small", vertical: "xsmall" }}
-                        justify={c.align}
-                        border="bottom"
-                        gap="xsmall"
-                      >
-                        <Text size="large" truncate weight="bold">
-                          {c.label}
-                        </Text>
-                      </Box>
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHeader>
+            <ViewTableHeader
+              columns={COLUMNS}
+              sortDirection={sortDirection}
+              sortProperty={sortProperty}
+            />
             <TableBody>
               {sessions.map(session => {
                 let background;
