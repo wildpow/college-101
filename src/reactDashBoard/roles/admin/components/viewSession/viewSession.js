@@ -1,16 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import { Box, Table, TableBody } from "grommet";
 import SingleSession from "./singleSession";
 import InfoSession from "./infoSession";
 import ViewTableHeader from "../../../../Global_components/tableHeader";
 
-// const ScrollBox = styled(Box)`
-//   overflow-y: scroll !important;
-//   overflow: scroll;
-//   max-height: 317px;
-//   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
-// `;
+const ScrollBox = styled(Box)`
+  overflow-y: scroll !important;
+  overflow: scroll;
+  max-height: 400px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.33);
+  border-right: solid 1px rgba(0, 0, 0, 0.33);
+  border-left: solid 1px rgba(0, 0, 0, 0.33);
+`;
 
 const COLUMNS = [
   {
@@ -240,38 +243,44 @@ class ViewSessionTest extends React.Component {
     } = this.props;
     return (
       <>
-        <Box>
-          <Table caption="Session table header">
-            <ViewTableHeader
-              columns={COLUMNS}
-              sortDirection={sortDirection}
-              sortProperty={sortProperty}
-              onSort={this.onSort}
-            />
-            <TableBody>
-              {sessions.map(session => {
-                let background;
-                if (session.id === selected) {
-                  background = "brand";
-                } else if (session.id === over) {
-                  background = "light-2";
-                }
-                return (
-                  <SingleSession
-                    sessionMouseOver={this.sessionMouseOver}
-                    sessionMouseOut={this.sessionMouseOut}
-                    sessionOnFocus={this.sessionOnFocus}
-                    sessionOnBlur={this.sessionOnBlur}
-                    sessionOnClick={this.sessionOnClick}
-                    background={background}
-                    session={session}
-                    key={session.id}
-                  />
-                );
-              })}
-            </TableBody>
-            {/* </ScrollBox> */}
-          </Table>
+        <Box
+          justify="center"
+          direction="column"
+          margin={{ horizontal: "large" }}
+        >
+          <ScrollBox fill>
+            <Table caption="Session table header">
+              <ViewTableHeader
+                columns={COLUMNS}
+                sortDirection={sortDirection}
+                sortProperty={sortProperty}
+                onSort={this.onSort}
+              />
+              <TableBody>
+                {sessions.map(session => {
+                  let background;
+                  if (session.id === selected) {
+                    background = "brand";
+                  } else if (session.id === over) {
+                    background = "light-2";
+                  }
+                  return (
+                    <SingleSession
+                      sessionMouseOver={this.sessionMouseOver}
+                      sessionMouseOut={this.sessionMouseOut}
+                      sessionOnFocus={this.sessionOnFocus}
+                      sessionOnBlur={this.sessionOnBlur}
+                      sessionOnClick={this.sessionOnClick}
+                      background={background}
+                      session={session}
+                      key={session.id}
+                    />
+                  );
+                })}
+              </TableBody>
+              {/* </ScrollBox> */}
+            </Table>
+          </ScrollBox>
           {selectedSession.length !== 0 && (
             <InfoSession
               students={students}
