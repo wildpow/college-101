@@ -12,7 +12,7 @@ import {
 } from "grommet";
 import { FormUp, FormDown } from "grommet-icons";
 import SingleSession from "./singleSession";
-import InfoSession from "./infoSession";
+import InfoSession from "./infoSessionTeacher";
 
 const InvisableIcon = styled(FormDown)`
   fill: transparent;
