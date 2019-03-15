@@ -1,7 +1,8 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import Spinner from "../Global_components/loading";
+import { Box } from "grommet";
+import Spinner from "../Global_components/spinner";
 
 export const ALL_FOR_ADMIN = gql`
   query all_for_admin {
@@ -113,7 +114,12 @@ export const ALL_FOR_ADMIN = gql`
 const QueryAdminViewAll = props => (
   <Query query={ALL_FOR_ADMIN}>
     {({ loading, error, data }) => {
-      if (loading) return <Spinner />;
+      if (loading)
+        return (
+          <Box animation="fadeOut">
+            <Spinner />
+          </Box>
+        );
       if (error) return <h1>Error</h1>;
       if (data) return <props.component data={data} />;
       return null;

@@ -1,19 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import { Box, Table, TableBody } from "grommet";
 import SingleSession from "./singleSession";
 import InfoSession from "./infoSession";
 import ViewTableHeader from "../../../../Global_components/tableHeader";
-
-const ScrollBox = styled(Box)`
-  overflow-y: scroll !important;
-  overflow: scroll;
-  max-height: 400px;
-  border-bottom: solid 1px rgba(0, 0, 0, 0.33);
-  border-right: solid 1px rgba(0, 0, 0, 0.33);
-  border-left: solid 1px rgba(0, 0, 0, 0.33);
-`;
+import ScrollBox from "../../../../Global_styles/scrollBox";
 
 const COLUMNS = [
   {
