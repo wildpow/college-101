@@ -3,41 +3,22 @@ import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import styled from "styled-components";
 import { gql } from "apollo-boost";
-import { Button, Layer, Box, Text, CheckBox } from "grommet";
-import { AddCircle, ScheduleNew, Trash } from "grommet-icons";
+import {
+  Button,
+  Layer,
+  Box,
+  Text,
+  CheckBox,
+  Heading,
+  TextArea,
+  TextInput,
+  TableHeader,
+  TableRow,
+  Table,
+} from "grommet";
+import { AddCircle, ScheduleNew, Trash, Subtract } from "grommet-icons";
 import LayerHeader from "../../admin/components/sharedComponents/layerHeader";
 import { TEACHER } from "../../../queryComponents/QueryTeacher";
-
-const NewButton = styled(Button)`
-  margin-top: 5px;
-`;
-const TableWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-const Table = styled.table`
-  font-family: Arial, Helvetica, sans-serif;
-
-  /* max-width: 800px; */
-  border: 1px solid black;
-  border-collapse: collapse;
-  & th,
-  td {
-    padding: 15px;
-    text-align: left;
-  }
-  th {
-    background-color: black;
-    color: white;
-  }
-  tr:nth-child(even) {
-    background-color: #eee !important;
-  }
-  tr:nth-child(odd) {
-    background-color: #fff !important;
-  }
-`;
 
 const ADD_ATTENDANCE = gql`
   mutation(
@@ -116,6 +97,7 @@ class TakeAttendance extends React.Component {
   };
 
   removeExtra = e => {
+    console.log(e.target.value);
     const { extraStudentsArr } = this.state;
     const extraArrCopy = extraStudentsArr.map(i => i);
     extraArrCopy.splice(e.target.value, 1);
@@ -207,78 +189,88 @@ class TakeAttendance extends React.Component {
                     return null;
                   }}
                 >
-                  <TableWrapper>
-                    <Table>
-                      <thead>
-                        <tr>
-                          <th>Student</th>
-                          <th>Present?</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {session.students.map(student => (
-                          <tr key={student.id}>
-                            <td>
-                              {`${student.firstName} ${student.lastName}`}
-                            </td>
-                            <td>
-                              <input
-                                type="checkbox"
-                                onChange={this.handleStudent}
-                                value={student.id}
-                              />
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
+                  <Box fill overflow="scroll" justify="between">
+                    <Box>
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <th>Student</th>
+                            <th>Present?</th>
+                          </TableRow>
+                        </TableHeader>
+                        <tbody>
+                          {session.students.map(student => (
+                            <tr key={student.id}>
+                              <td>
+                                {`${student.firstName} ${student.lastName}`}
+                              </td>
+                              <td>
+                                <input
+                                  type="checkbox"
+                                  onChange={this.handleStudent}
+                                  value={student.id}
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    </Box>
                     <div>
-                      <h3>Extra Students?</h3>
-                      <input
-                        type="text"
-                        placeholder="enter first and last name"
-                        value={inputExtraStudents}
-                        onChange={this.handleExtraStudents}
-                      />
-                      {inputExtraStudents.length === 0 ? (
-                        <button
-                          disabled
-                          type="button"
-                          onClick={this.handleExtraStudents}
-                        >
-                          add
-                        </button>
-                      ) : (
-                        <button type="button" onClick={this.submitExtraStudent}>
-                          add
-                        </button>
-                      )}
-                      <ul>
-                        {extraStudentsArr.map((student, index) => {
-                          const count = index;
-                          return (
-                            <>
-                              <li key={count}>
-                                {student}
-                                <button
-                                  value={count}
-                                  onClick={this.removeExtra}
-                                  type="button"
+                      <Heading level={3}>Extra Students?</Heading>
+                      <Box gap="medium">
+                        <Box direction="row" justify="between">
+                          {inputExtraStudents.length === 0 ? (
+                            <Button
+                              disabled
+                              label="Add"
+                              onClick={this.handleExtraStudents}
+                            />
+                          ) : (
+                            <Button
+                              label="Add"
+                              onClick={this.submitExtraStudent}
+                            />
+                          )}
+                          <TextInput
+                            type="text"
+                            placeholder="enter first and last name"
+                            value={inputExtraStudents}
+                            onChange={this.handleExtraStudents}
+                          />
+                        </Box>
+                        <Box gap="small" height="small">
+                          {extraStudentsArr.map((student, index) => {
+                            const count = index;
+                            return (
+                              <>
+                                <Box
+                                  justify="between"
+                                  key={count}
+                                  style={{ listStyleType: "none" }}
+                                  direction="row"
                                 >
-                                  remove
-                                </button>
-                              </li>
-                            </>
-                          );
-                        })}
-                      </ul>
+                                  <Text size="large">{student}</Text>
+                                  <button
+                                    value={count}
+                                    onClick={this.removeExtra}
+                                    type="button"
+                                  >
+                                    remove
+                                  </button>
+                                </Box>
+                              </>
+                            );
+                          })}
+                        </Box>
+                      </Box>
                     </div>
                     <div>
-                      <h3>Notes</h3>
-                      <textarea />
+                      <Heading level={3}>Notes</Heading>
+                      <TextArea placeholder="Any extra notes about this class or students in it?" />
                     </div>
-                    <NewButton type="submit">Save</NewButton>
-                  </TableWrapper>
+                    <Button type="submit" label="Save" />
+                  </Box>
                 </Box>
               )}
             </Mutation>

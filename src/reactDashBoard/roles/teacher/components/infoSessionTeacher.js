@@ -65,6 +65,7 @@ const InfoSession = props => {
         animation="fadeIn"
         align="center"
       >
+        {console.log(props)}
         <Box elevation="small" background="white" pad="medium" width="large">
           {selectedSession.students.length === 0 ? (
             <Box justify="center" alignContent="center" gap="large">
