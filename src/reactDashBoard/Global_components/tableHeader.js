@@ -4,25 +4,37 @@ import styled from "styled-components";
 import { Box, Button, TableCell, TableHeader, TableRow, Text } from "grommet";
 import { FormUp, FormDown } from "grommet-icons";
 
+const HeaderCell = styled.th`
+  background-color: darkslategrey;
+  color: #fffaf0;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+`;
 const InvisableIcon = styled(FormDown)`
   fill: transparent;
   stroke: transparent;
 `;
 
 const ViewTableHeader = ({ columns, sortProperty, sortDirection, onSort }) => {
-  const sortIcon = sortDirection === "asc" ? <FormDown /> : <FormUp />;
+  const sortIcon =
+    sortDirection === "asc" ? (
+      <FormDown color="white" size="medium" />
+    ) : (
+      <FormUp color="white" size="medium" />
+    );
 
   return (
     <TableHeader>
       <TableRow>
         {columns.map(c => (
-          <TableCell key={c.property} scope="col" size={c.size} plain>
+          <HeaderCell key={c.property} scope="col" size={c.size} plain>
             {c.property !== "attendence" && c.property !== "actions" ? (
               <Button fill hoverIndicator onClick={() => onSort(c.property)}>
                 <Box
                   direction="row"
                   pad={{ horizontal: "small", vertical: "xsmall" }}
-                  justify="start"
+                  justify="between"
                   border="bottom"
                   gap="xsmall"
                 >
@@ -45,7 +57,7 @@ const ViewTableHeader = ({ columns, sortProperty, sortDirection, onSort }) => {
                 </Text>
               </Box>
             )}
-          </TableCell>
+          </HeaderCell>
         ))}
       </TableRow>
     </TableHeader>

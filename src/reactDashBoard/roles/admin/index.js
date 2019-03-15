@@ -48,7 +48,7 @@ const Admin = props => {
             />
           </Box>
         </Header>
-        <div>
+        <Box animation="fadeIn">
           <ViewSession
             timeAndPrices={data.timeAndPrices}
             courses={data.courses}
@@ -59,7 +59,7 @@ const Admin = props => {
             eventTimer={eventTimer}
             setMessage={setMessage}
           />
-        </div>
+        </Box>
       </Box>
       <Messages message={message} setEvent={setEvent} event={event} />
     </>

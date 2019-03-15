@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import { gql } from "apollo-boost";
-import Spinner from "../Global_components/loading";
+import { Box } from "grommet";
+import Spinner from "../Global_components/spinner";
 
 export const TEACHER = gql`
   query findTeacher($userName: String!) {
@@ -89,9 +90,14 @@ const QueryTeacher = props => {
   return (
     <Query query={TEACHER} variables={{ userName }}>
       {({ loading, error, data }) => {
-        if (loading) return <Spinner />;
+        if (loading)
+          return (
+            <Box animation="fadeOut">
+              <Spinner />
+            </Box>
+          );
         if (error) return <h1>Error</h1>;
-        if (data) return <props.component data={data} {...props} />;
+        if (data) return <props.component data={data} />;
         return null;
       }}
     </Query>

@@ -39,7 +39,7 @@ const Employee = props => {
             </Text>
           </Box>
         </Header>
-        <div>
+        <Box animation="fadeIn">
           <ViewSession
             date={date}
             sessions={data.teacher.sessions}
@@ -47,7 +47,7 @@ const Employee = props => {
             eventTimer={eventTimer}
             setMessage={setMessage}
           />
-        </div>
+        </Box>
       </Box>
       <Messages message={message} setEvent={setEvent} event={event} />
     </>

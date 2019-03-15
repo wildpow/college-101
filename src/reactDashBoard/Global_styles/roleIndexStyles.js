@@ -5,6 +5,8 @@ export const Header = styled.div`
   align-items: center;
   margin-top: 20px;
   margin-bottom: 10px;
+  margin-right: 50px;
+  margin-left: 50px;
   h2 {
     margin: 0px;
     width: 100%;

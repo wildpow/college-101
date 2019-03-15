@@ -14,6 +14,7 @@ import TakeAttendance from "./takeAttendanceNew";
 
 const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
+  width: 100%;
 `;
 const InfoSession = props => {
   const {
@@ -62,8 +63,10 @@ const InfoSession = props => {
         alignSelf="center"
         pad={{ vertical: "medium", horizontal: "large" }}
         animation="fadeIn"
+        align="center"
       >
-        <Box elevation="small" background="white" pad="medium">
+        {console.log(props)}
+        <Box elevation="small" background="white" pad="medium" width="large">
           {selectedSession.students.length === 0 ? (
             <Box justify="center" alignContent="center" gap="large">
               <Text alignSelf="center" size="large">
