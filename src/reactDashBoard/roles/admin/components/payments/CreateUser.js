@@ -21,9 +21,8 @@ const CreateUser = () => {
           <Form onSubmit={event => context.onCreateNewUser(event)}>
             <BottomBoardHover error={context.state.emailError}>
               <FormField
-                // htmlFor="userName-input"
+                htmlFor="userName-input"
                 type="email"
-                required
                 label="email"
                 // validate={(value, obj) => this.poop(value, obj)}
               >
@@ -37,26 +36,36 @@ const CreateUser = () => {
                   required
                   name="email"
                 />
-                <ErrorText
-                  alignSelf="center"
-                  margin="xsmall"
-                  size="medium"
-                  color="status-critical"
-                >
-                  {context.state.emailError && "User name already exists"}
-                </ErrorText>
               </FormField>
+              <ErrorText
+                alignSelf="center"
+                margin="xsmall"
+                size="medium"
+                color="status-critical"
+              >
+                {context.state.emailError && "User name already exists"}
+              </ErrorText>
             </BottomBoardHover>
-            <FormField label="First Name">
-              <TextInput
-                type="text"
-                required
-                value={context.state.firstName}
-                onChange={event => context.onChangeFirst(event)}
-                autoComplete="given-name"
-                name="firstName"
-              />
-            </FormField>
+            <BottomBoardHover error={context.state.firstNameError}>
+              <FormField label="First Name">
+                <TextInput
+                  type="text"
+                  value={context.state.firstName}
+                  onChange={event => context.onChangeFirst(event)}
+                  autoComplete="given-name"
+                  name="firstName"
+                  placeholder="John"
+                />
+              </FormField>
+              <ErrorText
+                alignSelf="center"
+                // margin={{ top: "xsmall" }}
+                size="large"
+                color="status-critical"
+              >
+                {context.state.firstNameError && "Required"}
+              </ErrorText>
+            </BottomBoardHover>
             <FormField label="Last Name">
               <TextInput
                 type="text"
@@ -65,6 +74,7 @@ const CreateUser = () => {
                 onChange={event => context.onChangeLast(event)}
                 autoComplete="family-name"
                 name="lastName"
+                placeholder="Last Name"
               />
             </FormField>
             <FormField label="Address">
@@ -108,7 +118,7 @@ const CreateUser = () => {
                 </Box>
               </Box>
             </FormField>
-
+            {console.log(context)}
             <Box gap="small" flex direction="row" justify="between">
               <Button type="submit" label="create" primary />
 

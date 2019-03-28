@@ -24,6 +24,7 @@ class PayWizardContext extends React.Component {
     email: "",
     emailError: false,
     firstName: "",
+    firstNameError: false,
     lastName: "",
     street: "",
     city: "",
@@ -40,6 +41,16 @@ class PayWizardContext extends React.Component {
     this.setState({ user });
   };
 
+  errorCheck = (value, errorState) => {
+    if (value.length === 0) {
+      this.setState({
+        [`${errorState}`]: true,
+      });
+      return null;
+    }
+    return null;
+  };
+
   onCreateNewUser = event => {
     event.preventDefault();
     const {
@@ -52,7 +63,23 @@ class PayWizardContext extends React.Component {
       city,
       zip,
     } = this.state;
-    if (userNames.indexOf(email.toLowerCase()) === -1) {
+    if (
+      email.length === 0 ||
+      firstName.length === 0 ||
+      lastName.length === 0 ||
+      street.length === 0 ||
+      state.length === 0 ||
+      city.length === 0 ||
+      zip.length === 0
+    ) {
+      this.errorCheck(email, "emailError");
+      this.errorCheck(firstName, "firstNameError");
+      this.errorCheck(lastName, "lastNameError");
+      this.errorCheck(street, "streetError");
+      this.errorCheck(state, "stateError");
+      this.errorCheck(city, "cityError");
+      this.errorCheck(zip, "zipError");
+    } else if (userNames.indexOf(email.toLowerCase()) === -1) {
       const user = {
         firstName,
         lastName,
@@ -125,7 +152,8 @@ class PayWizardContext extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onChangeFirst = event => this.setState({ firstName: event.target.value });
+  onChangeFirst = event =>
+    this.setState({ firstName: event.target.value, firstNameError: false });
 
   onChangeLast = event => this.setState({ lastName: event.target.value });
 
@@ -139,15 +167,21 @@ class PayWizardContext extends React.Component {
 
   backOne = where => {
     if (where === "create") {
-      this.setState({
-        createUserBool: false,
-        userCheckBool: true,
-      });
+      this.setState(
+        {
+          createUserBool: false,
+          userCheckBool: true,
+        },
+        this.clearCreateForm(),
+      );
     } else if (where === "pick") {
-      this.setState({
-        chooseClassBool: false,
-        userCheckBool: true,
-      });
+      this.setState(
+        {
+          chooseClassBool: false,
+          userCheckBool: true,
+        },
+        this.clearCreateForm(),
+      );
     }
   };
 
@@ -160,6 +194,8 @@ class PayWizardContext extends React.Component {
       state: "",
       city: "",
       zip: "",
+      emailError: false,
+      firstNameError: false,
     });
   };
 
@@ -185,6 +221,7 @@ class PayWizardContext extends React.Component {
           confirmExistingUser: this.confirmExistingUser,
           backOne: this.backOne,
           clearCreateForm: this.clearCreateForm,
+          errorCheck: this.errorCheck,
         }}
       >
         {children}
