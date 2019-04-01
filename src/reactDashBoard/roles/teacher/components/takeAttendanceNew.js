@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
-import styled from "styled-components";
 import { gql } from "apollo-boost";
 import {
   Button,
   Layer,
   Box,
   Text,
-  CheckBox,
   Heading,
   TextArea,
   TextInput,
@@ -16,7 +14,7 @@ import {
   TableRow,
   Table,
 } from "grommet";
-import { AddCircle, ScheduleNew, Trash, Subtract } from "grommet-icons";
+import { AddCircle } from "grommet-icons";
 import LayerHeader from "../../admin/components/sharedComponents/layerHeader";
 import { TEACHER } from "../../../queryComponents/QueryTeacher";
 

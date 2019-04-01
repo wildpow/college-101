@@ -11,6 +11,7 @@ import {
 } from "grommet";
 import styled from "styled-components";
 import TakeAttendance from "./takeAttendanceNew";
+import ViewAttendance from "./viewAttendance";
 
 const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
@@ -65,7 +66,6 @@ const InfoSession = props => {
         animation="fadeIn"
         align="center"
       >
-        {console.log(props)}
         <Box elevation="small" background="white" pad="medium" width="large">
           {selectedSession.students.length === 0 ? (
             <Box justify="center" alignContent="center" gap="large">
@@ -197,6 +197,7 @@ const InfoSession = props => {
                     session={selectedSession}
                   />
                 )}
+                <ViewAttendance session={selectedSession} />
               </Box>
             </Box>
           )}
