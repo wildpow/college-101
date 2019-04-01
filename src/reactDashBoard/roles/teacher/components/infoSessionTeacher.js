@@ -197,7 +197,9 @@ const InfoSession = props => {
                     session={selectedSession}
                   />
                 )}
-                <ViewAttendance session={selectedSession} />
+                {selectedSession.attendance !== null && (
+                  <ViewAttendance session={selectedSession} />
+                )}
               </Box>
             </Box>
           )}
