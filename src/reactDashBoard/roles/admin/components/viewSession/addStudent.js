@@ -7,6 +7,7 @@ import { UserAdd } from "grommet-icons";
 import { ALL_SESSIONS } from "../../../../queryComponents/QuerySessions";
 import LayerHeader from "../sharedComponents/layerHeader";
 import QueryAdminViewAll from "../../../../queryComponents/QueryAdminViewAll";
+import { shouldInclude } from "apollo-utilities";
 
 const ADD_STUDENT = gql`
   mutation($students: [StudentWhereUniqueInput!], $sessionId: ID) {
@@ -21,19 +22,30 @@ const ADD_STUDENT = gql`
 
 const AddStudent = props => {
   const {
+    session,
     eventTimer,
     setMessage,
     startTimeCheck,
     endTimeTimeCheck,
     students: propStudents,
   } = props;
-  const students = [];
-  const studentIds = [];
-  propStudents.map(student => {
+
+  const listIds = session.students.map(elm => elm.id);
+  const tempStudents = propStudents.filter(elm => !listIds.includes(elm.id));
+  const students = tempStudents.map(
+    student => `${student.firstName} ${student.lastName}`,
+  );
+  const studentIds = tempStudents.map(student => student.id);
+
+  console.log(studentIds, students);
+
+  /*
+  tempStudents.map(student => {
     students.push(`${student.firstName} ${student.lastName}`);
     studentIds.push(student.id);
-    return null;
-  });
+    return null; 
+  }); 
+  */
   const [studentList, setList] = useState(students);
   const [selectStudent, setStudent] = useState("");
   const [open, setOpen] = useState(false);
@@ -76,6 +88,7 @@ const AddStudent = props => {
           icon={<UserAdd />}
         />
       )}
+
       {open && (
         <Layer
           position="right"
