@@ -3,13 +3,14 @@ import { Box, Layer, Button, Text } from "grommet";
 import { View } from "grommet-icons";
 import LayerHeader from "../../admin/components/sharedComponents/layerHeader";
 
-const ViewAttendance = ({ session }) => {
+const ExtraInfo = ({ session }) => {
   const [layer, setLayer] = useState(false);
   return (
     <>
+      {console.log(session)}
       <Button
         icon={<View />}
-        label={<Text truncate>View Attendance</Text>}
+        label={<Text truncate>ExtraInfo</Text>}
         onClick={() => setLayer(!layer)}
       />
       {layer && (
@@ -28,8 +29,16 @@ const ViewAttendance = ({ session }) => {
             width="medium"
             pad="medium"
           >
-            <h1>View Attendance</h1>
-            {console.log(session)}
+            <h1>Extra students</h1>
+            <ul>
+              <li>View</li>
+              <li>Add</li>
+            </ul>
+            <h1>Notes</h1>
+            <ul>
+              <li>View</li>
+              <li>Add</li>
+            </ul>
           </Box>
         </Layer>
       )}
@@ -37,4 +46,4 @@ const ViewAttendance = ({ session }) => {
   );
 };
 
-export default ViewAttendance;
+export default ExtraInfo;

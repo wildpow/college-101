@@ -11,7 +11,7 @@ import {
 } from "grommet";
 import styled from "styled-components";
 import TakeAttendance from "./takeAttendanceNew";
-import ViewAttendance from "./viewAttendance";
+import ExtraInfo from "./extraInfo";
 
 const TableBB = styled(Table)`
   border-bottom: solid 1px rgba(0, 0, 0, 0.33);
@@ -198,7 +198,7 @@ const InfoSession = props => {
                   />
                 )}
                 {selectedSession.attendance !== null && (
-                  <ViewAttendance session={selectedSession} />
+                  <ExtraInfo session={selectedSession} />
                 )}
               </Box>
             </Box>
