@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: blue;
   position: fixed;
   /* top: 0;
@@ -11,16 +11,18 @@ const Wrapper = styled.div`
   bottom: 0;
   right: 0;
   z-index: 9;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: space-between; */
   transition: transform 0.3s cubic-bezier(0.48, 0.47, 0.94, 0.94);
-  overflow: hidden !important;
+  overflow: scroll !important;
   &.hide {
     transform: translate3d(-100vw, 0, 0);
+    overflow: hidden;
   }
   &.show {
     transform: translate3d(100vw, 0, 0) translateX(-100%);
+    overflow: hidden;
   }
 `;
 const MobileNav = props => {
